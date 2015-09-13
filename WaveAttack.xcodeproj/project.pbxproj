@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		541285501BA548E700EB4A05 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5412854F1BA548E700EB4A05 /* GameScene.sks */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
-		544F05631BA305CD00AC1BBD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 544F05621BA305CD00AC1BBD /* GameScene.sks */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
 		544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544F05681BA305CD00AC1BBD /* Main.storyboard */; };
@@ -16,6 +16,10 @@
 		544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544F056D1BA305CD00AC1BBD /* LaunchScreen.storyboard */; };
 		544F057A1BA305CD00AC1BBD /* WaveAttackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05791BA305CD00AC1BBD /* WaveAttackTests.swift */; };
 		544F05851BA305CD00AC1BBD /* WaveAttackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05841BA305CD00AC1BBD /* WaveAttackUITests.swift */; };
+		546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */; };
+		546F54151BA32E1F00EB576B /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54141BA32E1F00EB576B /* Protocol.swift */; };
+		5474C5641BA321A30015C861 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5631BA321A30015C861 /* GameObject.swift */; };
+		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5412854F1BA548E700EB4A05 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		544F05621BA305CD00AC1BBD /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		544F05661BA305CD00AC1BBD /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		544F05691BA305CD00AC1BBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,6 +55,10 @@
 		544F05801BA305CD00AC1BBD /* WaveAttackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WaveAttackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05841BA305CD00AC1BBD /* WaveAttackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveAttackUITests.swift; sourceTree = "<group>"; };
 		544F05861BA305CD00AC1BBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalEnergyPacket.swift; sourceTree = "<group>"; };
+		546F54141BA32E1F00EB576B /* Protocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		5474C5631BA321A30015C861 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
+		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,14 +109,15 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
+				5474C5621BA320B00015C861 /* Model */,
 				544F05601BA305CD00AC1BBD /* AppDelegate.swift */,
-				544F05621BA305CD00AC1BBD /* GameScene.sks */,
 				544F05641BA305CD00AC1BBD /* GameScene.swift */,
 				544F05661BA305CD00AC1BBD /* GameViewController.swift */,
 				544F05681BA305CD00AC1BBD /* Main.storyboard */,
 				544F056B1BA305CD00AC1BBD /* Assets.xcassets */,
 				544F056D1BA305CD00AC1BBD /* LaunchScreen.storyboard */,
 				544F05701BA305CD00AC1BBD /* Info.plist */,
+				5412854F1BA548E700EB4A05 /* GameScene.sks */,
 			);
 			path = WaveAttack;
 			sourceTree = "<group>";
@@ -129,6 +138,17 @@
 				544F05861BA305CD00AC1BBD /* Info.plist */,
 			);
 			path = WaveAttackUITests;
+			sourceTree = "<group>";
+		};
+		5474C5621BA320B00015C861 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5474C5631BA321A30015C861 /* GameObject.swift */,
+				5474C5651BA3242E0015C861 /* EnergyPacket.swift */,
+				546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */,
+				546F54141BA32E1F00EB576B /* Protocol.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				544F05631BA305CD00AC1BBD /* GameScene.sks in Resources */,
+				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
@@ -261,6 +281,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
+				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
+				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
+				546F54151BA32E1F00EB576B /* Protocol.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
@@ -488,6 +512,7 @@
 				544F058B1BA305CD00AC1BBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		544F058C1BA305CD00AC1BBD /* Build configuration list for PBXNativeTarget "WaveAttackTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +521,7 @@
 				544F058E1BA305CD00AC1BBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		544F058F1BA305CD00AC1BBD /* Build configuration list for PBXNativeTarget "WaveAttackUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +530,7 @@
 				544F05911BA305CD00AC1BBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

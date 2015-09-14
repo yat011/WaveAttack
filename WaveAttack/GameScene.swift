@@ -10,7 +10,15 @@ import SpriteKit
 
 enum CollisionLayer : UInt32 {
     case GameBoundary = 0x1
+    case Packet = 0x2
+    case Medium = 0x4
 }
+enum GameObjectName : String{
+    case Packet = "Packet"
+    case GameBoundary = "boundary"
+    case Medium = "Medium"
+}
+
 
 enum GameStage {
     case Superposition, Attack
@@ -18,15 +26,23 @@ enum GameStage {
 
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
-    var attackPhaseObjects : [GameObject] = []
-    var gameLayer  = SKNode()
+   
+    var gameLayer :GameLayer
     var infoLayer = SKNode()
     var controlLayer : SKShapeNode = SKShapeNode()
     var currentStage : GameStage = GameStage.Superposition
+    var contactQueue = Array<SKPhysicsContact>()
+    var endContactQueue  = [SKPhysicsContact]()
+    var contactMap = [EnergyPacket : ContactContainer]()
     
-  
+    
+    let fixedFps : Double = 30
+    var lastTimeStamp : CFTimeInterval = -100
+    var updateTimeInterval : Double
     override init(size: CGSize) {
-       
+       gameLayer = GameLayer(size: CGSize(width: size.width, height: size.height / 2))
+        
+        updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
         
         backgroundColor = SKColor.whiteColor()
@@ -34,7 +50,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
        initGameLayer()
         initControlLayer()
-        addObjectsToNode(gameLayer, attackPhaseObjects)
+      //  addObjectsToNode(gameLayer, attackPhaseObjects)
        self.addChild(gameLayer)
         self.addChild(controlLayer)
         self.addChild(infoLayer)
@@ -60,12 +76,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
        // var p1 = NormalEnergyPacket(100, position: CGPoint(x: 0, y: 50))
        // attackPhaseObjects.append(p1)
-        for i in 0 ... 10 {
+        for i in 0 ... 0 {
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             var p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
-             attackPhaseObjects.append(p1)
-        
+            p1.pushBelongTo(gameLayer.background!)
+           gameLayer.addGameObject(p1)
 
         }
       
@@ -80,12 +96,163 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBeginContact(var contact: SKPhysicsContact) {
+     //   print("contact")
+       // print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+       // self.contactQueue.append(contact)
+       //     print (contact.contactPoint)
+     //print(contact.contactNormal)
+        
+    
+      
+        
+        
+        
+        if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
+            return
+        }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
+            return
+        }
+        
+        
         
     }
     
+    func tryFindEnergyPacket(_ sk : SKNode?, other other : SKNode?, contact contact :SKPhysicsContact) -> Bool {
+        var packet: EnergyPacket? = nil
+        if (sk is HasGameObject){
+            let has = sk as! HasGameObject?
+            if ( has?.gameObject is EnergyPacket){
+                packet = has!.gameObject as! EnergyPacket
+                if (other!.name == GameObjectName.GameBoundary.rawValue){
+                    //out of bound
+                    if (contactMap[packet!] != nil){
+                        contactMap[packet!]!.outOfArea = true
+                    }else{
+                        let temp2 = ContactContainer()
+                        temp2.outOfArea = true
+                        contactMap[packet!] = temp2
+                        
+                    }
+                    return true
+                    
+                }
+                if (other is HasGameObject){
+                    let has2 =  (other as! HasGameObject)
+                    if ( has2.gameObject is Medium){
+                        let medium = has2.gameObject as! Medium
+                        if (contactMap[packet!] != nil){
+                            if (packet?.containsMedium(medium) == true){ //exit
+                               contactMap[packet!]!.exit.append((medium,contact))
+                            }else{
+                                contactMap[packet!]!.enter.append((medium,contact))
+                            }
+                        }else{
+                            let temp2 = ContactContainer()
+                            if (packet?.containsMedium(medium) == true){ //exit
+                                temp2 .exit.append((medium,contact))
+                            }else{
+                                temp2.enter.append((medium,contact))
+                                
+                            }
+                           // temp2.enter.append((other!,contact))
+                            contactMap[packet!] = temp2
+                            
+                        }
+                        return true
+                    }
+                }
+            }
+        }
+
+        return false
+    }
     
- 
+    
+    
+    func didEndContact(contact: SKPhysicsContact) {
+   /*     print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+        print(contact.contactNormal)
+         print (contact.contactPoint)
+        if  let temp  = contact.bodyA.node as? HasGameObject{
+            if  let obj = (temp.gameObject) {
+                if (contactMap[obj] != nil){
+                    contactMap[obj]!.enter.append(contact)
+                }else{
+                    let temp2 = ContactContainer()
+                    temp2.enter.append(contact)
+                    contactMap[obj] = temp2
+                    
+                }
+            }
+        }*/
+    }
+    
+    
+    
+    
+    func handleContact(){
+        
+        for (packet, wrapper) in contactMap{
+            if (wrapper.outOfArea == true){
+                //do sth
+                print("out of Area")
+                gameLayer.removeGameObject(packet)
+                continue
+            }
+            
+            // case has enter
+        
+            if (wrapper.enter.count > 0){
+                if (wrapper.exit.count == 0){ // only enter -> enter other medium
+                    if (wrapper.enter.first != nil){
+                        let medium = wrapper.enter.first!.0
+                        packet.changeMedium(from: nil, to: medium)
+                        
+                    }
+                }
+            }
+            
+            
+        
+
+        }
+        contactMap.removeAll()
+        
+        
+        
+    /*    for contact in contactQueue{
+            if (contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil){
+                continue
+            }
+            if  let temp  = contact.bodyA.node as? GameSKShapeNode {
+                if  let obj = (temp.gameObject as? EnergyPacket) {
+                    //obj.getSprite()?.removeFromParent()
+                    //self.removeGameObjectFromList(self.attackPhaseObjects, obj: obj)
+                    
+                }
+                
+                
+            }
+            
+        }
+*/
+    }
+    
+    
+    func groupContact(){
+        
+        
+    }
+    
+    func removeGameObjectFromList (var ls: [GameObject], obj obj :GameObject) ->(){
+        for i in 0...(ls.count - 1){
+            if (ls[i] === obj){
+                ls.removeAtIndex(i)
+                return
+            }
+        }
+    }
     
     
     func addObjectsToNode (_ parent : SKNode, _ children : [GameObject])->(){
@@ -101,24 +268,42 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-        switch (currentStage){
-        case .Attack:
-            attackPhaseUpdate(currentTime)
-            break
-        default:
-            break
+        
+        
+        
+        if ((currentTime - lastTimeStamp) > updateTimeInterval ){
+        
+            /* Called before each frame is rendered */
+            switch (currentStage){
+            case .Attack:
+                
+                handleContact();
+                attackPhaseUpdate(currentTime)
+                break
+            default:
+                break
+            }
+            lastTimeStamp = currentTime
         }
+        
+        
         
     }
     
    
     
     func attackPhaseUpdate (currentTime: CFTimeInterval){
-        for obj in attackPhaseObjects{
-            obj.update()
-        }
+        gameLayer.update(currentTime)
     }
+    
+    
+    func getMediumFromBodyB (_ contact : SKPhysicsContact) -> Medium? {
+        if ( contact.bodyB.node?.parent == nil){
+            return nil
+        }
+        return  ((contact.bodyB.node as! HasGameObject?)?.gameObject as! Medium?)
+    }
+    
     
     
 }
@@ -164,3 +349,12 @@ extension SKScene{
     
 }
 */
+
+class ContactContainer {
+    var outOfArea : Bool = false
+    var enter = [(Medium,SKPhysicsContact)]()
+    var exit = [(Medium,SKPhysicsContact)]()
+    
+}
+
+

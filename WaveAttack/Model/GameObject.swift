@@ -9,7 +9,10 @@
 import Foundation
 import SpriteKit
 
-class GameObject{
+class GameObject : Hashable, Equatable {
+    
+    var hashValue: Int { return unsafeAddressOf(self).hashValue }
+
     
     public func getSprite() -> SKNode?{
         return nil;
@@ -19,4 +22,8 @@ class GameObject{
         
     }
     
+}
+
+func ==(lhs: GameObject, rhs: GameObject) -> Bool {
+    return lhs === rhs
 }

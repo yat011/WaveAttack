@@ -27,18 +27,18 @@ class DestructibleObject : Medium {
         getSprite()!.name = "DestructibleObj"
     }
     
-    func PathAddLineToPoint(var  path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
-        var tempx = x * scaleX
-        var tempy: CGFloat = y * scaleY
+    func PathAddLineToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
+        let tempx = x * scaleX
+        let tempy: CGFloat = y * scaleY
         CGPathAddLineToPoint(path, nil, CGFloat(tempx) , CGFloat(tempy));
         
         
       
     }
     
-    func PathMoveToPoint(var  path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
-        var tempx = x * scaleX
-        var tempy: CGFloat = y * scaleY
+    func PathMoveToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
+        let tempx = x * scaleX
+        let tempy: CGFloat = y * scaleY
         CGPathMoveToPoint(path, nil, CGFloat(tempx) , CGFloat(tempy));
         
     }

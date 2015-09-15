@@ -22,7 +22,7 @@ class GameLayer : SKNode{
         super.init()
         
         //upper
-        var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
+        let temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
         temp.name = GameObjectName.GameBoundary.rawValue
         temp.fillColor = SKColor.blueColor()
         temp.position = CGPoint(x: (size.width + 100 ) / 2 , y: size.height + 60)

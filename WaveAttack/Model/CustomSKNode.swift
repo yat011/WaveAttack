@@ -9,17 +9,6 @@
 import Foundation
 import SpriteKit
 
-protocol HasGameObject {
-    var gameObject :GameObject? { get set}
-    mutating func setGameObject(obj : GameObject) -> ()
-}
-
-extension HasGameObject where Self: SKNode{
-    
-    mutating func setGameObject(obj : GameObject) -> () {
-        self.gameObject = obj
-    }
-}
 
 
 class GameSKShapeNode : SKShapeNode , HasGameObject{
@@ -28,7 +17,7 @@ class GameSKShapeNode : SKShapeNode , HasGameObject{
         get{ return _gameObject}
         set(value) { _gameObject = value}
     }
-    
+    func setGameObject(obj:GameObject){}
 }
 
 class GameSKSpriteNode: SKSpriteNode, HasGameObject{
@@ -38,7 +27,19 @@ class GameSKSpriteNode: SKSpriteNode, HasGameObject{
         set(value) { _gameObject = value}
     }
     
+    func setGameObject(obj:GameObject){}
 }
 
 
 
+protocol HasGameObject {
+    var gameObject :GameObject? { get set}
+    func setGameObject(obj : GameObject) -> ()
+}
+
+extension HasGameObject where Self: SKNode{
+
+    mutating func setGameObject(obj : GameObject) -> () {
+        self.gameObject = obj
+    }
+}

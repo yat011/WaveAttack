@@ -36,7 +36,7 @@ protocol HasGameObject {
 
 extension HasGameObject where Self: SKNode{
 
-    func setGameObject(obj : GameObject) -> () {
+    mutating func setGameObject(obj : GameObject) -> () {
         self.gameObject = obj
     }
 }

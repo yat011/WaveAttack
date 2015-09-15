@@ -32,7 +32,7 @@ class EnergyPacket : GameObject{
         rectNode.name = GameObjectName.Packet.rawValue
         var tempRect = rectNode.frame
         
-        tempRect = tempRect.rectByOffsetting(dx: -1 * rectNode.position.x, dy: -1 * rectNode.position.y)
+        tempRect = tempRect.offsetBy(dx: -1 * rectNode.position.x, dy: -1 * rectNode.position.y)
         
       // rectNode.physicsBody = SKPhysicsBody(edgeLoopFromRect: tempRect)
         rectNode.physicsBody = SKPhysicsBody(circleOfRadius: radius)

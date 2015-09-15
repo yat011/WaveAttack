@@ -9,6 +9,19 @@
 import Foundation
 import SpriteKit
 
+protocol HasGameObject {
+    var gameObject :GameObject? { get set}
+    mutating func setGameObject(obj : GameObject) -> ()
+}
+
+extension HasGameObject where Self: SKNode{
+    
+    mutating func setGameObject(obj : GameObject) -> () {
+        self.gameObject = obj
+    }
+}
+
+
 class GameSKShapeNode : SKShapeNode , HasGameObject{
    weak var _gameObject :GameObject? = nil
     var gameObject: GameObject? {

@@ -64,7 +64,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
 
     func initGameLayer() -> (){
-        var ph = self.size.height / 2
+        let ph = self.size.height / 2
         gameLayer.position = CGPoint(x: 0, y : ph)
         
         // add boundary
@@ -79,7 +79,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         for i in 0 ... 0 {
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
-            var p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
+            let p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
            gameLayer.addGameObject(p1)
@@ -97,7 +97,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func didBeginContact(var contact: SKPhysicsContact) {
+    func didBeginContact(contact: SKPhysicsContact) {
      //   print("contact")
         print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
        // self.contactQueue.append(contact)

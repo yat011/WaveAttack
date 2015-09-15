@@ -25,7 +25,7 @@ class EnergyPacket : GameObject{
        
         self.energy = energy
         
-        let rectNode = GameSKShapeNode(circleOfRadius: radius)
+        var rectNode = GameSKShapeNode(circleOfRadius: radius)
        
         
         rectNode.fillColor = SKColor.redColor()
@@ -77,7 +77,7 @@ class EnergyPacket : GameObject{
     
     
     func getMovement () -> CGVector {
-       var speed: CGFloat = CGFloat((self.getBelongTo()?.propagationSpeed)!)
+       let speed: CGFloat = CGFloat((self.getBelongTo()?.propagationSpeed)!)
         self.direction.normalize()
         return CGVector(dx: self.direction.dx * speed, dy: self.direction.dy * speed)
         
@@ -92,7 +92,7 @@ class EnergyPacket : GameObject{
     
     
     
-    func changeMedium (var from from : Medium? ,var to to : Medium?, contact: SKPhysicsContact?){
+    func changeMedium (from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
         print(from)
         print(to)
         if (from == nil){
@@ -129,10 +129,10 @@ class EnergyPacket : GameObject{
         
     }
     
-    private func doSpecificPhysics(var from from : Medium? ,var to to : Medium?, contact: SKPhysicsContact?){
+    private func doSpecificPhysics(from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
         if (self is Refractable && to != nil){
             print("I can refract")
-            var me = self as! Refractable
+            let me = self as! Refractable
             me.doRefraction(from: from, to: to, contact: contact)
         }
     }

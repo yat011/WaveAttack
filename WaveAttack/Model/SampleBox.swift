@@ -35,11 +35,11 @@ class SampleBox : DestructibleObject {
         print (sprite.anchorPoint)
         sprite.anchorPoint.x = 0
         sprite.anchorPoint.y = 0
-        var offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
-        var offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
+        let offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
+        let offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
         self.scaleX = sprite.frame.size.width / 255
         self.scaleY = sprite.frame.size.height / 255
-        var path = CGPathCreateMutable();
+        let path = CGPathCreateMutable();
         
         
         PathMoveToPoint(path, nil, 0 - offsetX, 255 - offsetY);

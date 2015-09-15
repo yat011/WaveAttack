@@ -12,7 +12,7 @@ import SpriteKit
 class GameViewController: UIViewController {
 
     
-    
+    let fixedFps : Int = 30
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,10 @@ class GameViewController: UIViewController {
             skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
-             let scene = GameScene(size: skView.bounds.size)
+            skView.frameInterval = 60 / fixedFps
+        let scene = GameScene(size: skView.bounds.size)
+        
+        
            /* if let scene = GameScene(fileNamed : "GameScene"){
             /* Set the scale mode to scale to fit the window */
                 scene.scaleMode = .AspectFill
@@ -41,7 +44,7 @@ class GameViewController: UIViewController {
     }
 
     override func shouldAutorotate() -> Bool {
-        return true
+        return false
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {

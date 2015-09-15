@@ -36,13 +36,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var contactMap = [EnergyPacket : ContactContainer]()
     
     
-    let fixedFps : Double = 30
+   // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
-    var updateTimeInterval : Double
+   // var updateTimeInterval : Double
     override init(size: CGSize) {
        gameLayer = GameLayer(size: CGSize(width: size.width, height: size.height / 2))
         
-        updateTimeInterval = 1.0 / fixedFps
+        //updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
         
         backgroundColor = SKColor.whiteColor()
@@ -80,6 +80,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             var p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
+            p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
            gameLayer.addGameObject(p1)
 
@@ -98,7 +99,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     func didBeginContact(var contact: SKPhysicsContact) {
      //   print("contact")
-       // print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+        print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
        // self.contactQueue.append(contact)
        //     print (contact.contactPoint)
      //print(contact.contactNormal)
@@ -207,8 +208,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 if (wrapper.exit.count == 0){ // only enter -> enter other medium
                     if (wrapper.enter.first != nil){
                         let medium = wrapper.enter.first!.0
-                        packet.changeMedium(from: nil, to: medium)
+                        packet.changeMedium(from: nil, to: medium, contact: wrapper.enter.first!.1)
                         
+                    }
+                }else{ //in and out , i.e. objects are close
+                    let to = wrapper.enter.first!.0
+                    let from = wrapper.exit.first!.0
+                    packet.changeMedium(from: from, to: to, contact: wrapper.enter.first!.1)
+                    
+                }
+            }else{
+                if (wrapper.exit.count > 0){
+                    if(wrapper.exit.first != nil){
+                        let medium = wrapper.exit.first!.0
+                        packet.changeMedium(from: medium, to: nil, contact: wrapper.exit.first!.1)
                     }
                 }
             }
@@ -269,8 +282,19 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
    
     override func update(currentTime: CFTimeInterval) {
         
-        
-        
+        switch (currentStage){
+        case .Attack:
+            
+            handleContact();
+            attackPhaseUpdate(currentTime)
+            break
+        default:
+            break
+        }
+        //print(currentTime - lastTimeStamp)
+        //lastTimeStamp = currentTime
+
+    /*
         if ((currentTime - lastTimeStamp) > updateTimeInterval ){
         
             /* Called before each frame is rendered */
@@ -285,7 +309,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
             lastTimeStamp = currentTime
         }
-        
+        */
         
         
     }

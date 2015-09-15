@@ -22,10 +22,10 @@ class GameLayer : SKNode{
         super.init()
         
         //upper
-        var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width + 100, height: 100))
+        var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
         temp.name = GameObjectName.GameBoundary.rawValue
         temp.fillColor = SKColor.blueColor()
-        temp.position = CGPoint(x: (size.width + 100 ) / 2 , y: size.height - 100)
+        temp.position = CGPoint(x: (size.width + 100 ) / 2 , y: size.height + 60)
         temp.physicsBody = createPhysicsBodyBoundary(temp)
         
         
@@ -38,7 +38,13 @@ class GameLayer : SKNode{
         //test box
         var box = SampleBox(size: CGSize(width: 100,height: 100), position: CGPoint(x: 0, y: 160))
        // box.getSprite()!.zPosition = -1
+        box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
+        box = SampleBox(size: CGSize(width: 50,height: 80), position: CGPoint(x: 200, y: 120))
+        box.propagationSpeed = 50
+        // box.getSprite()!.zPosition = -1
+        addGameObject(box)
+
         
     }
 

@@ -14,7 +14,7 @@ class Soil : Medium {
     
     init(size : CGSize) {
         super.init()
-        propagationSpeed = 5
+        propagationSpeed = 100
         
        
         self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height)))

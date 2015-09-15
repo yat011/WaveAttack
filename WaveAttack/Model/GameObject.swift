@@ -12,7 +12,7 @@ import SpriteKit
 class GameObject : Hashable, Equatable {
     
     var hashValue: Int { return unsafeAddressOf(self).hashValue }
-
+    
     
     public func getSprite() -> SKNode?{
         return nil;

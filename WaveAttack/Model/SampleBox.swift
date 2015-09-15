@@ -21,7 +21,7 @@ class SampleBox : DestructibleObject {
             exit(1)
         }
         
-        self.propagationSpeed = 1.0
+        self.propagationSpeed = 50
         
         
         self.sprite!.size = size

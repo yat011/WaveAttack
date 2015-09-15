@@ -15,7 +15,7 @@ class GameSKShapeNode : SKShapeNode , HasGameObject{
         get{ return _gameObject}
         set(value) { _gameObject = value}
     }
-    
+    func setGameObject(obj:GameObject){}
 }
 
 class GameSKSpriteNode: SKSpriteNode, HasGameObject{
@@ -25,6 +25,7 @@ class GameSKSpriteNode: SKSpriteNode, HasGameObject{
         set(value) { _gameObject = value}
     }
     
+    func setGameObject(obj:GameObject){}
 }
 
 

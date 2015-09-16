@@ -41,8 +41,9 @@ class GameLayer : SKNode{
        // box.getSprite()!.zPosition = -1
         //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
-        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 260))
+        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 150, y: 260))
         box.propagationSpeed = 50
+        box.zIndex = 1
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         // box.getSprite()!.zPosition = -1
         addGameObject(box)

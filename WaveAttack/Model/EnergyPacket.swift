@@ -21,6 +21,7 @@ class EnergyPacket : GameObject{
     static let energyThreshold: Double = 5
     
     var belongTo : [Medium] = []
+    var prevBelongTo : [Medium] = []
     init(_ energy: Double, position pos : CGPoint) {
        
         self.energy = energy
@@ -72,7 +73,7 @@ class EnergyPacket : GameObject{
         
         
         doMove()
-        //print(self.sprite.physicsBody!.allContactedBodies())
+        ////print(self.sprite.physicsBody!.allContactedBodies())
     }
     
     
@@ -86,17 +87,43 @@ class EnergyPacket : GameObject{
     func doMove(){
         
         //sprite.runAction(SKAction.moveBy(getMovement() , duration: 0))
-      // print( sprite.physicsBody!.velocity)
+      // //print( sprite.physicsBody!.velocity)
         sprite.physicsBody!.velocity = getMovement()
     }
  
-    func checkValidContact() -> (){
+
     
-    }
+    func changeMedium (from from : Set<Medium> ,to to : Set<Medium>, contact: [Medium : SKPhysicsContact]){
     
-    func changeMedium (from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
-        print(from)
-        print(to)
+        prevBelongTo.removeAll()
+        prevBelongTo.appendContentsOf(belongTo)
+        if ( contact.first!.1.contactNormal.dot(direction) >= 0 ){ // not moving towards
+            return
+        }
+        var currentFrom = getBelongTo()
+        for f in from {
+            removeFromBelong(from: f)
+        }
+        for t in to{
+          addBelong(t)
+        }
+        
+        var resultTo = getBelongTo()
+        
+        if (resultTo === currentFrom){
+            print("not change")
+            //do nth
+        }else{
+            var c  = contact[resultTo!]
+            if (c == nil){
+                c = contact[currentFrom!]
+            }
+            doSpecificPhysics(from: currentFrom, to: resultTo, contact: c)
+        }
+        
+        
+        /*   //print(from)
+        //print(to)
         if ( contact?.contactNormal .dot(direction) >= 0 ){ // not moving towards
             return 
         }
@@ -137,7 +164,7 @@ class EnergyPacket : GameObject{
         }
         
         
-        
+        */
         
         
         
@@ -154,7 +181,7 @@ class EnergyPacket : GameObject{
     }
     
     
-    private func removeFromBelong (from from : Medium?){
+    func removeFromBelong (from from : Medium?){
         for i in 0...(belongTo.count - 1){
             if (belongTo[i] === from!){
                 belongTo.removeAtIndex(i)
@@ -162,7 +189,16 @@ class EnergyPacket : GameObject{
             }
         }
     }
+    func addBelong(medium: Medium){
+        var pos  = checkHighZIndex(medium)
+        if (pos != nil){
+            belongTo.insert(medium, atIndex: pos!)
+        }else{
+            pushBelongTo(medium)
+        }
+    }
     
+   
     
     func containsMedium ( medium : Medium) -> Bool {
       

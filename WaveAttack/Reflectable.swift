@@ -37,4 +37,17 @@ extension Reflectable where Self: EnergyPacket{
        
         
     }
+    func clone() -> AnyObject? {
+        
+        
+        let packet =   self.newInstance() as! EnergyPacket
+        packet.belongTo.appendContentsOf(self.prevBelongTo)
+        packet.gameLayer = self.gameLayer
+        packet.direction = self.direction
+        // packet.sprite = self.sprite.copy() as! GameSKShapeNode
+        packet.sprite.gameObject = packet
+        return packet
+    }
 }
+
+

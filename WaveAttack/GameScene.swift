@@ -99,11 +99,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     
     func didBeginContact(contact: SKPhysicsContact) {
-     //   print("contact")
-        print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
+     //   //print("contact")
+        //print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
        // self.contactQueue.append(contact)
-       //     print (contact.contactPoint)
-     //print(contact.contactNormal)
+       //     //print (contact.contactPoint)
+     ////print(contact.contactNormal)
         
     
       
@@ -124,7 +124,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         var packet: EnergyPacket? = nil
         if (sk is HasGameObject){
             let has = sk as! HasGameObject?
-            print ("gameObject : \(has?.gameObject)")
+            //print ("gameObject : \(has?.gameObject)")
             if ( has?.gameObject is EnergyPacket){
                 packet = has!.gameObject as! EnergyPacket
                 if (other!.name == GameObjectName.GameBoundary.rawValue){
@@ -174,9 +174,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     
     func didEndContact(contact: SKPhysicsContact) {
-   /*     print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
-        print(contact.contactNormal)
-         print (contact.contactPoint)
+   /*     //print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+        //print(contact.contactNormal)
+         //print (contact.contactPoint)
         if  let temp  = contact.bodyA.node as? HasGameObject{
             if  let obj = (temp.gameObject) {
                 if (contactMap[obj] != nil){
@@ -199,13 +199,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         for (packet, wrapper) in contactMap{
             if (wrapper.outOfArea == true){
                 //do sth
-                print("out of Area")
+                //print("out of Area")
                 gameLayer.removeGameObject(packet)
                 continue
             }
             
             // case has enter
-        
+            /*
             if (wrapper.enter.count > 0){
                 if (wrapper.exit.count == 0){ // only enter -> enter other medium
                     if (wrapper.enter.first != nil){
@@ -228,8 +228,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 }
             }
             
+            */
+            var froms = Set<Medium>()
+            var tos = Set<Medium>()
+            var contacts = [Medium : SKPhysicsContact]()
+            for (from , contact) in wrapper.exit {
+                froms.insert(from)
+                contacts[from] = contact
+            }
+            for (to, contact) in wrapper.enter{
+                tos.insert(to)
+                contacts[to] = contact
+            }
             
-        
+            packet.changeMedium(from: froms, to: tos, contact: contacts)
 
         }
         contactMap.removeAll()
@@ -293,7 +305,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         default:
             break
         }
-        //print(currentTime - lastTimeStamp)
+        ////print(currentTime - lastTimeStamp)
         //lastTimeStamp = currentTime
 
     /*
@@ -364,7 +376,7 @@ extension SKScene{
             
             // addObjectsToNode(gameLayer, attackPhaseObjects )
             p1.getSprite()!.position = CGPoint(x: 10, y: 10)
-            print(p1.getSprite())
+            //print(p1.getSprite())
             sc.gameLayer.addChild(p1.getSprite()!)
             sc.addChild(sc.gameLayer)
             return sc
@@ -383,4 +395,31 @@ class ContactContainer {
     
 }
 
+class ContactPair : Hashable, Equatable{
+    var from : Medium?
+    var to : Medium?
+    init (_ from: Medium?, _ to: Medium?){
+        
+    }
+    
+    var hashValue: Int {
+        var temp = 0
+        if (from != nil){
+            temp |= from!.hashValue
+        }
+        if (to != nil){
+            temp |= to!.hashValue
+        }
+        return temp
+    }
+
+}
+
+
+func ==(lhs: ContactPair, rhs: ContactPair) -> Bool {
+    if (lhs.from === rhs.from && lhs.to === rhs.to){
+        return true
+    }
+    return false
+}
 

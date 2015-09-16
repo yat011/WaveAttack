@@ -24,8 +24,8 @@ extension Cloneable where Self :  EnergyPacket {
         }
         packet.gameLayer = self.gameLayer
         packet.direction = self.direction
-        packet.sprite = self.sprite.copy() as! GameSKShapeNode
-        
+       // packet.sprite = self.sprite.copy() as! GameSKShapeNode
+        packet.sprite.gameObject = packet
         return packet
     }
 

@@ -36,12 +36,14 @@ class GameLayer : SKNode{
         
         
         //test box
-        var box = SampleBox(size: CGSize(width: 100,height: 100), position: CGPoint(x: 0, y: 160))
-       // box.getSprite()!.zPosition = -1
-        box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
-        addGameObject(box)
-        box = SampleBox(size: CGSize(width: 50,height: 80), position: CGPoint(x: 200, y: 120))
+        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 0, y: 160))
         box.propagationSpeed = 50
+       // box.getSprite()!.zPosition = -1
+        //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
+        addGameObject(box)
+        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 260))
+        box.propagationSpeed = 50
+        box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         // box.getSprite()!.zPosition = -1
         addGameObject(box)
 

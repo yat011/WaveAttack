@@ -14,7 +14,7 @@ class EnergyPacket : GameObject{
     var sprite : GameSKShapeNode
     var energy : Double
     var direction : CGVector = CGVector(dx: 0, dy: 1)
-   // var speed : CGFloat = 10
+      // var speed : CGFloat = 10
     weak var gameLayer : GameLayer? = nil
    // weak var spawnAt :
     
@@ -72,7 +72,7 @@ class EnergyPacket : GameObject{
         
         
         doMove()
-        print(self.sprite.physicsBody!.allContactedBodies())
+        //print(self.sprite.physicsBody!.allContactedBodies())
     }
     
     
@@ -89,19 +89,31 @@ class EnergyPacket : GameObject{
       // print( sprite.physicsBody!.velocity)
         sprite.physicsBody!.velocity = getMovement()
     }
+ 
+    func checkValidContact() -> (){
     
-    
+    }
     
     func changeMedium (from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
         print(from)
         print(to)
-        if (from == nil){
+        if ( contact?.contactNormal .dot(direction) >= 0 ){ // not moving towards
+            return 
+        }
+        var check : Int? =  nil
+        if (from == nil){ // enter
             //from = getBelongTo()
-            doSpecificPhysics(from: getBelongTo(), to: to, contact: contact)
-            pushBelongTo(to!)
+           check = checkHighZIndex(to!)
+            if (check == nil){
+                doSpecificPhysics(from: getBelongTo(), to: to, contact: contact)
+                pushBelongTo(to!)
+            }else{
+                belongTo.insert(to!, atIndex: check!)
+            }
         
-        }else if to == nil {
+        }else if to == nil { // exit
             //check sth
+            
             
             if (from! === belongTo.last!){
                 doSpecificPhysics(from: from, to: belongTo[belongTo.count-2], contact: contact)
@@ -110,9 +122,11 @@ class EnergyPacket : GameObject{
 
             }else{
                 removeFromBelong(from: from)
+               
             }
            
         }else{ //object to object
+            check = checkHighZIndex(to!)
             if (from! === belongTo.last!){
                 doSpecificPhysics(from: from, to: to, contact: contact)
                 popBelongTo()
@@ -129,9 +143,11 @@ class EnergyPacket : GameObject{
         
     }
     
+    
+    
     private func doSpecificPhysics(from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
         if (self is Refractable && to != nil){
-            print("I can refract")
+            
             let me = self as! Refractable
             me.doRefraction(from: from, to: to, contact: contact)
         }
@@ -149,12 +165,28 @@ class EnergyPacket : GameObject{
     
     
     func containsMedium ( medium : Medium) -> Bool {
+      
         for each in belongTo {
             if (medium === each){
                 return true
             }
         }
         return false
+    }
+    
+    func checkHighZIndex(medium : Medium) -> Int?{
+        if (medium.zIndex >= getBelongTo()!.zIndex){
+            return nil
+        }else{
+            
+            for i in 0...(belongTo.count - 1){
+                if (medium.zIndex < belongTo[i].zIndex ){
+                    return i
+                }
+            }
+            return nil
+        }
+        
     }
     
     func deleteSelf () {

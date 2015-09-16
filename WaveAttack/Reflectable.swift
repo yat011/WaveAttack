@@ -30,6 +30,7 @@ extension Reflectable where Self: EnergyPacket{
         out.normalize()
         rePacket.direction = out
         rePacket.sprite.physicsBody!.velocity = rePacket.getMovement()
+       
       //  rePacket.sprite.runAction(SKAction.moveBy( rePacket.direction, duration: 0))
 
         return rePacket

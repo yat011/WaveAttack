@@ -80,6 +80,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             let p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
+            p1.direction = CGVector(dx: 3, dy: 2)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
            gameLayer.addGameObject(p1)
@@ -99,7 +100,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     func didBeginContact(contact: SKPhysicsContact) {
      //   print("contact")
-        print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+        print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
        // self.contactQueue.append(contact)
        //     print (contact.contactPoint)
      //print(contact.contactNormal)
@@ -123,6 +124,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         var packet: EnergyPacket? = nil
         if (sk is HasGameObject){
             let has = sk as! HasGameObject?
+            print ("gameObject : \(has?.gameObject)")
             if ( has?.gameObject is EnergyPacket){
                 packet = has!.gameObject as! EnergyPacket
                 if (other!.name == GameObjectName.GameBoundary.rawValue){
@@ -130,7 +132,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     if (contactMap[packet!] != nil){
                         contactMap[packet!]!.outOfArea = true
                     }else{
-                        let temp2 = ContactContainer()
+                         let temp2 = ContactContainer()
                         temp2.outOfArea = true
                         contactMap[packet!] = temp2
                         
@@ -285,7 +287,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         switch (currentStage){
         case .Attack:
             
-            handleContact();
+            handleContact()
             attackPhaseUpdate(currentTime)
             break
         default:

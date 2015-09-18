@@ -9,13 +9,14 @@
 import Foundation
 import SpriteKit
 protocol Refractable{
-    func doRefraction(from from : Medium? , to to : Medium?, contact: SKPhysicsContact?) -> ()
+    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> ()
     
 }
 
 extension Refractable where Self: EnergyPacket{
-    func doRefraction(from from : Medium? , to to : Medium?, contact: SKPhysicsContact?) -> ()
+    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> ()
     {
+        //print(self.sprite.physicsBody!.allContactedBodies())
         let refractive: CGFloat = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
         let c = 1 / refractive
         var normal = contact!.contactNormal
@@ -50,7 +51,7 @@ extension Refractable where Self: EnergyPacket{
             let temp = c * cosine - cost
             out = out + temp * normal
             out.normalize()
-            
+          //  print("refraction : \(out) ")
             self.direction = out
         }
         

@@ -35,3 +35,25 @@ public func + (lhs: CGVector, rhs: CGVector) -> CGVector{
 public func - (lhs: CGVector, rhs: CGVector) -> CGVector{
     return lhs + ( -1 * rhs)
 }
+
+public func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint{
+    return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+
+public func + (lhs: CGPoint, rhs: CGVector) -> CGPoint{
+    return CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
+}
+
+
+public func == (lhs: CGPoint, rhs: CGPoint) -> Bool{
+    return (lhs.x == rhs.x && lhs.y == rhs.y)
+}
+
+public func - (lhs: CGPoint, rhs: CGPoint) -> CGVector{
+    return CGVector(dx: lhs.x - rhs.x, dy: lhs.y - rhs.y)
+}
+
+public func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint{
+    return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+}
+

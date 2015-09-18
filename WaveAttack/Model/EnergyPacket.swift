@@ -10,14 +10,21 @@ import Foundation
 import SpriteKit
 
 class EnergyPacket : GameObject{
-    let radius : CGFloat = 5;
+    let radius : CGFloat = 5
+    var physRadius :CGFloat = 5
     var sprite : GameSKShapeNode
     var energy : Double
     var direction : CGVector = CGVector(dx: 0, dy: 1)
       // var speed : CGFloat = 10
     weak var gameLayer : GameLayer? = nil
    // weak var spawnAt :
-    
+  //  var prevPoint : CGPoint
+  //  var prevDisplacement : CGVector
+ //   var lastContactInfo : ContactInfo? = nil
+    //var lastPosition : CGPoint? = nil
+   // var lastDirection : CGVector? = nil
+   // var lastContains : Bool? = nil
+  //  var justExit : Bool = false
     static let energyThreshold: Double = 5
     
     var belongTo : [Medium] = []
@@ -36,15 +43,20 @@ class EnergyPacket : GameObject{
         tempRect = tempRect.offsetBy(dx: -1 * rectNode.position.x, dy: -1 * rectNode.position.y)
         
       // rectNode.physicsBody = SKPhysicsBody(edgeLoopFromRect: tempRect)
-        rectNode.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+        rectNode.physicsBody = SKPhysicsBody(circleOfRadius: physRadius)
+       
        rectNode.physicsBody!.categoryBitMask = CollisionLayer.Packet.rawValue
         rectNode.physicsBody!.contactTestBitMask = CollisionLayer.GameBoundary.rawValue | CollisionLayer.Medium.rawValue
         rectNode.physicsBody!.affectedByGravity = false
+        rectNode.physicsBody!.allowsRotation = false
         rectNode.physicsBody!.collisionBitMask = 0x0
         rectNode.physicsBody!.linearDamping = 0
+        rectNode.physicsBody!.usesPreciseCollisionDetection = true
         
         self.sprite = rectNode
        self.sprite.position = pos
+       // self.prevPoint = pos
+       // self.prevDisplacement = CGVector (dx: 0, dy: 0)
         self.sprite.zPosition = 1.0
         super.init()
          rectNode.setGameObject(self)
@@ -69,37 +81,89 @@ class EnergyPacket : GameObject{
         if (self.energy < EnergyPacket.energyThreshold){
             //destory self
             deleteSelf()
+            return
+        }
+        if (!CGRectContainsPoint(gameLayer!.gameArea, sprite.position)){
+            print("delete self")
+            deleteSelf()
+            return
         }
         
-        
         doMove()
-        ////print(self.sprite.physicsBody!.allContactedBodies())
+       /*
+        if (self.sprite.position == prevPoint){
+            
+        }else{
+       //     //print("position \(self.sprite.position) - \(prevPoint)")
+            prevDisplacement = self.sprite.position - prevPoint
+        }
+        prevPoint = sprite.position
+*/
+        //////print(self.sprite.physicsBody!.allContactedBodies())
     }
     
     
     func getMovement () -> CGVector {
        let speed: CGFloat = CGFloat((self.getBelongTo()?.propagationSpeed)!)
+       
         self.direction.normalize()
         return CGVector(dx: self.direction.dx * speed, dy: self.direction.dy * speed)
         
     }
     
     func doMove(){
+         sprite.physicsBody!.velocity = CGVector(dx: 0,dy: 0)
+        sprite.runAction(SKAction.moveBy(getMovement() , duration: 0))
+      // ////print( sprite.physicsBody!.velocity)
+       
         
-        //sprite.runAction(SKAction.moveBy(getMovement() , duration: 0))
-      // //print( sprite.physicsBody!.velocity)
-        sprite.physicsBody!.velocity = getMovement()
+        
     }
- 
+    func checkValidCollision( contact : SKPhysicsContact) -> Bool{
+        
+        var contactNor = contact.contactNormal
+   
+        
+        var pos = self.sprite.position + sprite.parent!.position
+      //  //print (pos)
+        ////print (contact.contactPoint)
+        //print("check")
+     //   var tprev = prevPoint + sprite.parent!.position
+        var toPacket: CGVector = pos - contact.contactPoint
+        //print(pos)
+        //print (toPacket.dot(contactNor))
+    /*
+        toPacket = tprev - contact.contactPoint
+        //print(tprev)
+        //print (toPacket.dot(contactNor))
+        
+        //print (prevDisplacement)
+       
+        if ( prevDisplacement.dot(contactNor) > 0) {
+            contactNor = -1 * contactNor
+        }
+    */
+               
+        if (contactNor.dot(direction) <= 0){
+            return true
+        }else{
+            return false
+        }
+        return false
+    }
 
     
-    func changeMedium (from from : Set<Medium> ,to to : Set<Medium>, contact: [Medium : SKPhysicsContact]){
+    func changeMedium (from from : Set<Medium> ,to to : Set<Medium>, contact: [Medium : ContactInfo]){
     
         prevBelongTo.removeAll()
         prevBelongTo.appendContentsOf(belongTo)
-        if ( contact.first!.1.contactNormal.dot(direction) >= 0 ){ // not moving towards
+       
+       // //print (contact.count)
+        /*
+        if (checkValidCollision( contact.first!.1) == false ){ // not moving towards
             return
         }
+*/
         var currentFrom = getBelongTo()
         for f in from {
             removeFromBelong(from: f)
@@ -111,7 +175,7 @@ class EnergyPacket : GameObject{
         var resultTo = getBelongTo()
         
         if (resultTo === currentFrom){
-            print("not change")
+            //print("not change")
             //do nth
         }else{
             var c  = contact[resultTo!]
@@ -122,8 +186,8 @@ class EnergyPacket : GameObject{
         }
         
         
-        /*   //print(from)
-        //print(to)
+        /*   ////print(from)
+        ////print(to)
         if ( contact?.contactNormal .dot(direction) >= 0 ){ // not moving towards
             return 
         }
@@ -172,7 +236,7 @@ class EnergyPacket : GameObject{
     
     
     
-    private func doSpecificPhysics(from from : Medium? ,to to : Medium?, contact: SKPhysicsContact?){
+    private func doSpecificPhysics(from from : Medium? ,to to : Medium?, contact: ContactInfo?){
         if (self is Refractable && to != nil){
             
             let me = self as! Refractable
@@ -185,6 +249,7 @@ class EnergyPacket : GameObject{
         for i in 0...(belongTo.count - 1){
             if (belongTo[i] === from!){
                 belongTo.removeAtIndex(i)
+               // justExit = true
                 return
             }
         }
@@ -226,7 +291,9 @@ class EnergyPacket : GameObject{
     }
     
     func deleteSelf () {
-        gameLayer?.removeGameObject(self)
+        gameLayer!.removeGameObject(self)
+        belongTo.removeAll()
+        prevBelongTo.removeAll()
         
     }
     

@@ -10,14 +10,15 @@ import Foundation
 import SpriteKit
 
 protocol Reflectable : Cloneable {
-    func doReflection(from from : Medium? , to to : Medium?, contact: SKPhysicsContact?) -> EnergyPacket?
+    func doReflection(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> EnergyPacket?
 }
 
 extension Reflectable where Self: EnergyPacket{
-    func doReflection(from from : Medium? , to to : Medium?, contact: SKPhysicsContact?) -> EnergyPacket?
+    func doReflection(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> EnergyPacket?
     {
         
         let reflect = self as Reflectable
+       // print(self.sprite.physicsBody!.allContactedBodies())
         let rePacket = reflect.clone() as! EnergyPacket
         
         var refractive: CGFloat = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
@@ -30,9 +31,9 @@ extension Reflectable where Self: EnergyPacket{
         out.normalize()
         rePacket.direction = out
         rePacket.sprite.physicsBody!.velocity = rePacket.getMovement()
-       
+      //  print(rePacket.sprite.physicsBody!.allContactedBodies())
       //  rePacket.sprite.runAction(SKAction.moveBy( rePacket.direction, duration: 0))
-
+        
         return rePacket
        
         
@@ -44,10 +45,9 @@ extension Reflectable where Self: EnergyPacket{
         packet.belongTo.appendContentsOf(self.prevBelongTo)
         packet.gameLayer = self.gameLayer
         packet.direction = self.direction
-        // packet.sprite = self.sprite.copy() as! GameSKShapeNode
+      //  packet.sprite = self.sprite.copy() as! GameSKShapeNode
         packet.sprite.gameObject = packet
         return packet
     }
 }
-
 

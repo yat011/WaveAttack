@@ -15,34 +15,59 @@ class GameLayer : SKNode{
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
+    var gameArea = CGRect()
     var size : CGSize
     init(size : CGSize) {
         self.size = size
        
         super.init()
-        
+        background = Soil(size: self.size)
+        self.addChild(background!.getSprite()!)
+      
+        gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: size)//temp
         //upper
-        let temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
+        var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
         temp.name = GameObjectName.GameBoundary.rawValue
         temp.fillColor = SKColor.blueColor()
         temp.position = CGPoint(x: (size.width + 100 ) / 2 , y: size.height + 60)
         temp.physicsBody = createPhysicsBodyBoundary(temp)
-        
-        
-        
-         background = Soil(size: self.size)
-        self.addChild(background!.getSprite()!)
+         self.addChild(temp)
+        //right
+        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: 100, height: size.height + 100))
+        temp.name = GameObjectName.GameBoundary.rawValue
+        temp.fillColor = SKColor.blueColor()
+        temp.position = CGPoint(x: size.width + 10 , y: -50)
+        temp.physicsBody = createPhysicsBodyBoundary(temp)
         self.addChild(temp)
+        //bottom
+        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: size.width + 100, height: 100))
+        temp.name = GameObjectName.GameBoundary.rawValue
+        temp.fillColor = SKColor.blueColor()
+        temp.position = CGPoint(x: -10 , y: -10 - 100)
+        temp.physicsBody = createPhysicsBodyBoundary(temp)
+        self.addChild(temp)
+        
+        //left
+        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: 100, height: size.height + 100))
+        temp.name = GameObjectName.GameBoundary.rawValue
+        temp.fillColor = SKColor.blueColor()
+        temp.position = CGPoint(x: -10 - 100 , y: -50)
+        temp.physicsBody = createPhysicsBodyBoundary(temp)
+        self.addChild(temp)
+        
+
+        
+        
         
         
         //test box
         var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 0, y: 160))
-        box.propagationSpeed = 50
+        
        // box.getSprite()!.zPosition = -1
         //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
         box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 150, y: 260))
-        box.propagationSpeed = 50
+        box.propagationSpeed = 3
         box.zIndex = 1
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         // box.getSprite()!.zPosition = -1

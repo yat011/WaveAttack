@@ -12,7 +12,8 @@ import SpriteKit
 class SampleBox : DestructibleObject {
     
     var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "box")
-    
+    override var path: CGPath? { get{ return _path}}
+    var _path : CGPath? = nil
     init(size : CGSize , position : CGPoint){
     
         super.init()
@@ -21,8 +22,8 @@ class SampleBox : DestructibleObject {
             exit(1)
         }
         
-        self.propagationSpeed = 70
-        
+        self.propagationSpeed = 7
+    
         
         self.sprite!.size = size
         self.sprite!.position = position
@@ -47,12 +48,13 @@ class SampleBox : DestructibleObject {
         PathAddLineToPoint(path, nil, 255 - offsetX, 0 - offsetY);
         PathAddLineToPoint(path, nil, -1 - offsetX, 0 - offsetY);
         
-        
-        
         CGPathCloseSubpath(path);
+        _path = path
+        print(CGPathContainsPoint(path, nil,CGPoint(x: 0, y: 0) , true))
         
         let phys = SKPhysicsBody (edgeLoopFromPath: path)
         
+        phys.usesPreciseCollisionDetection = true
         phys.collisionBitMask = 0x0
         //phys.affectedByGravity = false
         phys.categoryBitMask = CollisionLayer.Medium.rawValue

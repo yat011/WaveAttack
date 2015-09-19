@@ -23,7 +23,7 @@ class SampleBox : DestructibleObject {
         }
         
         self.propagationSpeed = 7
-    
+        self.collisionAbsorption = 50
         
         self.sprite!.size = size
         self.sprite!.position = position
@@ -34,10 +34,10 @@ class SampleBox : DestructibleObject {
     private func createPhysicsBody(sprite :  SKSpriteNode){
         print (sprite.frame.size)
         print (sprite.anchorPoint)
-        sprite.anchorPoint.x = 0
-        sprite.anchorPoint.y = 0
-        let offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
-        let offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
+      //  sprite.anchorPoint.x = 0
+       // sprite.anchorPoint.y = 0
+        let offsetX:CGFloat = 0
+        let offsetY:CGFloat = 0
         self.scaleX = sprite.frame.size.width / 255
         self.scaleY = sprite.frame.size.height / 255
         let path = CGPathCreateMutable();

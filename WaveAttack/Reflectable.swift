@@ -21,13 +21,14 @@ extension Reflectable where Self: EnergyPacket{
        // print(self.sprite.physicsBody!.allContactedBodies())
         let rePacket = reflect.clone() as! EnergyPacket
         
-        var refractive: CGFloat = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
+       
         var normal = contact!.contactNormal
         normal.normalize()
         self.direction.normalize()
-        let cosine = -1 * self.direction.dot(normal)
-        var sine = sqrt( 1 - pow(cosine, 2))
-        var out =  -1 *  self.direction + 2 * ( direction +  cosine * normal)
+        if (cosine == nil){
+            cosine =  -1 * self.direction.dot(normal)
+        }
+        var out =  -1 *  self.direction + 2 * ( direction +  cosine! * normal)
         out.normalize()
         rePacket.direction = out
         rePacket.sprite.physicsBody!.velocity = rePacket.getMovement()

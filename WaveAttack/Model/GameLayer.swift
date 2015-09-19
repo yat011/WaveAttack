@@ -25,6 +25,8 @@ class GameLayer : SKNode{
         self.addChild(background!.getSprite()!)
       
         gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: size)//temp
+      
+        /*
         //upper
         var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
         temp.name = GameObjectName.GameBoundary.rawValue
@@ -54,19 +56,19 @@ class GameLayer : SKNode{
         temp.position = CGPoint(x: -10 - 100 , y: -50)
         temp.physicsBody = createPhysicsBodyBoundary(temp)
         self.addChild(temp)
-        
+        */
 
         
         
         
         
         //test box
-        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 0, y: 160))
+        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 150, y: 160))
         
        // box.getSprite()!.zPosition = -1
         //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
-        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 150, y: 260))
+        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 160))
         box.propagationSpeed = 3
         box.zIndex = 1
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))

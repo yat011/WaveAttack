@@ -13,7 +13,7 @@ class EnergyPacket : GameObject{
     let radius : CGFloat = 5
     var physRadius :CGFloat = 5
     var sprite : GameSKShapeNode
-    var energy : Double
+    var energy : CGFloat
     var direction : CGVector = CGVector(dx: 0, dy: 1)
       // var speed : CGFloat = 10
     weak var gameLayer : GameLayer? = nil
@@ -25,18 +25,18 @@ class EnergyPacket : GameObject{
    // var lastDirection : CGVector? = nil
    // var lastContains : Bool? = nil
   //  var justExit : Bool = false
-    static let energyThreshold: Double = 5
+    static let energyThreshold: CGFloat = 5
     
     var belongTo : [Medium] = []
     var prevBelongTo : [Medium] = []
-    init(_ energy: Double, position pos : CGPoint) {
+    init(_ energy: CGFloat, position pos : CGPoint) {
        
         self.energy = energy
         
         var rectNode = GameSKShapeNode(circleOfRadius: radius)
        
         
-        rectNode.fillColor = SKColor.redColor()
+        
         rectNode.name = GameObjectName.Packet.rawValue
         var tempRect = rectNode.frame
         
@@ -59,9 +59,38 @@ class EnergyPacket : GameObject{
        // self.prevDisplacement = CGVector (dx: 0, dy: 0)
         self.sprite.zPosition = 1.0
         super.init()
+        rectNode.fillColor = getColor()
          rectNode.setGameObject(self)
         
     }
+    
+    func getColor () -> SKColor{
+      /*  var r = (sin(self.energy) * 127 + 128) / 255
+        var g = (sin( self.energy + 1) * 127 + 128) / 255
+        var b = (sin(self.energy + 3 ) * 127 + 128) / 255
+        print("\(r) \(g) \(b)")*/
+        var brigthness : CGFloat = 1
+        var hue = self.energy
+        if (hue > 1000) {
+            brigthness = hue - 1000
+            if (brigthness < 1000){
+                brigthness = cos( brigthness * 1 / 1000 * 3.1415926 / 2 )
+            }else{
+                brigthness = 0
+            }
+            hue = 1
+            
+        }else{
+            hue = hue/1000
+        }
+        hue = hue * 0.85
+        
+        return SKColor(hue: hue, saturation: 1, brightness: brigthness, alpha: 1)
+        //return SKColor (red: r, green: g, blue: b, alpha: 1)
+        
+    }
+    
+    
     func getBelongTo() -> Medium?{
         return belongTo.last
     }
@@ -83,11 +112,18 @@ class EnergyPacket : GameObject{
             deleteSelf()
             return
         }
-        if (!CGRectContainsPoint(gameLayer!.gameArea, sprite.position)){
+        if (!CGRectContainsPoint(gameLayer!.gameArea, sprite.position)){ // out of area
             print("delete self")
             deleteSelf()
             return
         }
+        
+        if (getBelongTo()! is DestructibleObject){
+            var des = getBelongTo()! as! DestructibleObject
+            des.calculateDamage(self)
+            sprite.fillColor = getColor()
+        }
+        
         
         doMove()
        /*
@@ -119,7 +155,7 @@ class EnergyPacket : GameObject{
         
         
     }
-    func checkValidCollision( contact : SKPhysicsContact) -> Bool{
+    /*func checkValidCollision( contact : SKPhysicsContact) -> Bool{
         
         var contactNor = contact.contactNormal
    
@@ -152,7 +188,7 @@ class EnergyPacket : GameObject{
         return false
     }
 
-    
+    */
     func changeMedium (from from : Set<Medium> ,to to : Set<Medium>, contact: [Medium : ContactInfo]){
     
         prevBelongTo.removeAll()
@@ -233,16 +269,56 @@ class EnergyPacket : GameObject{
         
         
     }
+    //temp var
+    var refractive : CGFloat = 0
+    var refractiveRatio : CGFloat = 0
+    var cosine : CGFloat? = nil
     
     
-    
+    //
     private func doSpecificPhysics(from from : Medium? ,to to : Medium?, contact: ContactInfo?){
+        var rate = 1
+        refractive = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
+        refractiveRatio = 1 / refractive
+        
+        var normal = contact!.contactNormal
+        normal.normalize()
+        self.direction.normalize()
+        cosine = -1 * self.direction.dot(normal)
+        var tranRatio: CGFloat = 0
+        var reflectRatio: CGFloat = 1
         if (self is Refractable && to != nil){
-            
+
             let me = self as! Refractable
-            me.doRefraction(from: from, to: to, contact: contact)
+            tranRatio = me.doRefraction(from: from, to: to, contact: contact)
+            print(tranRatio)
+            reflectRatio = 1 - tranRatio
         }
+        var diff: CGFloat = CGFloat( abs( to!.collisionAbsorption - from!.collisionAbsorption))
+        var energyAttenuation = diff * ( 1 + reflectRatio)
+        self.energy = self.energy - energyAttenuation
+        
+        
+        if (self is Reflectable){
+            let reflect = self as! Reflectable
+            let rePacket = reflect.doReflection(from: from, to: to, contact: contact)!
+            rePacket.energy = rePacket.energy * reflectRatio
+            self.gameLayer!.addGameObject(rePacket)
+            rePacket.sprite.fillColor = rePacket.getColor()
+            
+            
+        }
+        
+        self.energy = self.energy * tranRatio
+        cosine = nil
+        
+        self.sprite.fillColor = getColor()
+        
     }
+    
+  
+    
+    
     
     
     func removeFromBelong (from from : Medium?){
@@ -292,8 +368,8 @@ class EnergyPacket : GameObject{
     
     func deleteSelf () {
         gameLayer!.removeGameObject(self)
-        belongTo.removeAll()
-        prevBelongTo.removeAll()
+       // belongTo.removeAll()
+        //prevBelongTo.removeAll()
         
     }
     

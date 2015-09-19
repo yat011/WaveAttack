@@ -77,15 +77,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
        // var p1 = NormalEnergyPacket(100, position: CGPoint(x: 0, y: 50))
        // attackPhaseObjects.append(p1)
-        for i in 8 ... 8 {
+        for i in 4 ... 8 {
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             
-            let p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
+            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx, y: 50))
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
-          // gameLayer.addGameObject(p1)
+           gameLayer.addGameObject(p1)
             
 
         }
@@ -474,14 +474,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         if (countFrame % 30 == 0 && countFrame < 1000){
             switch (currentStage){
             case .Attack:
-                for i in 0...10{
+                for i in 3...8{
                     var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
                     tempx = tempx * CGFloat(i) + 10
-                    let p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx + 1.5, y: 50))
+                    let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
                     p1.direction = CGVector(dx: 0, dy: 1)
                     p1.gameLayer = gameLayer
                     p1.pushBelongTo(gameLayer.background!)
-                    gameLayer.addGameObject(p1)
+                    //gameLayer.addGameObject(p1)
                 }
                 break
             default:

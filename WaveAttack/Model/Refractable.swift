@@ -9,32 +9,33 @@
 import Foundation
 import SpriteKit
 protocol Refractable{
-    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> ()
+    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> CGFloat
     
 }
 
 extension Refractable where Self: EnergyPacket{
-    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> ()
+    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo? ) -> CGFloat
     {
         //print(self.sprite.physicsBody!.allContactedBodies())
-        let refractive: CGFloat = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
-        let c = 1 / refractive
+        
+        let c = refractiveRatio
         var normal = contact!.contactNormal
         normal.normalize()
         self.direction.normalize()
-        let cosine = -1 * self.direction.dot(normal)
+        var oriDir = self.direction
+        let cosine = self.cosine!
         let sine = sqrt( 1 - pow(cosine, 2))
-    
+        
         if (refractive < 1){
    
-            if ( sine >= refractive){ // total interal reflection
-                if (self is Reflectable){
+            if ( sine >= refractive){ // total internal reflection
+               /* if (self is Reflectable){
                     let reflect = self as! Reflectable
                     self.gameLayer!.addGameObject(reflect.doReflection(from: from, to: to, contact: contact)!)
                     
-                }
+                }*/
                 self.deleteSelf()
-                return
+                return 0
             }else{ //
                 var out = c * self.direction
                 let cost = sqrt(1 - pow(c, 2) * (1 - pow(cosine, 2)))
@@ -54,11 +55,21 @@ extension Refractable where Self: EnergyPacket{
           //  print("refraction : \(out) ")
             self.direction = out
         }
+    
         
+        var cosine2 = -1 * self.direction.dot(normal)
+        
+        return getTranmissionRatio(cosine, cosine2,ax: oriDir.dx)
 
         
     }
     
-    
+    func getTranmissionRatio (cosine1 : CGFloat, _ cosine2 :CGFloat , ax : CGFloat) -> CGFloat{
+        var a = (refractiveRatio * cosine1 - cosine2) / ( refractiveRatio * cosine1 +  cosine2)
+        var b = (refractiveRatio * cosine2 - cosine1) / ( refractiveRatio * cosine2 +  cosine1)
+        
+        
+        return 1 - ( a * a + b * b) / 2 
+    }
     
 }

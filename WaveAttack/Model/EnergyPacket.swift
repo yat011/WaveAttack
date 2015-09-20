@@ -113,7 +113,7 @@ class EnergyPacket : GameObject{
             return
         }
         if (!CGRectContainsPoint(gameLayer!.gameArea, sprite.position)){ // out of area
-            print("delete self")
+           // print("delete self")
             deleteSelf()
             return
         }
@@ -291,14 +291,14 @@ class EnergyPacket : GameObject{
 
             let me = self as! Refractable
             tranRatio = me.doRefraction(from: from, to: to, contact: contact)
-            print(tranRatio)
+         //   print(tranRatio)
             reflectRatio = 1 - tranRatio
         }
         var diff: CGFloat = CGFloat( abs( to!.collisionAbsorption - from!.collisionAbsorption))
         var energyAttenuation = diff * ( 1 + reflectRatio)
         self.energy = self.energy - energyAttenuation
         
-        
+       
         if (self is Reflectable){
             let reflect = self as! Reflectable
             let rePacket = reflect.doReflection(from: from, to: to, contact: contact)!
@@ -308,7 +308,7 @@ class EnergyPacket : GameObject{
             
             
         }
-        
+
         self.energy = self.energy * tranRatio
         cosine = nil
         

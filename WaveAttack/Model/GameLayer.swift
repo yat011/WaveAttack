@@ -21,10 +21,12 @@ class GameLayer : SKNode{
         self.size = size
        
         super.init()
-        background = Soil(size: self.size)
+         gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
+        background = Soil(size: gameArea.size)
         self.addChild(background!.getSprite()!)
-      
-        gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: size)//temp
+        print ("upper screen size \(gameArea))")
+       // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
+        
       
         /*
         //upper
@@ -68,7 +70,7 @@ class GameLayer : SKNode{
        // box.getSprite()!.zPosition = -1
         //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
-        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 160))
+        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 500))
         box.propagationSpeed = 3
         box.zIndex = 1
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))

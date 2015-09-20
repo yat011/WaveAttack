@@ -32,8 +32,8 @@ class SampleBox : DestructibleObject {
     }
     
     private func createPhysicsBody(sprite :  SKSpriteNode){
-        print (sprite.frame.size)
-        print (sprite.anchorPoint)
+       // print (sprite.frame.size)
+        //print (sprite.anchorPoint)
       //  sprite.anchorPoint.x = 0
        // sprite.anchorPoint.y = 0
         let offsetX:CGFloat = 0
@@ -50,7 +50,7 @@ class SampleBox : DestructibleObject {
         
         CGPathCloseSubpath(path);
         _path = path
-        print(CGPathContainsPoint(path, nil,CGPoint(x: 0, y: 0) , true))
+        //print(CGPathContainsPoint(path, nil,CGPoint(x: 0, y: 0) , true))
         
         let phys = SKPhysicsBody (edgeLoopFromPath: path)
         

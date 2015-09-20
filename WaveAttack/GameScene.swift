@@ -24,7 +24,9 @@ enum GameStage {
     case Superposition, Attack
 }
 
-
+enum TouchType {
+    case gameArea
+}
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
@@ -35,13 +37,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
     var contactMap = [EnergyPacket : ContactContainer]()
+    var playRect : CGRect? = nil
+    
     
     
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
     override init(size: CGSize) {
-       gameLayer = GameLayer(size: CGSize(width: size.width, height: size.height / 2))
+        let ph: CGFloat = size.height / 2
+        let pPos = CGPoint(x: 0, y : ph)
+        var psize  = CGSize(width: size.width, height: size.height / 2)
+        playRect  = CGRect(origin: pPos, size: psize)
+       gameLayer = GameLayer(size: psize)
+        gameLayer.position = pPos
         
         //updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
@@ -60,13 +69,17 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
     }
 
+  
+    
+    
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     func initGameLayer() -> (){
-        let ph = self.size.height / 2
-        gameLayer.position = CGPoint(x: 0, y : ph)
+     
         
         // add boundary
         
@@ -77,15 +90,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
        // var p1 = NormalEnergyPacket(100, position: CGPoint(x: 0, y: 50))
        // attackPhaseObjects.append(p1)
-        for i in 4 ... 8 {
+        for i in 6...6  {
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             
-            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx, y: 50))
+            let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
-           gameLayer.addGameObject(p1)
+          gameLayer.addGameObject(p1)
             
 
         }
@@ -97,6 +110,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func initControlLayer() -> (){
         controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
         controlLayer.fillColor = SKColor.blueColor()
+        controlLayer.zPosition = 100
         
     }
     
@@ -454,9 +468,74 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
     }
     
+    
+    var touching : Bool = false
+    var touchType : TouchType? = nil
+    var prevTouchPoint : CGPoint? = nil
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
+        if touches.count > 0 {//drag
+            if let touch = touches.first  {
+               touching  = true
+                var touchDown =  touch.locationInNode(self)
+               
+                if (CGRectContainsPoint(playRect!, touchDown)){
+                        touchType = TouchType.gameArea
+                        prevTouchPoint = touchDown
+                }
+                
+            }
+        }
+        
+        
     }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (self.touchType == nil) { return }
+        if (touches.count > 0 ) {//drag
+            if let touch = touches.first {
+                if (touchType! == TouchType.gameArea){
+                    var newPt = touch.locationInNode(self)
+                    var diff :CGVector =  prevTouchPoint! - newPt
+                    prevTouchPoint  = newPt
+                    var moveY = diff.dy
+                    scrollGameLayer(moveY)
+              
+                    
+                }
+            }
+        }
+    }
+    
+    func scrollGameLayer(movement : CGFloat){
+        var newY = gameLayer.position.y + movement
+        var diff = gameLayer.gameArea.height - playRect!.size.height
+        var lowerBound = playRect!.origin.y - diff
+        
+        if newY < lowerBound{
+            newY = lowerBound
+        }else if newY > playRect!.origin.y {
+            newY = playRect!.origin.y
+        }
+        //gameLayer.position.y = newY
+        gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
+    }
+    
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touching = false
+        touchType = nil
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        touching = false
+        touchType = nil
+    }
+    
+    
+    
+    
+    
     var countFrame :Int = 0
     override func update(currentTime: CFTimeInterval) {
         
@@ -474,14 +553,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         if (countFrame % 30 == 0 && countFrame < 1000){
             switch (currentStage){
             case .Attack:
-                for i in 3...8{
+                
+                for i in 0...10{
                     var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
                     tempx = tempx * CGFloat(i) + 10
-                    let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                    var p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
                     p1.direction = CGVector(dx: 0, dy: 1)
                     p1.gameLayer = gameLayer
                     p1.pushBelongTo(gameLayer.background!)
-                    //gameLayer.addGameObject(p1)
+                   gameLayer.addGameObject(p1)
+                    p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                    p1.direction = CGVector(dx: 0, dy: 1)
+                    p1.gameLayer = gameLayer
+                    p1.pushBelongTo(gameLayer.background!)
+                    gameLayer.addGameObject(p1)
                 }
                 break
             default:
@@ -499,14 +584,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                         lastTimeStamp = currentTime
         }
        
-
     
-        
-        
-        
         
     }
+
     
+    
+  
    
     
     func attackPhaseUpdate (currentTime: CFTimeInterval){

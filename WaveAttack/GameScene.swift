@@ -24,6 +24,9 @@ enum GameStage {
     case Superposition, Attack
 }
 
+enum TouchType {
+    case gameArea
+}
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
@@ -34,20 +37,27 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
     var contactMap = [EnergyPacket : ContactContainer]()
+    var playRect : CGRect? = nil
+    
     
     
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
     override init(size: CGSize) {
-       gameLayer = GameLayer(size: CGSize(width: size.width, height: size.height / 2))
+        let ph: CGFloat = size.height / 2
+        let pPos = CGPoint(x: 0, y : ph)
+        var psize  = CGSize(width: size.width, height: size.height / 2)
+        playRect  = CGRect(origin: pPos, size: psize)
+       gameLayer = GameLayer(size: psize)
+        gameLayer.position = pPos
         
         //updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
         
         backgroundColor = SKColor.whiteColor()
       
-
+        
        initGameLayer()
         initControlLayer()
       //  addObjectsToNode(gameLayer, attackPhaseObjects)
@@ -59,13 +69,17 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
     }
 
+  
+    
+    
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     func initGameLayer() -> (){
-        let ph = self.size.height / 2
-        gameLayer.position = CGPoint(x: 0, y : ph)
+     
         
         // add boundary
         
@@ -76,13 +90,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
        // var p1 = NormalEnergyPacket(100, position: CGPoint(x: 0, y: 50))
        // attackPhaseObjects.append(p1)
-        for i in 0 ... 0 {
+        for i in 6...6  {
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(100, position: CGPoint(x: tempx, y: 50))
+            
+            let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+            p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer.background!)
-           gameLayer.addGameObject(p1)
+          gameLayer.addGameObject(p1)
+            
 
         }
       
@@ -93,19 +110,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func initControlLayer() -> (){
         controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
         controlLayer.fillColor = SKColor.blueColor()
+        controlLayer.zPosition = 100
         
     }
     
     
     func didBeginContact(contact: SKPhysicsContact) {
-     //   print("contact")
-        print ("A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+     //   ////print("contact")
+        ////print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
        // self.contactQueue.append(contact)
-       //     print (contact.contactPoint)
-     //print(contact.contactNormal)
+       //     ////print (contact.contactPoint)
+     //////print(contact.contactNormal)
         
     
-      
+        
         
         
         
@@ -119,18 +137,137 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
-    func tryFindEnergyPacket(_ sk : SKNode?, other other : SKNode?, contact contact :SKPhysicsContact) -> Bool {
+    func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit exit: Bool) -> Bool{
+        
+        ////print(medium.path)
+        ////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
+        //print (contact.contactNormal)
+        var conPos = medium.getSprite()!.convertPoint(packet.sprite.position, fromNode: gameLayer)
+        // //print(CGPathContainsPoint(medium.path, nil,temp , true))
+        var toward: CGVector = contact.contactPoint - (packet.sprite.position + gameLayer.position)
+        toward.normalize()
+        var contactPt = medium.getSprite()!.convertPoint(contact.contactPoint, fromNode: self)
+        
+       /*
+        if(exit == false){
+            
+        
+    
+            print("contactPt:\(CGPathContainsPoint(medium.path, nil, contactPt, true)) pos:\(CGPathContainsPoint(medium.path, nil, conPos, true)) \(contact.contactNormal.dot(packet.direction))|| \(contact.contactNormal.dot(toward))|| contactPt \(contactPt) pos\(conPos) || vec \(packet.sprite.physicsBody!.velocity) || normal: \(contact.contactNormal) toward:\(toward)" )
+ 
+            
+            if (contact.contactNormal.dot(packet.direction) > 0 ){
+               // print (packet.sprite.physicsBody!.allContactedBodies())
+                return false
+            }
+        }
+*/
+        //print (toward.dot(packet.direction))
+       
+        if (exit){
+            if (CGPathContainsPoint(medium.path, nil, conPos, true)==false){ //some fix
+                contact.contactNormal = -1 * contact.contactNormal
+            }
+        }else{
+            if (CGPathContainsPoint(medium.path, nil, conPos, true)==true){ //some fix
+                contact.contactNormal = -1 * contact.contactNormal
+            }
+        }
+        if (contact.contactNormal.dot(packet.direction) > 0 ){
+            return false
+        }else{
+            return true
+        }
+       
+        
+        
+       /*
+        if (exit == true){
+            var dot = packet.direction.dot(contact.contactNormal)
+            if (dot < 0){
+                
+                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
+                    packet.lastContactInfo = contact
+                    packet.lastContains = true
+                    packet.lastDirection = packet.direction
+                    packet.lastPosition = packet.sprite.position
+                    
+                    return true
+                }else{
+                    fatalError("bug")
+                    return false
+                }
+            }else if dot > 0 {
+                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
+                    return false
+                }else{
+                    fatalError("bug")
+                    return false
+                }
+            }else {
+                return false
+            }
+            
+        }else{ // enter
+            var dot = packet.direction.dot(contact.contactNormal)
+          
+            if (dot < 0){
+                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
+                 //   fatalError("bug")
+                    return false
+                }else{
+                    packet.lastContactInfo = contact
+                    packet.lastContains = false
+                    packet.lastDirection = packet.direction
+                    packet.lastPosition = packet.sprite.position
+                 /*
+                    if (packet.justExit ){
+                        print("enter again")
+                    }
+*/
+                    return true
+                }
+            }else if dot > 0 {
+                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
+                    //print("bug")
+                    //fatalError("bug")
+                    return false
+                }else{
+                    
+                  
+                    
+                    //contact.contactNormal =  -1 * contact.contactNormal
+                    return false
+                    
+                }
+            }else {
+                return false
+            }
+            
+
+        }
+*/
+        return false
+    }
+    
+    
+    func tryFindEnergyPacket(_ sk : SKNode?, other other : SKNode?, contact nativeContact :SKPhysicsContact) -> Bool {
+        var contact = ContactInfo(nativeContact)
         var packet: EnergyPacket? = nil
         if (sk is HasGameObject){
             let has = sk as! HasGameObject?
+            ////print ("gameObject : \(has?.gameObject)")
             if ( has?.gameObject is EnergyPacket){
                 packet = has!.gameObject as! EnergyPacket
-                if (other!.name == GameObjectName.GameBoundary.rawValue){
+        
+                
+                
+                if (other!.name == GameObjectName.GameBoundary.rawValue){ // out of area
                     //out of bound
                     if (contactMap[packet!] != nil){
                         contactMap[packet!]!.outOfArea = true
                     }else{
-                        let temp2 = ContactContainer()
+                         let temp2 = ContactContainer()
                         temp2.outOfArea = true
                         contactMap[packet!] = temp2
                         
@@ -143,17 +280,35 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     if ( has2.gameObject is Medium){
                         let medium = has2.gameObject as! Medium
                         if (contactMap[packet!] != nil){
+                            
+                            if (contactMap[packet!]!.mediumContacted.contains(medium)){
+                                return true
+                            }
+                            
                             if (packet?.containsMedium(medium) == true){ //exit
-                               contactMap[packet!]!.exit.append((medium,contact))
+                                if validateIncidence(packet!, medium, contact, exit: true){
+                                    contactMap[packet!]!.mediumContacted.insert(medium)
+                                    contactMap[packet!]!.exit.append((medium,contact))
+                                                                    }
                             }else{
-                                contactMap[packet!]!.enter.append((medium,contact))
+                                if validateIncidence(packet!, medium, contact, exit: false){
+                                    contactMap[packet!]!.mediumContacted.insert(medium)
+                                    contactMap[packet!]!.enter.append((medium,contact))
+                                }
                             }
                         }else{
                             let temp2 = ContactContainer()
                             if (packet?.containsMedium(medium) == true){ //exit
-                                temp2 .exit.append((medium,contact))
+                                if (validateIncidence(packet!, medium, contact, exit: true)){
+                                    temp2.mediumContacted.insert(medium)
+                                    temp2 .exit.append((medium,contact))
+                                    
+                                }
                             }else{
-                                temp2.enter.append((medium,contact))
+                                if (validateIncidence(packet!, medium, contact, exit: false)){
+                                    temp2.mediumContacted.insert(medium)
+                                    temp2.enter.append((medium,contact))
+                                }
                                 
                             }
                            // temp2.enter.append((other!,contact))
@@ -172,9 +327,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     
     func didEndContact(contact: SKPhysicsContact) {
-   /*     print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
-        print(contact.contactNormal)
-         print (contact.contactPoint)
+   /*     ////print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
+        ////print(contact.contactNormal)
+         ////print (contact.contactPoint)
         if  let temp  = contact.bodyA.node as? HasGameObject{
             if  let obj = (temp.gameObject) {
                 if (contactMap[obj] != nil){
@@ -195,15 +350,40 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func handleContact(){
         
         for (packet, wrapper) in contactMap{
+            
+            
             if (wrapper.outOfArea == true){
                 //do sth
-                print("out of Area")
-                gameLayer.removeGameObject(packet)
+                ////print("out of Area")
+                /*
+                if (packet.belongTo.count > 1){
+                    var contact = packet.lastContactInfo
+                    var conPos = packet.getBelongTo()!.getSprite()!.convertPoint(packet.lastPosition!, fromNode: gameLayer)
+                    var temp: CGPoint = (packet.lastContactInfo?.contactPoint)! - gameLayer.position
+                    
+                    var conPos2 = packet.getBelongTo()!.getSprite()!.convertPoint(temp, fromNode: gameLayer)
+                    
+                    var conPos3 = packet.sprite.convertPoint((packet.lastContactInfo?.contactPoint)! - gameLayer.position, fromNode: gameLayer)
+                    
+                  //  print(CGPathContainsPoint(packet.getBelongTo()!.path, nil, temp, true))
+                    
+                    // //print(CGPathContainsPoint(medium.path, nil,temp , true))
+                    var toward : CGVector = contact!.contactPoint - (packet.lastPosition! + gameLayer.position )
+                    //print (toward.dot(packet.direction))
+                //    print(toward.dot(contact!.contactNormal))
+                      
+                ////    print(contact!.contactNormal.dot(packet.lastDirection!))
+                 //   print("wat")
+                    
+                }
+*/
+               
+                packet.deleteSelf()
                 continue
             }
             
             // case has enter
-        
+            /*
             if (wrapper.enter.count > 0){
                 if (wrapper.exit.count == 0){ // only enter -> enter other medium
                     if (wrapper.enter.first != nil){
@@ -226,12 +406,24 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 }
             }
             
+            */
+            var froms = Set<Medium>()
+            var tos = Set<Medium>()
+            var contacts = [Medium : ContactInfo]()
+            for (from , contact) in wrapper.exit {
+                froms.insert(from)
+                contacts[from] = contact
+            }
+            for (to, contact) in wrapper.enter{
+                tos.insert(to)
+                contacts[to] = contact
+            }
             
-        
+            packet.changeMedium(from: froms, to: tos, contact: contacts)
 
         }
         contactMap.removeAll()
-        
+        //contactCount.removeAll()
         
         
     /*    for contact in contactQueue{
@@ -276,44 +468,129 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
     }
     
+    
+    var touching : Bool = false
+    var touchType : TouchType? = nil
+    var prevTouchPoint : CGPoint? = nil
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
+        if touches.count > 0 {//drag
+            if let touch = touches.first  {
+               touching  = true
+                var touchDown =  touch.locationInNode(self)
+               
+                if (CGRectContainsPoint(playRect!, touchDown)){
+                        touchType = TouchType.gameArea
+                        prevTouchPoint = touchDown
+                }
+                
+            }
+        }
+        
+        
     }
-   
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (self.touchType == nil) { return }
+        if (touches.count > 0 ) {//drag
+            if let touch = touches.first {
+                if (touchType! == TouchType.gameArea){
+                    var newPt = touch.locationInNode(self)
+                    var diff :CGVector =  prevTouchPoint! - newPt
+                    prevTouchPoint  = newPt
+                    var moveY = diff.dy
+                    scrollGameLayer(moveY)
+              
+                    
+                }
+            }
+        }
+    }
+    
+    func scrollGameLayer(movement : CGFloat){
+        var newY = gameLayer.position.y + movement
+        var diff = gameLayer.gameArea.height - playRect!.size.height
+        var lowerBound = playRect!.origin.y - diff
+        
+        if newY < lowerBound{
+            newY = lowerBound
+        }else if newY > playRect!.origin.y {
+            newY = playRect!.origin.y
+        }
+        //gameLayer.position.y = newY
+        gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
+    }
+    
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touching = false
+        touchType = nil
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        touching = false
+        touchType = nil
+    }
+    
+    
+    
+    
+    
+    var countFrame :Int = 0
     override func update(currentTime: CFTimeInterval) {
         
         switch (currentStage){
         case .Attack:
             
-            handleContact();
+            handleContact()
             attackPhaseUpdate(currentTime)
+           
             break
         default:
             break
         }
-        //print(currentTime - lastTimeStamp)
-        //lastTimeStamp = currentTime
-
-    /*
-        if ((currentTime - lastTimeStamp) > updateTimeInterval ){
-        
-            /* Called before each frame is rendered */
+        //////print(currentTime - lastTimeStamp)
+        if (countFrame % 30 == 0 && countFrame < 1000){
             switch (currentStage){
             case .Attack:
                 
-                handleContact();
-                attackPhaseUpdate(currentTime)
+                for i in 0...10{
+                    var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
+                    tempx = tempx * CGFloat(i) + 10
+                    var p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                    p1.direction = CGVector(dx: 0, dy: 1)
+                    p1.gameLayer = gameLayer
+                    p1.pushBelongTo(gameLayer.background!)
+                   gameLayer.addGameObject(p1)
+                    p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                    p1.direction = CGVector(dx: 0, dy: 1)
+                    p1.gameLayer = gameLayer
+                    p1.pushBelongTo(gameLayer.background!)
+                    gameLayer.addGameObject(p1)
+                }
                 break
             default:
                 break
             }
-            lastTimeStamp = currentTime
+
         }
-        */
         
+      
+        
+        countFrame += 1
+        if ((currentTime - lastTimeStamp) > 1  ){
+            
+            /* Called before each frame is rendered */
+                        lastTimeStamp = currentTime
+        }
+       
+    
         
     }
+
     
+    
+  
    
     
     func attackPhaseUpdate (currentTime: CFTimeInterval){
@@ -362,7 +639,7 @@ extension SKScene{
             
             // addObjectsToNode(gameLayer, attackPhaseObjects )
             p1.getSprite()!.position = CGPoint(x: 10, y: 10)
-            print(p1.getSprite())
+            ////print(p1.getSprite())
             sc.gameLayer.addChild(p1.getSprite()!)
             sc.addChild(sc.gameLayer)
             return sc
@@ -376,9 +653,23 @@ extension SKScene{
 
 class ContactContainer {
     var outOfArea : Bool = false
-    var enter = [(Medium,SKPhysicsContact)]()
-    var exit = [(Medium,SKPhysicsContact)]()
+    var mediumContacted = Set<Medium>()
+    var enter = [(Medium,ContactInfo)]()
+    var exit = [(Medium,ContactInfo)]()
     
 }
+
+class ContactInfo {
+    var contactPoint : CGPoint
+    var contactNormal : CGVector
+    
+    init (_ cont:SKPhysicsContact){
+        contactPoint = cont.contactPoint
+        contactNormal = cont.contactNormal
+    }
+
+}
+
+
 
 

@@ -7,10 +7,11 @@
 //
 
 import Foundation
-
+import SpriteKit
 class Medium : GameObject {
     
     var propagationSpeed : Double = 3
-    
-    
+    var zIndex: Int = 0
+    var path : CGPath? { get { return nil}}
+    var collisionAbsorption: CGFloat = 0
 }

@@ -26,7 +26,7 @@ class GameViewController: UIViewController {
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             skView.frameInterval = 60 / fixedFps
-        let scene = GameScene(size: skView.bounds.size)
+        let scene = GameScene(size: CGSize(width: 375, height: 667))
         
         
            /* if let scene = GameScene(fileNamed : "GameScene"){
@@ -36,10 +36,10 @@ class GameViewController: UIViewController {
                 skView.presentScene(scene)
             }
         */
-        scene.scaleMode = .AspectFill
+        scene.scaleMode = .AspectFit
         
         skView.presentScene(scene)
-
+        //print(skView.bounds.size)
         
     }
 

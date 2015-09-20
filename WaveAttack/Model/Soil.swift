@@ -11,10 +11,10 @@ import SpriteKit
 class Soil : Medium {
     
     var sprite : GameSKShapeNode? = nil
-    
+    override var path: CGPath? { get{ return sprite!.path}}
     init(size : CGSize) {
         super.init()
-        propagationSpeed = 100
+        propagationSpeed = 10
         
        
         self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height)))

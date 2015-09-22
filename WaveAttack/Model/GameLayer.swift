@@ -16,7 +16,9 @@ class GameLayer : SKNode{
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
    // var gameArea = CGRect()
-    var subMission: SubMission? = nil
+    weak var subMission: SubMission? = nil
+    var totalTarget: Int = 0
+    
     weak var gameScene: GameScene? = nil
     init(subMission : SubMission, gameScene : GameScene) {
         
@@ -30,62 +32,20 @@ class GameLayer : SKNode{
        // print ("upper screen size \(gameArea))")
        // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         
-      
-        /*
-        //upper
-        var temp = SKShapeNode(rect: CGRect(x: -1 * (size.width + 100) / 2, y: 0, width: size.width - 100, height: 100))
-        temp.name = GameObjectName.GameBoundary.rawValue
-        temp.fillColor = SKColor.blueColor()
-        temp.position = CGPoint(x: (size.width + 100 ) / 2 , y: size.height + 60)
-        temp.physicsBody = createPhysicsBodyBoundary(temp)
-         self.addChild(temp)
-        //right
-        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: 100, height: size.height + 100))
-        temp.name = GameObjectName.GameBoundary.rawValue
-        temp.fillColor = SKColor.blueColor()
-        temp.position = CGPoint(x: size.width + 10 , y: -50)
-        temp.physicsBody = createPhysicsBodyBoundary(temp)
-        self.addChild(temp)
-        //bottom
-        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: size.width + 100, height: 100))
-        temp.name = GameObjectName.GameBoundary.rawValue
-        temp.fillColor = SKColor.blueColor()
-        temp.position = CGPoint(x: -10 , y: -10 - 100)
-        temp.physicsBody = createPhysicsBodyBoundary(temp)
-        self.addChild(temp)
-        
-        //left
-        temp = SKShapeNode(rect: CGRect(x:  0, y: 0, width: 100, height: size.height + 100))
-        temp.name = GameObjectName.GameBoundary.rawValue
-        temp.fillColor = SKColor.blueColor()
-        temp.position = CGPoint(x: -10 - 100 , y: -50)
-        temp.physicsBody = createPhysicsBodyBoundary(temp)
-        self.addChild(temp)
-        */
-
-        
+   
         for medium in subMission.objects{
+            if (medium is DestructibleObject){
+                var des = medium as! DestructibleObject
+                if des.target {
+                    totalTarget += 1
+                }
+            }
+            
             addGameObject(medium)
         }
 
 
        
-       /*
-        
-        //test box
-        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 150, y: 160), gameScene: gameScene)
-        
-       // box.getSprite()!.zPosition = -1
-        //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
-        addGameObject(box)
-        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 500), gameScene: gameScene)
-        box.propagationSpeed = 3
-        box.zIndex = 1
-        box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
-        // box.getSprite()!.zPosition = -1
-        addGameObject(box)
-*/
-
         
     }
 
@@ -117,12 +77,33 @@ class GameLayer : SKNode{
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()
         }
+        if (obj is DestructibleObject){
+            var des = obj as! DestructibleObject
+            if des.target{
+                totalTarget -= 1
+                if totalTarget == 0{
+                    
+                    print ("clear one submissoin")
+                    self.gameScene!.completeSubMission()
+                }
+            }
+        }
+        
     }
     
     func update(currentTime: CFTimeInterval){
         for obj in  attackPhaseObjects{
             obj.update()
         }
+    }
+    
+    
+    func deleteSelf(){
+        for  gameObj in attackPhaseObjects{
+            gameObj.deleteSelf()
+        }
+        attackPhaseObjects.removeAll()
+        
     }
    
 }

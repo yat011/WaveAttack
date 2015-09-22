@@ -11,7 +11,7 @@ import SpriteKit
 
 class EnergyPacket : GameObject{
     let radius : CGFloat = 5
-    var physRadius :CGFloat = 5
+    var physRadius :CGFloat = 2
     var sprite : GameSKShapeNode? = nil
     var energy : CGFloat = 0
     var direction : CGVector = CGVector(dx: 0, dy: 1)
@@ -67,6 +67,7 @@ class EnergyPacket : GameObject{
         self.gameScene  = sc
         rectNode.fillColor = getColor()
         rectNode.setGameObject(self)
+        
 
     }
     
@@ -170,7 +171,8 @@ class EnergyPacket : GameObject{
     }
     
     func doMove(){
-         sprite!.physicsBody!.velocity = CGVector(dx: 0,dy: 0)
+         //sprite!.physicsBody!.velocity = getMovement()
+        
         sprite!.runAction(SKAction.moveBy(getMovement() , duration: 0))
       // ////print( sprite.physicsBody!.velocity)
        
@@ -223,12 +225,15 @@ class EnergyPacket : GameObject{
         }
 */
         let currentFrom = getBelongTo()
+        for t in to{
+            if (containsMedium(t) == false){
+                addBelong(t)
+            }
+        }
         for f in from {
             removeFromBelong(from: f)
         }
-        for t in to{
-          addBelong(t)
-        }
+      
         
         let resultTo = getBelongTo()
         
@@ -400,11 +405,11 @@ class EnergyPacket : GameObject{
         
     }
     
-    private func removeSelf(){
+    func removeSelf(){
         gameLayer!.removeGameObject(self)
     }
     
-    func deleteSelf () {
+    override func deleteSelf () {
         sprite!.runAction( SKAction.fadeOutWithDuration(0.1), completion: self.removeSelf)
         getBelongTo()!.removePacketRef(self)
         deleted = true

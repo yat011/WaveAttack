@@ -39,8 +39,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var contactMap = [EnergyPacket : ContactContainer]()
     var playRect : CGRect? = nil  //showSize
     var gameArea : CGRect? = nil    //game Rect
-    var mission : Mission? = nil
     
+    var mission : Mission? = nil
+    var lenOfMission : Int  = 0
+    var currentMission : Int = 0
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
@@ -60,7 +62,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let psize  = CGSize(width: size.width, height: size.height / 2)
         playRect  = CGRect(origin: pPos, size: psize)
       
-        
+        lenOfMission = mission!.missions.count
         
         gameLayer = GameLayer(subMission: mission!.missions[0], gameScene: self)
         gameLayer!.position = pPos
@@ -70,15 +72,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         backgroundColor = SKColor.whiteColor()
       
         
-       initGameLayer()
+        
         initControlLayer()
-      //  addObjectsToNode(gameLayer, attackPhaseObjects)
        self.addChild(gameLayer!)
         self.addChild(controlLayer)
         self.addChild(infoLayer)
         self.addChild(tapTimer)
         currentStage = GameStage.Attack
         physicsWorld.contactDelegate = self
+        createMissionLabel(currentMission + 1)
     }
 
   
@@ -90,34 +92,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initGameLayer() -> (){
-     
-        
-        // add boundary
-        
-     /*   let phys  = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2)  )
-        phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
-        
-        gameLayer.physicsBody = phys
-*/
-       // var p1 = NormalEnergyPacket(100, position: CGPoint(x: 0, y: 50))
-       // attackPhaseObjects.append(p1)
-        for i in 6...6  {
-            var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
-            tempx = tempx * CGFloat(i) + 10
-            
-            let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
-            p1.direction = CGVector(dx: 0, dy: 1)
-            p1.gameLayer = gameLayer
-            p1.pushBelongTo(gameLayer!.background!)
-            gameLayer!.addGameObject(p1)
-            
-
-        }
-      
-
-        
-    }
     
     func initControlLayer() -> (){
         controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
@@ -549,10 +523,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touching && isTap){
-            for i in 0...10{
+            for i in 1...10{
                 var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
                 tempx = tempx * CGFloat(i) + 10
-                let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
+                let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
                 p1.direction = CGVector(dx: 0, dy: 1)
                 p1.gameLayer = gameLayer
                 p1.pushBelongTo(gameLayer!.background!)
@@ -589,28 +563,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         default:
             break
         }
-        //////print(currentTime - lastTimeStamp)
-        if (countFrame % 30 == 0 && countFrame < 1000){
-            switch (currentStage){
-            case .Attack:
-                
-                for i in 0...10{
-                    var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
-                    tempx = tempx * CGFloat(i) + 10
-                    let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
-                    p1.direction = CGVector(dx: 0, dy: 1)
-                    p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer!.background!)
-                  // gameLayer.addGameObject(p1)
-                  
-                }
-                break
-            default:
-                break
-            }
 
-        }
-        
       
         
         countFrame += 1
@@ -642,6 +595,43 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
+    //
+    func completeSubMission(){
+        currentMission += 1
+        
+        if (currentMission >= mission?.missions.count){
+            createFlashLabel("Mission Complete")
+            return
+        }
+       createMissionLabel(currentMission + 1)
+        
+        var pPos = self.gameLayer!.position
+        self.gameLayer!.deleteSelf()
+        gameLayer!.removeFromParent()
+        gameLayer = GameLayer(subMission: (mission?.missions[currentMission])!, gameScene: self)
+        gameLayer!.position = pPos
+        self.addChild(gameLayer!)
+    }
+    func createMissionLabel(current : Int){
+
+        createFlashLabel("Mission \(current)/\(mission!.missions.count)")
+
+    
+    }
+    func createFlashLabel(text : String){
+        var label = SKLabelNode(text: text)
+        label.position = CGPoint(x: self.size.width / 2, y: 500)
+        label.fontName = "Helvetica"
+        var seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
+        
+        self.addChild(label)
+        label.runAction(SKAction.sequence(seq), completion :
+            { () -> () in
+                label.removeFromParent()
+        })
+        
+        
+    }
     
 }
 

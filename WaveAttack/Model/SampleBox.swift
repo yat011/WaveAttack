@@ -22,7 +22,7 @@ class SampleBox : DestructibleObject {
             exit(1)
         }
         
-        self.propagationSpeed = 7
+        self.propagationSpeed = 5
         self.collisionAbsorption = 50
         self.gameScene = gameScene
         self.sprite!.size = size

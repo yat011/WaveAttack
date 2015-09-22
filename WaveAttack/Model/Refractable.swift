@@ -34,7 +34,9 @@ extension Refractable where Self: EnergyPacket{
                     self.gameLayer!.addGameObject(reflect.doReflection(from: from, to: to, contact: contact)!)
                     
                 }*/
-                self.deleteSelf()
+                //self.deleteSelf()
+                var packet = self as EnergyPacket
+                packet.deleteSelf()
                 return 0
             }else{ //
                 var out = c * self.direction

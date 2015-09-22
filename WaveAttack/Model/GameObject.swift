@@ -30,6 +30,11 @@ class GameObject : NSObject {
         self.gameScene = gameScene
     }
     
+    func deleteSelf(){
+        
+    }
+    
+    
 }
 
 func ==(lhs: GameObject, rhs: GameObject) -> Bool {

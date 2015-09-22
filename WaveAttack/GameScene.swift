@@ -47,7 +47,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     override init(size: CGSize) {
         let ph: CGFloat = size.height / 2
         let pPos = CGPoint(x: 0, y : ph)
-        var psize  = CGSize(width: size.width, height: size.height / 2)
+        var psize  = CGSize(width: size.width, height: size.height / 4)
         playRect  = CGRect(origin: pPos, size: psize)
        gameLayer = GameLayer(size: psize)
         gameLayer.position = pPos
@@ -102,7 +102,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
 
         }
-      
+        let UIW = UIWave(size: CGSize(width: 200,height: 50), position: CGPoint(x: 100,y: 25))
+        gameLayer.addGameObject(UIW)
 
         
     }

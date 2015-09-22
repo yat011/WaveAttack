@@ -76,6 +76,7 @@ class GameLayer : SKNode{
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         // box.getSprite()!.zPosition = -1
         addGameObject(box)
+        
 
         
     }

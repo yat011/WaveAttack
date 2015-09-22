@@ -35,11 +35,14 @@ class SubMission{
             var width : CGFloat = CGFloat((dict["width"]! as NSString).floatValue)
             var height : CGFloat = CGFloat((dict["height"]! as NSString).floatValue)
             var bTarget : Bool = false
+            
+            
             if let target = dict["target"]{
                 if target == "true"{
                     bTarget = true
                 }
             }
+            
             
             medium.initialize(CGSize(width: width, height: height), position: CGPoint(x: x, y: y), gameScene: gameScene)
             if (medium is DestructibleObject){
@@ -48,6 +51,9 @@ class SubMission{
                 if let hpStr = dict["hp"] {
                     des.hp = CGFloat((hpStr as NSString).floatValue)
                 }
+            }
+            if let rotation  = dict["rotation"]{
+                medium.getSprite()!.runAction(SKAction.rotateByAngle(CGFloat((rotation as NSString).floatValue), duration: 0))
             }
             medium.zIndex = zIndex
             sub.objects.append(medium)

@@ -50,18 +50,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         //updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
         // load mission
-        self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))
+        self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
         mission =  Mission.loadMission(1,gameScene: self)
         
         
         //-------------------------
-        
         let ph: CGFloat = size.height / 2
         let pPos = CGPoint(x: 0, y : ph)
         let psize  = CGSize(width: size.width, height: size.height / 2)
         playRect  = CGRect(origin: pPos, size: psize)
-        gameLayer = GameLayer(size: psize, gameScene: self)
+      
+        
+        
+        gameLayer = GameLayer(subMission: mission!.missions[0], gameScene: self)
         gameLayer!.position = pPos
+        
+        
+        
         backgroundColor = SKColor.whiteColor()
       
         
@@ -526,8 +531,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func scrollGameLayer(movement : CGFloat){
+        //print(gameArea)
+        
         var newY = gameLayer!.position.y + movement
-        let diff = gameLayer!.gameArea.height - playRect!.size.height
+        let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
         
         if newY < lowerBound{

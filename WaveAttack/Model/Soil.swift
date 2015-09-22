@@ -20,7 +20,7 @@ class Soil : Medium {
         propagationSpeed = 10
         
         
-        self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height)))
+        self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: gameScene.gameArea!.size))
         
         let phys = SKPhysicsBody(rectangleOfSize: size, center: CGPoint(x: size.width / 2, y: size.height / 2))
         phys.categoryBitMask = CollisionLayer.Medium.rawValue

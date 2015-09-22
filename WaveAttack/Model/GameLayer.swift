@@ -15,17 +15,19 @@ class GameLayer : SKNode{
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
-    var gameArea = CGRect()
-    var size : CGSize
-    init(size : CGSize, gameScene : GameScene) {
-        self.size = size
-       
+   // var gameArea = CGRect()
+    var subMission: SubMission? = nil
+    weak var gameScene: GameScene? = nil
+    init(subMission : SubMission, gameScene : GameScene) {
+        
+       self.subMission = subMission
+        self.gameScene = gameScene
         super.init()
-         gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
-        background = Soil(size: gameArea.size, position: CGPoint(x: 0,y: 0), gameScene: gameScene)
-        print(background!.getSprite()!)
+         //gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
+        background = subMission.terrain
+       // print(background!.getSprite()!)
         self.addChild(background!.getSprite()!)
-        print ("upper screen size \(gameArea))")
+       // print ("upper screen size \(gameArea))")
        // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         
       
@@ -62,8 +64,13 @@ class GameLayer : SKNode{
         */
 
         
+        for medium in subMission.objects{
+            addGameObject(medium)
+        }
+
+
        
-        
+       /*
         
         //test box
         var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 150, y: 160), gameScene: gameScene)
@@ -77,6 +84,7 @@ class GameLayer : SKNode{
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         // box.getSprite()!.zPosition = -1
         addGameObject(box)
+*/
 
         
     }

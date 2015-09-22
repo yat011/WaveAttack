@@ -14,9 +14,9 @@ class SampleBox : DestructibleObject {
     var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "box")
     override var path: CGPath? { get{ return _path}}
     var _path : CGPath? = nil
-    init(size : CGSize , position : CGPoint){
     
-        super.init()
+    
+    override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if sprite == nil {
             print("sprite == nil")
             exit(1)
@@ -24,12 +24,16 @@ class SampleBox : DestructibleObject {
         
         self.propagationSpeed = 7
         self.collisionAbsorption = 50
-        
+        self.gameScene = gameScene
         self.sprite!.size = size
         self.sprite!.position = position
         self.sprite!.gameObject = self
         createPhysicsBody(self.sprite!)
     }
+    
+    
+    
+    
     
     private func createPhysicsBody(sprite :  SKSpriteNode){
        // print (sprite.frame.size)

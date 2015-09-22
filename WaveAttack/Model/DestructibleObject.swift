@@ -16,6 +16,9 @@ class DestructibleObject : Medium {
     var scaleX: CGFloat  = 1
     var scaleY : CGFloat = 1
     var totDmg: CGFloat = 0
+    var disappearThreshold: CGFloat = -100
+    var target : Bool = false
+    
     var scaled : Bool = false
     var prevScale : CGFloat = 1
     func calculateDamage(packet : EnergyPacket){
@@ -37,10 +40,7 @@ class DestructibleObject : Medium {
         return
     }
     
-    override init(){
-        super.init()
-        getSprite()!.name = "DestructibleObj" 
-    }
+    
     
     func PathAddLineToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
         let tempx = x * scaleX
@@ -93,6 +93,24 @@ class DestructibleObject : Medium {
             shaking()
         }
         totDmg = 0
+        if (hp < disappearThreshold){
+            //destory self and inside packet
+            destorySelf()
+        }
+        
+        
+    }
+    
+    
+    func destorySelf(){
+        for obj in self.packets{
+            if (obj.deleted == false){
+                obj.deleteSelf()
+            }
+        }
+        
+        self.gameScene!.gameLayer!.removeGameObject(self)
+        
     }
     
     

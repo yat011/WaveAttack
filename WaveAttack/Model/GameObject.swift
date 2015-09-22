@@ -9,17 +9,25 @@
 import Foundation
 import SpriteKit
 
-class GameObject : Hashable, Equatable {
+class GameObject : NSObject {
     
-    var hashValue: Int { return unsafeAddressOf(self).hashValue }
+  override var hashValue: Int { return unsafeAddressOf(self).hashValue }
+    weak var gameScene : GameScene? = nil
     
-    
-    public func getSprite() -> SKNode?{
+    func getSprite() -> SKNode?{
         return nil;
     }
     
-    public func update() -> (){
+    func update() -> (){
         
+    }
+    
+    override init(){
+        super.init()
+    }
+    
+    init(_ gameScene :GameScene){
+        self.gameScene = gameScene
     }
     
 }

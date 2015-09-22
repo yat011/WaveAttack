@@ -30,6 +30,10 @@
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
+		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
+		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
+		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
+		54F8D8941BB05879009E9654 /* SubMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8931BB05879009E9654 /* SubMission.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +83,10 @@
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
+		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
+		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
+		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
+		54F8D8931BB05879009E9654 /* SubMission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubMission.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +137,7 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
+				54F8D8871BB03AAE009E9654 /* mission */,
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
 				54553E331BA6F3E400A38B18 /* Common */,
@@ -167,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				54553E341BA6F3F700A38B18 /* Extension.swift */,
+				54F8D8881BB04271009E9654 /* GameObjectFactory.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -191,6 +201,8 @@
 				54553E311BA5C3A900A38B18 /* CustomSKNode.swift */,
 				54553E361BA6FCD400A38B18 /* DestructibleObject.swift */,
 				54553E381BA6FD6000A38B18 /* SampleBox.swift */,
+				54F8D8911BB05719009E9654 /* Mission.swift */,
+				54F8D8931BB05879009E9654 /* SubMission.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,6 +215,14 @@
 				54A611931BA8212C009299A6 /* Cloneable.swift */,
 			);
 			name = Protocol;
+			sourceTree = "<group>";
+		};
+		54F8D8871BB03AAE009E9654 /* mission */ = {
+			isa = PBXGroup;
+			children = (
+				54F8D88F1BB05444009E9654 /* mission1.json */,
+			);
+			name = mission;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +334,7 @@
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
+				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,13 +366,16 @@
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
+				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
 				54553E301BA5C22900A38B18 /* Soil.swift in Sources */,
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
+				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
+				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,

@@ -30,41 +30,48 @@ enum TouchType {
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
-    var gameLayer :GameLayer
+    var gameLayer :GameLayer? = nil
     var infoLayer = SKNode()
     var controlLayer : SKShapeNode = SKShapeNode()
     var currentStage : GameStage = GameStage.Superposition
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
     var contactMap = [EnergyPacket : ContactContainer]()
-    var playRect : CGRect? = nil
-    
-    
+    var playRect : CGRect? = nil  //showSize
+    var gameArea : CGRect? = nil    //game Rect
+    var mission : Mission? = nil
     
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
     override init(size: CGSize) {
-        let ph: CGFloat = size.height / 2
-        let pPos = CGPoint(x: 0, y : ph)
-        var psize  = CGSize(width: size.width, height: size.height / 2)
-        playRect  = CGRect(origin: pPos, size: psize)
-       gameLayer = GameLayer(size: psize)
-        gameLayer.position = pPos
+        
         
         //updateTimeInterval = 1.0 / fixedFps
         super.init(size: size)
+        // load mission
+        self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))
+        mission =  Mission.loadMission(1,gameScene: self)
         
+        
+        //-------------------------
+        
+        let ph: CGFloat = size.height / 2
+        let pPos = CGPoint(x: 0, y : ph)
+        let psize  = CGSize(width: size.width, height: size.height / 2)
+        playRect  = CGRect(origin: pPos, size: psize)
+        gameLayer = GameLayer(size: psize, gameScene: self)
+        gameLayer!.position = pPos
         backgroundColor = SKColor.whiteColor()
       
         
        initGameLayer()
         initControlLayer()
       //  addObjectsToNode(gameLayer, attackPhaseObjects)
-       self.addChild(gameLayer)
+       self.addChild(gameLayer!)
         self.addChild(controlLayer)
         self.addChild(infoLayer)
-        
+        self.addChild(tapTimer)
         currentStage = GameStage.Attack
         physicsWorld.contactDelegate = self
     }
@@ -94,11 +101,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
             tempx = tempx * CGFloat(i) + 10
             
-            let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+            let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
-            p1.pushBelongTo(gameLayer.background!)
-          gameLayer.addGameObject(p1)
+            p1.pushBelongTo(gameLayer!.background!)
+            gameLayer!.addGameObject(p1)
             
 
         }
@@ -137,14 +144,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
-    func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit exit: Bool) -> Bool{
+    func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit: Bool) -> Bool{
         
         ////print(medium.path)
         ////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
         //print (contact.contactNormal)
-        var conPos = medium.getSprite()!.convertPoint(packet.sprite.position, fromNode: gameLayer)
+        var conPos = medium.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
         // //print(CGPathContainsPoint(medium.path, nil,temp , true))
-        var toward: CGVector = contact.contactPoint - (packet.sprite.position + gameLayer.position)
+        var toward: CGVector = contact.contactPoint - (packet.sprite!.position + gameLayer!.position)
         toward.normalize()
         var contactPt = medium.getSprite()!.convertPoint(contact.contactPoint, fromNode: self)
         
@@ -173,7 +180,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 contact.contactNormal = -1 * contact.contactNormal
             }
         }
-        if (contact.contactNormal.dot(packet.direction) > 0 ){
+        var product = contact.contactNormal.dot(packet.direction)
+        if (product >= 0 ){
             return false
         }else{
             return true
@@ -238,7 +246,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     
                     //contact.contactNormal =  -1 * contact.contactNormal
                     return false
-                    
+        
                 }
             }else {
                 return false
@@ -450,7 +458,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
-    func removeGameObjectFromList (var ls: [GameObject], obj obj :GameObject) ->(){
+    func removeGameObjectFromList (var ls: [GameObject], obj :GameObject) ->(){
         for i in 0...(ls.count - 1){
             if (ls[i] === obj){
                 ls.removeAtIndex(i)
@@ -460,7 +468,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func addObjectsToNode (_ parent : SKNode, _ children : [GameObject])->(){
+    func addObjectsToNode (parent : SKNode, _ children : [GameObject])->(){
         for obj in children{
             if let temp = obj.getSprite(){
                 parent.addChild(temp)
@@ -472,17 +480,27 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var touching : Bool = false
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
+    var isTap : Bool = false
+    var tapTimer : SKNode = SKNode()
+    func overTap() {
+        isTap = false
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
             if let touch = touches.first  {
                touching  = true
-                var touchDown =  touch.locationInNode(self)
-               
-                if (CGRectContainsPoint(playRect!, touchDown)){
-                        touchType = TouchType.gameArea
-                        prevTouchPoint = touchDown
-                }
+                    isTap = true
+                    tapTimer.runAction(SKAction.waitForDuration(0.05),completion: overTap )
+                
+                    let touchDown =  touch.locationInNode(self)
+                   
+                    if (CGRectContainsPoint(playRect!, touchDown)){
+                            touchType = TouchType.gameArea
+                            prevTouchPoint = touchDown
+                    }
+                
                 
             }
         }
@@ -495,10 +513,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         if (touches.count > 0 ) {//drag
             if let touch = touches.first {
                 if (touchType! == TouchType.gameArea){
-                    var newPt = touch.locationInNode(self)
-                    var diff :CGVector =  prevTouchPoint! - newPt
+                    let newPt = touch.locationInNode(self)
+                    let diff :CGVector =  prevTouchPoint! - newPt
                     prevTouchPoint  = newPt
-                    var moveY = diff.dy
+                    let moveY = diff.dy * 2
                     scrollGameLayer(moveY)
               
                     
@@ -508,9 +526,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func scrollGameLayer(movement : CGFloat){
-        var newY = gameLayer.position.y + movement
-        var diff = gameLayer.gameArea.height - playRect!.size.height
-        var lowerBound = playRect!.origin.y - diff
+        var newY = gameLayer!.position.y + movement
+        let diff = gameLayer!.gameArea.height - playRect!.size.height
+        let lowerBound = playRect!.origin.y - diff
         
         if newY < lowerBound{
             newY = lowerBound
@@ -518,16 +536,31 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             newY = playRect!.origin.y
         }
         //gameLayer.position.y = newY
-        gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
+        gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
     }
     
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (touching && isTap){
+            for i in 0...10{
+                var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
+                tempx = tempx * CGFloat(i) + 10
+                let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
+                p1.direction = CGVector(dx: 0, dy: 1)
+                p1.gameLayer = gameLayer
+                p1.pushBelongTo(gameLayer!.background!)
+                gameLayer!.addGameObject(p1)
+                
+            }
+        }
+        
+        tapTimer.removeAllActions()
         touching = false
         touchType = nil
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+         tapTimer.removeAllActions()
         touching = false
         touchType = nil
     }
@@ -557,16 +590,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 for i in 0...10{
                     var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
                     tempx = tempx * CGFloat(i) + 10
-                    var p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                    let p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
                     p1.direction = CGVector(dx: 0, dy: 1)
                     p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer.background!)
-                   gameLayer.addGameObject(p1)
-                    p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
-                    p1.direction = CGVector(dx: 0, dy: 1)
-                    p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer.background!)
-                    gameLayer.addGameObject(p1)
+                    p1.pushBelongTo(gameLayer!.background!)
+                  // gameLayer.addGameObject(p1)
+                  
                 }
                 break
             default:
@@ -594,11 +623,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
    
     
     func attackPhaseUpdate (currentTime: CFTimeInterval){
-        gameLayer.update(currentTime)
+        gameLayer!.update(currentTime)
     }
     
     
-    func getMediumFromBodyB (_ contact : SKPhysicsContact) -> Medium? {
+    func getMediumFromBodyB (contact : SKPhysicsContact) -> Medium? {
         if ( contact.bodyB.node?.parent == nil){
             return nil
         }
@@ -609,47 +638,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
 }
 
-/*
-extension SKNode {
-    class func unarchiveFromFile(file : String) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
-            var sceneData = NSData(contentsOfFile: file)
-            var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData!)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! SKScene
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-}
 
-extension SKScene{
-    
-    
-    
-    override class func unarchiveFromFile(file : String) -> SKNode? {
-        if let sc : GameScene = super.unarchiveFromFile(file) as! GameScene{
-            var p1 = NormalEnergyPacket(100,position: CGPoint(x: 300, y: 300))
-            var p2 = NormalEnergyPacket(200,position: CGPoint(x: 300, y: 300))
-            sc.attackPhaseObjects.append(p1)
-            sc.attackPhaseObjects.append(p2)
-            
-            // addObjectsToNode(gameLayer, attackPhaseObjects )
-            p1.getSprite()!.position = CGPoint(x: 10, y: 10)
-            ////print(p1.getSprite())
-            sc.gameLayer.addChild(p1.getSprite()!)
-            sc.addChild(sc.gameLayer)
-            return sc
-
-        }
-        return nil
-    }
-    
-}
-*/
 
 class ContactContainer {
     var outOfArea : Bool = false

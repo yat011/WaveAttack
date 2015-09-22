@@ -57,3 +57,41 @@ public func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint{
     return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
 }
 
+
+
+extension Dictionary {
+    static func loadJSONFromBundle(filename: String) -> Dictionary<String, AnyObject>? {
+        var res : Dictionary<String, AnyObject>? = nil
+        if let path = NSBundle.mainBundle().pathForResource(filename, ofType: "json") {
+            
+            do{
+                let data = try NSData(contentsOfFile: path, options: NSDataReadingOptions())
+                
+                
+                
+                
+                let dictionary = try NSJSONSerialization.JSONObjectWithData(data,options: NSJSONReadingOptions())
+                print (dictionary)
+                res = dictionary  as! Dictionary<String, AnyObject>
+                return res
+                
+                
+                
+            }
+            catch {
+                print("Could not load level file: \(filename) ")
+                return nil
+            }
+        } else {
+            print("Could not find level file: \(filename)")
+            return nil
+        }
+        return nil
+    }
+    
+}
+
+
+
+
+

@@ -17,12 +17,13 @@ class GameLayer : SKNode{
     var attackPhaseObjects = Set<GameObject>()
     var gameArea = CGRect()
     var size : CGSize
-    init(size : CGSize) {
+    init(size : CGSize, gameScene : GameScene) {
         self.size = size
        
         super.init()
          gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
-        background = Soil(size: gameArea.size)
+        background = Soil(size: gameArea.size, position: CGPoint(x: 0,y: 0), gameScene: gameScene)
+        print(background!.getSprite()!)
         self.addChild(background!.getSprite()!)
         print ("upper screen size \(gameArea))")
        // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
@@ -61,16 +62,16 @@ class GameLayer : SKNode{
         */
 
         
-        
+       
         
         
         //test box
-        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 150, y: 160))
+        var box = SampleBox(size: CGSize(width: 200,height: 100), position: CGPoint(x: 150, y: 160), gameScene: gameScene)
         
        // box.getSprite()!.zPosition = -1
         //box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
         addGameObject(box)
-        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 500))
+        box = SampleBox(size: CGSize(width: 200,height: 80), position: CGPoint(x: 250, y: 500), gameScene: gameScene)
         box.propagationSpeed = 3
         box.zIndex = 1
         box.getSprite()!.runAction(SKAction.rotateByAngle(-1, duration: 0))
@@ -115,5 +116,7 @@ class GameLayer : SKNode{
             obj.update()
         }
     }
-    
+   
 }
+
+

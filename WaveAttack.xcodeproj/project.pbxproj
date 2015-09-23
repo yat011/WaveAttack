@@ -30,8 +30,9 @@
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
-		5FB05BBF1BAFB6C400D998CC /* UIWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWave.swift */; settings = {ASSET_TAGS = (); }; };
-		5FB05BC11BAFC97900D998CC /* UIScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UIScene.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,8 +82,9 @@
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
-		5FB05BBE1BAFB6C400D998CC /* UIWave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWave.swift; path = Model/UIWave.swift; sourceTree = "<group>"; };
-		5FB05BC01BAFC97900D998CC /* UIScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScene.swift; sourceTree = "<group>"; };
+		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
+		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
+		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,8 +215,9 @@
 		5FB05BC21BB1A8F300D998CC /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				5FB05BBE1BAFB6C400D998CC /* UIWave.swift */,
-				5FB05BC01BAFC97900D998CC /* UIScene.swift */,
+				5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */,
+				5FB05BC01BAFC97900D998CC /* UINode.swift */,
+				5FB05BC31BB2473B00D998CC /* UIButton.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -355,10 +358,11 @@
 			files = (
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
-				5FB05BC11BAFC97900D998CC /* UIScene.swift in Sources */,
+				5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
+				5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
@@ -366,7 +370,7 @@
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
-				5FB05BBF1BAFB6C400D998CC /* UIWave.swift in Sources */,
+				5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,

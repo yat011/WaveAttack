@@ -47,7 +47,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     override init(size: CGSize) {
         let ph: CGFloat = size.height / 2
         let pPos = CGPoint(x: 0, y : ph)
-        var psize  = CGSize(width: size.width, height: size.height / 4)
+        var psize  = CGSize(width: size.width, height: size.height / 2)
         playRect  = CGRect(origin: pPos, size: psize)
        gameLayer = GameLayer(size: psize)
         gameLayer.position = pPos
@@ -102,8 +102,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
 
         }
-        let UIW = UIWave(size: CGSize(width: 200,height: 50), position: CGPoint(x: 100,y: 25))
-        gameLayer.addGameObject(UIW)
 
         
     }
@@ -113,6 +111,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         controlLayer.fillColor = SKColor.blueColor()
         controlLayer.zPosition = 100
         
+        let UIN = UINode(position: CGPoint(x: 100,y: 0))
+        self.addChild(UIN)
     }
     
     
@@ -252,7 +252,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func tryFindEnergyPacket(_ sk : SKNode?, other other : SKNode?, contact nativeContact :SKPhysicsContact) -> Bool {
+    func tryFindEnergyPacket(sk : SKNode?, other other : SKNode?, contact nativeContact :SKPhysicsContact) -> Bool {
         var contact = ContactInfo(nativeContact)
         var packet: EnergyPacket? = nil
         if (sk is HasGameObject){
@@ -461,7 +461,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func addObjectsToNode (_ parent : SKNode, _ children : [GameObject])->(){
+    func addObjectsToNode (parent : SKNode, _ children : [GameObject])->(){
         for obj in children{
             if let temp = obj.getSprite(){
                 parent.addChild(temp)
@@ -599,7 +599,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func getMediumFromBodyB (_ contact : SKPhysicsContact) -> Medium? {
+    func getMediumFromBodyB (contact : SKPhysicsContact) -> Medium? {
         if ( contact.bodyB.node?.parent == nil){
             return nil
         }

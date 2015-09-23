@@ -97,7 +97,7 @@ class EnergyPacket : GameObject{
     func popBelongTo() -> Medium?{
         return belongTo.removeLast()
     }
-    func pushBelongTo(_ m: Medium)->(){
+    func pushBelongTo(m: Medium)->(){
         belongTo.append(m)
     }
     

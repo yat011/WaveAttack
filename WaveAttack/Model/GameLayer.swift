@@ -97,14 +97,14 @@ class GameLayer : SKNode{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addGameObject(_ obj : GameObject){
+    func addGameObject(obj : GameObject){
         attackPhaseObjects.insert(obj)
         if (obj.getSprite() != nil){
             self.addChild(obj.getSprite()!)
         }
     }
     
-    func removeGameObject (_ obj : GameObject){
+    func removeGameObject (obj : GameObject){
         attackPhaseObjects.remove(obj)
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()

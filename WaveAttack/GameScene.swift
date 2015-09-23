@@ -499,7 +499,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     var newPt = touch.locationInNode(self)
                     var diff :CGVector =  prevTouchPoint! - newPt
                     prevTouchPoint  = newPt
-                    var moveY = diff.dy
+                    var moveY = -diff.dy
                     scrollGameLayer(moveY)
               
                     

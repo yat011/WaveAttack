@@ -14,6 +14,7 @@ class UIWaveButton : UIButton {
      override init(size : CGSize , position : CGPoint){
         super.init(size: size, position: position)
         self.texture = SKTexture(imageNamed: "box")
+        self.name="WaveButton"
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -112,7 +112,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         controlLayer.zPosition = 100
         
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0))
-        UIN.name = "UINode"
         self.addChild(UIN)
         UIN.zPosition=101
     }
@@ -495,7 +494,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             //check clicked on Button
             if (CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c))!))
             {
-                
+                //do action
                 break
             }
         }

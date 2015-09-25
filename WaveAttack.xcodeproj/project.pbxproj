@@ -33,6 +33,8 @@
 		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC71BB5516800D998CC /* TextureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC61BB5516800D998CC /* TextureGenerator.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC91BB5535C00D998CC /* UIWaveButtonTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
 		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		5FB05BC61BB5516800D998CC /* TextureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureGenerator.swift; sourceTree = "<group>"; };
+		5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWaveButtonTexture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +139,7 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
+				5FB05BC51BB5501A00D998CC /* Wave */,
 				5FB05BC21BB1A8F300D998CC /* UI */,
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
@@ -218,8 +223,17 @@
 				5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */,
 				5FB05BC01BAFC97900D998CC /* UINode.swift */,
 				5FB05BC31BB2473B00D998CC /* UIButton.swift */,
+				5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		5FB05BC51BB5501A00D998CC /* Wave */ = {
+			isa = PBXGroup;
+			children = (
+				5FB05BC61BB5516800D998CC /* TextureGenerator.swift */,
+			);
+			name = Wave;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
+				5FB05BC71BB5516800D998CC /* TextureGenerator.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
@@ -368,6 +383,7 @@
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
 				54553E301BA5C22900A38B18 /* Soil.swift in Sources */,
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
+				5FB05BC91BB5535C00D998CC /* UIWaveButtonTexture.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */,

@@ -11,10 +11,18 @@ import SpriteKit
 
 class UIWaveButton : UIButton {
     
+    let pet:String = ""
+    //let WaveData
+    
+    
      override init(size : CGSize , position : CGPoint){
         super.init(size: size, position: position)
-        self.texture = SKTexture(imageNamed: "box")
         self.name="WaveButton"
+        
+        let tileTexture = UIWaveButtonTexture(texture: SKTexture(imageNamed: "box"), color: UIColor.clearColor(), size: self.size)
+        self.addChild(tileTexture)
+        self.addChild(tileTexture)
+        self.addChild(tileTexture)
     }
 
     required init?(coder aDecoder: NSCoder) {

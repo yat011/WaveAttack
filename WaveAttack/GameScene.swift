@@ -492,8 +492,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         for c in (self.childNodeWithName("UINode")?.children)!
         {
-            //check clicked on Button
-            /*
+//check clicked on Button
+/*
             if (CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c))!))
             {
                 //do action
@@ -592,6 +592,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
         }
         
+        //smooth scrolling
         if ((dragVelocity != 0) && (touching == false))
         {
             scrollLayers(dragVelocity)

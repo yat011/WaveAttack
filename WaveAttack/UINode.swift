@@ -13,8 +13,12 @@ class UINode: SKNode{
     init(position : CGPoint){
         super.init()
         self.position = position
-        let UIWaveButton1 = UIWaveButton(size: CGSize(width: 500, height: 500), position: CGPoint(x: 0, y: 0))
-        self.addChild(UIWaveButton1)
+        for i in 1...5
+        {
+            let UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i-25))
+            UIWaveButton0.name="WaveButton"
+            self.addChild(UIWaveButton0)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

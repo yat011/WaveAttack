@@ -111,8 +111,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         controlLayer.fillColor = SKColor.blueColor()
         controlLayer.zPosition = 100
         
-        let UIN = UINode(position: CGPoint(x: 100,y: 0))
+        let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0))
+        UIN.name = "UINode"
         self.addChild(UIN)
+        UIN.zPosition=101
     }
     
     
@@ -473,6 +475,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var touching : Bool = false
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
@@ -487,7 +490,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 
             }
         }
-        
+        for c in (self.childNodeWithName("UINode")?.children)!
+        {
+            //check clicked on Button
+            if (CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c))!))
+            {
+                
+                break
+            }
+        }
+
         
     }
     

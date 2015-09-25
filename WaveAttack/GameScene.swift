@@ -474,6 +474,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var touching : Bool = false
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
+    var dragVelocity : CGFloat = 0
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
@@ -492,11 +493,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         for c in (self.childNodeWithName("UINode")?.children)!
         {
             //check clicked on Button
+            /*
             if (CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c))!))
             {
                 //do action
                 break
             }
+*/
+            print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
         }
 
         
@@ -511,15 +515,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     var diff :CGVector =  prevTouchPoint! - newPt
                     prevTouchPoint  = newPt
                     var moveY = -diff.dy
-                    scrollGameLayer(moveY)
-              
+                    scrollLayers(moveY)
+              dragVelocity=moveY
                     
                 }
             }
         }
     }
     
-    func scrollGameLayer(movement : CGFloat){
+    func scrollLayers(movement : CGFloat){
         var newY = gameLayer.position.y + movement
         var diff = gameLayer.gameArea.height - playRect!.size.height
         var lowerBound = playRect!.origin.y - diff
@@ -531,6 +535,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //gameLayer.position.y = newY
         gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
+        self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
     }
     
     
@@ -587,6 +592,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
         }
         
+        if ((dragVelocity != 0) && (touching == false))
+        {
+            scrollLayers(dragVelocity)
+            dragVelocity *= 0.9
+            if (abs(dragVelocity) < 5) {dragVelocity = 0}
+        }
       
         
         countFrame += 1

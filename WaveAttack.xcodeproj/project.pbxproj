@@ -34,6 +34,8 @@
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
 		54F8D8941BB05879009E9654 /* SubMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8931BB05879009E9654 /* SubMission.swift */; };
+		54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8951BB1D29B009E9654 /* HpBar.swift */; };
+		54F8D8981BB1D943009E9654 /* redbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D8971BB1D943009E9654 /* redbar.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
 		54F8D8931BB05879009E9654 /* SubMission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubMission.swift; sourceTree = "<group>"; };
+		54F8D8951BB1D29B009E9654 /* HpBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HpBar.swift; sourceTree = "<group>"; };
+		54F8D8971BB1D943009E9654 /* redbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbar.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,7 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54F8D8971BB1D943009E9654 /* redbar.png */,
 				54553E3B1BA6FE9200A38B18 /* box.png */,
 			);
 			name = image;
@@ -203,6 +208,7 @@
 				54553E381BA6FD6000A38B18 /* SampleBox.swift */,
 				54F8D8911BB05719009E9654 /* Mission.swift */,
 				54F8D8931BB05879009E9654 /* SubMission.swift */,
+				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -336,6 +342,7 @@
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
+				54F8D8981BB1D943009E9654 /* redbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +372,7 @@
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
+				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,

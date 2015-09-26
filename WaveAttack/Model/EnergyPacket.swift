@@ -304,7 +304,7 @@ class EnergyPacket : GameObject{
     
     //
     private func doSpecificPhysics(from from : Medium? ,to : Medium?, contact: ContactInfo?){
-        _ = 1
+       // _ = 1
         refractive = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
         refractiveRatio = 1 / refractive
         
@@ -324,7 +324,7 @@ class EnergyPacket : GameObject{
         let diff: CGFloat = CGFloat( abs( to!.collisionAbsorption - from!.collisionAbsorption))
         let energyAttenuation = diff * ( 1 + reflectRatio)
         self.energy = self.energy - energyAttenuation
-        _ = self.energy * tranRatio
+       // _ = self.energy * tranRatio
        
        
         if (self is Reflectable){

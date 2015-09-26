@@ -46,6 +46,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
+    
+    var objectHpBar : HpBar? = nil
+    
+    
     override init(size: CGSize) {
         
         
@@ -78,6 +82,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         self.addChild(controlLayer)
         self.addChild(infoLayer)
         self.addChild(tapTimer)
+        self.addChild(longTapTimer)
         currentStage = GameStage.Attack
         physicsWorld.contactDelegate = self
         createMissionLabel(currentMission + 1)
@@ -461,23 +466,46 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var prevTouchPoint : CGPoint? = nil
     var isTap : Bool = false
     var tapTimer : SKNode = SKNode()
+    var longTapTimer : SKNode = SKNode()
+    var pressedGameObject : Medium? = nil
+    
     func overTap() {
         isTap = false
     }
     
+    func longPress(){
+        if(touching){
+            if (pressedGameObject != nil){
+                print("long press on obj")
+            }
+        }
+        
+    }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
             if let touch = touches.first  {
-               touching  = true
+                    touching  = true
                     isTap = true
                     tapTimer.runAction(SKAction.waitForDuration(0.05),completion: overTap )
-                
+                    longTapTimer.runAction(SKAction.waitForDuration(1),completion: longPress)
                     let touchDown =  touch.locationInNode(self)
-                   
+                
+               
+                    
                     if (CGRectContainsPoint(playRect!, touchDown)){
-                            touchType = TouchType.gameArea
-                            prevTouchPoint = touchDown
+                        touchType = TouchType.gameArea
+                        prevTouchPoint = touchDown
+                        for gameObject in (gameLayer?.attackPhaseObjects)!{
+                            if gameObject is Medium{
+                                var medium = gameObject as! Medium
+                                var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
+                                if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
+                                    pressedGameObject = medium
+                                }
+                            }
+                            
+                        }
                     }
                 
                 
@@ -497,7 +525,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     prevTouchPoint  = newPt
                     let moveY = diff.dy * 2
                     scrollGameLayer(moveY)
-              
+                    if pressedGameObject != nil {
+                        var mediumPt = pressedGameObject!.getSprite()!.convertPoint(newPt, fromNode: self)
+                        if (CGPathContainsPoint(pressedGameObject!.path!, nil, mediumPt, true) != true){
+                            pressedGameObject = nil
+                        }
+
+                    }
                     
                 }
             }
@@ -538,12 +572,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         tapTimer.removeAllActions()
         touching = false
         touchType = nil
+        pressedGameObject = nil
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
          tapTimer.removeAllActions()
         touching = false
         touchType = nil
+        pressedGameObject = nil
     }
     
     

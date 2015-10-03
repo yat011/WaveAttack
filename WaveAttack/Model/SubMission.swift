@@ -49,7 +49,7 @@ class SubMission{
                 let des = medium as! DestructibleObject
                 des.target = bTarget
                 if let hpStr = dict["hp"] {
-                    des.hp = CGFloat((hpStr as NSString).floatValue)
+                    des.originHp = CGFloat((hpStr as NSString).floatValue)
                 }
             }
             if let rotation  = dict["rotation"]{

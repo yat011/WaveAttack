@@ -21,7 +21,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack
+    case Superposition, Attack, enemy
 }
 
 enum TouchType {
@@ -31,7 +31,8 @@ enum TouchType {
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
     var gameLayer :GameLayer? = nil
-    var infoLayer = SKNode()
+    var infoLayer : InfoLayer? = nil
+    var player : Player? = nil
     var controlLayer : SKShapeNode = SKShapeNode()
     var currentStage : GameStage = GameStage.Superposition
     var contactQueue = Array<SKPhysicsContact>()
@@ -68,9 +69,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
       
         lenOfMission = mission!.missions.count
         
-        gameLayer = GameLayer(subMission: mission!.missions[0], gameScene: self)
-        gameLayer!.position = pPos
+  
+        startSubMission(mission!.missions[0])
         
+        
+        
+        var tplayer = Player(hp: 1000)
+        self.player = tplayer
+        self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer)
         
         
         backgroundColor = SKColor.whiteColor()
@@ -78,17 +84,31 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         
         initControlLayer()
-       self.addChild(gameLayer!)
+ 
         self.addChild(controlLayer)
-        self.addChild(infoLayer)
+        self.addChild(infoLayer!)
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
-        currentStage = GameStage.Attack
         physicsWorld.contactDelegate = self
         createMissionLabel(currentMission + 1)
     }
 
-  
+    func startSubMission(subMission : SubMission){
+        if gameLayer != nil{
+            var pPos = self.gameLayer!.position
+            self.gameLayer!.deleteSelf()
+            gameLayer!.removeFromParent()
+            gameLayer = GameLayer(subMission: subMission, gameScene: self)
+            gameLayer!.position = pPos
+        }else{
+            let ph: CGFloat = size.height / 2
+            let pPos = CGPoint(x: 0, y : ph)
+            gameLayer = GameLayer(subMission: subMission, gameScene: self)
+            gameLayer!.position = pPos
+        }
+        self.addChild(gameLayer!)
+        startSuperpositionPhase()
+    }
     
     
     
@@ -113,11 +133,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
        //     ////print (contact.contactPoint)
      //////print(contact.contactNormal)
         
-    
-        
-        
-        
-        
         if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
             return
         }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
@@ -129,7 +144,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit: Bool) -> Bool{
-        
+        if (packet.deleted){
+            return false
+        }
         ////print(medium.path)
         ////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
         //print (contact.contactNormal)
@@ -139,21 +156,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         toward.normalize()
         var contactPt = medium.getSprite()!.convertPoint(contact.contactPoint, fromNode: self)
         
-       /*
-        if(exit == false){
-            
-        
-    
-            print("contactPt:\(CGPathContainsPoint(medium.path, nil, contactPt, true)) pos:\(CGPathContainsPoint(medium.path, nil, conPos, true)) \(contact.contactNormal.dot(packet.direction))|| \(contact.contactNormal.dot(toward))|| contactPt \(contactPt) pos\(conPos) || vec \(packet.sprite.physicsBody!.velocity) || normal: \(contact.contactNormal) toward:\(toward)" )
- 
-            
-            if (contact.contactNormal.dot(packet.direction) > 0 ){
-               // print (packet.sprite.physicsBody!.allContactedBodies())
-                return false
-            }
-        }
-*/
-        //print (toward.dot(packet.direction))
+      
        
         if (exit){
             if (CGPathContainsPoint(medium.path, nil, conPos, true)==false){ //some fix
@@ -172,73 +175,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
        
         
-        
-       /*
-        if (exit == true){
-            var dot = packet.direction.dot(contact.contactNormal)
-            if (dot < 0){
-                
-                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
-                    packet.lastContactInfo = contact
-                    packet.lastContains = true
-                    packet.lastDirection = packet.direction
-                    packet.lastPosition = packet.sprite.position
-                    
-                    return true
-                }else{
-                    fatalError("bug")
-                    return false
-                }
-            }else if dot > 0 {
-                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
-                    return false
-                }else{
-                    fatalError("bug")
-                    return false
-                }
-            }else {
-                return false
-            }
-            
-        }else{ // enter
-            var dot = packet.direction.dot(contact.contactNormal)
-          
-            if (dot < 0){
-                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
-                 //   fatalError("bug")
-                    return false
-                }else{
-                    packet.lastContactInfo = contact
-                    packet.lastContains = false
-                    packet.lastDirection = packet.direction
-                    packet.lastPosition = packet.sprite.position
-                 /*
-                    if (packet.justExit ){
-                        print("enter again")
-                    }
-*/
-                    return true
-                }
-            }else if dot > 0 {
-                if (CGPathContainsPoint(medium.path, nil, conPos, true)){ // not valid
-                    //print("bug")
-                    //fatalError("bug")
-                    return false
-                }else{
-                    
-                  
-                    
-                    //contact.contactNormal =  -1 * contact.contactNormal
-                    return false
-        
-                }
-            }else {
-                return false
-            }
-            
-
-        }
-*/
+      
         return false
     }
     
@@ -319,21 +256,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     
     func didEndContact(contact: SKPhysicsContact) {
-   /*     ////print ("end A : \(contact.bodyA.node!.name) , B : \(contact.bodyB.node!.name) ")
-        ////print(contact.contactNormal)
-         ////print (contact.contactPoint)
-        if  let temp  = contact.bodyA.node as? HasGameObject{
-            if  let obj = (temp.gameObject) {
-                if (contactMap[obj] != nil){
-                    contactMap[obj]!.enter.append(contact)
-                }else{
-                    let temp2 = ContactContainer()
-                    temp2.enter.append(contact)
-                    contactMap[obj] = temp2
-                    
-                }
-            }
-        }*/
+   
     }
     
     
@@ -345,69 +268,28 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
             
             if (wrapper.outOfArea == true){
-                //do sth
-                ////print("out of Area")
-                /*
-                if (packet.belongTo.count > 1){
-                    var contact = packet.lastContactInfo
-                    var conPos = packet.getBelongTo()!.getSprite()!.convertPoint(packet.lastPosition!, fromNode: gameLayer)
-                    var temp: CGPoint = (packet.lastContactInfo?.contactPoint)! - gameLayer.position
-                    
-                    var conPos2 = packet.getBelongTo()!.getSprite()!.convertPoint(temp, fromNode: gameLayer)
-                    
-                    var conPos3 = packet.sprite.convertPoint((packet.lastContactInfo?.contactPoint)! - gameLayer.position, fromNode: gameLayer)
-                    
-                  //  print(CGPathContainsPoint(packet.getBelongTo()!.path, nil, temp, true))
-                    
-                    // //print(CGPathContainsPoint(medium.path, nil,temp , true))
-                    var toward : CGVector = contact!.contactPoint - (packet.lastPosition! + gameLayer.position )
-                    //print (toward.dot(packet.direction))
-                //    print(toward.dot(contact!.contactNormal))
-                      
-                ////    print(contact!.contactNormal.dot(packet.lastDirection!))
-                 //   print("wat")
-                    
-                }
-*/
-               
+                
                 packet.deleteSelf()
                 continue
             }
             
-            // case has enter
-            /*
-            if (wrapper.enter.count > 0){
-                if (wrapper.exit.count == 0){ // only enter -> enter other medium
-                    if (wrapper.enter.first != nil){
-                        let medium = wrapper.enter.first!.0
-                        packet.changeMedium(from: nil, to: medium, contact: wrapper.enter.first!.1)
-                        
-                    }
-                }else{ //in and out , i.e. objects are close
-                    let to = wrapper.enter.first!.0
-                    let from = wrapper.exit.first!.0
-                    packet.changeMedium(from: from, to: to, contact: wrapper.enter.first!.1)
-                    
-                }
-            }else{
-                if (wrapper.exit.count > 0){
-                    if(wrapper.exit.first != nil){
-                        let medium = wrapper.exit.first!.0
-                        packet.changeMedium(from: medium, to: nil, contact: wrapper.exit.first!.1)
-                    }
-                }
-            }
-            
-            */
+           
             var froms = Set<Medium>()
             var tos = Set<Medium>()
             var contacts = [Medium : ContactInfo]()
+           
+            
+            
+            
+            
             for (from , contact) in wrapper.exit {
                 froms.insert(from)
                 contacts[from] = contact
             }
             for (to, contact) in wrapper.enter{
                 tos.insert(to)
+               // var conPos = to.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
+                //print("pos:\(CGPathContainsPoint(to.path, nil, conPos, true))  normal: \(contact.contactNormal) " )
                 contacts[to] = contact
             }
             
@@ -415,25 +297,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
         }
         contactMap.removeAll()
-        //contactCount.removeAll()
-        
-        
-    /*    for contact in contactQueue{
-            if (contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil){
-                continue
-            }
-            if  let temp  = contact.bodyA.node as? GameSKShapeNode {
-                if  let obj = (temp.gameObject as? EnergyPacket) {
-                    //obj.getSprite()?.removeFromParent()
-                    //self.removeGameObjectFromList(self.attackPhaseObjects, obj: obj)
-                    
-                }
-                
-                
-            }
-            
-        }
-*/
+     
     }
     
     
@@ -467,20 +331,36 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var isTap : Bool = false
     var tapTimer : SKNode = SKNode()
     var longTapTimer : SKNode = SKNode()
-    var pressedGameObject : Medium? = nil
-    
+    var pressedDestObject : DestructibleObject? = nil
+    var destHpBarSize : CGSize = CGSize(width: 50, height: 10)
+    var destHpBar : HpBar? = nil
+    var clearUpNodes = Set<SKNode>()
     func overTap() {
         isTap = false
     }
     
+    
+    
     func longPress(){
         if(touching){
-            if (pressedGameObject != nil){
-                print("long press on obj")
+            if (pressedDestObject != nil){ //hp bar
+               // print("long press on obj")
+                var sprite = pressedDestObject!.getSprite()!
+               // print(sprite.position)
+                var hpbar = HpBar.createHpBar(CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 20)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
+                gameLayer?.addChild(hpbar)
+                destHpBar = hpbar
+                //clearUpNodes.insert(hpbar)
+                
             }
         }
         
     }
+    func convertTouchPointToGameAreaPoint( point: CGPoint) -> CGPoint{
+        var res : CGPoint = point - gameLayer!.position
+        return res
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
@@ -488,6 +368,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     touching  = true
                     isTap = true
                     tapTimer.runAction(SKAction.waitForDuration(0.05),completion: overTap )
+                    longTapTimer.removeAllActions()
                     longTapTimer.runAction(SKAction.waitForDuration(1),completion: longPress)
                     let touchDown =  touch.locationInNode(self)
                 
@@ -496,12 +377,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     if (CGRectContainsPoint(playRect!, touchDown)){
                         touchType = TouchType.gameArea
                         prevTouchPoint = touchDown
-                        for gameObject in (gameLayer?.attackPhaseObjects)!{
-                            if gameObject is Medium{
-                                var medium = gameObject as! Medium
+                        for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
+                            if gameObject is DestructibleObject{
+                                var medium = gameObject as! DestructibleObject
                                 var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
                                 if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
-                                    pressedGameObject = medium
+                                    pressedDestObject = medium
                                 }
                             }
                             
@@ -525,10 +406,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     prevTouchPoint  = newPt
                     let moveY = diff.dy * 2
                     scrollGameLayer(moveY)
-                    if pressedGameObject != nil {
-                        var mediumPt = pressedGameObject!.getSprite()!.convertPoint(newPt, fromNode: self)
-                        if (CGPathContainsPoint(pressedGameObject!.path!, nil, mediumPt, true) != true){
-                            pressedGameObject = nil
+                    if pressedDestObject != nil { //long pressed object
+                        var mediumPt = pressedDestObject!.getSprite()!.convertPoint(newPt, fromNode: self)
+                        if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
+                            pressedDestObject = nil
+                            destHpBar?.removeFromParent()
+                            destHpBar = nil
                         }
 
                     }
@@ -557,33 +440,40 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touching && isTap){
-            for i in 1...10{
-                var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
-                tempx = tempx * CGFloat(i) + 10
-                let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
-                p1.direction = CGVector(dx: 0, dy: 1)
-                p1.gameLayer = gameLayer
-                p1.pushBelongTo(gameLayer!.background!)
-                gameLayer!.addGameObject(p1)
-                
+            if self.currentStage == GameStage.Superposition{
+                tempCreatePacket()
+                startAttackPhase()
             }
         }
-        
-        tapTimer.removeAllActions()
-        touching = false
-        touchType = nil
-        pressedGameObject = nil
+       clearTouch()
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-         tapTimer.removeAllActions()
-        touching = false
-        touchType = nil
-        pressedGameObject = nil
+        clearTouch()
     }
     
+    func clearTouch (){
+        tapTimer.removeAllActions()
+        touching = false
+        touchType = nil
+        pressedDestObject = nil
+        destHpBar?.removeFromParent()
+        destHpBar = nil
+
+    }
     
-    
+    func tempCreatePacket(){
+        for i in 1...10{
+            var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
+            tempx = tempx * CGFloat(i) + 10
+            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
+            p1.direction = CGVector(dx: 0, dy: 1)
+            p1.gameLayer = gameLayer
+            p1.pushBelongTo(gameLayer!.background!)
+            gameLayer!.addGameObject(p1)
+            
+        }
+    }
     
     
     var countFrame :Int = 0
@@ -606,7 +496,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         if ((currentTime - lastTimeStamp) > 1  ){
             
             /* Called before each frame is rendered */
-                        lastTimeStamp = currentTime
+            lastTimeStamp = currentTime
         }
        
     
@@ -614,8 +504,30 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
 
     
+//----------- phase change -----------------------------
+    func startEnemyPhase (){
+        self.currentStage = GameStage.enemy
+        gameLayer!.enemyDoAction()
+        print("start enemy phase")
+        
+    }
     
-  
+    func startSuperpositionPhase(){
+        self.currentStage = GameStage.Superposition
+        print("start superposition")
+    }
+    
+    func startAttackPhase(){
+        self.currentStage = GameStage.Attack
+        print("start attack phase")
+        
+    }
+    
+    
+    
+    
+    
+//------------------------------------------------------
    
     
     func attackPhaseUpdate (currentTime: CFTimeInterval){
@@ -641,12 +553,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
        createMissionLabel(currentMission + 1)
         
-        var pPos = self.gameLayer!.position
-        self.gameLayer!.deleteSelf()
-        gameLayer!.removeFromParent()
-        gameLayer = GameLayer(subMission: (mission?.missions[currentMission])!, gameScene: self)
-        gameLayer!.position = pPos
-        self.addChild(gameLayer!)
+        startSubMission((mission?.missions[currentMission])!)
     }
     func createMissionLabel(current : Int){
 

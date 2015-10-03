@@ -15,6 +15,7 @@ class GameLayer : SKNode{
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
+    var energyPackets = Set<EnergyPacket>()
    // var gameArea = CGRect()
     weak var subMission: SubMission? = nil
     var totalTarget: Int = 0
@@ -49,17 +50,7 @@ class GameLayer : SKNode{
         
     }
 
-    private func createPhysicsBodyBoundary ( node : SKShapeNode ) -> SKPhysicsBody{
-    
-        let phys = SKPhysicsBody(edgeChainFromPath: node.path!)
-       
-        
-        //print (node.frame.size)
-       // phys.affectedByGravity = false
-        phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
-        phys.collisionBitMask = 0x0
-        return phys
-    }
+   
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -67,6 +58,9 @@ class GameLayer : SKNode{
     
     func addGameObject(_ obj : GameObject){
         attackPhaseObjects.insert(obj)
+        if (obj is EnergyPacket){
+            energyPackets.insert(obj as! EnergyPacket)
+        }
         if (obj.getSprite() != nil){
             self.addChild(obj.getSprite()!)
         }
@@ -74,6 +68,11 @@ class GameLayer : SKNode{
     
     func removeGameObject (_ obj : GameObject){
         attackPhaseObjects.remove(obj)
+        if  (obj is EnergyPacket){
+            energyPackets.remove(obj as! EnergyPacket)
+        }
+        
+        
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()
         }
@@ -92,6 +91,12 @@ class GameLayer : SKNode{
     }
     
     func update(currentTime: CFTimeInterval){
+        if (self.energyPackets.count == 0){
+            gameScene!.startEnemyPhase()
+            return
+        }
+        
+        
         for obj in  attackPhaseObjects{
             obj.update()
         }
@@ -105,6 +110,36 @@ class GameLayer : SKNode{
         attackPhaseObjects.removeAll()
         
     }
+    
+    var enermyActionCounter : Int = 0
+    var waitForActionComplete:Bool = false
+    func actionFinish(){
+        enermyActionCounter -= 1
+        if waitForActionComplete {
+            checkEnemyFinish()
+        }
+    }
+    func checkEnemyFinish(){
+        if enermyActionCounter == 0{
+            //complete
+            gameScene!.startSuperpositionPhase()
+        }
+    }
+    
+    func enemyDoAction(){
+        enermyActionCounter = 0
+        waitForActionComplete = false
+        for obj in attackPhaseObjects{
+            if obj is EnemyActable{
+                var temp = obj as! EnemyActable
+                enermyActionCounter += 1
+                temp.nextRound(self.actionFinish)
+            }
+        }
+        waitForActionComplete = true
+        checkEnemyFinish()
+    }
+    
    
 }
 

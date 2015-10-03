@@ -47,7 +47,10 @@ extension Refractable where Self: EnergyPacket{
                 out.normalize()
                 self.direction = out
             }
-        }else{
+        }else if refractive ==  1{
+            return 1
+        }
+        else{
             var out = c * self.direction
             let cost = sqrt(1 - pow(c, 2) * (1 - pow(cosine, 2)))
            // let sint = sqrt(pow(1 / refractive, 2) * (1 - pow(cosine, 2)))

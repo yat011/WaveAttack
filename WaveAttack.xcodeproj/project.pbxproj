@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		541285501BA548E700EB4A05 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5412854F1BA548E700EB4A05 /* GameScene.sks */; };
+		5420A5D81BBE7112000F2E14 /* Snail.png in Resources */ = {isa = PBXBuildFile; fileRef = 5420A5D71BBE7112000F2E14 /* Snail.png */; };
+		5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A5DA1BBE7152000F2E14 /* Snail.swift */; };
+		5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A5DD1BBE75AE000F2E14 /* DirectAttack.swift */; };
+		5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A5DF1BBE75C0000F2E14 /* EnemyAction.swift */; };
+		5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A5E11BBEF1AB000F2E14 /* Event.swift */; };
+		5420A5E41BC01915000F2E14 /* beams.png in Resources */ = {isa = PBXBuildFile; fileRef = 5420A5E31BC01915000F2E14 /* beams.png */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
@@ -28,6 +34,9 @@
 		546F54151BA32E1F00EB576B /* Refractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54141BA32E1F00EB576B /* Refractable.swift */; };
 		5474C5641BA321A30015C861 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5631BA321A30015C861 /* GameObject.swift */; };
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
+		54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAA1BBA97A70039D744 /* InfoLayer.swift */; };
+		54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAC1BBA9B1F0039D744 /* Player.swift */; };
+		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
@@ -57,6 +66,12 @@
 
 /* Begin PBXFileReference section */
 		5412854F1BA548E700EB4A05 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		5420A5D71BBE7112000F2E14 /* Snail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Snail.png; sourceTree = "<group>"; };
+		5420A5DA1BBE7152000F2E14 /* Snail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Snail.swift; sourceTree = "<group>"; };
+		5420A5DD1BBE75AE000F2E14 /* DirectAttack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAttack.swift; sourceTree = "<group>"; };
+		5420A5DF1BBE75C0000F2E14 /* EnemyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyAction.swift; sourceTree = "<group>"; };
+		5420A5E11BBEF1AB000F2E14 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		5420A5E31BC01915000F2E14 /* beams.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beams.png; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -83,6 +98,9 @@
 		546F54141BA32E1F00EB576B /* Refractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Refractable.swift; path = Model/Refractable.swift; sourceTree = "<group>"; };
 		5474C5631BA321A30015C861 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
+		54A55BAA1BBA97A70039D744 /* InfoLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLayer.swift; sourceTree = "<group>"; };
+		54A55BAC1BBA9B1F0039D744 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
@@ -118,6 +136,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5420A5D91BBE713A000F2E14 /* Enemy */ = {
+			isa = PBXGroup;
+			children = (
+				54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */,
+				5420A5DA1BBE7152000F2E14 /* Snail.swift */,
+			);
+			name = Enemy;
+			sourceTree = "<group>";
+		};
+		5420A5DC1BBE7545000F2E14 /* EnemyAction */ = {
+			isa = PBXGroup;
+			children = (
+				5420A5DF1BBE75C0000F2E14 /* EnemyAction.swift */,
+				5420A5DD1BBE75AE000F2E14 /* DirectAttack.swift */,
+			);
+			name = EnemyAction;
+			sourceTree = "<group>";
+		};
 		544F05541BA305CD00AC1BBD = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +224,8 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				5420A5E31BC01915000F2E14 /* beams.png */,
+				5420A5D71BBE7112000F2E14 /* Snail.png */,
 				54F8D8971BB1D943009E9654 /* redbar.png */,
 				54553E3B1BA6FE9200A38B18 /* box.png */,
 			);
@@ -197,6 +235,8 @@
 		5474C5621BA320B00015C861 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5420A5DC1BBE7545000F2E14 /* EnemyAction */,
+				5420A5D91BBE713A000F2E14 /* Enemy */,
 				5474C5631BA321A30015C861 /* GameObject.swift */,
 				5474C5651BA3242E0015C861 /* EnergyPacket.swift */,
 				546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */,
@@ -209,6 +249,9 @@
 				54F8D8911BB05719009E9654 /* Mission.swift */,
 				54F8D8931BB05879009E9654 /* SubMission.swift */,
 				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
+				54A55BAA1BBA97A70039D744 /* InfoLayer.swift */,
+				54A55BAC1BBA9B1F0039D744 /* Player.swift */,
+				5420A5E11BBEF1AB000F2E14 /* Event.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -336,8 +379,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
+				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
@@ -367,13 +412,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
+				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
+				54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
+				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
+				5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
@@ -383,7 +433,9 @@
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
+				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
+				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,

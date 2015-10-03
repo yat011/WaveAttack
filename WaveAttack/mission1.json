@@ -16,14 +16,23 @@
          
          },
          {
-         "type": "SampleBox",
+         "type": "Snail",
          "x": "150",
          "y": "500",
          "width": "200",
          "height": "100",
-         "hp": "1000",
+         "hp": "10000",
          "target": "true"
-         }
+                 },{
+                 "type": "Snail",
+                 "x": "100",
+                 "y": "200",
+                 "width": "200",
+                 "height": "200",
+                 "hp": "10000",
+                 "target": "true"
+                 
+                 }
       ]
     },
      {

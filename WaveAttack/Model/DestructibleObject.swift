@@ -10,17 +10,94 @@ import Foundation
 import SpriteKit
 class DestructibleObject : Medium {
     
-    var hp : CGFloat = 1000
-    var absorptionRate :CGFloat = 0.01
+    private var _originHp : CGFloat = 1000
+    var originHp: CGFloat {
+        get { return _originHp}
+        set(v) { _originHp = v
+                _hp = v
+        }
+    
+    }
+    var hp : CGFloat { get {return _hp} }
+    private var _hp : CGFloat = 1000
+    var absorptionRate :CGFloat = 0.05
     var damageReduction :CGFloat = 0
     var scaleX: CGFloat  = 1
     var scaleY : CGFloat = 1
     var totDmg: CGFloat = 0
     var disappearThreshold: CGFloat = -100
     var target : Bool = false
-    
     var scaled : Bool = false
     var prevScale : CGFloat = 1
+    
+    override var path: CGPath? { get{ return _path}}
+    var _path : CGPath? = nil
+    var moveRound : Int = 3
+    var currentRound : Int = 0
+    
+    
+    override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
+        if getSprite() == nil {
+            fatalError("sprite == nil")
+        }
+        self.gameScene = gameScene
+        var sprite :GameSKSpriteNode = self.getSprite()! as! GameSKSpriteNode
+        var originSize = sprite.size
+        sprite.position = position
+         sprite.size = size
+
+        sprite.gameObject = self
+         createPhysicsBody(originSize, targetSize: size)
+    }
+    
+    
+    
+    func createPhysicsBody(originSize:CGSize, targetSize:CGSize){
+        // print (sprite.frame.size)
+        //print (sprite.anchorPoint)
+        //  sprite.anchorPoint.x = 0
+        // sprite.anchorPoint.y = 0
+        let offsetX:CGFloat = 0
+        let offsetY:CGFloat = 0
+        var xyratio = originSize.width / originSize.height
+        var xDiv : CGFloat = CGFloat(sqrt(255 * 255 * xyratio))
+        var yDiv: CGFloat = CGFloat( sqrt(255 * 255  / xyratio))
+        print ("\(xDiv) \(yDiv)")
+        
+        self.scaleX = targetSize.width / xDiv
+        self.scaleY = targetSize.height / yDiv
+        let path = CGPathCreateMutable();
+        
+        
+        drawPath(path, offsetX: 0 , offsetY: 0)
+        
+        CGPathCloseSubpath(path);
+        
+        _path = path
+        //print(CGPathContainsPoint(path, nil,CGPoint(x: 0, y: 0) , true))
+        
+        let phys = SKPhysicsBody (edgeLoopFromPath: path)
+        
+        phys.usesPreciseCollisionDetection = true
+        phys.collisionBitMask = 0x0
+        //phys.affectedByGravity = false
+        phys.categoryBitMask = CollisionLayer.Medium.rawValue
+        
+        getSprite()!.physicsBody = phys
+    }
+    
+    func drawPath(path: CGMutablePath, offsetX : CGFloat, offsetY: CGFloat){
+        fatalError("drawPath not implemented")
+    }
+    
+    
+    
+    
+    
+    
+   
+    
+    
     func calculateDamage(packet : EnergyPacket){
         var damage: CGFloat = packet.energy * absorptionRate
         packet.energy = packet.energy - damage
@@ -28,13 +105,13 @@ class DestructibleObject : Medium {
         if (damage < 0){
             damage = 0
         }
-        hp = hp - damage
+        _hp = hp - damage
         totDmg = totDmg + damage
         if (hp < 0){
 //            print("destory")
         }
         
-       
+       triggerEvent(GameEvent.HpChanged.rawValue)
         
         
         return

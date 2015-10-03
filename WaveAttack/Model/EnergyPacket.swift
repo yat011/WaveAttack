@@ -11,21 +11,17 @@ import SpriteKit
 
 class EnergyPacket : GameObject{
     let radius : CGFloat = 5
-    var physRadius :CGFloat = 2
+    var physRadius :CGFloat = 2.5
     var sprite : GameSKShapeNode? = nil
     var energy : CGFloat = 0
     var direction : CGVector = CGVector(dx: 0, dy: 1)
       // var speed : CGFloat = 10
     weak var gameLayer : GameLayer? = nil
     var deleted: Bool = false
-   // weak var spawnAt :
-  //  var prevPoint : CGPoint
-  //  var prevDisplacement : CGVector
- //   var lastContactInfo : ContactInfo? = nil
-    //var lastPosition : CGPoint? = nil
-   // var lastDirection : CGVector? = nil
-   // var lastContains : Bool? = nil
-  //  var justExit : Bool = false
+    
+    
+    
+    static let DELETED_EVENT = "deleted"
     static let energyThreshold: CGFloat = 5
     
     var belongTo : [Medium] = []
@@ -67,6 +63,9 @@ class EnergyPacket : GameObject{
         self.gameScene  = sc
         rectNode.fillColor = getColor()
         rectNode.setGameObject(self)
+        
+        // event
+       // self.subscribeEvent(EnergyPacket.DELETED_EVENT, call: gameScene!.gameLayer!.removeGameObject)
         
 
     }
@@ -305,6 +304,11 @@ class EnergyPacket : GameObject{
     //
     private func doSpecificPhysics(from from : Medium? ,to : Medium?, contact: ContactInfo?){
        // _ = 1
+        if (energy < EnergyPacket.energyThreshold){
+            return
+        }
+        
+        
         refractive = CGFloat( from!.propagationSpeed / to!.propagationSpeed)
         refractiveRatio = 1 / refractive
         
@@ -327,7 +331,7 @@ class EnergyPacket : GameObject{
        // _ = self.energy * tranRatio
        
        
-        if (self is Reflectable){
+        if (self is Reflectable && reflectRatio > 0){
             let reflect = self as! Reflectable
             let rePacket = reflect.doReflection(from: from, to: to, contact: contact)!
             rePacket.energy = rePacket.energy * reflectRatio

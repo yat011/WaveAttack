@@ -30,10 +30,12 @@
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
+		5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF471BC27E5D00181D41 /* Wave.swift */; settings = {ASSET_TAGS = (); }; };
+		5F62AF4B1BC27EC100181D41 /* PointerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
-		5FB05BC71BB5516800D998CC /* TextureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC61BB5516800D998CC /* TextureGenerator.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC71BB5516800D998CC /* WaveFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC61BB5516800D998CC /* WaveFactory.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC91BB5535C00D998CC /* UIWaveButtonTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -84,10 +86,12 @@
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
+		5F62AF471BC27E5D00181D41 /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
+		5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerHelper.swift; sourceTree = "<group>"; };
 		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
 		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
-		5FB05BC61BB5516800D998CC /* TextureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureGenerator.swift; sourceTree = "<group>"; };
+		5FB05BC61BB5516800D998CC /* WaveFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFactory.swift; sourceTree = "<group>"; };
 		5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWaveButtonTexture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,6 +143,7 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
+				5F62AF491BC27EAD00181D41 /* Helper */,
 				5FB05BC51BB5501A00D998CC /* Wave */,
 				5FB05BC21BB1A8F300D998CC /* UI */,
 				54A611901BA810DC009299A6 /* Protocol */,
@@ -217,6 +222,14 @@
 			name = Protocol;
 			sourceTree = "<group>";
 		};
+		5F62AF491BC27EAD00181D41 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		5FB05BC21BB1A8F300D998CC /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +244,8 @@
 		5FB05BC51BB5501A00D998CC /* Wave */ = {
 			isa = PBXGroup;
 			children = (
-				5FB05BC61BB5516800D998CC /* TextureGenerator.swift */,
+				5FB05BC61BB5516800D998CC /* WaveFactory.swift */,
+				5F62AF471BC27E5D00181D41 /* Wave.swift */,
 			);
 			name = Wave;
 			sourceTree = "<group>";
@@ -371,7 +385,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
-				5FB05BC71BB5516800D998CC /* TextureGenerator.swift in Sources */,
+				5F62AF4B1BC27EC100181D41 /* PointerHelper.swift in Sources */,
+				5FB05BC71BB5516800D998CC /* WaveFactory.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
@@ -390,6 +405,7 @@
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
+				5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

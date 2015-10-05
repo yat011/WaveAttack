@@ -26,6 +26,7 @@ enum GameStage {
 
 enum TouchType {
     case gameArea
+    case waveButton
 }
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
@@ -107,13 +108,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func initControlLayer() -> (){
-        //controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
-        //controlLayer.fillColor = SKColor.blueColor()
-        //controlLayer.zPosition = 0
-        
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0))
         self.addChild(UIN)
-        UIN.zPosition=1
+        UIN.zPosition=100
     }
     
     
@@ -475,32 +472,42 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
     var dragVelocity : CGFloat = 0
-    
+    var dragging : SKNode?=nil
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
             if let touch = touches.first  {
                touching  = true
                 var touchDown =  touch.locationInNode(self)
-               
+                prevTouchPoint = touchDown
+                if (CGRectContainsPoint(CGRect(origin: gameLayer.position, size: gameLayer.size), (touches.first?.locationInNode(gameLayer.parent!))!)){
+                    touchType = TouchType.gameArea
+                }
+                else
+                {
+                    for c in (self.childNodeWithName("UINode")?.children)!
+                    {
+                        print(c.description)
+                        //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
+                        //check clicked on Button
+                        if (c.name != "UIWaveButton") {continue}
+                        if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
+                        {
+                            //do action
+                            touchType = TouchType.waveButton
+                            dragging=c
+                            break
+                        }
+                    }
+                }
+               /*
                 if (CGRectContainsPoint(playRect!, touchDown)){
                         touchType = TouchType.gameArea
-                        prevTouchPoint = touchDown
+                    prevTouchPoint = touchDown
+                    print(CGRectContainsPoint(gameLayer.calculateAccumulatedFrame(), (touches.first?.locationInNode(gameLayer.parent!))!))
                 }
-                
+                */
             }
-        }
-        for c in (self.childNodeWithName("UINode")?.children)!
-        {
-//check clicked on Button
-/*
-            if (CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c))!))
-            {
-                //do action
-                break
-            }
-*/
-            print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
         }
 
         
@@ -510,14 +517,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         if (self.touchType == nil) { return }
         if (touches.count > 0 ) {//drag
             if let touch = touches.first {
+                var newPt = touch.locationInNode(self)
+                var diff :CGVector =  prevTouchPoint! - newPt
+                prevTouchPoint  = newPt
                 if (touchType! == TouchType.gameArea){
-                    var newPt = touch.locationInNode(self)
-                    var diff :CGVector =  prevTouchPoint! - newPt
-                    prevTouchPoint  = newPt
-                    var moveY = -diff.dy
-                    scrollLayers(moveY)
-              dragVelocity=moveY
-                    
+                    scrollLayers(-diff.dy)
+                    dragVelocity = (-diff.dy)
+                }
+                else if(touchType! == TouchType.waveButton){
+                    (dragging as! UIWaveButton).scroll(-diff.dx)
                 }
             }
         }
@@ -535,7 +543,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //gameLayer.position.y = newY
         gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
-        //self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
+        self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
     }
     
     

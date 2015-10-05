@@ -134,7 +134,7 @@ class EnergyPacket : GameObject{
             deleteSelf()
             return
         }
-        if (!CGRectContainsPoint(gameScene!.gameArea!, sprite!.position)){ // out of area
+        if (!CGRectContainsPoint(gameScene!.packetArea!, sprite!.position)){ // out of area
            // print("delete self")
             deleteSelf()
             return

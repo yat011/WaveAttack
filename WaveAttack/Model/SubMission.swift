@@ -13,6 +13,7 @@ class SubMission{
     
     var terrain: Medium? = nil
     var objects: [Medium] = []
+    var zIndex : Int = 1
     
     static func parseJsonObj( obj : [String:AnyObject] , gameScene : GameScene) -> SubMission?{
         var zIndex =  1
@@ -62,7 +63,7 @@ class SubMission{
  
             
         }
-        
+        sub.zIndex = zIndex
         
         return sub
     }

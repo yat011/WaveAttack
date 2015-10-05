@@ -21,7 +21,7 @@ class InfoLayer : SKNode{
         self.position = position
         self.zPosition = 102
         var barSize = CGSize(width: 200, height: 15)
-        var hpPos = CGPoint(x: 10, y: 20)
+        var hpPos = CGPoint(x: 5, y: 10)
         
         hpBar = HpBar.createHpBar( CGRect(origin: hpPos, size: barSize) , max: player.oriHp, current: player.hp, belongTo : player)
         self.addChild(hpBar!)

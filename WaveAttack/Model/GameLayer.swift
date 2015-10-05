@@ -19,6 +19,7 @@ class GameLayer : SKNode{
    // var gameArea = CGRect()
     weak var subMission: SubMission? = nil
     var totalTarget: Int = 0
+    var maxZIndex = 0
     
     weak var gameScene: GameScene? = nil
     init(subMission : SubMission, gameScene : GameScene) {
@@ -58,6 +59,13 @@ class GameLayer : SKNode{
     
     func addGameObject(_ obj : GameObject){
         attackPhaseObjects.insert(obj)
+        if (obj is Medium){
+            let temp  = obj as! Medium
+            if temp.zIndex > maxZIndex {
+                maxZIndex = temp.zIndex
+            }
+        }
+        
         if (obj is EnergyPacket){
             energyPackets.insert(obj as! EnergyPacket)
         }
@@ -71,7 +79,7 @@ class GameLayer : SKNode{
         if  (obj is EnergyPacket){
             energyPackets.remove(obj as! EnergyPacket)
         }
-        
+
         
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()
@@ -108,6 +116,8 @@ class GameLayer : SKNode{
             gameObj.deleteSelf()
         }
         attackPhaseObjects.removeAll()
+        background!.deleteSelf()
+        background = nil
         
     }
     

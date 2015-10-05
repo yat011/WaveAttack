@@ -21,6 +21,7 @@ class HpBar : SKShapeNode {
         var bar = HpBar(rect: rect, cornerRadius: 2)
        // super.init(rectOfSize: size, cornerRadius: 2)
         bar.strokeColor = SKColor.blackColor()
+        bar.fillColor = SKColor.blackColor()
         bar.max = max
         bar.current = current
         bar.hpBar = SKSpriteNode(imageNamed: "redbar")

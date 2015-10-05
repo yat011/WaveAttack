@@ -25,7 +25,7 @@ enum GameStage {
 }
 
 enum TouchType {
-    case gameArea
+    case gameArea , controlArea
 }
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
@@ -40,7 +40,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var contactMap = [EnergyPacket : ContactContainer]()
     var playRect : CGRect? = nil  //showSize
     var gameArea : CGRect? = nil    //game Rect
-    
+    var packetArea: CGRect? = nil
     var mission : Mission? = nil
     var lenOfMission : Int  = 0
     var currentMission : Int = 0
@@ -58,6 +58,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         super.init(size: size)
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
+        self.packetArea = CGRect(origin: CGPoint(x: -200,y: -200), size: CGSize(width: size.width + 400, height: size.height + 400))
+        
         mission =  Mission.loadMission(1,gameScene: self)
         
         
@@ -335,6 +337,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var destHpBarSize : CGSize = CGSize(width: 50, height: 10)
     var destHpBar : HpBar? = nil
     var clearUpNodes = Set<SKNode>()
+    var pressedSkill : Skill? = nil
+    var dragSkillObj : GameObject? = nil
     func overTap() {
         isTap = false
     }
@@ -344,18 +348,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func longPress(){
         if(touching){
             if (pressedDestObject != nil){ //hp bar
-               // print("long press on obj")
-                var sprite = pressedDestObject!.getSprite()!
-               // print(sprite.position)
-                var hpbar = HpBar.createHpBar(CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 20)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
-                gameLayer?.addChild(hpbar)
-                destHpBar = hpbar
-                //clearUpNodes.insert(hpbar)
+               longPressOnDest()
                 
             }
         }
         
     }
+    func longPressOnDest(){
+        // print("long press on obj")
+        var sprite = pressedDestObject!.getSprite()!
+        // print(sprite.position)
+        var hpbar = HpBar.createHpBar(CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 20)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
+        gameLayer?.addChild(hpbar)
+        destHpBar = hpbar
+        //clearUpNodes.insert(hpbar)
+    }
+    
+    
     func convertTouchPointToGameAreaPoint( point: CGPoint) -> CGPoint{
         var res : CGPoint = point - gameLayer!.position
         return res
@@ -372,22 +381,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     longTapTimer.runAction(SKAction.waitForDuration(1),completion: longPress)
                     let touchDown =  touch.locationInNode(self)
                 
-               
-                    
-                    if (CGRectContainsPoint(playRect!, touchDown)){
-                        touchType = TouchType.gameArea
-                        prevTouchPoint = touchDown
-                        for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
-                            if gameObject is DestructibleObject{
-                                var medium = gameObject as! DestructibleObject
-                                var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
-                                if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
-                                    pressedDestObject = medium
-                                }
-                            }
-                            
-                        }
-                    }
+                    checkPressOn(touchDown)
                 
                 
             }
@@ -397,29 +391,122 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (touching == false) {return}
         if (self.touchType == nil) { return }
         if (touches.count > 0 ) {//drag
             if let touch = touches.first {
-                if (touchType! == TouchType.gameArea){
-                    let newPt = touch.locationInNode(self)
-                    let diff :CGVector =  prevTouchPoint! - newPt
-                    prevTouchPoint  = newPt
-                    let moveY = diff.dy * 2
-                    scrollGameLayer(moveY)
-                    if pressedDestObject != nil { //long pressed object
-                        var mediumPt = pressedDestObject!.getSprite()!.convertPoint(newPt, fromNode: self)
-                        if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
-                            pressedDestObject = nil
-                            destHpBar?.removeFromParent()
-                            destHpBar = nil
-                        }
-
-                    }
-                    
-                }
+                 let touchDown = touch.locationInNode(self)
+                checkPressing(touchDown)
             }
         }
     }
+    
+    
+    func checkPressOn(touchDown :CGPoint){
+        
+        
+        if (CGRectContainsPoint(playRect!, touchDown)){
+            touchType = TouchType.gameArea
+            prevTouchPoint = touchDown
+            if pressedSkill != nil{
+                touchesBeganSkill(prevTouchPoint!)
+                return
+            }
+            for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
+                if gameObject is DestructibleObject{
+                    var medium = gameObject as! DestructibleObject
+                    var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
+                    if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
+                        pressedDestObject = medium
+                    }
+                }
+                
+            
+            }
+        }else{ // control Layer
+            touchType = TouchType.controlArea
+        }
+        //button
+        
+    }
+    
+
+    
+    
+    
+    func checkPressing(touchDown :CGPoint){
+
+        if (touchType! == TouchType.gameArea){
+            let diff :CGVector =  prevTouchPoint! - touchDown
+            prevTouchPoint  = touchDown
+            if (pressedSkill != nil && touchesMovedSkill(touchDown) == false){
+                return
+            }
+            
+            
+            let moveY = diff.dy * 2
+            scrollGameLayer(moveY)
+            if pressedDestObject != nil { //long pressed object
+                var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
+                if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
+                    pressedDestObject = nil
+                    destHpBar?.removeFromParent()
+                    destHpBar = nil
+                }
+                
+            }
+            
+        }
+    }
+    func touchesBeganSkill(touchDown :CGPoint){
+        if (pressedSkill is PlacableSkill){
+            let temp =  pressedSkill as! PlacableSkill
+            var gameObj = temp.createGameObj(gameLayer!.maxZIndex, gameScene: self)
+            gameObj.getSprite()!.runAction(SKAction.fadeAlphaTo(0.3, duration: 0))
+            gameObj.getSprite()!.position = touchDown
+            gameLayer?.addGameObject(gameObj)
+            dragSkillObj = gameObj
+        }else if (pressedSkill is TargetSkill){
+            
+        }
+    }
+    func touchesMovedSkill(touchDown :CGPoint) -> Bool{
+        if (pressedSkill is PlacableSkill){
+            if (CGRectContainsPoint(playRect!, touchDown)){
+               
+                dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
+                return false
+            }else {
+              //  pressedSkill = nil
+                clearTouch()
+                return false
+            }
+        }else if (pressedSkill is TargetSkill){
+            
+        }
+        return false
+    }
+    
+    func touchesEndedSkill (touchDown :CGPoint) -> Bool{
+        if (pressedSkill is PlacableSkill){
+            if (CGRectContainsPoint(playRect!, touchDown)){
+                
+                dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
+                dragSkillObj?.getSprite()!.runAction(SKAction.fadeAlphaTo(1, duration: 0))
+                dragSkillObj = nil
+                pressedSkill = nil
+                return false
+            }else {
+                //  pressedSkill = nil
+                clearTouch()
+                return false
+            }
+        }else if (pressedSkill is TargetSkill){
+            
+        }
+        return false
+    }
+    
     
     func scrollGameLayer(movement : CGFloat){
         //print(gameArea)
@@ -437,12 +524,50 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
     }
     
+
+    func clickOnControlLayer(){
+        //prevPressObj ??
+        
+        // find skill
+        
+        //temp ------
+        
+        if (pressedSkill != nil){
+            pressedSkill = nil
+            return
+        }
+        
+        
+        var choseSkill = ConvexLenSkill()
+        
+        //check
+        if (choseSkill is SimpleSkill){
+            choseSkill.perform(self)
+        }else{
+            pressedSkill = ConvexLenSkill()
+        }
+    
+        
+    }
+    
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touching && isTap){
+        if (touching){
             if self.currentStage == GameStage.Superposition{
-                tempCreatePacket()
-                startAttackPhase()
+                
+                if touchType == TouchType.gameArea{
+                    if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!) == false){
+                        return
+                    }
+                    if (isTap){
+                        tempCreatePacket()
+                        startAttackPhase()
+                    }
+                }else{
+                    if isTap{
+                        clickOnControlLayer()
+                    }
+                }
             }
         }
        clearTouch()
@@ -453,6 +578,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func clearTouch (){
+        if (dragSkillObj != nil){
+            gameLayer!.removeGameObject(dragSkillObj!)
+            dragSkillObj = nil
+        }
+        
         tapTimer.removeAllActions()
         touching = false
         touchType = nil
@@ -463,13 +593,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func tempCreatePacket(){
-        for i in 1...10{
-            var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
+        for i in 0...20{
+            var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx + 1.5, y: 50), gameScene: self)
+            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx , y: 1), gameScene: self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
+            for obj in gameLayer!.attackPhaseObjects{
+                if obj is Medium{
+                    var medium = obj as! Medium
+                    var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
+                    if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
+                        p1.addBelong(medium)
+                    }
+                }
+            }
+            
             gameLayer!.addGameObject(p1)
             
         }

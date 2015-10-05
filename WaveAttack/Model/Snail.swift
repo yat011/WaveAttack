@@ -16,7 +16,8 @@ class Snail : DestructibleObject , EnemyActable{
     var action : EnemyAction? = nil
     var Action : EnemyAction { get { return action!}}
     var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "Snail")
-   
+    override var xDivMax :CGFloat { get{ return 239}}
+    override var yDivMax :CGFloat { get{ return 273}}
     
     override func getSprite() -> SKNode? {
         return sprite

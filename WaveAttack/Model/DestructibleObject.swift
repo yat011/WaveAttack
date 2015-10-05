@@ -31,6 +31,8 @@ class DestructibleObject : Medium {
     var prevScale : CGFloat = 1
     
     override var path: CGPath? { get{ return _path}}
+    var xDivMax: CGFloat  {get { fatalError(); return 1}}
+    var yDivMax: CGFloat {get {fatalError() ; return 1}}
     var _path : CGPath? = nil
     var moveRound : Int = 3
     var currentRound : Int = 0
@@ -57,11 +59,11 @@ class DestructibleObject : Medium {
         //print (sprite.anchorPoint)
         //  sprite.anchorPoint.x = 0
         // sprite.anchorPoint.y = 0
-        let offsetX:CGFloat = 0
-        let offsetY:CGFloat = 0
-        var xyratio = originSize.width / originSize.height
-        var xDiv : CGFloat = CGFloat(sqrt(255 * 255 * xyratio))
-        var yDiv: CGFloat = CGFloat( sqrt(255 * 255  / xyratio))
+        //let offsetX:CGFloat = 0
+        //let offsetY:CGFloat = 0
+        //var xyratio = originSize.width / originSize.height
+        var xDiv : CGFloat = xDivMax
+        var yDiv: CGFloat = yDivMax
         print ("\(xDiv) \(yDiv)")
         
         self.scaleX = targetSize.width / xDiv
@@ -160,7 +162,7 @@ class DestructibleObject : Medium {
         //(getSprite()! as! SKSpriteNode).size = CGSize(width: prevScale * oriSize.width, height: prevScale *  oriSize.height)
         prevAction = SKAction.resizeByWidth(prevScale * oriSize.width, height: prevScale * oriSize.height, duration: 0.1)
         animating = true
-       getSprite()!.runAction(prevAction!, completion: expandComplete)
+        getSprite()!.runAction(prevAction!, completion: expandComplete)
         scaled = true
         
     }

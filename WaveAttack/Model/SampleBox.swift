@@ -12,17 +12,18 @@ import SpriteKit
 class SampleBox : DestructibleObject {
     
     var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "box")
-  
-    
+    override var xDivMax :CGFloat { get{ return 255}}
+    override var yDivMax :CGFloat { get{ return 255}}
     
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
 
         super.initialize(size, position: position, gameScene: gameScene)
         
-        self.propagationSpeed = 3.5
+        self.propagationSpeed = 3.2
         
         self.collisionAbsorption = 50
  
+      
         
     }
     

@@ -9,20 +9,21 @@
 import Foundation
 import SpriteKit
 
-class UIWaveButton : UIButton {
+class UIWaveButton : SKCropNode {
     
     let pet:String = ""
     //let WaveData
-    
-    
-     override init(size : CGSize , position : CGPoint){
-        super.init(size: size, position: position)
+
+    init(size : CGSize , position : CGPoint){
+        super.init()
         self.name="WaveButton"
+        self.position=position
+        //self.maskNode = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: 50, height: 50))
+        //let tileTexture = UIWaveButtonTexture(texture: SKTexture(imageNamed: "box"), color: UIColor.clearColor(), size: size)
+        let node:SKShapeNode=TextureGenerator.WaveToTexture()
+        print(node)
+        self.addChild(node)
         
-        let tileTexture = UIWaveButtonTexture(texture: SKTexture(imageNamed: "box"), color: UIColor.clearColor(), size: self.size)
-        self.addChild(tileTexture)
-        self.addChild(tileTexture)
-        self.addChild(tileTexture)
     }
 
     required init?(coder aDecoder: NSCoder) {

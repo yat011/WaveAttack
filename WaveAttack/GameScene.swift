@@ -107,13 +107,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func initControlLayer() -> (){
-        controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
-        controlLayer.fillColor = SKColor.blueColor()
-        controlLayer.zPosition = 100
+        //controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
+        //controlLayer.fillColor = SKColor.blueColor()
+        //controlLayer.zPosition = 0
         
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0))
         self.addChild(UIN)
-        UIN.zPosition=101
+        UIN.zPosition=1
     }
     
     
@@ -535,7 +535,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //gameLayer.position.y = newY
         gameLayer.runAction(SKAction.moveToY(newY, duration: 0))
-        self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
+        //self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
     }
     
     
@@ -567,29 +567,25 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             break
         }
         //////print(currentTime - lastTimeStamp)
-        if (countFrame % 30 == 0 && countFrame < 1000){
+        if (countFrame % 1 == 0 && countFrame < 1000){
             switch (currentStage){
             case .Attack:
                 
-                for i in 0...10{
+                for i in 0...0{
                     var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
                     tempx = tempx * CGFloat(i) + 10
                     var p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
                     p1.direction = CGVector(dx: 0, dy: 1)
                     p1.gameLayer = gameLayer
                     p1.pushBelongTo(gameLayer.background!)
-                   gameLayer.addGameObject(p1)
-                    p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
-                    p1.direction = CGVector(dx: 0, dy: 1)
-                    p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer.background!)
                     gameLayer.addGameObject(p1)
                 }
+                
                 break
             default:
                 break
             }
-
+            
         }
         
         //smooth scrolling

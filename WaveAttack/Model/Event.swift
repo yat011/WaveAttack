@@ -9,5 +9,6 @@
 import Foundation
 
 enum GameEvent : String{
-    case HpChanged = "hpchanged"
+    case HpChanged = "hpchanged",
+    RoundChanged = "roundchanged"
 }

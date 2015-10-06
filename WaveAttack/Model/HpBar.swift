@@ -24,7 +24,8 @@ class HpBar : SKShapeNode {
         bar.fillColor = SKColor.blackColor()
         bar.max = max
         bar.current = current
-        bar.hpBar = SKSpriteNode(imageNamed: "redbar")
+       // bar.hpBar = SKSpriteNode(imageNamed: "redbar")
+        bar.hpBar =  SKSpriteNode(color: SKColor.redColor(), size: CGSize())
         var maxWidth = rect.width
         bar.maxWidth = maxWidth
         var tempCur = current
@@ -54,7 +55,7 @@ class HpBar : SKShapeNode {
         
             }
         })
-        
+        bar.alpha = 0.6
         return bar
     }
     

@@ -19,7 +19,7 @@ class InfoLayer : SKNode{
         self.player = player
         super.init()
         self.position = position
-        self.zPosition = 102
+        self.zPosition = 1002
         var barSize = CGSize(width: 200, height: 15)
         var hpPos = CGPoint(x: 5, y: 10)
         

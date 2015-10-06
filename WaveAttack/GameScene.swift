@@ -54,11 +54,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     override init(size: CGSize) {
         
         
-        //updateTimeInterval = 1.0 / fixedFps
+        //updateTimeInterval = 1.0 / fixedFps33 
         super.init(size: size)
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
-        self.packetArea = CGRect(origin: CGPoint(x: -200,y: -200), size: CGSize(width: size.width + 400, height: size.height + 400))
+        self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
         
         mission =  Mission.loadMission(1,gameScene: self)
         

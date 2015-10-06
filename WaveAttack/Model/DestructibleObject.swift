@@ -13,8 +13,12 @@ class DestructibleObject : Medium {
     private var _originHp : CGFloat = 1000
     var originHp: CGFloat {
         get { return _originHp}
-        set(v) { _originHp = v
-                _hp = v
+        set(v) {
+            _originHp = v
+            _hp = v
+            if target == true{
+                createHpBar()
+            }
         }
     
     }
@@ -26,7 +30,16 @@ class DestructibleObject : Medium {
     var scaleY : CGFloat = 1
     var totDmg: CGFloat = 0
     var disappearThreshold: CGFloat = -100
-    var target : Bool = false
+    var target : Bool {
+        get { return _target }
+        set(v) {
+            _target = v
+            if v == true{
+                createHpBar()
+            }
+        }
+    }
+    var _target : Bool = false
     var scaled : Bool = false
     var prevScale : CGFloat = 1
     
@@ -36,6 +49,10 @@ class DestructibleObject : Medium {
     var _path : CGPath? = nil
     var moveRound : Int = 3
     var currentRound : Int = 0
+    var hpBar : HpBar? = nil
+    var hpBarRect :CGRect? = nil
+    var roundLabel : ActRoundLabel? = nil
+    var roundRect : CGRect? = nil
     
     
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
@@ -50,6 +67,14 @@ class DestructibleObject : Medium {
 
         sprite.gameObject = self
          createPhysicsBody(originSize, targetSize: size)
+        var selfPos = getSprite()!.position
+        var barpos = CGPoint(x: selfPos.x - self.getSprite()!.frame.width / 2 + 5 ,y: selfPos.y - self.getSprite()!.frame.height / 2  - 15)
+        hpBarRect = CGRect(origin: barpos, size: CGSize(width: self.getSprite()!.frame.width - 10, height: 10))
+        if (self is EnemyActable){
+            
+            roundRect = CGRect(x: selfPos.x + self.getSprite()!.frame.width / 2, y: selfPos.y - self.getSprite()!.frame.height / 2  - 15, width: 10, height: 13)
+            roundLabel = ActRoundLabel.createActRoundLabel(roundRect!, enemy: self as! EnemyActable)
+        }
     }
     
     
@@ -187,10 +212,28 @@ class DestructibleObject : Medium {
                 obj.deleteSelf()
             }
         }
+        if hpBar != nil{
+            hpBar!.removeFromParent()
+        }
+        if roundLabel != nil{
+            roundLabel!.removeFromParent()
+        }
         
         self.gameScene!.gameLayer!.removeGameObject(self)
         
     }
-    
+//-------misc-------
+    func createHpBar(){
+        if hpBar != nil{
+            hpBar!.removeFromParent()
+            hpBar = nil
+            
+        }
+       
+        hpBar = HpBar.createHpBar(hpBarRect!, max: self.originHp, current: self.hp, belongTo: self)
+        
+        hpBar!.zPosition = self.getSprite()!.zPosition + 1
+        //gameScene!.gameLayer!.addChild(hpBar!)
+    }
     
 }

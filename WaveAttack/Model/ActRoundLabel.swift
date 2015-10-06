@@ -27,7 +27,8 @@ class ActRoundLabel : SKShapeNode {
         label.fontSize = 14
         label.fontColor = SKColor.whiteColor()
         //label.addChild(text)
-        label.position = CGPoint(x: rect.origin.x + rect.width / 2 , y: rect.origin.y)
+        label.horizontalAlignmentMode = .Left
+        label.position = CGPoint(x: rect.origin.x , y: rect.origin.y)
         weak var wLabel: SKLabelNode? = label
         if (enemy is GameObject){
             let obj = enemy as! GameObject

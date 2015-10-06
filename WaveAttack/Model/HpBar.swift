@@ -15,11 +15,12 @@ class HpBar : SKShapeNode {
     var current : CGFloat = 0
     var hpBar : SKSpriteNode? = nil
     var maxWidth : CGFloat  = 10
-    
+    var label : SKLabelNode? = nil
     
     static func createHpBar(rect: CGRect, max : CGFloat , current : CGFloat, belongTo : GameObject) -> HpBar{
         var bar = HpBar(rect: rect, cornerRadius: 2)
        // super.init(rectOfSize: size, cornerRadius: 2)
+        print("hpbar rect : \(rect)")
         bar.strokeColor = SKColor.blackColor()
         bar.fillColor = SKColor.blackColor()
         bar.max = max
@@ -56,6 +57,18 @@ class HpBar : SKShapeNode {
             }
         })
         bar.alpha = 0.6
+        bar.label = SKLabelNode(text: String(format: "%.2f / %.2f", current, max))
+        bar.label!.fontSize = 11
+        bar.label!.position = CGPoint(x: rect.origin.x + maxWidth, y: rect.origin.y)
+        bar.label!.fontColor = SKColor.whiteColor()
+        print ("label \(bar.label!.position)")
+        bar.label!.horizontalAlignmentMode = .Right
+        bar.label!.verticalAlignmentMode = .Bottom
+        bar.label!.fontName = "Helvetica"
+        bar.hpBar!.zPosition = 102
+        bar.label!.zPosition = 105
+        bar.label!.alpha = 1
+        bar.addChild(bar.label!)
         return bar
     }
     
@@ -65,6 +78,8 @@ class HpBar : SKShapeNode {
             current = 0
         }
         hpBar!.runAction( SKAction.resizeToWidth(current / max * maxWidth, duration: 1))
+        
+        label!.text = String(format: "%.2f / %.2f", current, max)
     }
     
     

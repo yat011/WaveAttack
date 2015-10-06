@@ -123,7 +123,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func initControlLayer() -> (){
         controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
         controlLayer.fillColor = SKColor.blueColor()
-        controlLayer.zPosition = 100
+        controlLayer.zPosition = 10000
         
     }
     

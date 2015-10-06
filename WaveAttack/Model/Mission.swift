@@ -13,6 +13,7 @@ class Mission{
     var missions:[SubMission] = []
     var complete : Int = 0
     weak var gameScene : GameScene? = nil
+    var gradeDiv : [Int] = []
     
     static func loadMission ( index : Int, gameScene : GameScene) -> Mission?{
         var mission : Mission = Mission()
@@ -23,8 +24,11 @@ class Mission{
             for subObj in subMissions{
                mission.missions.append(SubMission.parseJsonObj(subObj as! [String : AnyObject], gameScene: gameScene)!)
             }
+            mission.gradeDiv = dict["grade"]! as! [Int]
+            print(mission.gradeDiv)
             
         }
+        
         
         
         return mission

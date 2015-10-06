@@ -21,7 +21,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack, enemy
+    case Superposition, Attack, enemy, Complete, Pause
 }
 
 enum TouchType {
@@ -49,8 +49,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
    // var updateTimeInterval : Double
     
     var objectHpBar : HpBar? = nil
-    
-    
+    var resultUI : ResultUI? = nil
+    var numRounds : Int = -1
+    let grading = ["S","A","B","C","D","E","F"]
     override init(size: CGSize) {
         
         
@@ -91,8 +92,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         self.addChild(infoLayer!)
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
+ 
+        
         physicsWorld.contactDelegate = self
         createMissionLabel(currentMission + 1)
+ 
     }
 
     func startSubMission(subMission : SubMission){
@@ -127,7 +131,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
-    
+//-------------------- phys detect-----------------------------------------
     func didBeginContact(contact: SKPhysicsContact) {
      //   ////print("contact")
         ////print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
@@ -302,11 +306,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
      
     }
     
-    
-    func groupContact(){
-        
-        
-    }
+//---------------------------------------
     
     func removeGameObjectFromList (var ls: [GameObject], obj :GameObject) ->(){
         for i in 0...(ls.count - 1){
@@ -326,7 +326,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
     }
     
-    
+//----------------------touching --------------------------
     var touching : Bool = false
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
@@ -531,7 +531,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         // find skill
         
         //temp ------
-        
+   
         if (pressedSkill != nil){
             pressedSkill = nil
             return
@@ -655,6 +655,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
         print("start superposition")
+        numRounds += 1
     }
     
     func startAttackPhase(){
@@ -688,10 +689,19 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         currentMission += 1
         
         if (currentMission >= mission?.missions.count){
-            createFlashLabel("Mission Complete")
+            //createFlashLabel("Mission Complete")
+            resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)
+            self.addChild(resultUI!)
+            
+            //numRounds = 20
+            resultUI!.showResult({
+                () -> () in
+                print("finished")
+            })
+            currentStage = GameStage.Complete
             return
         }
-       createMissionLabel(currentMission + 1)
+        createMissionLabel(currentMission + 1)
         
         startSubMission((mission?.missions[currentMission])!)
     }

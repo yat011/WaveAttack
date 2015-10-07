@@ -27,6 +27,11 @@ extension EnemyActable where Self : DestructibleObject{
     }
     
     func nextRound(finish: (() -> ())) {
+        if dead == true {
+            finish()
+            return
+        }
+        
         currentRound = (currentRound + 1) % moveRound
         
         if currentRound == (moveRound - 1){

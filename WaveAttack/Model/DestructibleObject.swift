@@ -29,7 +29,7 @@ class DestructibleObject : Medium {
     var scaleX: CGFloat  = 1
     var scaleY : CGFloat = 1
     var totDmg: CGFloat = 0
-    var disappearThreshold: CGFloat = -100
+    var disappearThreshold: CGFloat = -10000
     var target : Bool {
         get { return _target }
         set(v) {
@@ -53,7 +53,7 @@ class DestructibleObject : Medium {
     var hpBarRect :CGRect? = nil
     var roundLabel : ActRoundLabel? = nil
     var roundRect : CGRect? = nil
-    
+    var dead : Bool = false
     
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if getSprite() == nil {
@@ -134,9 +134,12 @@ class DestructibleObject : Medium {
         }
         _hp = hp - damage
         totDmg = totDmg + damage
-        if (hp < 0){
+        if (hp < 0 && dead == false){
 //            print("destory")
+            die()
         }
+        
+        
         
        triggerEvent(GameEvent.HpChanged.rawValue)
         
@@ -161,7 +164,7 @@ class DestructibleObject : Medium {
         var sprite = self.getSprite()! as! SKSpriteNode
         let offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
         let offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
-        CGPathMoveToPoint(path, nil, CGFloat(tempx) - offsetX , CGFloat(tempy) - offsetY);
+        CGPathMoveToPoint(path, nil, CGFloat(tempx) - offsetX , CGFloat(tempy) - offsetY)
         
     }
     
@@ -235,5 +238,28 @@ class DestructibleObject : Medium {
         hpBar!.zPosition = self.getSprite()!.zPosition + 1
         //gameScene!.gameLayer!.addChild(hpBar!)
     }
+    
+// ------- crack/dead-------
+    func die (){
+        dead =  true
+    
+        var crop = SKCropNode()
+        var temp = SKSpriteNode()
+        temp.texture = (getSprite()! as! SKSpriteNode).texture
+        temp.size = getSprite()!.frame.size
+        crop.maskNode = temp
+        
+        
+        var crackUI = SKSpriteNode()
+        crackUI.texture = SKTexture(image: TextureTools.createTiledTexture("crack.png", tiledSize: CGSize(width: 50, height: 50), targetSize: getSprite()!.frame.size))
+        crackUI.size = temp.size
+        crop.addChild(crackUI)
+        crop.zPosition = getSprite()!.zPosition + 1
+        self.getSprite()!.addChild(crop)
+        triggerEvent(GameEvent.Dead.rawValue)
+        
+    }
+    
+    
     
 }

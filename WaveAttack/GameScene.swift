@@ -21,7 +21,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack, enemy, Complete, Pause
+    case Superposition, Attack, enemy,Temp,  Complete, Pause
 }
 
 enum TouchType {
@@ -596,7 +596,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         for i in 0...20{
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx , y: 1), gameScene: self)
+            let p1 = NormalEnergyPacket(100000, position: CGPoint(x: tempx , y: 1), gameScene: self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -689,21 +689,37 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         currentMission += 1
         
         if (currentMission >= mission?.missions.count){
-            //createFlashLabel("Mission Complete")
-            resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)
-            self.addChild(resultUI!)
-            
-            //numRounds = 20
-            resultUI!.showResult({
-                () -> () in
-                print("finished")
-            })
             currentStage = GameStage.Complete
+            gameLayer!.fadeOutAll({
+                () -> () in
+                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)
+                self.addChild(self.resultUI!)
+                
+                //numRounds = 20
+                self.resultUI!.showResult({
+                    () -> () in
+                    print("finished")
+                })
+            
+                return
+
+                
+            })
+            
             return
+           
         }
-        createMissionLabel(currentMission + 1)
+        currentStage = GameStage.Temp
         
-        startSubMission((mission?.missions[currentMission])!)
+        self.createMissionLabel(self.currentMission + 1)
+        gameLayer!.fadeOutAll({
+            () -> () in
+           
+            
+            self.startSubMission((self.mission?.missions[self.currentMission])!)
+
+        })
+        
     }
     func createMissionLabel(current : Int){
 

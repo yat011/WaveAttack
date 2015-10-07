@@ -35,6 +35,23 @@ class GameLayer : SKNode{
        // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         
    
+        var deadCallBack =  {
+            
+            (obj : GameObject)-> () in
+            if (obj is DestructibleObject){
+                var des = obj as! DestructibleObject
+                if des.target{
+                    self.totalTarget -= 1
+                    if self.totalTarget == 0{
+                        
+                        self.completeMission()
+                    }
+                }
+            }
+            
+            
+        }
+    
         for medium in subMission.objects{
             if (medium is DestructibleObject){
                 var des = medium as! DestructibleObject
@@ -45,7 +62,7 @@ class GameLayer : SKNode{
                 if des is EnemyActable{
                     self.addChild(des.roundLabel!)
                 }
-                
+                des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
             }
             addGameObject(medium)
         }
@@ -89,20 +106,10 @@ class GameLayer : SKNode{
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()
         }
-        if (obj is DestructibleObject){
-            var des = obj as! DestructibleObject
-            if des.target{
-                totalTarget -= 1
-                if totalTarget == 0{
-                    
-                    print ("clear one submissoin")
-                    self.gameScene!.completeSubMission()
-                }
-            }
-        }
+       
         
     }
-    
+//--------------------- update   --------------
     func update(currentTime: CFTimeInterval){
         if (self.energyPackets.count == 0){
             gameScene!.startEnemyPhase()
@@ -114,6 +121,39 @@ class GameLayer : SKNode{
             obj.update()
         }
     }
+    func enemyDoAction(){
+        enermyActionCounter = 0
+        waitForActionComplete = false
+        for obj in attackPhaseObjects{
+            if obj is EnemyActable{
+                var temp = obj as! EnemyActable
+                enermyActionCounter += 1
+                temp.nextRound(self.actionFinish)
+            }
+        }
+        waitForActionComplete = true
+        checkEnemyFinish()
+    }
+//----------------------------------------------------
+    
+    func fadeOutAll(finish :(() -> ())){
+        var temp : SKNode? = nil
+        for obj in self.children{
+            if obj === self.background!.getSprite()!{
+                continue
+            }
+            obj.runAction(SKAction.fadeOutWithDuration(1))
+            
+            temp = obj
+        }
+        if temp == nil{
+            finish()
+        }else{
+            temp!.runAction(SKAction.waitForDuration(1.5), completion : finish)
+        }
+        
+    }
+    
     
     
     func deleteSelf(){
@@ -141,18 +181,10 @@ class GameLayer : SKNode{
         }
     }
     
-    func enemyDoAction(){
-        enermyActionCounter = 0
-        waitForActionComplete = false
-        for obj in attackPhaseObjects{
-            if obj is EnemyActable{
-                var temp = obj as! EnemyActable
-                enermyActionCounter += 1
-                temp.nextRound(self.actionFinish)
-            }
-        }
-        waitForActionComplete = true
-        checkEnemyFinish()
+ 
+    func completeMission(){
+        print ("clear one submissoin")
+        self.gameScene!.completeSubMission()
     }
     
    

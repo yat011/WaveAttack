@@ -171,47 +171,15 @@ class EnergyPacket : GameObject{
     
     func doMove(){
          //sprite!.physicsBody!.velocity = getMovement()
-        
+        sprite!.physicsBody!.velocity = CGVector (dx: 0, dy: 0)
         sprite!.runAction(SKAction.moveBy(getMovement() , duration: 0))
       // ////print( sprite.physicsBody!.velocity)
        
         
         
     }
-    /*func checkValidCollision( contact : SKPhysicsContact) -> Bool{
-        
-        var contactNor = contact.contactNormal
-   
-        
-        var pos = self.sprite.position + sprite.parent!.position
-      //  //print (pos)
-        ////print (contact.contactPoint)
-        //print("check")
-     //   var tprev = prevPoint + sprite.parent!.position
-        var toPacket: CGVector = pos - contact.contactPoint
-        //print(pos)
-        //print (toPacket.dot(contactNor))
-    /*
-        toPacket = tprev - contact.contactPoint
-        //print(tprev)
-        //print (toPacket.dot(contactNor))
-        
-        //print (prevDisplacement)
-       
-        if ( prevDisplacement.dot(contactNor) > 0) {
-            contactNor = -1 * contactNor
-        }
-    */
-               
-        if (contactNor.dot(direction) <= 0){
-            return true
-        }else{
-            return false
-        }
-        return false
-    }
-
-    */
+  
+    
     func changeMedium (from from : Set<Medium> ,to : Set<Medium>, contact: [Medium : ContactInfo]){
     
         prevBelongTo.removeAll()

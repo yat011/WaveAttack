@@ -32,6 +32,7 @@
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
 		5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF471BC27E5D00181D41 /* Wave.swift */; settings = {ASSET_TAGS = (); }; };
 		5F62AF4B1BC27EC100181D41 /* PointerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E0461BC4D64900D0B7ED /* MathHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
@@ -88,6 +89,7 @@
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
 		5F62AF471BC27E5D00181D41 /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerHelper.swift; sourceTree = "<group>"; };
+		5F96E0461BC4D64900D0B7ED /* MathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelper.swift; sourceTree = "<group>"; };
 		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
 		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */,
+				5F96E0461BC4D64900D0B7ED /* MathHelper.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
+				5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */,
 				5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
 			);

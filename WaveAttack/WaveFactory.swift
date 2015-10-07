@@ -14,65 +14,62 @@ class WaveFactory {
         case flat = "flat"
         case sine1 = "sine1"
         case sine2 = "sine2"
-        case sine3 = "sine3"
-        case sine4 = "sine4"
         case square1 = "square1"
         case square2 = "square2"
-        case square3 = "square3"
-        case square4 = "square4"
         case exp1 = "exp1"
         case exp2 = "exp2"
-        case exp3 = "exp3"
-        case exp4 = "exp4"
+        case saw1 = "saw1"
+        case saw2 = "saw2"
     }
-    static var Sine1:CGMutablePathRef{
-        let path:CGMutablePathRef=CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 0, 0)
-        CGPathAddQuadCurveToPoint(path, nil, 0.617, 1.03, 1.0, 1.0)//quadratic bezier approximation of sine partition
-        return path
+    class waveComponent{
+        class var path:CGMutablePathRef{return CGPathCreateMutable()}
+        class func getAmp(x:CGFloat)->CGFloat{return CGFloat(0)}
+        class var start:CGFloat{return CGFloat(0)}
+        class var displace:CGFloat{return CGFloat(0)}
     }
-    static var Sine2:CGMutablePathRef{
-        let path:CGMutablePathRef=CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 0, 0)
-        CGPathAddQuadCurveToPoint(path, nil, 0.383, 0.03, 1.0, -1.0)
-        return path
+    class Sine1:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddQuadCurveToPoint(path, nil, 0.617, 1.03, 1.0, 1.0)//quadratic bezier approximation of sine partition
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return sin(x*MathHelper.Pi/2)
+        }
+        override class var start:CGFloat{return CGFloat(0)}
+        override class var displace:CGFloat{return CGFloat(1)}
     }
-    static var Sine3:CGMutablePathRef{
-        let path:CGMutablePathRef=CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 0, 0)
-        CGPathAddQuadCurveToPoint(path, nil, 0.617, -1.03, 1.0, -1.0)
-        return path
-    }
-    static var Sine4:CGMutablePathRef{
-        let path:CGMutablePathRef=CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 0, 0)
-        CGPathAddQuadCurveToPoint(path, nil, 0.383, -0.03, 1.0, 1.0)
-        return path
+    class Sine2:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddQuadCurveToPoint(path, nil, 0.383, 0.03, 1.0, -1.0)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return sin((x+1)*MathHelper.Pi/2)
+        }
+        override class var start:CGFloat{return CGFloat(1)}
+        override class var displace:CGFloat{return CGFloat(-1)}
     }
     static func customWave(data:[CGFloat])->CGMutablePathRef{
         let path:CGMutablePathRef=CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, 0, 0)
-        
-        //draw
+        CGPathMoveToPoint(path, nil, 0, data[0])
+        //print("new custom wave path")
+        for i in 1...data.count-1{
+            CGPathAddLineToPoint(path, nil, CGFloat(i), data[i])
+            //print(data[i])
+        }
         
         return path
     }
     static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat, directConnect:Bool){
         
         let prefab:CGMutablePathRef?
-        switch (WaveType(rawValue: waveType)!)
-        {
-        case .sine1:
-            prefab=Sine1
-        case .sine2:
-            prefab=Sine2
-        case .sine3:
-            prefab=Sine3
-        case .sine4:
-            prefab=Sine4
-        default:
-            prefab=nil
-        }
+        
+        prefab=stringToPath(waveType)
+        
         let localTransform:CGAffineTransform
         let path2:CGMutablePathRef?
         if (prefab != nil)
@@ -85,5 +82,38 @@ class WaveFactory {
         CGPathAddPath(path1, PointerHelper.toPointer(&transform), path2)
         
         transform=CGAffineTransformTranslate(transform, CGPathGetCurrentPoint(path2).x, CGPathGetCurrentPoint(path2).y)
+    }
+    
+    static func stringToPath(waveType:String)->CGMutablePathRef?{
+        return typeToPath(stringToType(waveType))
+    }
+    static func stringToClass(waveType:String)->waveComponent?{
+        return typeToClass(stringToType(waveType))
+    }
+    
+    static func stringToType(waveType:String)->WaveType{
+        return WaveType(rawValue: waveType)!
+    }
+    static func typeToClass(waveType:WaveType)->waveComponent?{
+        switch (waveType)
+        {
+        case .sine1:
+            return Sine1()
+        case .sine2:
+            return Sine2()
+        default:
+            return nil
+        }
+    }
+    static func typeToPath(waveType:WaveType)->CGMutablePathRef?{
+        switch (waveType)
+        {
+        case .sine1:
+            return Sine1.path
+        case .sine2:
+            return Sine2.path
+        default:
+            return nil
+        }
     }
 }

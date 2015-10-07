@@ -12,7 +12,7 @@ import SpriteKit
 class UIWaveButton : SKCropNode {
     var wave:Wave
     let pet:String = ""
-    var waveNode:SKShapeNode?=nil
+    var waveShapeNode:SKShapeNode?=nil
     //let WaveData
 
     init(size : CGSize , position : CGPoint, wave:Wave){
@@ -23,10 +23,10 @@ class UIWaveButton : SKCropNode {
         
         //self.maskNode = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: 50, height: 50))
         //let tileTexture = UIWaveButtonTexture(texture: SKTexture(imageNamed: "box"), color: UIColor.clearColor(), size: size)
-        waveNode=wave.getShape()
-        waveNode!.position.x=CGFloat(random()%Int(wave.length!))-wave.length!*2
-        print(waveNode)
-        self.addChild(waveNode!)
+        waveShapeNode=wave.getShape()
+        waveShapeNode!.position.x=CGFloat(random()%wave.length)-CGFloat(wave.length*2)
+        print(waveShapeNode)
+        self.addChild(waveShapeNode!)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,16 +34,10 @@ class UIWaveButton : SKCropNode {
     }
 
      func scroll(dx : CGFloat){
-        var newX = waveNode!.position.x + dx
-        if(newX < -wave.length!*2) {newX = newX + wave.length!}
-        else if(newX > -wave.length!) {newX = newX - wave.length!}
-        waveNode!.runAction(SKAction.moveToX(newX, duration: 0))
+        var newX = waveShapeNode!.position.x + dx
+        if(newX < CGFloat(-wave.length*2)) {newX = newX + CGFloat(wave.length)}
+        else if(newX > CGFloat(-wave.length)) {newX = newX - CGFloat(wave.length)}
+        waveShapeNode!.runAction(SKAction.moveToX(newX, duration: 0))
         print("dragging:"+newX.description)
     }
-    
-    /*
-    override func getSprite() -> SKNode? {
-        return sprite
-    }
-*/
 }

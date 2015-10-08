@@ -10,8 +10,10 @@ import Foundation
 import SpriteKit
 
 class Wave{
+    
     var shape:SKShapeNode?
     var length:Int
+    
     var waveData:[CGFloat]?
     var componentList:[waveComponent]
     class waveComponent {
@@ -33,6 +35,9 @@ class Wave{
         var height:CGFloat
         var custom:[CGFloat]?
     }
+    
+    
+    
     init(){
         componentList=[waveComponent]()
         ///*
@@ -54,11 +59,14 @@ class Wave{
         componentList.append(waveComponent(type: "sine2", length: 50, height: -5))
         */
     }
+    
+    
     func genShape(){
         let path:CGMutablePathRef=CGPathCreateMutable()
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
-        for _ in 1...1 //repeat 2-3 times for looping
+        
+        for _ in 1...3 //repeat 2-3 times for looping
         {
             for c in componentList
             {
@@ -71,6 +79,8 @@ class Wave{
             WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 50, height: -10, directConnect: true)
             */
         }
+
+/*
         var test=[CGFloat]()
         for _ in 1...100{
             test.append(CGFloat(random()%50))
@@ -83,14 +93,18 @@ class Wave{
             test[j]=test[i]
             test[i]=temp
         }
-*/
+        */
         CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
+        */
+        //CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
         shape=SKShapeNode(path: path)
     }
     func getShape()->SKShapeNode{
         if (shape==nil){genShape()}
         return shape!
     }
+    
+    
     func calAmplitudes(){
         var displace=CGFloat(0)
         waveData=[CGFloat]()
@@ -110,30 +124,47 @@ class Wave{
     func getAmplitude(x:Int)->CGFloat{
         return getAmplitudes()[x]
     }
+    
+    
     static func superposition(w1:Wave, w2:Wave)->Wave{
         let w=Wave()
         w.waveData=[CGFloat]()
         for i in 0...w.length-1{
             w.waveData?.append(w1.getAmplitude(i)+w2.getAmplitude(i))
         }
-        return Wave()
+        return w
     }
+    static func superposition(w1:Wave, var d1:Int, w2:Wave, var d2:Int)->Wave{
+        let w=Wave()
+        w.waveData=[CGFloat]()
+        for i in 0...w.length-1{
+            w.waveData?.append(w1.getAmplitude(d1)+w2.getAmplitude(d2))
+            d1=(d1+1)%300
+            d2=(d2+1)%300
+        }
+        return w
+    }
+    
     static func squared(w:Wave)->Wave{
         for i in 1...w.waveData!.count{
             w.waveData![i] = w.waveData![i]*w.waveData![i]
         }
         return w
     }
-    static func normalize(w:Wave)->Wave{
+    func normalize(){
         var maxAmp:CGFloat=0
-        for wd in w.waveData!{
-            if (wd>maxAmp){
+        for wd in waveData!{
+            if (abs(wd)>maxAmp){
                 maxAmp=wd
             }
         }
-        for i in 1...w.waveData!.count{
-            w.waveData![i] /= maxAmp
+        for i in 0...waveData!.count-1{
+            waveData![i] /= maxAmp
+            waveData![i] *= 25
         }
+    }
+    static func normalize(w:Wave)->Wave{
+        w.normalize()
         return w
     }
 }

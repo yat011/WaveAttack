@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class EnergyPacket : GameObject{
-    let radius : CGFloat = 5
+    let radius : CGFloat    = 5
     var physRadius :CGFloat = 5
     var sprite : GameSKShapeNode
     var energy : CGFloat
@@ -34,7 +34,8 @@ class EnergyPacket : GameObject{
         self.energy = energy
         
         var rectNode = GameSKShapeNode(circleOfRadius: radius)
-       
+        rectNode.strokeColor=SKColor.clearColor()
+        rectNode.lineWidth=0.0
         
         
         rectNode.name = GameObjectName.Packet.rawValue
@@ -60,6 +61,8 @@ class EnergyPacket : GameObject{
         self.sprite.zPosition = 1.0
         super.init()
         rectNode.fillColor = getColor()
+        rectNode.strokeColor = getColor()
+        rectNode.antialiased = false
          rectNode.setGameObject(self)
         
     }

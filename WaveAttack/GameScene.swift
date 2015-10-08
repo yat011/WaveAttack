@@ -108,7 +108,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     func initControlLayer() -> (){
-        let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0))
+        let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
         self.addChild(UIN)
         UIN.zPosition=100
     }
@@ -473,6 +473,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var prevTouchPoint : CGPoint? = nil
     var dragVelocity : CGFloat = 0
     var dragging : SKNode?=nil
+    var timerStarted=false
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         if touches.count > 0 {//drag
@@ -485,12 +486,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 }
                 else
                 {
-                    for c in (self.childNodeWithName("UINode")?.children)!
+                    for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
                     {
                         print(c.description)
                         //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
                         //check clicked on Button
-                        if (c.name != "UIWaveButton") {continue}
                         if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
                         {
                             //do action
@@ -512,7 +512,25 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
         
     }
-    
+    func timeOut(){
+        print("timeOut")
+        let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
+        spawnWave(resultWave.getAmplitudes())
+    }
+    var waveData:[CGFloat]?
+    func spawnWave(waveData:[CGFloat]){
+        self.waveData=waveData
+        
+        for i in 0...waveData.count-1{
+            if (i%2==0) {continue}
+            let p1 = NormalEnergyPacket(abs(waveData[i])*40+1000, position: CGPoint(x: 37.5 + Double(i), y: 50))
+            p1.direction = CGVector(dx: 0, dy: 1)
+            p1.gameLayer = gameLayer
+            p1.pushBelongTo(gameLayer.background!)
+            gameLayer.addGameObject(p1)
+        }
+
+    }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (self.touchType == nil) { return }
         if (touches.count > 0 ) {//drag
@@ -525,6 +543,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     dragVelocity = (-diff.dy)
                 }
                 else if(touchType! == TouchType.waveButton){
+                    if(!timerStarted){
+                    let timer = NSTimer(timeInterval: 5.0, target: self, selector: "timeOut", userInfo: nil, repeats: false)
+                        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+                        timerStarted=true
+                    }
                     (dragging as! UIWaveButton).scroll(-diff.dx)
                 }
             }
@@ -562,6 +585,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     
     var countFrame :Int = 0
+    var counter:Int=0
     override func update(currentTime: CFTimeInterval) {
         
         switch (currentStage){
@@ -579,16 +603,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             switch (currentStage){
             case .Attack:
                 
-                for i in 0...0{
-                    var tempx: CGFloat = (self.size.width - CGFloat(20)) / 10.0
-                    tempx = tempx * CGFloat(i) + 10
-                    var p1 = NormalEnergyPacket(2000, position: CGPoint(x: tempx + 1.5, y: 50))
+                if (waveData != nil){
+                    var tempx: CGFloat = (self.size.width/2)
+                    let p1 = NormalEnergyPacket( abs(waveData![counter])*40+1000, position: CGPoint(x: 37.5 + Double(counter), y: 50))
                     p1.direction = CGVector(dx: 0, dy: 1)
                     p1.gameLayer = gameLayer
                     p1.pushBelongTo(gameLayer.background!)
                     gameLayer.addGameObject(p1)
+                    counter=(counter+1)%300
                 }
-                
+
                 break
             default:
                 break

@@ -27,6 +27,9 @@ class UIWaveButton : SKCropNode {
         waveShapeNode!.position.x=CGFloat(random()%wave.length)-CGFloat(wave.length*2)
         print(waveShapeNode)
         self.addChild(waveShapeNode!)
+        let UIWaveButtonBackground=SKSpriteNode(texture: nil, color: UIColor.brownColor(), size: CGSize(width: 300, height: 50))
+        UIWaveButtonBackground.zPosition = -1
+        self.addChild(UIWaveButtonBackground)
     }
 
     required init?(coder aDecoder: NSCoder) {

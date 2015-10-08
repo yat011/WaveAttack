@@ -9,6 +9,7 @@
 import Foundation
 import SpriteKit
 class WaveFactory {
+    
     enum WaveType:String{
         case custom = "custom"
         case flat = "flat"
@@ -21,12 +22,16 @@ class WaveFactory {
         case saw1 = "saw1"
         case saw2 = "saw2"
     }
+    
+    
+    
     class waveComponent{
         class var path:CGMutablePathRef{return CGPathCreateMutable()}
         class func getAmp(x:CGFloat)->CGFloat{return CGFloat(0)}
         class var start:CGFloat{return CGFloat(0)}
         class var displace:CGFloat{return CGFloat(0)}
     }
+    
     class Sine1:waveComponent{
         override class var path:CGMutablePathRef{
             let path:CGMutablePathRef=CGPathCreateMutable()
@@ -35,7 +40,7 @@ class WaveFactory {
             return path
         }
         override class func getAmp(x:CGFloat)->CGFloat{
-            return sin(x*MathHelper.Pi/2)
+            return sin(x*MathHelper.PI/2)
         }
         override class var start:CGFloat{return CGFloat(0)}
         override class var displace:CGFloat{return CGFloat(1)}
@@ -48,11 +53,12 @@ class WaveFactory {
             return path
         }
         override class func getAmp(x:CGFloat)->CGFloat{
-            return sin((x+1)*MathHelper.Pi/2)
+            return sin((x+1)*MathHelper.PI/2)
         }
         override class var start:CGFloat{return CGFloat(1)}
         override class var displace:CGFloat{return CGFloat(-1)}
     }
+    
     static func customWave(data:[CGFloat])->CGMutablePathRef{
         let path:CGMutablePathRef=CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, 0, data[0])
@@ -64,6 +70,9 @@ class WaveFactory {
         
         return path
     }
+    
+    
+    
     static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat, directConnect:Bool){
         
         let prefab:CGMutablePathRef?
@@ -84,16 +93,19 @@ class WaveFactory {
         transform=CGAffineTransformTranslate(transform, CGPathGetCurrentPoint(path2).x, CGPathGetCurrentPoint(path2).y)
     }
     
-    static func stringToPath(waveType:String)->CGMutablePathRef?{
-        return typeToPath(stringToType(waveType))
-    }
+    
+//converting functions
     static func stringToClass(waveType:String)->waveComponent?{
         return typeToClass(stringToType(waveType))
+    }
+    static func stringToPath(waveType:String)->CGMutablePathRef?{
+        return typeToPath(stringToType(waveType))
     }
     
     static func stringToType(waveType:String)->WaveType{
         return WaveType(rawValue: waveType)!
     }
+    
     static func typeToClass(waveType:WaveType)->waveComponent?{
         switch (waveType)
         {

@@ -54,7 +54,7 @@ class DestructibleObject : Medium {
     var roundLabel : ActRoundLabel? = nil
     var roundRect : CGRect? = nil
     var dead : Bool = false
-    
+    var originSize :CGSize? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if getSprite() == nil {
             fatalError("sprite == nil")
@@ -64,7 +64,7 @@ class DestructibleObject : Medium {
         var originSize = sprite.size
         sprite.position = position
          sprite.size = size
-
+        self.originSize = size
         sprite.gameObject = self
          createPhysicsBody(originSize, targetSize: size)
         var selfPos = getSprite()!.position
@@ -246,13 +246,25 @@ class DestructibleObject : Medium {
         var crop = SKCropNode()
         var temp = SKSpriteNode()
         temp.texture = (getSprite()! as! SKSpriteNode).texture
-        temp.size = getSprite()!.frame.size
+        temp.size = originSize!
+        //temp.runAction(SKAction.resizeToWidth(originSize!.width, height: originSize!.height, duration: 1))
         crop.maskNode = temp
         
         
         var crackUI = SKSpriteNode()
-        crackUI.texture = SKTexture(image: TextureTools.createTiledTexture("crack.png", tiledSize: CGSize(width: 50, height: 50), targetSize: getSprite()!.frame.size))
-        crackUI.size = temp.size
+        var aniTexture : [SKTexture] = []
+        //var total = originSize!.width * originSize!.height / 1000
+       // print(total)
+        for var i = 1 ; i <= 8 ; ++i {
+            var tempSize = CGSize(width: CGFloat(i) * originSize!.width / 8, height: CGFloat(i) * originSize!.height/8)
+            aniTexture.append(SKTexture(image: TextureTools.createTiledTexture("crack.png", tiledSize: CGSize(width: 50, height: 50), targetSize: tempSize)))
+        }
+        
+        //crackUI.texture = SKTexture(image: TextureTools.createTiledTexture("crack.png", tiledSize: CGSize(width: 50, height: 50), targetSize: originSize!))
+        crackUI.size = CGSize(width: 5, height: 5)
+       // crackUI.runAction(SKAction.resizeToWidth(originSize!.width, height: originSize!.height, duration: 1))
+        crackUI.runAction(SKAction.animateWithTextures(aniTexture, timePerFrame: 0.2, resize: true, restore: false))
+        // SKAction.an
         crop.addChild(crackUI)
         crop.zPosition = getSprite()!.zPosition + 1
         self.getSprite()!.addChild(crop)

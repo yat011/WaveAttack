@@ -42,10 +42,7 @@ class GameLayer : SKNode{
                 var des = obj as! DestructibleObject
                 if des.target{
                     self.totalTarget -= 1
-                    if self.totalTarget == 0{
-                        
-                        self.completeMission()
-                    }
+  
                 }
             }
             
@@ -112,7 +109,8 @@ class GameLayer : SKNode{
 //--------------------- update   --------------
     func update(currentTime: CFTimeInterval){
         if (self.energyPackets.count == 0){
-            gameScene!.startEnemyPhase()
+            gameScene!.startCheckResult()
+           // gameScene!.startEnemyPhase()
             return
         }
         
@@ -187,6 +185,14 @@ class GameLayer : SKNode{
         self.gameScene!.completeSubMission()
     }
     
+    func checkResult() -> Bool{
+        if self.totalTarget == 0{
+            
+            self.completeMission()
+            return true
+        }
+        return false
+    }
    
 }
 

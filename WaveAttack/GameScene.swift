@@ -21,7 +21,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack, enemy,Temp,  Complete, Pause
+    case Superposition, Attack, enemy,Temp,  Complete, Pause, Checking
 }
 
 enum TouchType {
@@ -50,7 +50,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     var objectHpBar : HpBar? = nil
     var resultUI : ResultUI? = nil
-    var numRounds : Int = -1
+    var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
     override init(size: CGSize) {
         
@@ -95,10 +95,26 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
  
         
         physicsWorld.contactDelegate = self
-        createMissionLabel(currentMission + 1)
+       
  
     }
 
+
+    
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
+    func initControlLayer() -> (){
+        controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
+        controlLayer.fillColor = SKColor.blueColor()
+        controlLayer.zPosition = 10000
+        
+    }
+//-------------------- start Sub-Mission --------------------
     func startSubMission(subMission : SubMission){
         if gameLayer != nil{
             var pPos = self.gameLayer!.position
@@ -113,22 +129,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             gameLayer!.position = pPos
         }
         self.addChild(gameLayer!)
-        startSuperpositionPhase()
-    }
-    
-    
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    
-    func initControlLayer() -> (){
-        controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
-        controlLayer.fillColor = SKColor.blueColor()
-        controlLayer.zPosition = 10000
         
+        //var newY = gameLayer!.position.y + movement
+        let diff = gameArea!.height - playRect!.size.height
+        let lowerBound = playRect!.origin.y - diff
+        gameLayer!.position = CGPoint(x:0 , y:lowerBound)
+        print (gameArea!.origin.y)
+        print(lowerBound)
+        self.currentStage = GameStage.Temp
+        gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 4), completion: {
+            () -> () in
+                self.createMissionLabel(self.currentMission + 1)
+                self.startSuperpositionPhase()
+            
+            })
+        
+        
+      
     }
     
 //-------------------- phys detect-----------------------------------------
@@ -596,7 +613,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         for i in 0...20{
             var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(100000, position: CGPoint(x: tempx , y: 1), gameScene: self)
+            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx , y: 1), gameScene: self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -650,6 +667,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         gameLayer!.enemyDoAction()
         print("start enemy phase")
         
+    }
+    func startCheckResult(){
+        self.currentStage = GameStage.Checking
+        if gameLayer!.checkResult() == false {
+            startEnemyPhase()
+        }
     }
     
     func startSuperpositionPhase(){
@@ -711,7 +734,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         currentStage = GameStage.Temp
         
-        self.createMissionLabel(self.currentMission + 1)
+        //self.createMissionLabel(self.currentMission + 1)
         gameLayer!.fadeOutAll({
             () -> () in
            
@@ -730,6 +753,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func createFlashLabel(text : String){
         var label = SKLabelNode(text: text)
         label.position = CGPoint(x: self.size.width / 2, y: 500)
+        label.zPosition = 10000
         label.fontName = "Helvetica"
         var seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
         

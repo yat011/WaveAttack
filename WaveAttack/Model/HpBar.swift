@@ -29,9 +29,11 @@ class HpBar : SKShapeNode {
         bar.hpBar =  SKSpriteNode(color: SKColor.redColor(), size: CGSize())
         var maxWidth = rect.width
         bar.maxWidth = maxWidth
+    
         var tempCur = current
         if (tempCur < 0){
             tempCur = 0
+            bar.current = 0
         }
         bar.hpBar!.size = CGSize(width: tempCur / max * maxWidth, height: rect.height)
         bar.hpBar!.anchorPoint = CGPoint(x: 0,y: 0)

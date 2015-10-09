@@ -46,6 +46,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
     override init(size: CGSize) {
+        
+        CharacterParser.parse("")
+        
+        srandom(UInt32(NSDate().timeIntervalSinceReferenceDate))
         let ph: CGFloat = size.height / 2
         let pPos = CGPoint(x: 0, y : ph)
         var psize  = CGSize(width: size.width, height: size.height / 2)

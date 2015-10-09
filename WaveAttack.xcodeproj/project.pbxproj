@@ -35,6 +35,8 @@
 		5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E0461BC4D64900D0B7ED /* MathHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		5F96E04A1BC65ADC00D0B7ED /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E0491BC65ADC00D0B7ED /* Character.swift */; settings = {ASSET_TAGS = (); }; };
 		5F96E04C1BC65B4D00D0B7ED /* CharacterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E04B1BC65B4D00D0B7ED /* CharacterParser.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E04E1BC7A37000D0B7ED /* characters.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F96E04D1BC7A37000D0B7ED /* characters.json */; settings = {ASSET_TAGS = (); }; };
+		5F96E0501BC7ACA300D0B7ED /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
 		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
@@ -94,6 +96,8 @@
 		5F96E0461BC4D64900D0B7ED /* MathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelper.swift; sourceTree = "<group>"; };
 		5F96E0491BC65ADC00D0B7ED /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		5F96E04B1BC65B4D00D0B7ED /* CharacterParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterParser.swift; sourceTree = "<group>"; };
+		5F96E04D1BC7A37000D0B7ED /* characters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = characters.json; sourceTree = "<group>"; };
+		5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
 		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				544F056D1BA305CD00AC1BBD /* LaunchScreen.storyboard */,
 				544F05701BA305CD00AC1BBD /* Info.plist */,
 				5412854F1BA548E700EB4A05 /* GameScene.sks */,
+				5F96E04D1BC7A37000D0B7ED /* characters.json */,
 			);
 			path = WaveAttack;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 			children = (
 				5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */,
 				5F96E0461BC4D64900D0B7ED /* MathHelper.swift */,
+				5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -375,6 +381,7 @@
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
+				5F96E04E1BC7A37000D0B7ED /* characters.json in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 			);
@@ -422,6 +429,7 @@
 				5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
+				5F96E0501BC7ACA300D0B7ED /* JSONHelper.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */,
 				5F96E04A1BC65ADC00D0B7ED /* Character.swift in Sources */,

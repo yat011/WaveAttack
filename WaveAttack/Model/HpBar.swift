@@ -59,7 +59,7 @@ class HpBar : SKShapeNode {
             }
         })
         bar.alpha = 0.6
-        bar.label = SKLabelNode(text: String(format: "%.2f / %.2f", current, max))
+        bar.label = SKLabelNode(text: String(format: "%.2f / %.2f", bar.current, max))
         bar.label!.fontSize = 11
         bar.label!.position = CGPoint(x: rect.origin.x + maxWidth, y: rect.origin.y)
         bar.label!.fontColor = SKColor.whiteColor()

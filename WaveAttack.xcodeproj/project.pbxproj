@@ -22,6 +22,8 @@
 		5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6051BC404E0000F2E14 /* ResultUI.swift */; };
 		5420A60D1BC572E5000F2E14 /* crack.png in Resources */ = {isa = PBXBuildFile; fileRef = 5420A60C1BC572E5000F2E14 /* crack.png */; };
 		5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A60E1BC589A8000F2E14 /* TextureTools.swift */; };
+		5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6101BC6747E000F2E14 /* ButtonUI.swift */; };
+		5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6121BC6F322000F2E14 /* Clickable.swift */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
@@ -88,6 +90,8 @@
 		5420A6051BC404E0000F2E14 /* ResultUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultUI.swift; sourceTree = "<group>"; };
 		5420A60C1BC572E5000F2E14 /* crack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crack.png; sourceTree = "<group>"; };
 		5420A60E1BC589A8000F2E14 /* TextureTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureTools.swift; sourceTree = "<group>"; };
+		5420A6101BC6747E000F2E14 /* ButtonUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonUI.swift; sourceTree = "<group>"; };
+		5420A6121BC6F322000F2E14 /* Clickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clickable.swift; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
+				5420A6101BC6747E000F2E14 /* ButtonUI.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				546F54141BA32E1F00EB576B /* Refractable.swift */,
 				54A611911BA81EEC009299A6 /* Reflectable.swift */,
 				54A611931BA8212C009299A6 /* Cloneable.swift */,
+				5420A6121BC6F322000F2E14 /* Clickable.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -487,6 +493,7 @@
 				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
+				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
@@ -495,6 +502,7 @@
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
+				5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

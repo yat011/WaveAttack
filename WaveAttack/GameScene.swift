@@ -25,7 +25,7 @@ enum GameStage {
 }
 
 enum TouchType {
-    case gameArea , controlArea
+    case gameArea , controlArea , button
 }
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
@@ -39,6 +39,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var endContactQueue  = [SKPhysicsContact]()
     var contactMap = [EnergyPacket : ContactContainer]()
     var playRect : CGRect? = nil  //showSize
+    var controlRect : CGRect? = nil
     var gameArea : CGRect? = nil    //game Rect
     var packetArea: CGRect? = nil
     var mission : Mission? = nil
@@ -69,7 +70,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let pPos = CGPoint(x: 0, y : ph)
         let psize  = CGSize(width: size.width, height: size.height / 2)
         playRect  = CGRect(origin: pPos, size: psize)
-      
+        controlRect = CGRect(origin: CGPoint(x: 0,y: 0), size: psize)
         lenOfMission = mission!.missions.count
         
   
@@ -79,7 +80,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         var tplayer = Player(hp: 1000)
         self.player = tplayer
-        self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer)
+        self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
         
         
         backgroundColor = SKColor.whiteColor()
@@ -137,7 +138,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         print (gameArea!.origin.y)
         print(lowerBound)
         self.currentStage = GameStage.Temp
-        gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 4), completion: {
+        gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in
                 self.createMissionLabel(self.currentMission + 1)
                 self.startSuperpositionPhase()
@@ -351,6 +352,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var tapTimer : SKNode = SKNode()
     var longTapTimer : SKNode = SKNode()
     var pressedDestObject : DestructibleObject? = nil
+    var prevPressedObj : Clickable? = nil
     var destHpBarSize : CGSize = CGSize(width: 50, height: 10)
     var destHpBar : HpBar? = nil
     var clearUpNodes = Set<SKNode>()
@@ -419,6 +421,21 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (touching){
+            
+            checkEndPress()
+            
+        }
+        clearTouch()
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        clearTouch()
+    }
+    
+    
+    
     func checkPressOn(touchDown :CGPoint){
         
         
@@ -428,22 +445,30 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             if pressedSkill != nil{
                 touchesBeganSkill(prevTouchPoint!)
                 return
-            }
-            for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
-                if gameObject is DestructibleObject{
-                    var medium = gameObject as! DestructibleObject
-                    var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
-                    if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
-                        pressedDestObject = medium
+            }else{
+                for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
+                    if gameObject is DestructibleObject{
+                        var medium = gameObject as! DestructibleObject
+                        var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
+                        if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
+                            pressedDestObject = medium
+                        }
                     }
-                }
+                    
                 
-            
+                }
             }
-        }else{ // control Layer
+        }else if CGRectContainsPoint(controlRect!, touchDown){ // control Layer
             touchType = TouchType.controlArea
         }
         //button
+        var tempBtn  = infoLayer?.checkClick(touchDown)
+        if tempBtn != nil{
+            touchType = TouchType.button
+            prevPressedObj  = tempBtn!
+        }
+        
+        
         
     }
     
@@ -473,8 +498,45 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 
             }
             
+        }else if (touchType == TouchType.button){
+            if prevPressedObj == nil{
+                return
+            }else {
+                if prevPressedObj?.checkClick(touchDown) ==  nil{
+                    prevPressedObj = nil
+                    return
+                }
+            }
         }
     }
+    func checkEndPress (){
+        if self.currentStage == GameStage.Superposition{
+            
+            if touchType == TouchType.gameArea{
+                if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!) == false){
+                    return
+                }
+                if (isTap){
+                    tempCreatePacket()
+                    startAttackPhase()
+                }
+            }else{
+                if isTap{
+                    clickOnControlLayer()
+                }
+            }
+        }
+        if (touchType == TouchType.button){
+            if prevPressedObj == nil{
+                return
+            }else {
+                prevPressedObj!.click()
+            }
+        }
+        
+    }
+    
+    
     func touchesBeganSkill(touchDown :CGPoint){
         if (pressedSkill is PlacableSkill){
             let temp =  pressedSkill as! PlacableSkill
@@ -567,32 +629,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touching){
-            if self.currentStage == GameStage.Superposition{
-                
-                if touchType == TouchType.gameArea{
-                    if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!) == false){
-                        return
-                    }
-                    if (isTap){
-                        tempCreatePacket()
-                        startAttackPhase()
-                    }
-                }else{
-                    if isTap{
-                        clickOnControlLayer()
-                    }
-                }
-            }
-        }
-       clearTouch()
-    }
-    
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        clearTouch()
-    }
+  
     
     func clearTouch (){
         if (dragSkillObj != nil){
@@ -713,6 +750,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         if (currentMission >= mission?.missions.count){
             currentStage = GameStage.Complete
+            print("complete Mission")
             gameLayer!.fadeOutAll({
                 () -> () in
                 self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)

@@ -24,18 +24,6 @@
 		5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A60E1BC589A8000F2E14 /* TextureTools.swift */; };
 		5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6101BC6747E000F2E14 /* ButtonUI.swift */; };
 		5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6121BC6F322000F2E14 /* Clickable.swift */; };
-		544B60E71BCA22710064B8AE /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DC1BCA22710064B8AE /* Character.swift */; };
-		544B60E81BCA22710064B8AE /* CharacterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DD1BCA22710064B8AE /* CharacterParser.swift */; };
-		544B60E91BCA22710064B8AE /* characters.json in Resources */ = {isa = PBXBuildFile; fileRef = 544B60DE1BCA22710064B8AE /* characters.json */; };
-		544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DF1BCA22710064B8AE /* JSONHelper.swift */; };
-		544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E01BCA22710064B8AE /* MathHelper.swift */; };
-		544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E11BCA22710064B8AE /* PointerHelper.swift */; };
-		544B60ED1BCA22710064B8AE /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E21BCA22710064B8AE /* UIButton.swift */; };
-		544B60EE1BCA22710064B8AE /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E31BCA22710064B8AE /* UINode.swift */; };
-		544B60EF1BCA22710064B8AE /* UIWaveButtonTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */; };
-		544B60F01BCA22710064B8AE /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E51BCA22710064B8AE /* Wave.swift */; };
-		544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E61BCA22710064B8AE /* WaveFactory.swift */; };
-		544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
@@ -61,12 +49,27 @@
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
+<<<<<<< HEAD
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
 		54F8D8941BB05879009E9654 /* SubMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8931BB05879009E9654 /* SubMission.swift */; };
 		54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8951BB1D29B009E9654 /* HpBar.swift */; };
 		54F8D8981BB1D943009E9654 /* redbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D8971BB1D943009E9654 /* redbar.png */; };
+=======
+		5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF471BC27E5D00181D41 /* Wave.swift */; settings = {ASSET_TAGS = (); }; };
+		5F62AF4B1BC27EC100181D41 /* PointerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E0461BC4D64900D0B7ED /* MathHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E04A1BC65ADC00D0B7ED /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E0491BC65ADC00D0B7ED /* Character.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E04C1BC65B4D00D0B7ED /* CharacterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E04B1BC65B4D00D0B7ED /* CharacterParser.swift */; settings = {ASSET_TAGS = (); }; };
+		5F96E04E1BC7A37000D0B7ED /* characters.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F96E04D1BC7A37000D0B7ED /* characters.json */; settings = {ASSET_TAGS = (); }; };
+		5F96E0501BC7ACA300D0B7ED /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC01BAFC97900D998CC /* UINode.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC31BB2473B00D998CC /* UIButton.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC71BB5516800D998CC /* WaveFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC61BB5516800D998CC /* WaveFactory.swift */; settings = {ASSET_TAGS = (); }; };
+		5FB05BC91BB5535C00D998CC /* UIWaveButtonTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */; settings = {ASSET_TAGS = (); }; };
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,18 +107,6 @@
 		5420A60E1BC589A8000F2E14 /* TextureTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureTools.swift; sourceTree = "<group>"; };
 		5420A6101BC6747E000F2E14 /* ButtonUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonUI.swift; sourceTree = "<group>"; };
 		5420A6121BC6F322000F2E14 /* Clickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clickable.swift; sourceTree = "<group>"; };
-		544B60DC1BCA22710064B8AE /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
-		544B60DD1BCA22710064B8AE /* CharacterParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterParser.swift; sourceTree = "<group>"; };
-		544B60DE1BCA22710064B8AE /* characters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = characters.json; sourceTree = "<group>"; };
-		544B60DF1BCA22710064B8AE /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
-		544B60E01BCA22710064B8AE /* MathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelper.swift; sourceTree = "<group>"; };
-		544B60E11BCA22710064B8AE /* PointerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerHelper.swift; sourceTree = "<group>"; };
-		544B60E21BCA22710064B8AE /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
-		544B60E31BCA22710064B8AE /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
-		544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWaveButtonTexture.swift; sourceTree = "<group>"; };
-		544B60E51BCA22710064B8AE /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
-		544B60E61BCA22710064B8AE /* WaveFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFactory.swift; sourceTree = "<group>"; };
-		544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -147,12 +138,27 @@
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
 		54F8D8931BB05879009E9654 /* SubMission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubMission.swift; sourceTree = "<group>"; };
 		54F8D8951BB1D29B009E9654 /* HpBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HpBar.swift; sourceTree = "<group>"; };
 		54F8D8971BB1D943009E9654 /* redbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbar.png; sourceTree = "<group>"; };
+=======
+		5F62AF471BC27E5D00181D41 /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
+		5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerHelper.swift; sourceTree = "<group>"; };
+		5F96E0461BC4D64900D0B7ED /* MathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelper.swift; sourceTree = "<group>"; };
+		5F96E0491BC65ADC00D0B7ED /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		5F96E04B1BC65B4D00D0B7ED /* CharacterParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterParser.swift; sourceTree = "<group>"; };
+		5F96E04D1BC7A37000D0B7ED /* characters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = characters.json; sourceTree = "<group>"; };
+		5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
+		5FB05BC01BAFC97900D998CC /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
+		5FB05BC31BB2473B00D998CC /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		5FB05BC61BB5516800D998CC /* WaveFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFactory.swift; sourceTree = "<group>"; };
+		5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWaveButtonTexture.swift; sourceTree = "<group>"; };
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,25 +227,12 @@
 		5420A6021BC2FCBB000F2E14 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				544B60F21BCA22800064B8AE /* WaveUI */,
 				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
 				5420A6101BC6747E000F2E14 /* ButtonUI.swift */,
 			);
 			name = UI;
-			sourceTree = "<group>";
-		};
-		544B60F21BCA22800064B8AE /* WaveUI */ = {
-			isa = PBXGroup;
-			children = (
-				544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */,
-				544B60E21BCA22710064B8AE /* UIButton.swift */,
-				544B60E31BCA22710064B8AE /* UINode.swift */,
-				544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */,
-			);
-			name = WaveUI;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		544F05541BA305CD00AC1BBD = {
@@ -265,15 +258,14 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
-				544B60DC1BCA22710064B8AE /* Character.swift */,
-				544B60DD1BCA22710064B8AE /* CharacterParser.swift */,
-				544B60DE1BCA22710064B8AE /* characters.json */,
-				544B60DF1BCA22710064B8AE /* JSONHelper.swift */,
-				544B60E01BCA22710064B8AE /* MathHelper.swift */,
-				544B60E11BCA22710064B8AE /* PointerHelper.swift */,
-				544B60E51BCA22710064B8AE /* Wave.swift */,
-				544B60E61BCA22710064B8AE /* WaveFactory.swift */,
+<<<<<<< HEAD
 				54F8D8871BB03AAE009E9654 /* mission */,
+=======
+				5F96E0481BC65AC400D0B7ED /* Character */,
+				5F62AF491BC27EAD00181D41 /* Helper */,
+				5FB05BC51BB5501A00D998CC /* Wave */,
+				5FB05BC21BB1A8F300D998CC /* UI */,
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
 				54553E331BA6F3E400A38B18 /* Common */,
@@ -286,6 +278,7 @@
 				544F056D1BA305CD00AC1BBD /* LaunchScreen.storyboard */,
 				544F05701BA305CD00AC1BBD /* Info.plist */,
 				5412854F1BA548E700EB4A05 /* GameScene.sks */,
+				5F96E04D1BC7A37000D0B7ED /* characters.json */,
 			);
 			path = WaveAttack;
 			sourceTree = "<group>";
@@ -365,12 +358,52 @@
 			name = Protocol;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		54F8D8871BB03AAE009E9654 /* mission */ = {
 			isa = PBXGroup;
 			children = (
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
 			name = mission;
+=======
+		5F62AF491BC27EAD00181D41 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5F62AF4A1BC27EC100181D41 /* PointerHelper.swift */,
+				5F96E0461BC4D64900D0B7ED /* MathHelper.swift */,
+				5F96E04F1BC7ACA300D0B7ED /* JSONHelper.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
+		5F96E0481BC65AC400D0B7ED /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				5F96E0491BC65ADC00D0B7ED /* Character.swift */,
+				5F96E04B1BC65B4D00D0B7ED /* CharacterParser.swift */,
+			);
+			name = Character;
+			sourceTree = "<group>";
+		};
+		5FB05BC21BB1A8F300D998CC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				5FB05BBE1BAFB6C400D998CC /* UIWaveButton.swift */,
+				5FB05BC01BAFC97900D998CC /* UINode.swift */,
+				5FB05BC31BB2473B00D998CC /* UIButton.swift */,
+				5FB05BC81BB5535C00D998CC /* UIWaveButtonTexture.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		5FB05BC51BB5501A00D998CC /* Wave */ = {
+			isa = PBXGroup;
+			children = (
+				5FB05BC61BB5516800D998CC /* WaveFactory.swift */,
+				5F62AF471BC27E5D00181D41 /* Wave.swift */,
+			);
+			name = Wave;
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -481,9 +514,9 @@
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
-				544B60E91BCA22710064B8AE /* characters.json in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
+				5F96E04E1BC7A37000D0B7ED /* characters.json in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				5420A5E91BC04935000F2E14 /* Oval.png in Resources */,
@@ -514,50 +547,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				544B60E81BCA22710064B8AE /* CharacterParser.swift in Sources */,
 				5420A5E71BC04406000F2E14 /* ConvexLen.swift in Sources */,
 				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
 				5420A5EC1BC05206000F2E14 /* Skill.swift in Sources */,
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
+				5F62AF4B1BC27EC100181D41 /* PointerHelper.swift in Sources */,
+				5F96E04C1BC65B4D00D0B7ED /* CharacterParser.swift in Sources */,
+				5FB05BC71BB5516800D998CC /* WaveFactory.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
-				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
-				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,
+				5FB05BC11BAFC97900D998CC /* UINode.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
-				544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
+<<<<<<< HEAD
 				54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
+=======
+				5FB05BC41BB2473B00D998CC /* UIButton.swift in Sources */,
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
-				544B60EF1BCA22710064B8AE /* UIWaveButtonTexture.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,
-				544B60F01BCA22710064B8AE /* Wave.swift in Sources */,
-				544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */,
 				5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */,
-				544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */,
-				544B60EE1BCA22710064B8AE /* UINode.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
 				54553E301BA5C22900A38B18 /* Soil.swift in Sources */,
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
+<<<<<<< HEAD
 				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
+=======
+				5FB05BC91BB5535C00D998CC /* UIWaveButtonTexture.swift in Sources */,
+				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
+				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
+				5FB05BBF1BAFB6C400D998CC /* UIWaveButton.swift in Sources */,
+>>>>>>> 5097210c1420f03f3c767337ccfebc69007fa170
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
-				544B60E71BCA22710064B8AE /* Character.swift in Sources */,
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
-				544B60ED1BCA22710064B8AE /* UIButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
+				5F96E0501BC7ACA300D0B7ED /* JSONHelper.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
+				5F96E0471BC4D64900D0B7ED /* MathHelper.swift in Sources */,
+				5F96E04A1BC65ADC00D0B7ED /* Character.swift in Sources */,
+				5F62AF481BC27E5D00181D41 /* Wave.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
 				5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */,
 			);

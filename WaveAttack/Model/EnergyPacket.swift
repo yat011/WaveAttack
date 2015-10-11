@@ -10,10 +10,12 @@ import Foundation
 import SpriteKit
 
 class EnergyPacket : GameObject{
+
     let radius : CGFloat = 5
     var physRadius :CGFloat = 2.5
     var sprite : GameSKShapeNode? = nil
     var energy : CGFloat = 0
+
     var direction : CGVector = CGVector(dx: 0, dy: 1)
       // var speed : CGFloat = 10
     weak var gameLayer : GameLayer? = nil
@@ -36,8 +38,10 @@ class EnergyPacket : GameObject{
         self.energy = energy
         
         var rectNode = GameSKShapeNode(circleOfRadius: radius)
-        
-        
+
+        rectNode.strokeColor=SKColor.clearColor()
+        rectNode.lineWidth=0.0
+
         
         rectNode.name = GameObjectName.Packet.rawValue
         var tempRect = rectNode.frame
@@ -62,7 +66,9 @@ class EnergyPacket : GameObject{
         self.sprite!.zPosition = 1.0
         self.gameScene  = sc
         rectNode.fillColor = getColor()
-        rectNode.setGameObject(self)
+        rectNode.strokeColor = getColor()
+        rectNode.antialiased = false
+         rectNode.setGameObject(self)
         
         // event
        // self.subscribeEvent(EnergyPacket.DELETED_EVENT, call: gameScene!.gameLayer!.removeGameObject)
@@ -115,6 +121,7 @@ class EnergyPacket : GameObject{
         if (belongTo.count > 0){
             getBelongTo()!.removePacketRef(self)
         }
+
         belongTo.append(m)
         getBelongTo()!.addPacketRef(self)
     }

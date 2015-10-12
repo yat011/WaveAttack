@@ -517,7 +517,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func checkPressOn(touchDown :CGPoint,touches: Set<UITouch>){
         
         
-        if (CGRectContainsPoint(playRect!, touchDown)){
+        if (CGRectContainsPoint(CGRect(origin: gameLayer!.position, size: gameLayer!.calculateAccumulatedFrame().size), (touches.first?.locationInNode(gameLayer!.parent!))!)){
             touchType = TouchType.gameArea
             prevTouchPoint = touchDown
             if pressedSkill != nil{
@@ -579,8 +579,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
             
             
-            scrollGameLayer(moveY)
-            dragVelocity = (moveY)
+            scrollGameLayer(-moveY)
+            dragVelocity = (-moveY)
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
                 if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
@@ -709,7 +709,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //gameLayer.position.y = newY
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
-       // self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
+        self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
 
     }
     

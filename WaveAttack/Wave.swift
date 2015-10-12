@@ -65,21 +65,24 @@ class Wave{
         let path:CGMutablePathRef=CGPathCreateMutable()
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
-        
-        for _ in 1...3 //repeat 2-3 times for looping
-        {
-            for c in componentList
-            {
-                WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height, directConnect: true)
-            }
-            /*
-            WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 50, height: 10, directConnect: true)
-            WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 100, height: 10, directConnect: true)
-            WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 100, height: -10, directConnect: true)
-            WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 50, height: -10, directConnect: true)
-            */
+        if (waveData!=nil){
+            CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
         }
-
+        else{
+            for _ in 1...3 //repeat 2-3 times for looping
+            {
+                for c in componentList
+                {
+                    WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height, directConnect: true)
+                }
+                /*
+                WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 50, height: 10, directConnect: true)
+                WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 100, height: 10, directConnect: true)
+                WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 100, height: -10, directConnect: true)
+                WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 50, height: -10, directConnect: true)
+                */
+            }
+        }
 /*
         var test=[CGFloat]()
         for _ in 1...100{
@@ -95,8 +98,7 @@ class Wave{
         }
         */
         CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
-        */
-        //CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
+*/
         shape=SKShapeNode(path: path)
     }
     func getShape()->SKShapeNode{
@@ -126,18 +128,23 @@ class Wave{
     }
     
     
-    static func superposition(w1:Wave, w2:Wave)->Wave{
-        let w=Wave()
-        w.waveData=[CGFloat]()
-        for i in 0...w.length-1{
-            w.waveData?.append(w1.getAmplitude(i)+w2.getAmplitude(i))
+    func superposition(var d1:Int, w2:Wave, var d2:Int){
+        
+        d1=d1%300
+        d2=d2%300
+        if (waveData==nil) {calAmplitudes()}
+        for _ in 0...length-1{
+            waveData![d1]+=w2.getAmplitude(d2)
+            d1=(d1+1)%300
+            d2=(d2+1)%300
         }
-        return w
     }
     static func superposition(w1:Wave, var d1:Int, w2:Wave, var d2:Int)->Wave{
+        d1=d1%300
+        d2=d2%300
         let w=Wave()
         w.waveData=[CGFloat]()
-        for i in 0...w.length-1{
+        for _ in 0...w.length-1{
             w.waveData?.append(w1.getAmplitude(d1)+w2.getAmplitude(d2))
             d1=(d1+1)%300
             d2=(d2+1)%300

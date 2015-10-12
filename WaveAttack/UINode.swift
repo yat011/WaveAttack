@@ -61,7 +61,19 @@ class UINode: SKNode{
     
     func drawSuperposition()->Wave{
         //superposition test
-        let w=Wave.superposition((self.childNodeWithName("UIWaveButtonGroup")!.children[0] as! UIWaveButton).wave,d1: 0, w2: (self.childNodeWithName("UIWaveButtonGroup")!.children[1] as! UIWaveButton).wave, d2:0)
+        let w0=(self.childNodeWithName("UIWaveButtonGroup")!.children[0] as! UIWaveButton)
+        let w1=(self.childNodeWithName("UIWaveButtonGroup")!.children[1] as! UIWaveButton)
+        let w2=(self.childNodeWithName("UIWaveButtonGroup")!.children[2] as! UIWaveButton)
+        let w3=(self.childNodeWithName("UIWaveButtonGroup")!.children[3] as! UIWaveButton)
+        let w4=(self.childNodeWithName("UIWaveButtonGroup")!.children[4] as! UIWaveButton)
+        print(w0.waveShapeNode?.position.x)
+        
+        let w=Wave.superposition(w0.wave,d1: Int((w0.waveShapeNode?.position.x)!+750),
+            w2: Wave.superposition(w1.wave,d1: Int((w1.waveShapeNode?.position.x)!+750),
+                w2: Wave.superposition(w2.wave,d1: Int((w2.waveShapeNode?.position.x)!+750),
+                    w2: Wave.superposition(w3.wave,d1: Int((w3.waveShapeNode?.position.x)!+750), w2: w4.wave, d2: Int((w4.waveShapeNode?.position.x)!+750)), d2:0), d2:0), d2:0)
+            
+        //let w=Wave.superposition(w0.wave,d1: Int((w0.waveShapeNode?.position.x)!+750),w2: w1.wave,d2: Int((w1.waveShapeNode?.position.x)!+750))
         w.normalize()
         let n=w.getShape()
         n.position=CGPoint(x:-150, y:300)

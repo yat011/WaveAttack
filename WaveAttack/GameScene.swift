@@ -68,7 +68,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         //-------------------------
 
-        CharacterParser.parse("")
+        CharacterManager.parse("")
         
         srandom(UInt32(NSDate().timeIntervalSinceReferenceDate))
 

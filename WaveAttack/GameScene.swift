@@ -34,7 +34,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var gameLayer :GameLayer? = nil
     var infoLayer : InfoLayer? = nil
     var player : Player? = nil
-    var controlLayer : SKShapeNode = SKShapeNode()
+    var controlLayer : UINode? = nil
     var currentStage : GameStage = GameStage.Superposition
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
@@ -95,7 +95,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         initControlLayer()
  
-        self.addChild(controlLayer)
+        //self.addChild(controlLayer)
         self.addChild(infoLayer!)
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
@@ -123,8 +123,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
     func initControlLayer() -> (){
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
+        controlLayer = UIN
+        UIN.zPosition=100000
         self.addChild(UIN)
-        UIN.zPosition=100
+     
 
     }
 //-------------------- start Sub-Mission --------------------
@@ -147,8 +149,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
         gameLayer!.position = CGPoint(x:0 , y:lowerBound)
+        controlLayer?.position = CGPoint(x: self.size.width/2, y: 0)
         print (gameArea!.origin.y)
         print(lowerBound)
+    
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in

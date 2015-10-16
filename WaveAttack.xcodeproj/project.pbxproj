@@ -36,6 +36,11 @@
 		544B60F01BCA22710064B8AE /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E51BCA22710064B8AE /* Wave.swift */; };
 		544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E61BCA22710064B8AE /* WaveFactory.swift */; };
 		544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */; };
+		544B60F71BCF77CB0064B8AE /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60F61BCF77CB0064B8AE /* MainMenuController.swift */; };
+		544B60F91BCF9EEE0064B8AE /* ConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60F81BCF9EEE0064B8AE /* ConfirmWindow.swift */; };
+		544B60FC1BD020110064B8AE /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FA1BD020110064B8AE /* Model.xcdatamodeld */; };
+		544B60FF1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FD1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift */; };
+		544B61001BD022D20064B8AE /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FE1BD022D20064B8AE /* PlayerInfo.swift */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
@@ -116,6 +121,11 @@
 		544B60E51BCA22710064B8AE /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		544B60E61BCA22710064B8AE /* WaveFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFactory.swift; sourceTree = "<group>"; };
 		544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
+		544B60F61BCF77CB0064B8AE /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
+		544B60F81BCF9EEE0064B8AE /* ConfirmWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmWindow.swift; sourceTree = "<group>"; };
+		544B60FB1BD020110064B8AE /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		544B60FD1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PlayerInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		544B60FE1BD022D20064B8AE /* PlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -226,6 +236,7 @@
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
 				5420A6101BC6747E000F2E14 /* ButtonUI.swift */,
+				544B60F81BCF9EEE0064B8AE /* ConfirmWindow.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -240,6 +251,15 @@
 			);
 			name = WaveUI;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		544B60F51BCF77AF0064B8AE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				544B60F61BCF77CB0064B8AE /* MainMenuController.swift */,
+			);
+			name = Controller;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		544F05541BA305CD00AC1BBD = {
@@ -273,6 +293,7 @@
 				544B60E11BCA22710064B8AE /* PointerHelper.swift */,
 				544B60E51BCA22710064B8AE /* Wave.swift */,
 				544B60E61BCA22710064B8AE /* WaveFactory.swift */,
+				544B60F51BCF77AF0064B8AE /* Controller */,
 				54F8D8871BB03AAE009E9654 /* mission */,
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
@@ -334,6 +355,7 @@
 		5474C5621BA320B00015C861 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				544B60FA1BD020110064B8AE /* Model.xcdatamodeld */,
 				5420A6021BC2FCBB000F2E14 /* UI */,
 				5420A5EA1BC050C0000F2E14 /* Skill */,
 				5420A5E51BC03F2D000F2E14 /* DestObj */,
@@ -350,6 +372,8 @@
 				54A55BAA1BBA97A70039D744 /* InfoLayer.swift */,
 				54A55BAC1BBA9B1F0039D744 /* Player.swift */,
 				5420A5E11BBEF1AB000F2E14 /* Event.swift */,
+				544B60FD1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift */,
+				544B60FE1BD022D20064B8AE /* PlayerInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -516,6 +540,7 @@
 			files = (
 				544B60E81BCA22710064B8AE /* CharacterParser.swift in Sources */,
 				5420A5E71BC04406000F2E14 /* ConvexLen.swift in Sources */,
+				544B60FF1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift in Sources */,
 				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
 				5420A5EC1BC05206000F2E14 /* Skill.swift in Sources */,
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
@@ -531,12 +556,14 @@
 				54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
+				544B60F71BCF77CB0064B8AE /* MainMenuController.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
 				544B60EF1BCA22710064B8AE /* UIWaveButtonTexture.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,
 				544B60F01BCA22710064B8AE /* Wave.swift in Sources */,
 				544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */,
+				544B60FC1BD020110064B8AE /* Model.xcdatamodeld in Sources */,
 				5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */,
 				544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */,
 				544B60EE1BCA22710064B8AE /* UINode.swift in Sources */,
@@ -549,11 +576,13 @@
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
+				544B60F91BCF9EEE0064B8AE /* ConfirmWindow.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
 				544B60E71BCA22710064B8AE /* Character.swift in Sources */,
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
+				544B61001BD022D20064B8AE /* PlayerInfo.swift in Sources */,
 				544B60ED1BCA22710064B8AE /* UIButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
@@ -699,6 +728,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WaveAttack/Info.plist;
@@ -707,6 +737,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cs.WaveAttack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -715,14 +746,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = WaveAttack/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cs.WaveAttack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -815,6 +850,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		544B60FA1BD020110064B8AE /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				544B60FB1BD020110064B8AE /* Model.xcdatamodel */,
+			);
+			currentVersion = 544B60FB1BD020110064B8AE /* Model.xcdatamodel */;
+			name = Model.xcdatamodeld;
+			path = ../../Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 544F05551BA305CD00AC1BBD /* Project object */;
 }

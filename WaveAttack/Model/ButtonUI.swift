@@ -36,7 +36,9 @@ class ButtonUI : SKSpriteNode, Clickable{
     
     
     func click(){
-        clickfunc?()
+        if (self.scene != nil){
+            clickfunc?()
+        }
     }
     func getRect () -> CGRect{
         var globalPos = gameScene!.convertPoint(self.frame.origin, fromNode: self.parent!)

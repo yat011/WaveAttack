@@ -35,7 +35,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var infoLayer : InfoLayer? = nil
     var player : Player? = nil
     var controlLayer : UINode? = nil
-    var currentStage : GameStage = GameStage.Superposition
+    var _prevStage : GameStage? = nil
+    var _currentStage : GameStage = GameStage.Superposition
+    var currentStage : GameStage {get {return _currentStage}
+        set(c){
+            _prevStage = _currentStage
+            _currentStage = c
+        }
+    }
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
    
@@ -49,14 +56,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
-    
+    var buttonList = Dictionary<GameStage, [Clickable]>()
     var objectHpBar : HpBar? = nil
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
     override init(size: CGSize) {
         
-     
+    
         //updateTimeInterval = 1.0 / fixedFps33 
         super.init(size: size)
         // load mission
@@ -102,9 +109,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
  
         
         physicsWorld.contactDelegate = self
-       
- 
-    }
+       // var temp = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
+        //self.addChild(temp)
+        
+     }
 
 
     
@@ -560,12 +568,24 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         }
         //button
+        var btns = self.buttonList[currentStage]
+        if btns != nil{
+            for btn in btns! {
+                var clicked = btn.checkClick(touchDown)
+                if clicked != nil{
+                    touchType = TouchType.button
+                    prevPressedObj = clicked
+                }
+            }
+        }
+        
+      /*
         var tempBtn  = infoLayer?.checkClick(touchDown)
         if tempBtn != nil{
             touchType = TouchType.button
             prevPressedObj  = tempBtn!
         }
-        
+        */
         
         
     }
@@ -581,10 +601,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             if (pressedSkill != nil && touchesMovedSkill(touchDown) == false){
                 return
             }
+            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy){
             
-            
-            scrollGameLayer(-moveY)
-            dragVelocity = (-moveY)
+                scrollGameLayer(-moveY)
+                dragVelocity = (-moveY)
+            }
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
                 if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
@@ -895,12 +916,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func completeSubMission(){
         currentMission += 1
         
-        if (currentMission >= mission?.missions.count){
+        if (currentMission >= mission?.missions.count){ // complete Mission
             currentStage = GameStage.Complete
             print("complete Mission")
+          
+            
+            PlayerInfo.playerInfo!.passMission = mission!.missionId
+            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
+            do{
+                try app.managedObjectContext!.save()
+                print("saved")
+            }catch{
+                print("fail")
+            }
             gameLayer!.fadeOutAll({
                 () -> () in
-                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)
+                
+                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
                 self.addChild(self.resultUI!)
                 
                 //numRounds = 20
@@ -951,6 +983,22 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     }
     
+//---------manage Clickable
+    func addClickable(stage: GameStage, _ click : Clickable) {
+        if self.buttonList[stage] == nil{
+            self.buttonList[stage] = []
+        }
+        self.buttonList[stage]!.append(click)
+    }
+    //---remove -------
+    
+    
+    // recover prevStage
+    func resumeStage(){
+        if (_prevStage != nil){
+            _currentStage = _prevStage!
+        }
+    }
 }
 
 

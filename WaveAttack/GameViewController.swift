@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
 
     
     let fixedFps : Int = 30
-    
+    static weak var current: GameViewController? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +38,10 @@ class GameViewController: UIViewController {
         */
         scene.scaleMode = .AspectFit
         
+       GameViewController.current = self
+        print(skView.scene)
         skView.presentScene(scene)
+       // skView.
         //print(skView.bounds.size)
         
         

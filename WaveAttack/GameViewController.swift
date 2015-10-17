@@ -14,6 +14,7 @@ class GameViewController: UIViewController {
     
     let fixedFps : Int = 30
     static weak var current: GameViewController? = nil
+    static var currentMissionId = 1
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,7 +27,7 @@ class GameViewController: UIViewController {
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             skView.frameInterval = 60 / fixedFps
-        let scene = GameScene(size: CGSize(width: 375, height: 667))
+        let scene = GameScene(size: CGSize(width: 375, height: 667), missionId: GameViewController.currentMissionId)
         
         
            /* if let scene = GameScene(fileNamed : "GameScene"){

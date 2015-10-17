@@ -41,6 +41,8 @@
 		544B60FC1BD020110064B8AE /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FA1BD020110064B8AE /* Model.xcdatamodeld */; };
 		544B60FF1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FD1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift */; };
 		544B61001BD022D20064B8AE /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60FE1BD022D20064B8AE /* PlayerInfo.swift */; };
+		544B61061BD2D0920064B8AE /* mission2.json in Resources */ = {isa = PBXBuildFile; fileRef = 544B61051BD2D0920064B8AE /* mission2.json */; };
+		544B61081BD2D51B0064B8AE /* MissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B61071BD2D51B0064B8AE /* MissionsController.swift */; };
 		544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05601BA305CD00AC1BBD /* AppDelegate.swift */; };
 		544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05641BA305CD00AC1BBD /* GameScene.swift */; };
 		544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F05661BA305CD00AC1BBD /* GameViewController.swift */; };
@@ -126,6 +128,8 @@
 		544B60FB1BD020110064B8AE /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		544B60FD1BD022D20064B8AE /* PlayerInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PlayerInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		544B60FE1BD022D20064B8AE /* PlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
+		544B61051BD2D0920064B8AE /* mission2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission2.json; sourceTree = "<group>"; };
+		544B61071BD2D51B0064B8AE /* MissionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MissionsController.swift; path = WaveAttack/MissionsController.swift; sourceTree = SOURCE_ROOT; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				544B60F61BCF77CB0064B8AE /* MainMenuController.swift */,
+				544B61071BD2D51B0064B8AE /* MissionsController.swift */,
 			);
 			name = Controller;
 			path = Model;
@@ -393,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				54F8D88F1BB05444009E9654 /* mission1.json */,
+				544B61051BD2D0920064B8AE /* mission2.json */,
 			);
 			name = mission;
 			sourceTree = "<group>";
@@ -513,6 +519,7 @@
 				5420A5E91BC04935000F2E14 /* Oval.png in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 				5420A60D1BC572E5000F2E14 /* crack.png in Resources */,
+				544B61061BD2D0920064B8AE /* mission2.json in Resources */,
 				54F8D8981BB1D943009E9654 /* redbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,6 +553,7 @@
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
+				544B61081BD2D51B0064B8AE /* MissionsController.swift in Sources */,
 				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
@@ -731,13 +739,14 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = WaveAttack/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cs.WaveAttack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -750,14 +759,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = WaveAttack/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cs.WaveAttack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

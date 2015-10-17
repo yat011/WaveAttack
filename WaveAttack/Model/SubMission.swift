@@ -28,7 +28,7 @@ class SubMission{
         var objects = obj["object"] as! [AnyObject]
         for dictObj in objects{
             var dict = dictObj as! [String : String]
-            print (dict["type"])
+           // print (dict["type"])
 
             var medium: Medium = GameObjectFactory.getInstance().create(dict["type"]!) as! Medium
             var x : CGFloat = CGFloat((dict["x"]! as NSString).floatValue)

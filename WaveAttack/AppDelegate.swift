@@ -36,9 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 
             }
+            Mission.initMissionList()
         
         }catch {
             print("error")
+            fatalError("init error")
         }
         return true
     }

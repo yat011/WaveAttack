@@ -61,16 +61,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
-    override init(size: CGSize) {
+    init(size: CGSize, missionId: Int) {
         
-    
-        //updateTimeInterval = 1.0 / fixedFps33 
         super.init(size: size)
+        //updateTimeInterval = 1.0 / fixedFps33 
+        
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
         self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
         
-        mission =  Mission.loadMission(1,gameScene: self)
+        mission =  Mission.loadMission(missionId,gameScene: self)
         
         
         //-------------------------

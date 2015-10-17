@@ -71,7 +71,7 @@ extension Dictionary {
                 
                 
                 let dictionary = try NSJSONSerialization.JSONObjectWithData(data,options: NSJSONReadingOptions())
-                print (dictionary)
+                //print (dictionary)
                 res = dictionary  as! Dictionary<String, AnyObject>
                 return res
                 

@@ -30,9 +30,8 @@
 		544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DF1BCA22710064B8AE /* JSONHelper.swift */; };
 		544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E01BCA22710064B8AE /* MathHelper.swift */; };
 		544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E11BCA22710064B8AE /* PointerHelper.swift */; };
-		544B60ED1BCA22710064B8AE /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E21BCA22710064B8AE /* UIButton.swift */; };
+		544B60ED1BCA22710064B8AE /* UICharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E21BCA22710064B8AE /* UICharacterButton.swift */; };
 		544B60EE1BCA22710064B8AE /* UINode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E31BCA22710064B8AE /* UINode.swift */; };
-		544B60EF1BCA22710064B8AE /* UIWaveButtonTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */; };
 		544B60F01BCA22710064B8AE /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E51BCA22710064B8AE /* Wave.swift */; };
 		544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60E61BCA22710064B8AE /* WaveFactory.swift */; };
 		544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */; };
@@ -67,6 +66,8 @@
 		54F8D8941BB05879009E9654 /* SubMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8931BB05879009E9654 /* SubMission.swift */; };
 		54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8951BB1D29B009E9654 /* HpBar.swift */; };
 		54F8D8981BB1D943009E9654 /* redbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D8971BB1D943009E9654 /* redbar.png */; };
+		5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9EB1BD4A8850003C711 /* SkillManager.swift */; settings = {ASSET_TAGS = (); }; };
+		5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,15 +111,14 @@
 		544B60DF1BCA22710064B8AE /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		544B60E01BCA22710064B8AE /* MathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelper.swift; sourceTree = "<group>"; };
 		544B60E11BCA22710064B8AE /* PointerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerHelper.swift; sourceTree = "<group>"; };
-		544B60E21BCA22710064B8AE /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		544B60E21BCA22710064B8AE /* UICharacterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICharacterButton.swift; sourceTree = "<group>"; };
 		544B60E31BCA22710064B8AE /* UINode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINode.swift; sourceTree = "<group>"; };
-		544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWaveButtonTexture.swift; sourceTree = "<group>"; };
 		544B60E51BCA22710064B8AE /* Wave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
 		544B60E61BCA22710064B8AE /* WaveFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFactory.swift; sourceTree = "<group>"; };
 		544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWaveButton.swift; path = Model/UIWaveButton.swift; sourceTree = "<group>"; };
 		544F055D1BA305CD00AC1BBD /* WaveAttack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveAttack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544F05601BA305CD00AC1BBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		544F05641BA305CD00AC1BBD /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = ../GameScene.swift; sourceTree = "<group>"; };
 		544F05661BA305CD00AC1BBD /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		544F05691BA305CD00AC1BBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		544F056B1BA305CD00AC1BBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,6 +153,8 @@
 		54F8D8931BB05879009E9654 /* SubMission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubMission.swift; sourceTree = "<group>"; };
 		54F8D8951BB1D29B009E9654 /* HpBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HpBar.swift; sourceTree = "<group>"; };
 		54F8D8971BB1D943009E9654 /* redbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbar.png; sourceTree = "<group>"; };
+		5F01C9EB1BD4A8850003C711 /* SkillManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillManager.swift; sourceTree = "<group>"; };
+		5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,9 +203,9 @@
 		5420A5E51BC03F2D000F2E14 /* DestObj */ = {
 			isa = PBXGroup;
 			children = (
+				5420A5D91BBE713A000F2E14 /* Enemy */,
 				54553E361BA6FCD400A38B18 /* DestructibleObject.swift */,
 				54553E381BA6FD6000A38B18 /* SampleBox.swift */,
-				5420A5D91BBE713A000F2E14 /* Enemy */,
 				5420A5E61BC04406000F2E14 /* ConvexLen.swift */,
 			);
 			name = DestObj;
@@ -214,8 +216,10 @@
 			children = (
 				5420A5EB1BC05206000F2E14 /* Skill.swift */,
 				5420A5ED1BC05915000F2E14 /* ConvexLenSkill.swift */,
+				5F01C9EB1BD4A8850003C711 /* SkillManager.swift */,
 			);
 			name = Skill;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		5420A6021BC2FCBB000F2E14 /* UI */ = {
@@ -234,9 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				544B60F31BCA4A8E0064B8AE /* UIWaveButton.swift */,
-				544B60E21BCA22710064B8AE /* UIButton.swift */,
+				544B60E21BCA22710064B8AE /* UICharacterButton.swift */,
 				544B60E31BCA22710064B8AE /* UINode.swift */,
-				544B60E41BCA22710064B8AE /* UIWaveButtonTexture.swift */,
 			);
 			name = WaveUI;
 			path = ..;
@@ -265,21 +268,17 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
-				544B60DC1BCA22710064B8AE /* Character.swift */,
-				544B60DD1BCA22710064B8AE /* CharacterManager.swift */,
-				544B60DE1BCA22710064B8AE /* characters.json */,
-				544B60DF1BCA22710064B8AE /* JSONHelper.swift */,
-				544B60E01BCA22710064B8AE /* MathHelper.swift */,
-				544B60E11BCA22710064B8AE /* PointerHelper.swift */,
-				544B60E51BCA22710064B8AE /* Wave.swift */,
-				544B60E61BCA22710064B8AE /* WaveFactory.swift */,
+				5F01C9EF1BD4ABD90003C711 /* Character */,
+				5F01C9EE1BD4AA400003C711 /* Helper */,
 				54F8D8871BB03AAE009E9654 /* mission */,
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
 				54553E331BA6F3E400A38B18 /* Common */,
-				5474C5621BA320B00015C861 /* Model */,
+				5474C5621BA320B00015C861 /* GameScene */,
+				5F01C9F21BD4AD360003C711 /* TeamScene */,
+				5F01C9F61BD4B68B0003C711 /* MenuScene */,
+				5F01C9F71BD4B6AB0003C711 /* MissionScene */,
 				544F05601BA305CD00AC1BBD /* AppDelegate.swift */,
-				544F05641BA305CD00AC1BBD /* GameScene.swift */,
 				544F05661BA305CD00AC1BBD /* GameViewController.swift */,
 				544F05681BA305CD00AC1BBD /* Main.storyboard */,
 				544F056B1BA305CD00AC1BBD /* Assets.xcassets */,
@@ -331,26 +330,25 @@
 			name = image;
 			sourceTree = "<group>";
 		};
-		5474C5621BA320B00015C861 /* Model */ = {
+		5474C5621BA320B00015C861 /* GameScene */ = {
 			isa = PBXGroup;
 			children = (
 				5420A6021BC2FCBB000F2E14 /* UI */,
-				5420A5EA1BC050C0000F2E14 /* Skill */,
 				5420A5E51BC03F2D000F2E14 /* DestObj */,
 				5420A5DC1BBE7545000F2E14 /* EnemyAction */,
-				5474C5631BA321A30015C861 /* GameObject.swift */,
-				5474C5651BA3242E0015C861 /* EnergyPacket.swift */,
-				546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */,
-				54553E2B1BA57B6200A38B18 /* GameLayer.swift */,
-				54553E2D1BA5BEC100A38B18 /* Medium.swift */,
-				54553E2F1BA5C22900A38B18 /* Soil.swift */,
+				5F01C9F01BD4AC020003C711 /* EnergyPacket */,
+				5F01C9F11BD4AC170003C711 /* Terrain */,
 				54553E311BA5C3A900A38B18 /* CustomSKNode.swift */,
+				5474C5631BA321A30015C861 /* GameObject.swift */,
+				54553E2B1BA57B6200A38B18 /* GameLayer.swift */,
 				54F8D8911BB05719009E9654 /* Mission.swift */,
 				54F8D8931BB05879009E9654 /* SubMission.swift */,
 				54A55BAA1BBA97A70039D744 /* InfoLayer.swift */,
 				54A55BAC1BBA9B1F0039D744 /* Player.swift */,
 				5420A5E11BBEF1AB000F2E14 /* Event.swift */,
+				544F05641BA305CD00AC1BBD /* GameScene.swift */,
 			);
+			name = GameScene;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -371,6 +369,77 @@
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
 			name = mission;
+			sourceTree = "<group>";
+		};
+		5F01C9ED1BD4A9BB0003C711 /* Wave */ = {
+			isa = PBXGroup;
+			children = (
+				544B60E51BCA22710064B8AE /* Wave.swift */,
+				544B60E61BCA22710064B8AE /* WaveFactory.swift */,
+			);
+			name = Wave;
+			sourceTree = "<group>";
+		};
+		5F01C9EE1BD4AA400003C711 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				544B60DF1BCA22710064B8AE /* JSONHelper.swift */,
+				544B60E01BCA22710064B8AE /* MathHelper.swift */,
+				544B60E11BCA22710064B8AE /* PointerHelper.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
+		5F01C9EF1BD4ABD90003C711 /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				5420A5EA1BC050C0000F2E14 /* Skill */,
+				5F01C9ED1BD4A9BB0003C711 /* Wave */,
+				544B60DC1BCA22710064B8AE /* Character.swift */,
+				544B60DD1BCA22710064B8AE /* CharacterManager.swift */,
+				544B60DE1BCA22710064B8AE /* characters.json */,
+			);
+			name = Character;
+			sourceTree = "<group>";
+		};
+		5F01C9F01BD4AC020003C711 /* EnergyPacket */ = {
+			isa = PBXGroup;
+			children = (
+				5474C5651BA3242E0015C861 /* EnergyPacket.swift */,
+				546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */,
+			);
+			name = EnergyPacket;
+			sourceTree = "<group>";
+		};
+		5F01C9F11BD4AC170003C711 /* Terrain */ = {
+			isa = PBXGroup;
+			children = (
+				54553E2D1BA5BEC100A38B18 /* Medium.swift */,
+				54553E2F1BA5C22900A38B18 /* Soil.swift */,
+			);
+			name = Terrain;
+			sourceTree = "<group>";
+		};
+		5F01C9F21BD4AD360003C711 /* TeamScene */ = {
+			isa = PBXGroup;
+			children = (
+				5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */,
+			);
+			name = TeamScene;
+			sourceTree = "<group>";
+		};
+		5F01C9F61BD4B68B0003C711 /* MenuScene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MenuScene;
+			sourceTree = "<group>";
+		};
+		5F01C9F71BD4B6AB0003C711 /* MissionScene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MissionScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,11 +602,12 @@
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
-				544B60EF1BCA22710064B8AE /* UIWaveButtonTexture.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,
 				544B60F01BCA22710064B8AE /* Wave.swift in Sources */,
 				544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */,
 				5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */,
+				5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */,
+				5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */,
 				544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */,
 				544B60EE1BCA22710064B8AE /* UINode.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
@@ -554,7 +624,7 @@
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
-				544B60ED1BCA22710064B8AE /* UIButton.swift in Sources */,
+				544B60ED1BCA22710064B8AE /* UICharacterButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,

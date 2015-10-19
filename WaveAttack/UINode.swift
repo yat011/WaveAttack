@@ -9,22 +9,40 @@
 import Foundation
 import SpriteKit
 
-class UINode: SKNode{
+class UINode: SKNode,Draggable{
     init(position : CGPoint, parent:SKScene){
         super.init()
         self.position = position
         self.name = "UINode"
+        
+        var character0:Character
         var UIWaveButton0:UIWaveButton
         let UIWaveButtonGroup=SKNode()
         UIWaveButtonGroup.name="UIWaveButtonGroup"
-        for i in 1...5
+        for i in 0...4
         {
-            UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i-25), wave:Wave())
+            //get team list
+            character0=CharacterManager.getCharacterByID(CharacterManager.team[i])!
+            UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i+25), wave:character0.getWave())
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
             UIWaveButtonGroup.addChild(UIWaveButton0)
         }
         self.addChild(UIWaveButtonGroup)
+        
+        
+        var UICharacterButton0:UICharacterButton
+        let UICharacterButtonGroup=SKNode()
+        UICharacterButtonGroup.name="UICharacterButtonGroup"
+        for i in 0...4
+        {
+            UICharacterButton0 = UICharacterButton(size: CGSize(width: 30, height: 30), position: CGPoint(x:-150-30/2 , y: 50*i+25), character:nil)
+            UICharacterButton0.zPosition=999
+            UICharacterButton0.name="UICharacterButton0"
+            UICharacterButtonGroup.addChild(UICharacterButton0)
+        }
+        self.addChild(UICharacterButtonGroup)
+        
         /*
         var w=Wave.superposition((self.children[0] as! UIWaveButton).wave, d1: 10,
             w2: Wave.superposition((self.children[1] as! UIWaveButton).wave, d1: 175,
@@ -79,5 +97,26 @@ class UINode: SKNode{
         n.position=CGPoint(x:-150, y:300)
         self.addChild(n)
         return w
+    }
+    
+    func checkClick(touchPoint : CGPoint)-> Clickable?{
+        let rect  = getRect()
+        if (CGRectContainsPoint(rect, touchPoint)){
+            return self
+        }
+        return nil
+    }
+    func getRect () -> CGRect{
+        return self.calculateAccumulatedFrame()
+    }
+    func click(){
+        
+    }
+    func scroll(dx:CGFloat, dy:CGFloat){
+        let newY = self.position.y + dy
+        self.runAction(SKAction.moveToY(newY, duration: 0))
+    }
+    func scroll(x:CGFloat, y:CGFloat){
+        self.runAction(SKAction.moveToY(y, duration: 0))
     }
 }

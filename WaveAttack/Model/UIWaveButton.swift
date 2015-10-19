@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class UIWaveButton : SKCropNode {
+class UIWaveButton : SKCropNode,Draggable {
     var wave:Wave
     let pet:String = ""
     var waveShapeNode:SKShapeNode?=nil
@@ -35,12 +35,30 @@ class UIWaveButton : SKCropNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-     func scroll(dx : CGFloat){
+    
+    func scroll(dx : CGFloat, dy:CGFloat){
         var newX = waveShapeNode!.position.x + dx
         if(newX < CGFloat(-wave.length*2)) {newX = newX + CGFloat(wave.length)}
         else if(newX > CGFloat(-wave.length)) {newX = newX - CGFloat(wave.length)}
         waveShapeNode!.runAction(SKAction.moveToX(newX, duration: 0))
-       // print("dragging:"+newX.description)
+        // print("dragging:"+newX.description)
+    }
+    func scroll(x : CGFloat, y:CGFloat){
+        waveShapeNode!.runAction(SKAction.moveToX(x, duration: 0))
+        // print("dragging:"+newX.description)
+    }
+    
+    func checkClick(touchPoint : CGPoint)-> Clickable?{
+        let rect  = getRect()
+        if (CGRectContainsPoint(rect, touchPoint)){
+            return self
+        }
+        return nil
+    }
+    func getRect () -> CGRect{
+        return self.calculateAccumulatedFrame()
+    }
+    func click(){
+        
     }
 }

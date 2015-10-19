@@ -31,6 +31,7 @@ class JSONHelper{
             return nil
         }
     }
+    
     //"key":"value"
     static func getValue(dict:Dictionary<String,AnyObject>, key:String)->NSString{
         return dict[key] as! NSString

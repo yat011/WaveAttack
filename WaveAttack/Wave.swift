@@ -61,11 +61,11 @@ class Wave{
     }
     
     
-    func genShape(){
+    func genShape()->SKShapeNode{
         let path:CGMutablePathRef=CGPathCreateMutable()
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
-        if (waveData!=nil){
+        if (waveData != nil){
             CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
         }
         else{
@@ -99,11 +99,11 @@ class Wave{
         */
         CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
 */
-        shape=SKShapeNode(path: path)
+        return SKShapeNode(path: path)
     }
     func getShape()->SKShapeNode{
-        if (shape==nil){genShape()}
-        return shape!
+        if (shape==nil){}
+        return genShape()
     }
     
     

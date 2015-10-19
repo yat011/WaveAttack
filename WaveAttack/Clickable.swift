@@ -17,10 +17,22 @@ protocol Clickable {
 
 extension Clickable where Self : SKSpriteNode{
     func checkClick(touchPoint: CGPoint) -> Clickable? {
-        var rect  = getRect()
+        let rect  = getRect()
         if (CGRectContainsPoint(rect, touchPoint)){
             return self
         }
         return nil
     }
 }
+protocol Draggable:Clickable{
+    func scroll(dx:CGFloat, dy:CGFloat)
+    func scroll(x:CGFloat, y:CGFloat)
+}
+/*
+extension Draggable where Self:SKNode{
+    func scroll(dx:CGFloat, dy:CGFloat){
+        let newX = self.position.x + dx
+        self.runAction(SKAction.moveToX(newX, duration: 0))
+    }
+}
+*/

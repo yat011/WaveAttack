@@ -11,6 +11,13 @@ import SpriteKit
 
 class GameViewController: UIViewController {
 
+    enum Scene{
+        case MenuScene
+        case OptionScene
+        case MissionScene
+        case GameScene
+        case TeamScene
+    }
     
     let fixedFps : Int = 30
     
@@ -37,10 +44,9 @@ class GameViewController: UIViewController {
             }
         */
         scene.scaleMode = .AspectFit
-        
+        scene.viewController=self
         skView.presentScene(scene)
         //print(skView.bounds.size)
-        
         
     }
 
@@ -63,5 +69,15 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    func changeScene(s:Scene){
+        let skView = self.view as! SKView
+        let t=SKTransition.fadeWithDuration(5)
+        let tempScene:SKScene
+        if (s == Scene.TeamScene){
+            tempScene=TeamScene()
+            skView.presentScene(tempScene,transition: t)
+        }
     }
 }

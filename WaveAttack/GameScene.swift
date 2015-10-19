@@ -25,16 +25,18 @@ enum GameStage {
 }
 
 enum TouchType {
-    case gameArea , controlArea , button, waveButton
+    case gameArea , controlArea , button, waveButton, characterButton
 
 }
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
+    var viewController:GameViewController?
+    
     var gameLayer :GameLayer? = nil
     var infoLayer : InfoLayer? = nil
     var player : Player? = nil
-    var controlLayer : SKShapeNode = SKShapeNode()
+    var controlLayer : UINode? = nil
     var currentStage : GameStage = GameStage.Superposition
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
@@ -95,7 +97,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         initControlLayer()
  
-        self.addChild(controlLayer)
+        //self.addChild(controlLayer)
         self.addChild(infoLayer!)
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
@@ -123,8 +125,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 */
     func initControlLayer() -> (){
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
+        controlLayer = UIN
+        UIN.zPosition=100000
         self.addChild(UIN)
-        UIN.zPosition=100
 
     }
 //-------------------- start Sub-Mission --------------------
@@ -147,8 +150,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
         gameLayer!.position = CGPoint(x:0 , y:lowerBound)
+        controlLayer?.position = CGPoint(x: self.size.width/2, y: 0)
         print (gameArea!.origin.y)
         print(lowerBound)
+        
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in
@@ -539,7 +544,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
         }else if currentStage == GameStage.Superposition && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
             touchType = TouchType.controlArea
-             prevTouchPoint = touchDown
+            prevTouchPoint = touchDown
             for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
             {
                 //print(c.description)
@@ -553,7 +558,20 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     break
                 }
             }
-        
+            for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
+            {
+                //print(c.description)
+                //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
+                //check clicked on Button
+                if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
+                {
+                    //do action
+//                    viewController!.changeScene(GameViewController.Scene.TeamScene)
+                    touchType = TouchType.button
+                    prevPressedObj = c as! Clickable
+                    break
+                }
+            }
         }
         //button
         var tempBtn  = infoLayer?.checkClick(touchDown)
@@ -579,7 +597,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
             
             
-            scrollGameLayer(-moveY)
+            scrollLayers(-moveY)
             dragVelocity = (-moveY)
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
@@ -603,7 +621,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
             prevTouchPoint  = touchDown
            // print(diff.dx)
-            (dragging as! UIWaveButton).scroll(-diff.dx)
+            (dragging as! UIWaveButton).scroll(-diff.dx,dy: 0)
             
         }else if (touchType == TouchType.button){
             if prevPressedObj == nil{
@@ -694,7 +712,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func scrollGameLayer(movement : CGFloat){
+    func scrollLayers(movement : CGFloat){
         //print(gameArea)
         
         var newY = gameLayer!.position.y + movement
@@ -709,7 +727,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //gameLayer.position.y = newY
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
-        self.childNodeWithName("UINode")!.runAction(SKAction.moveToY(newY-self.size.height/2, duration: 0))
+        controlLayer!.scroll(0, y: newY-self.size.height/2)
 
     }
     
@@ -822,7 +840,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         //smooth scrolling
         if ((dragVelocity != 0) && (touching == false))
         {
-            scrollGameLayer(dragVelocity)
+            scrollLayers(dragVelocity)
             dragVelocity *= 0.9
             if (abs(dragVelocity) < 5) {dragVelocity = 0}
         }

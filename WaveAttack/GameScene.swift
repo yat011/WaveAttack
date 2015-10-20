@@ -589,12 +589,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         
     }
-
+    var prevMoveY: CGFloat = 0
     
     func checkPressing(touchDown :CGPoint){
         let diff :CGVector =  prevTouchPoint! - touchDown
        // print(diff)
-        let moveY = diff.dy * 2
+        var moveY = diff.dy * 2
+        moveY = (prevMoveY + moveY) / 2
+        prevMoveY = moveY
         if (touchType! == TouchType.gameArea){
             
             prevTouchPoint  = touchDown
@@ -778,7 +780,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         pressedDestObject = nil
         destHpBar?.removeFromParent()
         destHpBar = nil
-
+        prevTouchPoint = nil
+        prevMoveY = 0
     }
     
     func tempCreatePacket(){
@@ -982,6 +985,38 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         
     }
+    
+    
+    func BackToMenu(){
+        if (GameViewController.current == nil){
+            print("nil current")
+        }
+        var storyBoard = GameViewController.current?.storyboard
+        if (storyBoard == nil){
+            print("nil board")
+        }
+        //var main = GameViewController.current?.storyboard?.instantiateViewControllerWithIdentifier("MainMenu")
+        //  GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        /*if GameViewController.current!.navigationController == nil{
+        print("nil nav")
+        }
+        GameViewController.current?.navigationController?.popToViewController(main!, animated: false)*/
+        //GameViewController.current!.seg`
+        print(GameViewController.current!.presentedViewController)
+        
+        GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        
+        // GameViewController.current!.performSegueWithIdentifier("BackToMissions", sender: nil)
+        GameViewController.current = nil
+        //GameViewController.current!.pop
+        //  GameViewController.current!.show
+        //GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
+        /*  GameViewController.current?.dismissViewControllerAnimated(true, completion: {
+        () -> () in
+        GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
+        })*/
+    }
+    
     
 //---------manage Clickable
     func addClickable(stage: GameStage, _ click : Clickable) {

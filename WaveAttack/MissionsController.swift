@@ -28,7 +28,12 @@ class MissionsController: UIViewController, UITableViewDelegate, UITableViewData
         print("selected \(indexPath.row)")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         var game = storyBoard.instantiateViewControllerWithIdentifier("Game")
-        self.presentViewController(game, animated: false, completion: nil)
+        if (self.navigationController == nil){
+            print("nil")
+        }
+        self.performSegueWithIdentifier("ToGame", sender: nil)
+        //self.navigationController!.pushViewController(game, animated: true)
+       // self.presentViewController(game, animated: false, completion: nil)
         
 
     }

@@ -267,6 +267,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		544B61091BD619220064B8AE /* characters */ = {
+			isa = PBXGroup;
+			children = (
+				544B60DE1BCA22710064B8AE /* characters.json */,
+			);
+			name = characters;
+			sourceTree = "<group>";
+		};
 		544F05541BA305CD00AC1BBD = {
 			isa = PBXGroup;
 			children = (
@@ -290,9 +298,9 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
+				544B61091BD619220064B8AE /* characters */,
 				544B60DC1BCA22710064B8AE /* Character.swift */,
 				544B60DD1BCA22710064B8AE /* CharacterParser.swift */,
-				544B60DE1BCA22710064B8AE /* characters.json */,
 				544B60DF1BCA22710064B8AE /* JSONHelper.swift */,
 				544B60E01BCA22710064B8AE /* MathHelper.swift */,
 				544B60E11BCA22710064B8AE /* PointerHelper.swift */,

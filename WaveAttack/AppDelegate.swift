@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    static var navigator : UINavigationController? = nil
   
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
             Mission.initMissionList()
-        
+             
+            
         }catch {
             print("error")
             fatalError("init error")

@@ -45,10 +45,9 @@ class ResultUI : SKShapeNode{
         
         var menuButton = ButtonUI.createButton(CGRect(x:0, y: -150, width:150, height: 30), text: "Back to Main Menu", onClick: {
             () -> () in
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            var mainmenu = storyBoard.instantiateViewControllerWithIdentifier("MainMenu")
-            GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
+                gameScene.BackToMenu()
             }, gameScene: gameScene)
+         //GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
         
         gameScene.addClickable(GameStage.Complete, menuButton)
         res.addChild(menuButton)

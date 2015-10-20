@@ -33,13 +33,7 @@ class InfoLayer : SKNode , Clickable{
             print("click")
             let yesFunc = {
                 () -> () in
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                var mainmenu = storyBoard.instantiateViewControllerWithIdentifier("MainMenu")
-                  GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
-              /*  GameViewController.current?.dismissViewControllerAnimated(true, completion: {
-                    () -> () in
-                     GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
-                })*/
+               gameScene.BackToMenu()
                 
             }
             let noFunc = {

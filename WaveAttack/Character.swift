@@ -17,6 +17,7 @@ class Character{
     var ID:Int
     var name:String
     var lore:String
+    
     init(){
         //.
         //.

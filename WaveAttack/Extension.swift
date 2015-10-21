@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import CoreData
 
 extension CGVector {
     
@@ -92,6 +93,30 @@ extension Dictionary {
 }
 
 
+extension NSManagedObject {
+    static func getObjects (name:String){
+        do{
+            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
+           // let fetchResults:[NSManagedObject] = try app.managedObjectContext!.executeFetchRequest(fetchRequest) as! [PlayerInfo]
+            /*
+            // Create an Alert, and set it's message to whatever the itemText is
+            //if (fetchResults.count > 0){
+            //print("hv existing data")
+          //  PlayerInfo._playerInfo = fetchResults[0]
+            }else{
+            print("no existing data")
+           // let newItem = NSEntityDescription.insertNewObjectForEntityForName("PlayerInfo", inManagedObjectContext: self.managedObjectContext!) as! PlayerInfo
+          //  PlayerInfo._playerInfo = newItem
+           // PlayerInfo.playerInfo!.passMission = 0
+            
+            
+            }
+*/
+        }catch {
+            
+        }
+    }
+}
 
 
 

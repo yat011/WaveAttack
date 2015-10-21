@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9048" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
+    <entity name="OwnedCharater" representedClassName=".OwnedCharater" syncable="YES">
+        <attribute name="characterId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="PlayerInfo" representedClassName=".PlayerInfo" syncable="YES">
         <attribute name="passMission" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="Team" representedClassName=".Team" syncable="YES">
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OwnedCharater" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="PlayerInfo" positionX="-63" positionY="-18" width="128" height="58"/>
+        <element name="PlayerInfo" positionX="-47" positionY="51" width="128" height="58"/>
+        <element name="Team" positionX="-326" positionY="180" width="128" height="58"/>
+        <element name="OwnedCharater" positionX="-252" positionY="27" width="128" height="58"/>
     </elements>
 </model>

@@ -31,8 +31,8 @@ enum TouchType {
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
    
-    var viewController:GameViewController?
-    
+    weak var viewController:GameViewController?
+    static weak var current: GameScene? = nil
     var gameLayer :GameLayer? = nil
     var infoLayer : InfoLayer? = nil
     var player : Player? = nil
@@ -63,11 +63,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
+
+    var inited : Int = 0 //for texture
     init(size: CGSize, missionId: Int) {
         
         super.init(size: size)
         //updateTimeInterval = 1.0 / fixedFps33 
-        
+        GameScene.current = self
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
         self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
@@ -102,7 +104,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
       
         
         
-        initControlLayer()
+        
  
         //self.addChild(controlLayer)
         self.addChild(infoLayer!)
@@ -880,8 +882,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             lastTimeStamp = currentTime
         }
        
-    
+        if inited == 1{
+            initControlLayer()
+        }
+            inited++
         
+    
     }
 
     
@@ -939,8 +945,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             currentStage = GameStage.Complete
             print("complete Mission")
           
-            
-            PlayerInfo.playerInfo!.passMission = mission!.missionId
+            if PlayerInfo.playerInfo!.passMission?.integerValue < mission!.missionId{
+                PlayerInfo.playerInfo!.passMission = mission!.missionId
+            }
             var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
             do{
                 try app.managedObjectContext!.save()

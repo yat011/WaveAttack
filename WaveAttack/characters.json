@@ -6,6 +6,7 @@
                   "lore":"lore0",
                   "strength":"0",
                   "skillID":"0",
+                  "image": "ch01",
                   "wave":[
                           {
                           "type":     "sine1",

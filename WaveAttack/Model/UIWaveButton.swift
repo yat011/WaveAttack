@@ -54,6 +54,7 @@ class UIWaveButton : SKCropNode,Draggable {
         var newX = waveShapeNode!.position.x + dx
         if(newX < CGFloat(-wave.length*2)) {newX = newX + CGFloat(wave.length)}
         else if(newX > CGFloat(-wave.length)) {newX = newX - CGFloat(wave.length)}
+       // newX =  CGFloat(-wave.length)
         waveShapeNode!.runAction(SKAction.moveToX(newX, duration: 0))
         // print("dragging:"+newX.description)
     }

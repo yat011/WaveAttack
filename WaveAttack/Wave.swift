@@ -16,6 +16,7 @@ class Wave{
     var texture : SKTexture? = nil
     var waveData:[CGFloat]?
     var componentList:[waveComponent]
+ 
     class waveComponent {
         init (type:String, length:Int, height:CGFloat)
         {
@@ -42,10 +43,11 @@ class Wave{
         componentList=[waveComponent]()
         ///*
         length=300
-        componentList.append(waveComponent(type: "sine1", length: 50, height: 10))
-        componentList.append(waveComponent(type: "sine2", length: 100, height: 10))
-        componentList.append(waveComponent(type: "sine1", length: 100, height: -10))
-        componentList.append(waveComponent(type: "sine2", length: 50, height: -10))
+        
+       // componentList.append(waveComponent(type: "sine1", length: 50, height: 10))
+       // componentList.append(waveComponent(type: "sine2", length: 100, height: 10))
+       // componentList.append(waveComponent(type: "sine1", length: 100, height: -10))
+        //componentList.append(waveComponent(type: "sine2", length: 50, height: -10))
         //*/
         /*
         length=400
@@ -99,12 +101,27 @@ class Wave{
         */
         CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
 */
+        
         if texture == nil{
             var temp = SKShapeNode(path: path)
-            texture  = GameViewController.skView!.textureFromNode(temp)
+            temp.zPosition = -1000
+          //  temp.position = CGPoint(x: 0, y: 0)
+           
+            GameScene.current!.addChild(temp)
+                
+           // temp.hidden = true
+            texture  = GameScene.current!.view!.textureFromNode(temp)
+           // temp.removeFromParent()
+            //texture?.filteringMode = SKTextureFilteringMode.Nearest
+            temp.removeFromParent()
         }
-        var res = SKSpriteNode(texture: texture)
+        var scale:CGFloat = 1
+        if (UIScreen.mainScreen().scale == 2){
+            scale = 0.5
+        }
+        var res = SKSpriteNode(texture: texture, size: CGSize(width: texture!.size().width * scale, height: texture!.size().height * scale))
         res.anchorPoint = CGPoint(x:0, y:0.5)
+        
         
         return res
     }

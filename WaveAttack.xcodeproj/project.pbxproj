@@ -60,6 +60,10 @@
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
 		54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611911BA81EEC009299A6 /* Reflectable.swift */; };
 		54A611941BA8212C009299A6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A611931BA8212C009299A6 /* Cloneable.swift */; };
+		54BBD9281BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9261BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift */; };
+		54BBD9291BD7CEB300BAFFA2 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9271BD7CEB300BAFFA2 /* Team.swift */; };
+		54BBD92C1BD7CF2800BAFFA2 /* OwnedCharater+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD92A1BD7CF2800BAFFA2 /* OwnedCharater+CoreDataProperties.swift */; };
+		54BBD92D1BD7CF2800BAFFA2 /* OwnedCharater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD92B1BD7CF2800BAFFA2 /* OwnedCharater.swift */; };
 		54D44C181BD765DD00B24EE6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C161BD765DD00B24EE6 /* Model.xcdatamodeld */; };
 		54D44C1B1BD765F700B24EE6 /* mission2.json in Resources */ = {isa = PBXBuildFile; fileRef = 54D44C191BD765F700B24EE6 /* mission2.json */; };
 		54D44C1C1BD765F700B24EE6 /* MissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1A1BD765F700B24EE6 /* MissionsController.swift */; };
@@ -75,6 +79,8 @@
 		54F8D8981BB1D943009E9654 /* redbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D8971BB1D943009E9654 /* redbar.png */; };
 		5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9EB1BD4A8850003C711 /* SkillManager.swift */; };
 		5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */; };
+		5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C171BD771C10003B89D /* CharacterSlot.swift */; };
+		5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C191BD771DF0003B89D /* CharacterButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +160,10 @@
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
 		54A611911BA81EEC009299A6 /* Reflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflectable.swift; sourceTree = "<group>"; };
 		54A611931BA8212C009299A6 /* Cloneable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
+		54BBD9261BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Team+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		54BBD9271BD7CEB300BAFFA2 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		54BBD92A1BD7CF2800BAFFA2 /* OwnedCharater+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OwnedCharater+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		54BBD92B1BD7CF2800BAFFA2 /* OwnedCharater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnedCharater.swift; sourceTree = "<group>"; };
 		54D44C171BD765DD00B24EE6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		54D44C191BD765F700B24EE6 /* mission2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission2.json; sourceTree = "<group>"; };
 		54D44C1A1BD765F700B24EE6 /* MissionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionsController.swift; sourceTree = "<group>"; };
@@ -169,6 +179,8 @@
 		54F8D8971BB1D943009E9654 /* redbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbar.png; sourceTree = "<group>"; };
 		5F01C9EB1BD4A8850003C711 /* SkillManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillManager.swift; sourceTree = "<group>"; };
 		5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamScene.swift; sourceTree = "<group>"; };
+		5F411C171BD771C10003B89D /* CharacterSlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterSlot.swift; sourceTree = "<group>"; };
+		5F411C191BD771DF0003B89D /* CharacterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,7 +304,6 @@
 				5F01C9EF1BD4ABD90003C711 /* Character */,
 				5F01C9EE1BD4AA400003C711 /* Helper */,
 				54F8D8871BB03AAE009E9654 /* mission */,
-				54A611901BA810DC009299A6 /* Protocol */,
 				54553E3A1BA6FE7400A38B18 /* image */,
 				54553E331BA6F3E400A38B18 /* Common */,
 				5474C5621BA320B00015C861 /* GameScene */,
@@ -331,6 +342,7 @@
 		54553E331BA6F3E400A38B18 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				54A611901BA810DC009299A6 /* Protocol */,
 				54553E341BA6F3F700A38B18 /* Extension.swift */,
 				54F8D8881BB04271009E9654 /* GameObjectFactory.swift */,
 				5420A60E1BC589A8000F2E14 /* TextureTools.swift */,
@@ -419,6 +431,10 @@
 				544B60DC1BCA22710064B8AE /* Character.swift */,
 				544B60DD1BCA22710064B8AE /* CharacterManager.swift */,
 				544B60DE1BCA22710064B8AE /* characters.json */,
+				54BBD9261BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift */,
+				54BBD9271BD7CEB300BAFFA2 /* Team.swift */,
+				54BBD92A1BD7CF2800BAFFA2 /* OwnedCharater+CoreDataProperties.swift */,
+				54BBD92B1BD7CF2800BAFFA2 /* OwnedCharater.swift */,
 			);
 			name = Character;
 			sourceTree = "<group>";
@@ -445,6 +461,8 @@
 			isa = PBXGroup;
 			children = (
 				5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */,
+				5F411C171BD771C10003B89D /* CharacterSlot.swift */,
+				5F411C191BD771DF0003B89D /* CharacterButton.swift */,
 			);
 			name = TeamScene;
 			sourceTree = "<group>";
@@ -610,11 +628,13 @@
 				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
 				5420A5EC1BC05206000F2E14 /* Skill.swift in Sources */,
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
+				54BBD92C1BD7CF2800BAFFA2 /* OwnedCharater+CoreDataProperties.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
 				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
+				54BBD9281BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				54D44C181BD765DD00B24EE6 /* Model.xcdatamodeld in Sources */,
 				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
@@ -625,8 +645,10 @@
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
+				54BBD9291BD7CEB300BAFFA2 /* Team.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,
 				544B60F01BCA22710064B8AE /* Wave.swift in Sources */,
+				5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */,
 				544B60EA1BCA22710064B8AE /* JSONHelper.swift in Sources */,
 				5420A5DE1BBE75AE000F2E14 /* DirectAttack.swift in Sources */,
 				5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */,
@@ -650,12 +672,14 @@
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */,
+				54BBD92D1BD7CF2800BAFFA2 /* OwnedCharater.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
 				544B60ED1BCA22710064B8AE /* UICharacterButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
 				54D44C231BD7661C00B24EE6 /* PlayerInfo.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
+				5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
 				5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */,
 			);

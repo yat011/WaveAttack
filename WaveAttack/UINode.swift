@@ -78,20 +78,31 @@ class UINode: SKNode,Draggable{
     }
     
     func drawSuperposition()->Wave{
-        //superposition test
         let w0=(self.childNodeWithName("UIWaveButtonGroup")!.children[0] as! UIWaveButton)
         let w1=(self.childNodeWithName("UIWaveButtonGroup")!.children[1] as! UIWaveButton)
         let w2=(self.childNodeWithName("UIWaveButtonGroup")!.children[2] as! UIWaveButton)
         let w3=(self.childNodeWithName("UIWaveButtonGroup")!.children[3] as! UIWaveButton)
         let w4=(self.childNodeWithName("UIWaveButtonGroup")!.children[4] as! UIWaveButton)
+        var d0 = (w0.waveShapeNode?.position.x)!
+        d0 = -d0+750
+        var d1 = (w1.waveShapeNode?.position.x)!
+        d1 = -d1+750
+        var d2 = (w2.waveShapeNode?.position.x)!
+        d2 = -d2+750
+        var d3 = (w3.waveShapeNode?.position.x)!
+        d3 = -d3+750
+        var d4 = (w4.waveShapeNode?.position.x)!
+        d4 = -d4+750
         print(w0.waveShapeNode?.position.x)
         
-        let w=Wave.superposition(w0.wave,d1: Int((w0.waveShapeNode?.position.x)!+750),
-            w2: Wave.superposition(w1.wave,d1: Int((w1.waveShapeNode?.position.x)!+750),
-                w2: Wave.superposition(w2.wave,d1: Int((w2.waveShapeNode?.position.x)!+750),
-                    w2: Wave.superposition(w3.wave,d1: Int((w3.waveShapeNode?.position.x)!+750), w2: w4.wave, d2: Int((w4.waveShapeNode?.position.x)!+750)), d2:0), d2:0), d2:0)
-            
-        //let w=Wave.superposition(w0.wave,d1: Int((w0.waveShapeNode?.position.x)!+750),w2: w1.wave,d2: Int((w1.waveShapeNode?.position.x)!+750))
+        var w=Wave.superposition(w0.wave,d1: Int(d0),
+            w2: Wave.superposition(w1.wave,d1: Int(d1),
+                w2: Wave.superposition(w2.wave,d1: Int(d2),
+                    w2: Wave.superposition(w3.wave,d1: Int(d3),
+                        w2: w4.wave, d2: Int(d4)), d2:0), d2:0), d2:0)
+        
+        //wave displacement check
+        //w=Wave.superposition(w0.wave,d1: Int(d0),w2: w0.wave,d2: Int(d0))
         w.normalize()
         let n=w.getShape()
         n.position=CGPoint(x:-150, y:300)

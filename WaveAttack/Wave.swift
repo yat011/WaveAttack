@@ -120,7 +120,10 @@ class Wave{
         }
     }
     func getAmplitudes()->[CGFloat]{
-        if (waveData == nil){calAmplitudes()}
+        if (waveData == nil){
+            calAmplitudes()
+        }
+        
         return waveData!
     }
     func getAmplitude(x:Int)->CGFloat{

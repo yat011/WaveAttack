@@ -215,14 +215,20 @@ class DestructibleObject : Medium {
                 obj.deleteSelf()
             }
         }
+        self.packets.removeAll()
+        self.getSprite()!.removeAllChildren()
+        self.gameScene!.gameLayer!.removeGameObject(self)
         if hpBar != nil{
             hpBar!.removeFromParent()
+            hpBar = nil
         }
         if roundLabel != nil{
             roundLabel!.removeFromParent()
+            roundLabel = nil
         }
         
-        self.gameScene!.gameLayer!.removeGameObject(self)
+        
+        
         
     }
 //-------misc-------

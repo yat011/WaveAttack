@@ -31,7 +31,10 @@ class GameObject : NSObject {
         if subs == nil{
             return
         }
+         print("events \(event) \(subs!.count)")
+        
         for f in subs!{
+        
             f(self)
         }
     }

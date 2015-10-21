@@ -13,7 +13,7 @@ class Wave{
     
     var shape:SKShapeNode?
     var length:Int
-    
+    var texture : SKTexture? = nil
     var waveData:[CGFloat]?
     var componentList:[waveComponent]
     class waveComponent {
@@ -61,7 +61,7 @@ class Wave{
     }
     
     
-    func genShape()->SKShapeNode{
+    func genShape()->SKNode{
         let path:CGMutablePathRef=CGPathCreateMutable()
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
@@ -99,9 +99,16 @@ class Wave{
         */
         CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
 */
-        return SKShapeNode(path: path)
+        if texture == nil{
+            var temp = SKShapeNode(path: path)
+            texture  = GameViewController.skView!.textureFromNode(temp)
+        }
+        var res = SKSpriteNode(texture: texture)
+        res.anchorPoint = CGPoint(x:0, y:0.5)
+        
+        return res
     }
-    func getShape()->SKShapeNode{
+    func getShape()->SKNode{
         if (shape==nil){}
         return genShape()
     }

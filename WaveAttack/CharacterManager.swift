@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class CharacterManager{
-    static var team:[Int]=[0,0,0,0,0]
+    static var team:[Int]=[0,0,1,1,0]
     static var characters:[Character]?
     static func parse(res:String){
         var name="characters"

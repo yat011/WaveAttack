@@ -24,7 +24,11 @@ class UICharacterButton : SKSpriteNode,Clickable {
     }
 
     func getRect () -> CGRect{
-        return CGRect(origin: self.position, size: self.size)
+   //  print(CGRect(origin: self.scene!.convertPoint(self.position, fromNode: self.parent!), size: self.size))
+        //print(self.calculateAccumulatedFrame())
+        var pos = self.scene!.convertPoint(self.position, fromNode: self.parent!)
+        pos = CGPoint(x: pos.x - self.size.width/2 , y: pos.y - self.size.height/2)
+        return CGRect(origin: pos, size: self.size)
     }
     func click(){
         print("clicked character button")

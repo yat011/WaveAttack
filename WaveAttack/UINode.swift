@@ -10,7 +10,8 @@ import Foundation
 import SpriteKit
 
 class UINode: SKNode,Draggable{
-    init(position : CGPoint, parent:SKScene){
+    var resultantWaveShape: SKNode? = nil
+    init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
         self.name = "UINode"
@@ -40,6 +41,7 @@ class UINode: SKNode,Draggable{
             UICharacterButton0.zPosition=999
             UICharacterButton0.name="UICharacterButton0"
             UICharacterButtonGroup.addChild(UICharacterButton0)
+            parent.addClickable(GameStage.Superposition, UICharacterButton0)
         }
         self.addChild(UICharacterButtonGroup)
         
@@ -95,7 +97,20 @@ class UINode: SKNode,Draggable{
         w.normalize()
         let n=w.getShape()
         n.position=CGPoint(x:-150, y:300)
-        self.addChild(n)
+        if (self.resultantWaveShape != nil){
+            self.resultantWaveShape!.removeFromParent()
+        }else{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 300, 0)
+            var dottedLine = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [5,5], 2)!)
+            dottedLine.alpha = 0.5
+            dottedLine.position = CGPoint(x: -150, y: 300)
+            self.addChild(dottedLine)
+        
+        }
+        self.resultantWaveShape = n
+        self.addChild(self.resultantWaveShape!)
         return w
     }
     

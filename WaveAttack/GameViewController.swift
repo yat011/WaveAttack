@@ -22,12 +22,14 @@ class GameViewController: UIViewController {
     let fixedFps : Int = 30
     static weak var current: GameViewController? = nil
     static var currentMissionId = 1
+    static var skView :SKView? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
        
             // Configure the view.
             let skView = self.view as! SKView
+            GameViewController.skView = skView
             skView.showsFPS = true
             skView.showsNodeCount = true
           //  skView.showsPhysics = true

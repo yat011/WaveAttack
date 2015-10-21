@@ -141,16 +141,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 //-------------------- start Sub-Mission --------------------
     func startSubMission(subMission : SubMission){
         if gameLayer != nil{
-            var pPos = self.gameLayer!.position
             self.gameLayer!.deleteSelf()
             gameLayer!.removeFromParent()
             gameLayer = GameLayer(subMission: subMission, gameScene: self)
-            gameLayer!.position = pPos
         }else{
-            let ph: CGFloat = size.height / 2
-            let pPos = CGPoint(x: 0, y : ph)
             gameLayer = GameLayer(subMission: subMission, gameScene: self)
-            gameLayer!.position = pPos
+            
         }
         self.addChild(gameLayer!)
         
@@ -159,8 +155,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let lowerBound = playRect!.origin.y - diff
         gameLayer!.position = CGPoint(x:0 , y:lowerBound)
         controlLayer?.position = CGPoint(x: self.size.width/2, y: 0)
-        print (gameArea!.origin.y)
-        print(lowerBound)
+       // print (gameArea!.origin.y)
+       // print(lowerBound)
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in
@@ -565,7 +561,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     break
                 }
             }
-            for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
+        /*    for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
             {
                 //print(c.description)
                 //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
@@ -579,12 +575,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     break
                 }
             }
+*/
         }
         //button
         var btns = self.buttonList[currentStage]
         if btns != nil{
             for btn in btns! {
+                //print(touchDown)
                 var clicked = btn.checkClick(touchDown)
+                
                 if clicked != nil{
                     touchType = TouchType.button
                     prevPressedObj = clicked
@@ -749,6 +748,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             newY = playRect!.origin.y
         }
         //gameLayer.position.y = newY
+        
+        
+        
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
         controlLayer!.scroll(0, y: newY-self.size.height/2)
 

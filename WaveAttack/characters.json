@@ -7,6 +7,8 @@
                   "strength":"0",
                   "skillID":"0",
                   "image": "ch01",
+                  "skill" : "ConvexLenSkill",
+                  "skillRound" : "1",
                   "wave":[
                           {
                           "type":     "sine1",
@@ -36,6 +38,7 @@
                   "lore":"lore1",
                   "strength":"1",
                   "skillID":"1",
+                  "image": "ch01",
                   "wave":[
                           {
                           "type":     "sine1",

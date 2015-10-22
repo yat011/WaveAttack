@@ -15,5 +15,5 @@ import CoreData
 extension PlayerInfo {
 
     @NSManaged var passMission: NSNumber?
-
+    @NSManaged var teams:NSSet?
 }

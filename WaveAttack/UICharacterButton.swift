@@ -12,9 +12,12 @@ import SpriteKit
 class UICharacterButton : SKSpriteNode,Clickable {
     var character:Character?
     init(size : CGSize , position : CGPoint, character:Character?){
-        super.init(texture: nil, color: UIColor.cyanColor(), size: size)
-
+        super.init(texture: character?.texture, color: UIColor.cyanColor(), size: size)
+        var back = SKSpriteNode(color: SKColor.whiteColor(), size: size)
+        back.zPosition = -100
+        self.addChild(back)
         self.character=character
+        
         self.size = size
         self.position = position
         //self.sprite!.gameObject = self
@@ -32,8 +35,7 @@ class UICharacterButton : SKSpriteNode,Clickable {
     }
     func click(){
         print("clicked character button")
+        character?.useSkill()
     }
-    func click()->Skill?{
-        return character!.skill
-    }
+    
 }

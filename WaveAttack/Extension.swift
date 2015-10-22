@@ -23,6 +23,8 @@ extension CGVector {
        return self.dx * b.dx + self.dy * b.dy
     }
     
+    var length: CGFloat { get{return sqrt( self.dx * self.dx + self.dy * self.dy) }}
+    
 }
 
 public func *(lhs : CGFloat, rhs: CGVector) -> CGVector{
@@ -94,10 +96,15 @@ extension Dictionary {
 
 
 extension NSManagedObject {
-    static func getObjects (name:String){
+    static func getObjects (name:String) -> [NSManagedObject]?{
+         let fetchRequest = NSFetchRequest(entityName: name)
         do{
             var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
-           // let fetchResults:[NSManagedObject] = try app.managedObjectContext!.executeFetchRequest(fetchRequest) as! [PlayerInfo]
+            
+            
+            let fetchResults:[NSManagedObject] = try app.managedObjectContext!.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+            return fetchResults
+            
             /*
             // Create an Alert, and set it's message to whatever the itemText is
             //if (fetchResults.count > 0){
@@ -113,7 +120,30 @@ extension NSManagedObject {
             }
 */
         }catch {
+            return nil
+        }
+    }
+    static func insertObject(name:String) -> NSManagedObject?{
+        
+            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
             
+            //print("no existing data")
+             let newItem = NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext: app.managedObjectContext!)
+            return newItem
+            
+            
+        
+        
+    }
+    
+    
+    static func save(){
+        var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
+        do{
+            try app.managedObjectContext!.save()
+            print("saved")
+        }catch{
+            print("fail")
         }
     }
 }

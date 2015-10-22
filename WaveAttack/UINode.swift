@@ -11,6 +11,8 @@ import SpriteKit
 
 class UINode: SKNode,Draggable{
     var resultantWaveShape: SKNode? = nil
+    var timerUI : TimerUI? = nil
+    
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -21,11 +23,19 @@ class UINode: SKNode,Draggable{
         let UIWaveButtonGroup=SKNode()
         UIWaveButtonGroup.name="UIWaveButtonGroup"
         var temppos :[CGFloat] = [-438.4, -446.5,-424,-401,-453]
+       
+        var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
+        print(characters.count)
+        var chs : [Character] = []
         
+        for i in 0...4 {
+            chs.append( CharacterManager.getCharacterByID(characters[i].characterId!.integerValue)!)
+        }
+         parent.character = chs
         for i in 0...4
         {
             //get team list
-            character0=CharacterManager.getCharacterByID(CharacterManager.team[i])!
+            character0=chs[i]
             UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i+25), wave:character0.getWave())
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
@@ -38,9 +48,10 @@ class UINode: SKNode,Draggable{
         var UICharacterButton0:UICharacterButton
         let UICharacterButtonGroup=SKNode()
         UICharacterButtonGroup.name="UICharacterButtonGroup"
+      
         for i in 0...4
         {
-            UICharacterButton0 = UICharacterButton(size: CGSize(width: 30, height: 30), position: CGPoint(x:-150-30/2 , y: 50*i+25), character:nil)
+            UICharacterButton0 = UICharacterButton(size: CGSize(width: 30, height: 30), position: CGPoint(x:-150-30/2 , y: 50*i+25), character: chs[i])
             UICharacterButton0.zPosition=999
             UICharacterButton0.name="UICharacterButton0"
             UICharacterButtonGroup.addChild(UICharacterButton0)
@@ -76,6 +87,12 @@ class UINode: SKNode,Draggable{
         UIForeground0 = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: c.width, height: c.height))
         UIForeground0.position=CGPoint(x: c.midX,y: c.midY)
         UIForeground.addChild(UIForeground0)
+        
+        
+        self.timerUI = TimerUI.createInstance()
+        self.addChild(self.timerUI!)
+        
+        
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -1,5 +1,5 @@
 //
-//  Team+CoreDataProperties.swift
+//  OwnedCharacter+CoreDataProperties.swift
 //  WaveAttack
 //
 //  Created by yat on 21/10/2015.
@@ -12,8 +12,8 @@
 import Foundation
 import CoreData
 
-extension Team {
+extension OwnedCharacter {
 
-    @NSManaged var characters: NSSet?
+    @NSManaged var characterId: NSNumber?
 
 }

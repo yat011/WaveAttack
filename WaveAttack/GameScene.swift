@@ -21,7 +21,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack, enemy,Temp,  Complete, Pause, Checking
+    case Superposition,Supering, Attack, enemy,Temp,  Complete, Pause, Checking
 }
 
 enum TouchType {
@@ -64,7 +64,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
 
+    var character : [Character] = []
     var inited : Int = 0 //for texture
+    
     init(size: CGSize, missionId: Int) {
         
         super.init(size: size)
@@ -79,7 +81,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         //-------------------------
 
-        CharacterManager.parse("")
+        
         
         srandom(UInt32(NSDate().timeIntervalSinceReferenceDate))
 
@@ -137,6 +139,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
         controlLayer = UIN
         UIN.zPosition=100000
+                
         self.addChild(UIN)
 
     }
@@ -382,6 +385,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var clearUpNodes = Set<SKNode>()
     var pressedSkill : Skill? = nil
     var dragSkillObj : GameObject? = nil
+    var pendingCharacter : Character? = nil
+    
+    
     func overTap() {
         isTap = false
     }
@@ -417,10 +423,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var dragVelocity : CGFloat = 0
     var dragging : SKNode?=nil
     var timerStarted=false
-
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
-        if touches.count > 0 {//drag
+        if touching {
+            clearTouch()
+            
+            return
+        }
+        
+        if touches.count == 1 {//drag
+            
             if let touch = touches.first  {
 
                     touching  = true
@@ -443,6 +455,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 */
 
             }
+        }else if touches.count > 1{
+            prevTouchPoint = touches.first!.locationInNode(self)
         }
 
         
@@ -497,14 +511,49 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touching == false) {return}
-        if (self.touchType == nil) { return }
-        if (touches.count > 0 ) {//drag
+        
+       
+        //print(touches.count)
+        if (touches.count == 1 ) {//drag
+             if (touching == false) {return}
+             if (self.touchType == nil) { return }
             if let touch = touches.first {
 
                  let touchDown = touch.locationInNode(self)
-                checkPressing(touchDown)
+                checkPressing(touchDown, touches: touches)
             }
+        }else if (touches.count > 1){//multi touch scroll
+            
+            if (prevTouchPoint == nil || touching){
+                clearTouch()
+                prevTouchPoint = touches.first!.locationInNode(self)
+           //     dragSkillObj?.getSprite()!.removeFromParent()
+             //   dragSkillObj = nil
+                return
+            }
+            touching = false
+            
+            var minlen:CGFloat = 1000000
+            var touchDown = CGPoint()
+            for touch in touches {
+                var temp = touch.locationInNode(self)
+                var diff:CGVector = (temp - prevTouchPoint!)
+                //print("diff \(diff.length)")
+                if diff.length < minlen {
+                    minlen = diff.length
+                    touchDown = temp
+                }
+                
+                
+            }
+             let diff :CGVector =  prevTouchPoint! - touchDown
+            var moveY = diff.dy * 2
+            moveY = (prevMoveY + moveY) / 2
+            prevMoveY = moveY
+            scrollLayers(-moveY)
+            dragVelocity = (-moveY)
+            prevTouchPoint = touchDown
+            
         }
     }
     
@@ -512,7 +561,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touching){
             
-            checkEndPress()
+            checkEndPress(touches)
             
         }
         clearTouch()
@@ -527,11 +576,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func checkPressOn(touchDown :CGPoint,touches: Set<UITouch>){
         
         
-        if (CGRectContainsPoint(CGRect(origin: gameLayer!.position, size: gameLayer!.calculateAccumulatedFrame().size), (touches.first?.locationInNode(gameLayer!.parent!))!)){
+        if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
             touchType = TouchType.gameArea
             prevTouchPoint = touchDown
             if pressedSkill != nil{
-                touchesBeganSkill(prevTouchPoint!)
+                touchesBeganSkill(prevTouchPoint!, touches: touches)
                 return
             }else{
                 for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
@@ -547,7 +596,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
               
             }
-        }else if currentStage == GameStage.Superposition && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
+        }else if (currentStage == GameStage.Superposition || currentStage == GameStage.Supering) && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
             touchType = TouchType.controlArea
             prevTouchPoint = touchDown
             for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
@@ -581,6 +630,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
         //button
         var btns = self.buttonList[currentStage]
+       // print(btns!.count)
         if btns != nil{
             for btn in btns! {
                 //print(touchDown)
@@ -605,21 +655,22 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     var prevMoveY: CGFloat = 0
     
-    func checkPressing(touchDown :CGPoint){
+    func checkPressing(touchDown :CGPoint,touches: Set<UITouch>){
+        if (prevTouchPoint == nil){
+            prevTouchPoint = touchDown
+        }
         let diff :CGVector =  prevTouchPoint! - touchDown
        // print(diff)
         var moveY = diff.dy * 2
         moveY = (prevMoveY + moveY) / 2
         prevMoveY = moveY
-        if (touchType! == TouchType.gameArea){
+        if (touchType! == TouchType.gameArea){ //
             
             prevTouchPoint  = touchDown
-            if (pressedSkill != nil && touchesMovedSkill(touchDown) == false){
+            if (pressedSkill != nil && touchesMovedSkill(touchDown, touches: touches) == false){
                 return
             }
-            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy){
-            
-
+            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering){
                 scrollLayers(-moveY)
                 dragVelocity = (-moveY)
             }
@@ -633,13 +684,17 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 
             }
             
-        }else if(touchType! == TouchType.waveButton){
+        }else if(touchType! == TouchType.waveButton){ //
             if(!timerStarted){
                // let timer = NSTimer(timeInterval: 5.0, target: self, selector: "timeOut", userInfo: nil, repeats: false)
                 //NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+                var timelimit:Double = 5
                 var timerNode = SKNode()
+                
                 self.addChild(timerNode)
-                timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(5), SKAction.removeFromParent()]),completion: self.timeOut)
+                timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(timelimit), SKAction.removeFromParent()]),completion: self.timeOut)
+                self.controlLayer!.timerUI!.startTimer(timelimit)
+                self.currentStage = .Supering
                 print("start timer")
                 timerStarted=true
             }
@@ -658,11 +713,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             }
         }
     }
-    func checkEndPress (){
+    func checkEndPress (touches: Set<UITouch>){
         if self.currentStage == GameStage.Superposition{
             
             if touchType == TouchType.gameArea{
-                if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!) == false){
+                if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!, touches: touches) == false){
                     return
                 }
                 if (isTap){
@@ -686,7 +741,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     }
     
     
-    func touchesBeganSkill(touchDown :CGPoint){
+    func touchesBeganSkill(touchDown :CGPoint,touches: Set<UITouch>){
         if (pressedSkill is PlacableSkill){
             let temp =  pressedSkill as! PlacableSkill
             var gameObj = temp.createGameObj(gameLayer!.maxZIndex, gameScene: self)
@@ -698,10 +753,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
         }
     }
-    func touchesMovedSkill(touchDown :CGPoint) -> Bool{
+    func touchesMovedSkill(touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-            if (CGRectContainsPoint(playRect!, touchDown)){
-               
+             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
                 dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
                 return false
             }else {
@@ -715,12 +769,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         return false
     }
     
-    func touchesEndedSkill (touchDown :CGPoint) -> Bool{
+    func touchesEndedSkill (touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-            if (CGRectContainsPoint(playRect!, touchDown)){
-                
+             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
                 dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
                 dragSkillObj?.getSprite()!.runAction(SKAction.fadeAlphaTo(1, duration: 0))
+                pendingCharacter!.resetRound()
+                pendingCharacter = nil
                 dragSkillObj = nil
                 pressedSkill = nil
                 return false
@@ -758,29 +813,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
 
     }
     
-
-    func clickOnControlLayer(){
-        //prevPressObj ??
-        
-        // find skill
-        
-        //temp ------
    
-        if (pressedSkill != nil){
-            pressedSkill = nil
-            return
-        }
-        
-        
-        var choseSkill = ConvexLenSkill()
-        
-        //check
-        if (choseSkill is SimpleSkill){
-            choseSkill.perform(self)
-        }else{
-            pressedSkill = ConvexLenSkill()
-        }
-    
+    func setPendingSkill( character : Character){
+        pressedSkill = character.skill!
+        pendingCharacter = character
         
     }
     
@@ -908,6 +944,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
         print("start superposition")
+        if numRounds > 0{
+            for var each in self.character{
+                each.nextRound()
+            }
+            controlLayer!.timerUI!.resetTimer()
+        }
         numRounds += 1
     }
     

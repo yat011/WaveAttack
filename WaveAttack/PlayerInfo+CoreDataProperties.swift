@@ -1,5 +1,5 @@
 //
-//  OwnedCharater+CoreDataProperties.swift
+//  PlayerInfo+CoreDataProperties.swift
 //  WaveAttack
 //
 //  Created by yat on 21/10/2015.
@@ -12,8 +12,9 @@
 import Foundation
 import CoreData
 
-extension OwnedCharater {
+extension PlayerInfo {
 
-    @NSManaged var characterId: NSNumber?
+    @NSManaged var passMission: NSNumber?
+    @NSManaged var teams: NSSet?
 
 }

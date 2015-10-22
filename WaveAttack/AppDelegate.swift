@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+        CharacterManager.parse("")
         let fetchRequest = NSFetchRequest(entityName: "PlayerInfo")
         
         // Execute the fetch request, and cast the results to an array of LogItem objects
@@ -28,13 +28,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (fetchResults.count > 0){
                 print("hv existing data")
                 PlayerInfo._playerInfo = fetchResults[0]
+              // var team =  NSManagedObject.getObjects("Team") as! [Team]
+              //  print(team[0].relationship!.count)
+                print(PlayerInfo._playerInfo?.teams!.count)
             }else{
                 print("no existing data")
                 let newItem = NSEntityDescription.insertNewObjectForEntityForName("PlayerInfo", inManagedObjectContext: self.managedObjectContext!) as! PlayerInfo
                 PlayerInfo._playerInfo = newItem
                 PlayerInfo.playerInfo!.passMission = 0
                 
-                
+                var team = NSManagedObject.insertObject("Team") as! Team
+                var charactes:[OwnedCharacter] = []
+                for var i in 0...4{
+                    var ch = NSManagedObject.insertObject("OwnedCharacter")
+                    var ch2 = ch as! OwnedCharacter
+                   ch2.characterId = 0
+                    charactes.append(ch2)
+                }
+                team.characters = NSSet(array: charactes)
+                PlayerInfo._playerInfo!.teams = NSSet(object: team)
+                NSManagedObject.save()
             }
             Mission.initMissionList()
              

@@ -31,4 +31,10 @@ class MathHelper{
         if (y1>y2){y = y2; h = -h}
         return CGRect(x: x, y: y, width: w, height: h)
     }
+    static func nodeToCGRect(n:SKSpriteNode)->CGRect{
+        return CGRect(x: n.position.x - n.size.width/2, y: n.position.y - n.size.height/2, width: n.size.width, height: n.size.height)
+    }
+    static func displacement(p0:CGPoint, p1:CGPoint)->(dx:CGFloat, dy:CGFloat){
+        return (dx:p1.x-p0.x, dy:p1.y-p0.y)
+    }
 }

@@ -9,15 +9,19 @@
 import Foundation
 import SpriteKit
 
-class CharacterSlot:SKSpriteNode{
+class CharacterSlot:SKSpriteNode,_Clickable{
     var character:Character?
-    init(character:Character?) {
+    init(x:Int, y:Int, character:Character?) {
         self.character=character
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSize(width: 50, height: 50))
+        super.init(texture: nil, color: UIColor.greenColor(), size: CGSize(width: 40, height: 40))
+        self.position=CGPoint(x: x, y: y)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func getClass()->String{
+        return "CharacterSlot"
+    }
 }

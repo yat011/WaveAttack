@@ -105,7 +105,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         physicsWorld.contactDelegate = self
        
- 
     }
 
 
@@ -566,7 +565,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
                 {
                     //do action
-//                    viewController!.changeScene(GameViewController.Scene.TeamScene)
+                    viewController!.changeScene(GameViewController.Scene.TeamScene)
                     touchType = TouchType.button
                     prevPressedObj = c as! Clickable
                     break

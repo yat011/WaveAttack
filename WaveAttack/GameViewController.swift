@@ -76,8 +76,17 @@ class GameViewController: UIViewController {
         let t=SKTransition.fadeWithDuration(5)
         let tempScene:SKScene
         if (s == Scene.TeamScene){
-            tempScene=TeamScene()
+            tempScene=TeamScene(size: CGSize(width: 300, height: 300))
+            (tempScene as! TeamScene).viewController=self
             skView.presentScene(tempScene,transition: t)
         }
+    }
+    func showCharScene(c:Character){
+        let skView = self.view as! SKView
+        let t=SKTransition.fadeWithDuration(5)
+        let tempScene:CharScene
+        tempScene=CharScene(size: CGSize(width: 300, height: 300))
+        tempScene.viewController=self
+        skView.presentScene(tempScene,transition: t)
     }
 }

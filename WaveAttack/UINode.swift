@@ -19,6 +19,7 @@ class UINode: SKNode,Draggable{
         var UIWaveButton0:UIWaveButton
         let UIWaveButtonGroup=SKNode()
         UIWaveButtonGroup.name="UIWaveButtonGroup"
+//var temppos:[CGFloat] = [-438.4, -446.5, -424, -401, -453]
         for i in 0...4
         {
             //get team list
@@ -26,6 +27,7 @@ class UINode: SKNode,Draggable{
             UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i+25), wave:character0.getWave())
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
+//UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i],y:0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
         }
         self.addChild(UIWaveButtonGroup)
@@ -100,7 +102,6 @@ class UINode: SKNode,Draggable{
                 w2: Wave.superposition(w2.wave,d1: Int(d2),
                     w2: Wave.superposition(w3.wave,d1: Int(d3),
                         w2: w4.wave, d2: Int(d4)), d2:0), d2:0), d2:0)
-        
         //wave displacement check
         //w=Wave.superposition(w0.wave,d1: Int(d0),w2: w0.wave,d2: Int(d0))
         w.normalize()

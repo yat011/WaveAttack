@@ -162,7 +162,7 @@ class Wave{
         var maxAmp:CGFloat=0
         for wd in waveData!{
             if (abs(wd)>maxAmp){
-                maxAmp=wd
+                maxAmp=abs(wd)
             }
         }
         for i in 0...waveData!.count-1{

@@ -70,6 +70,8 @@
 		5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */; settings = {ASSET_TAGS = (); }; };
 		5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C171BD771C10003B89D /* CharacterSlot.swift */; settings = {ASSET_TAGS = (); }; };
 		5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C191BD771DF0003B89D /* CharacterButton.swift */; settings = {ASSET_TAGS = (); }; };
+		5F71B6A51BDA0144002F49B5 /* interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A41BDA0144002F49B5 /* interactable.swift */; settings = {ASSET_TAGS = (); }; };
+		5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A71BDA2429002F49B5 /* CharScene.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +161,8 @@
 		5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamScene.swift; sourceTree = "<group>"; };
 		5F411C171BD771C10003B89D /* CharacterSlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterSlot.swift; sourceTree = "<group>"; };
 		5F411C191BD771DF0003B89D /* CharacterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterButton.swift; sourceTree = "<group>"; };
+		5F71B6A41BDA0144002F49B5 /* interactable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = interactable.swift; sourceTree = "<group>"; };
+		5F71B6A71BDA2429002F49B5 /* CharScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +283,7 @@
 				54553E331BA6F3E400A38B18 /* Common */,
 				5474C5621BA320B00015C861 /* GameScene */,
 				5F01C9F21BD4AD360003C711 /* TeamScene */,
+				5F71B6A61BDA137E002F49B5 /* CharScene */,
 				5F01C9F61BD4B68B0003C711 /* MenuScene */,
 				5F01C9F71BD4B6AB0003C711 /* MissionScene */,
 				544F05601BA305CD00AC1BBD /* AppDelegate.swift */,
@@ -430,6 +435,7 @@
 				5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */,
 				5F411C171BD771C10003B89D /* CharacterSlot.swift */,
 				5F411C191BD771DF0003B89D /* CharacterButton.swift */,
+				5F71B6A41BDA0144002F49B5 /* interactable.swift */,
 			);
 			name = TeamScene;
 			sourceTree = "<group>";
@@ -446,6 +452,14 @@
 			children = (
 			);
 			name = MissionScene;
+			sourceTree = "<group>";
+		};
+		5F71B6A61BDA137E002F49B5 /* CharScene */ = {
+			isa = PBXGroup;
+			children = (
+				5F71B6A71BDA2429002F49B5 /* CharScene.swift */,
+			);
+			name = CharScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -598,6 +612,7 @@
 				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
 				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
+				5F71B6A51BDA0144002F49B5 /* interactable.swift in Sources */,
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
 				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
@@ -627,6 +642,7 @@
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
+				5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */,
 				544B60E71BCA22710064B8AE /* Character.swift in Sources */,
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,

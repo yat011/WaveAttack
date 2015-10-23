@@ -8,6 +8,10 @@
 
 import Foundation
 import SpriteKit
+enum WaveDirection {
+    case Left, Right
+}
+
 
 class Character{
     var wave:Wave?
@@ -17,7 +21,12 @@ class Character{
     var ID:Int
     var name:String
     var lore:String
+    var minSpeed: CGFloat = 0
+    var maxSpeed :CGFloat = 2
+    var direction: WaveDirection = .Right
+    var currentSpeed: CGFloat = 1
     var _round: Int = 0
+    weak var waveUI : UIWaveButton? = nil
     var round : Int { get{return _round} set(v) {
         _round = v
         oriRound = _round
@@ -62,11 +71,17 @@ class Character{
     
     func nextRound(){
         print("nextRound")
+        currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
         guard round > 0 else{
             return
         }
         _round--
     }
+    
+    func moveWave(){
+        waveUI?.scroll(currentSpeed, dy: 0)
+    }
+    
     
     func getWave()->Wave{
         return wave!

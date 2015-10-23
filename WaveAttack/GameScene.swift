@@ -836,6 +836,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         destHpBar = nil
         prevTouchPoint = nil
         prevMoveY = 0
+        dragging = nil
     }
     
     func tempCreatePacket(){
@@ -872,6 +873,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             handleContact()
             attackPhaseUpdate(currentTime)
            
+            break
+        case .Superposition:
+            moveWaves()
+            break
+        case .Supering:
+            moveWaves()
             break
         default:
             break
@@ -925,7 +932,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
     
     }
-
+    func moveWaves(){
+        for var each in character{
+            guard each.waveUI !== dragging else{
+                continue
+            }
+            each.moveWave()
+        }
+    }
     
 //----------- phase change -----------------------------
     func startEnemyPhase (){
@@ -944,10 +958,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
         print("start superposition")
+        for var each in self.character{
+            each.nextRound()
+        }
         if numRounds > 0{
-            for var each in self.character{
-                each.nextRound()
-            }
             controlLayer!.timerUI!.resetTimer()
         }
         numRounds += 1

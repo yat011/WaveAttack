@@ -52,6 +52,8 @@ class CharacterManager{
                     character.skill = GameObjectFactory.getInstance().create(skill as! String) as! Skill
                     character.round = JSONHelper.getValue(c,key: "skillRound").integerValue
                 }
+                character.minSpeed = CGFloat(JSONHelper.getValue(c, key: "minSpeed").floatValue)
+                character.maxSpeed = CGFloat(JSONHelper.getValue(c, key: "maxSpeed").floatValue)
                 characters?.append(character)
             }
         }
@@ -77,6 +79,8 @@ class CharacterManager{
         ch.texture = sample.texture
         ch.skill = sample.skill
         ch.round = sample.round
+        ch.minSpeed = sample.minSpeed
+        ch.maxSpeed = sample.maxSpeed
         return ch
     }
     

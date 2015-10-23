@@ -41,6 +41,7 @@ class UINode: SKNode,Draggable{
             UIWaveButton0.name="UIWaveButton"
             UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i], y:0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
+            chs[i].waveUI = UIWaveButton0
         }
         self.addChild(UIWaveButtonGroup)
         
@@ -56,6 +57,7 @@ class UINode: SKNode,Draggable{
             UICharacterButton0.name="UICharacterButton0"
             UICharacterButtonGroup.addChild(UICharacterButton0)
             parent.addClickable(GameStage.Superposition, UICharacterButton0)
+            
         }
         self.addChild(UICharacterButtonGroup)
         

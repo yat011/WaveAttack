@@ -55,6 +55,8 @@
 		546F54151BA32E1F00EB576B /* Refractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54141BA32E1F00EB576B /* Refractable.swift */; };
 		5474C5641BA321A30015C861 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5631BA321A30015C861 /* GameObject.swift */; };
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
+		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
+		549D82AC1BDA6FF400907150 /* SolidMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AB1BDA6FF400907150 /* SolidMedium.swift */; };
 		54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAA1BBA97A70039D744 /* InfoLayer.swift */; };
 		54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAC1BBA9B1F0039D744 /* Player.swift */; };
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
@@ -158,6 +160,8 @@
 		546F54141BA32E1F00EB576B /* Refractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Refractable.swift; path = Model/Refractable.swift; sourceTree = "<group>"; };
 		5474C5631BA321A30015C861 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
+		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
+		549D82AB1BDA6FF400907150 /* SolidMedium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolidMedium.swift; sourceTree = "<group>"; };
 		54A55BAA1BBA97A70039D744 /* InfoLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLayer.swift; sourceTree = "<group>"; };
 		54A55BAC1BBA9B1F0039D744 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
@@ -305,7 +309,6 @@
 				54D44C221BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift */,
 				54D44C1F1BD7660F00B24EE6 /* MainMenuController.swift */,
 				54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */,
-				54D44C191BD765F700B24EE6 /* mission2.json */,
 				54D44C1A1BD765F700B24EE6 /* MissionsController.swift */,
 				54D44C161BD765DD00B24EE6 /* Model.xcdatamodeld */,
 				5F01C9EF1BD4ABD90003C711 /* Character */,
@@ -408,6 +411,7 @@
 		54F8D8871BB03AAE009E9654 /* mission */ = {
 			isa = PBXGroup;
 			children = (
+				54D44C191BD765F700B24EE6 /* mission2.json */,
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
 			name = mission;
@@ -462,6 +466,8 @@
 			children = (
 				54553E2D1BA5BEC100A38B18 /* Medium.swift */,
 				54553E2F1BA5C22900A38B18 /* Soil.swift */,
+				549D82A91BDA3F5D00907150 /* Air.swift */,
+				549D82AB1BDA6FF400907150 /* SolidMedium.swift */,
 			);
 			name = Terrain;
 			sourceTree = "<group>";
@@ -633,11 +639,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				549D82AA1BDA3F5D00907150 /* Air.swift in Sources */,
 				544B60E81BCA22710064B8AE /* CharacterManager.swift in Sources */,
 				5420A5E71BC04406000F2E14 /* ConvexLen.swift in Sources */,
 				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
 				5420A5EC1BC05206000F2E14 /* Skill.swift in Sources */,
 				546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */,
+				549D82AC1BDA6FF400907150 /* SolidMedium.swift in Sources */,
 				54553E2C1BA57B6200A38B18 /* GameLayer.swift in Sources */,
 				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
 				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,

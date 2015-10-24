@@ -12,6 +12,7 @@ enum CollisionLayer : UInt32 {
     case GameBoundary = 0x1
     case Packet = 0x2
     case Medium = 0x4
+    case Objects = 0x8
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -117,7 +118,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
        // var temp = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
         //self.addChild(temp)
-        
+        for obj in gameLayer!.attackPhaseObjects{
+            if obj is Medium{
+                let medium = obj as! Medium
+                var temp = SKShapeNode(path: medium.path!)
+                gameLayer!.addChild(temp)
+                
+            }
+        }
      }
 
 
@@ -487,7 +495,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
             //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             //tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(abs(waveData[i])*40+200, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
+            let p1 = NormalEnergyPacket(abs(waveData[i])*40+200, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -495,6 +503,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 if obj is Medium{
                     var medium = obj as! Medium
                     var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
+                    
+                    print(mediumPt)
+                    
                     if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
                         p1.addBelong(medium)
                     }

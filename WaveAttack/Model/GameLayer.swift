@@ -82,7 +82,7 @@ class GameLayer : SKNode{
             if temp.zIndex > maxZIndex {
                 maxZIndex = temp.zIndex
             }
- 
+            //self.addChild(temp.physContactSprite)
         }
         
         if (obj is EnergyPacket){
@@ -95,10 +95,11 @@ class GameLayer : SKNode{
     
     func removeGameObject (obj : GameObject){
         attackPhaseObjects.remove(obj)
+       obj.deleteSelf()
         if  (obj is EnergyPacket){
             energyPackets.remove(obj as! EnergyPacket)
         }
-
+    
         
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()

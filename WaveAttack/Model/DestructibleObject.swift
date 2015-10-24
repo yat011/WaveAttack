@@ -62,11 +62,12 @@ class DestructibleObject : Medium {
         self.gameScene = gameScene
         var sprite :GameSKSpriteNode = self.getSprite()! as! GameSKSpriteNode
         var originSize = sprite.size
-        sprite.position = position
+       
          sprite.size = size
         self.originSize = size
         sprite.gameObject = self
          createPhysicsBody(originSize, targetSize: size)
+         sprite.position = position
         var selfPos = getSprite()!.position
         var barpos = CGPoint(x: selfPos.x - self.getSprite()!.frame.width / 2 + 5 ,y: selfPos.y - self.getSprite()!.frame.height / 2  - 15)
         hpBarRect = CGRect(origin: barpos, size: CGSize(width: self.getSprite()!.frame.width - 10, height: 10))
@@ -109,8 +110,10 @@ class DestructibleObject : Medium {
         phys.collisionBitMask = 0x0
         //phys.affectedByGravity = false
         phys.categoryBitMask = CollisionLayer.Medium.rawValue
+         self.physContactSprite.physicsBody = phys
+        //getSprite()!.physicsBody = phys
         
-        getSprite()!.physicsBody = phys
+        self.getSprite()!.addChild(self.physContactSprite)
     }
     
     func drawPath(path: CGMutablePath, offsetX : CGFloat, offsetY: CGFloat){
@@ -210,6 +213,7 @@ class DestructibleObject : Medium {
     
     
     func destorySelf(){
+        super.deleteSelf()
         for obj in self.packets{
             if (obj.deleted == false){
                 obj.deleteSelf()

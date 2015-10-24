@@ -13,32 +13,48 @@
                  },
         
          {
-         "type": "Snail",
-         "x": "150",
-         "y": "500",
-         "width": "200",
-         "height": "100",
-         "hp": "10000",
-         "target": "true"
+                 
+                 "type": "SampleBox",
+                 "x": "150",
+                 "y": "200",
+                 "width": "200",
+                 "height": "100",
+                 "hp": "10000",
+                 },
+                 {
+                 
+                "type": "Snail",
+                 "x": "150",
+                 "y": "500",
+                 "width": "200",
+                 "height": "100",
+                 "hp": "10000",
+                 "target": "true"
+                 
                  }      ]
     },
-     {
-     "terrain": "Soil",
-     "object": [
-                
-                {
-                "type": "SampleBox",
-                "x": "150",
-                "y": "400",
-                "width": "100",
-                "height": "100",
-                "hp": "5003",
-                "target": "true",
-                "rotation" : "1.5"
-                
-                }
-                ]
-     }
+         {
+         "terrain": "Air",
+         "object": [
+                    {
+                    "type": "Soil",
+                    "x": "187.5",
+                    "y": "0",
+                    "width": "375",
+                    "height": "500",
+                    
+                    },
+                    
+                    {
+                    "type": "Snail",
+                    "x": "150",
+                    "y": "500",
+                    "width": "200",
+                    "height": "100",
+                    "hp": "10000",
+                    "target": "true"
+                    }      ]
+         }
                  
   ],
     "grade": [ 6, 9, 12 ,15 ,19, 25],

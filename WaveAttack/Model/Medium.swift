@@ -59,5 +59,17 @@ class Medium : GameObject {
         super.deleteSelf()
         physContactSprite.removeFromParent()
     }
+
+   
+    func syncPos(){
+        
+        physContactSprite.position = CGPoint(x: 0, y: 0)
+        //physContactSprite.runAction(SKAction.rotateToAngle(0, duration: 0))
+        physContactSprite.zRotation = 0
+    
+        
+    }
+    
+    
     
 }

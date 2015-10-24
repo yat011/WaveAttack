@@ -118,14 +118,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
        // var temp = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
         //self.addChild(temp)
-        for obj in gameLayer!.attackPhaseObjects{
+     /*   for obj in gameLayer!.attackPhaseObjects{
             if obj is Medium{
                 let medium = obj as! Medium
                 var temp = SKShapeNode(path: medium.path!)
                 gameLayer!.addChild(temp)
                 
             }
-        }
+        }*/
      }
 
 
@@ -894,30 +894,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         default:
             break
         }
+        
+      
 
-        //////print(currentTime - lastTimeStamp)
-        if (countFrame % 30 == 0 && countFrame < 1000){
-            switch (currentStage){
-            case .Attack:
-                
-                if (waveData != nil){
-                 /*
-                    var tempx: CGFloat = (self.size.width/2)
-                    let p1 = NormalEnergyPacket( abs(waveData![counter])*40+1000, position: CGPoint(x: 37.5 + Double(counter), y: 50), gameScene :self)
-                    p1.direction = CGVector(dx: 0, dy: 1)
-                    p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer!.background!)
-                    gameLayer!.addGameObject(p1)
-                    counter=(counter+1)%300
-*/
-                }
 
-                break
-            default:
-                break
-            }
-            
-        }
+        
         
         //smooth scrolling
         if ((dragVelocity != 0) && (touching == false))
@@ -928,15 +909,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         }
 
       
-        
-        countFrame += 1
-        if ((currentTime - lastTimeStamp) > 1  ){
-            
-            /* Called before each frame is rendered */
-            lastTimeStamp = currentTime
-        }
-       
-        if inited == 1{
+    
+        if inited == 1{ // init
             initControlLayer()
         }
             inited++
@@ -1122,6 +1096,17 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     func resumeStage(){
         if (_prevStage != nil){
             _currentStage = _prevStage!
+        }
+    }
+    
+//------------------------
+    override func didSimulatePhysics() {
+        for each in gameLayer!.attackPhaseObjects{
+            guard each is Medium else{
+                continue
+            }
+            let medium = each as! Medium
+            medium.syncPos()
         }
     }
 }

@@ -30,9 +30,11 @@ class SolidMedium:Medium{
         phys!.categoryBitMask = CollisionLayer.Objects.rawValue
         phys!.affectedByGravity = false
         phys!.collisionBitMask = CollisionLayer.Objects.rawValue
-        //tempSprite.physicsBody = phys
+        phys!.dynamic = false
+      //  phys!.usesPreciseCollisionDetection = true
+        tempSprite.physicsBody = phys
         tempSprite.name = GameObjectName.Medium.rawValue
-        //contact Sprite
+        //contact Sprite -----------------
         tempSprite.position = position
 
         phys = SKPhysicsBody (edgeLoopFromPath: self.path!)

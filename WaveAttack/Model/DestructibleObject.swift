@@ -55,6 +55,7 @@ class DestructibleObject : Medium {
     var roundRect : CGRect? = nil
     var dead : Bool = false
     var originSize :CGSize? = nil
+    var originPoint :CGPoint? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if getSprite() == nil {
             fatalError("sprite == nil")
@@ -63,11 +64,13 @@ class DestructibleObject : Medium {
         var sprite :GameSKSpriteNode = self.getSprite()! as! GameSKSpriteNode
         var originSize = sprite.size
        
-         sprite.size = size
+        sprite.size = size
         self.originSize = size
+        self.originPoint = position
         sprite.gameObject = self
          createPhysicsBody(originSize, targetSize: size)
          sprite.position = position
+        
         var selfPos = getSprite()!.position
         var barpos = CGPoint(x: selfPos.x - self.getSprite()!.frame.width / 2 + 5 ,y: selfPos.y - self.getSprite()!.frame.height / 2  - 15)
         hpBarRect = CGRect(origin: barpos, size: CGSize(width: self.getSprite()!.frame.width - 10, height: 10))
@@ -104,7 +107,7 @@ class DestructibleObject : Medium {
         _path = path
         //print(CGPathContainsPoint(path, nil,CGPoint(x: 0, y: 0) , true))
         
-        let phys = SKPhysicsBody (edgeLoopFromPath: path)
+        var phys = SKPhysicsBody (edgeLoopFromPath: path)
         
         phys.usesPreciseCollisionDetection = true
         phys.collisionBitMask = 0x0
@@ -112,6 +115,21 @@ class DestructibleObject : Medium {
         phys.categoryBitMask = CollisionLayer.Medium.rawValue
          self.physContactSprite.physicsBody = phys
         //getSprite()!.physicsBody = phys
+               // var anPoint = tempSprite.anchorPoint
+        
+        var temp = getSprite() as! SKSpriteNode
+        //var shape = SKShapeNode(path: _path!)
+        //var texture = GameViewController.skView!.textureFromNode(shape)
+        phys = SKPhysicsBody(texture: temp.texture!, size: temp.size)
+        phys.categoryBitMask = CollisionLayer.Objects.rawValue
+        phys.affectedByGravity = true
+        phys.collisionBitMask = CollisionLayer.Objects.rawValue
+        phys.dynamic = true
+      //  phys.usesPreciseCollisionDetection = true
+        getSprite()!.physicsBody = phys
+        
+        
+        
         
         self.getSprite()!.addChild(self.physContactSprite)
     }
@@ -199,6 +217,7 @@ class DestructibleObject : Medium {
     }
     
     override func update() {
+        
         if (totDmg != 0 && animating == false){
             shaking()
         }
@@ -282,6 +301,26 @@ class DestructibleObject : Medium {
         
     }
     
+    override func syncPos() {
+        super.syncPos()
+        var dest = self
+         var selfPos = getSprite()!.position
+        //print(selfPos)
+        var diff :CGVector = selfPos - self.originPoint!
+        if self.target{
+           
+            
+            
+            dest.hpBar!.position = dest.hpBar!.position + diff
+            //print(barpos)
+            //print(dest.hpBar!.position)
+        }
+        if (self is EnemyActable){
+            
+            dest.roundLabel!.position = dest.roundLabel!.position + diff
+        }
+        self.originPoint = selfPos
+    }
     
     
 }

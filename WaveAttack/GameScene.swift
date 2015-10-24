@@ -500,7 +500,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
             //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             //tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(abs(waveData[i])*40+200, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
+            let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)

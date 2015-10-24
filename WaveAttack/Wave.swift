@@ -193,8 +193,8 @@ class Wave{
             }
         }
         for i in 0...waveData!.count-1{
-            waveData![i] /= maxAmp
-            waveData![i] *= 25
+           // waveData![i] /= maxAmp
+           // waveData![i] *= 1
         }
     }
     static func normalize(w:Wave)->Wave{

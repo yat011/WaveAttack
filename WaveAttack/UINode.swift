@@ -12,7 +12,7 @@ import SpriteKit
 class UINode: SKNode,Draggable{
     var resultantWaveShape: SKNode? = nil
     var timerUI : TimerUI? = nil
-    
+    var waveButtons :[UIWaveButton] = []
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -40,6 +40,7 @@ class UINode: SKNode,Draggable{
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
             UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i], y:0)
+            waveButtons.append(UIWaveButton0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
             chs[i].waveUI = UIWaveButton0
         }
@@ -152,6 +153,27 @@ class UINode: SKNode,Draggable{
         self.resultantWaveShape = n
         self.addChild(self.resultantWaveShape!)
         return w
+    }
+    
+    func animateSuperposition(completion:(()->())){
+        var i = 0
+        for btn in waveButtons{
+            var action = [SKAction.moveToY(50*2+25, duration: 1),SKAction.waitForDuration(0.5),SKAction.fadeOutWithDuration(0.5)]
+            if i == 0 {
+                btn.runAction(SKAction.sequence(action), completion: completion)
+            }else{
+                btn.runAction(SKAction.sequence(action))
+            }
+            i++
+        }
+    }
+    func showWaveButtons(){
+        var i:CGFloat = 0
+        for btn in waveButtons{
+            var actions = [SKAction.moveToY(50 * i + 25, duration: 0), SKAction.fadeInWithDuration(0.5)]
+            btn.runAction(SKAction.sequence(actions))
+            i++
+        }
     }
     
     func checkClick(touchPoint : CGPoint)-> Clickable?{

@@ -474,10 +474,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     
     func timeOut(){
         print("timeOut")
-        let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-        spawnWave(resultWave.getAmplitudes())
-        timerStarted = false
-        clearTouch()
+        currentStage = .Temp
+        controlLayer?.animateSuperposition({
+            ()->() in
+            let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
+            self.spawnWave(resultWave.getAmplitudes())
+            self.timerStarted = false
+            self.clearTouch()
+        })
+        
     }
     var waveData:[CGFloat]?
     func spawnWave(waveData:[CGFloat]){
@@ -514,6 +519,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             
             gameLayer!.addGameObject(p1)
         }
+        
+        
+        //-----------
+        
+        
+        //-------------
         startAttackPhase()
         
         
@@ -947,6 +958,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             each.nextRound()
         }
         if numRounds > 0{
+            controlLayer!.showWaveButtons()
             controlLayer!.timerUI!.resetTimer()
         }
         numRounds += 1

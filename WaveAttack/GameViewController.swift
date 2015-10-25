@@ -73,20 +73,20 @@ class GameViewController: UIViewController {
     
     func changeScene(nextScene:Scene){
         let transition=SKTransition.fadeWithDuration(5)
-        changeScene([Scene](), nextScene: nextScene, transision: transition)
+        changeScene([Scene](), nextScene: nextScene, transition: transition)
     }
     func changeScene(prevScene:[Scene], nextScene:Scene){
     //func changeScene(prevScene:Scene, nextScene:Scene){
         let transition=SKTransition.fadeWithDuration(5)
-        changeScene(prevScene, nextScene: nextScene, transision: transition)
+        changeScene(prevScene, nextScene: nextScene, transition: transition)
     }
-    func changeScene(prevScene:[Scene], nextScene:Scene, transision:SKTransition){
-    //func changeScene(prevScene:Scene, nextScene:Scene, transision:SKTransition){
+    func changeScene(prevScene:[Scene], nextScene:Scene, transition:SKTransition){
+    //func changeScene(prevScene:Scene, nextScene:Scene, transition:SKTransition){
         let skView = self.view as! SKView
         let tempScene:SKScene
         if (nextScene == Scene.TeamScene){
             tempScene=TeamScene(size: screenSize, viewController: self, prevScene: prevScene)
-            skView.presentScene(tempScene,transition: transision)
+            skView.presentScene(tempScene,transition: transition)
         }
     }
     func showCharScene(prevScene:[Scene], c:Character){

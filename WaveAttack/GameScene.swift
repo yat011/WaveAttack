@@ -565,7 +565,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
                 {
                     //do action
-                    let prev:[GameViewController.Scene]=[GameViewController.Scene.CharScene]
+                    let prev:[GameViewController.Scene]=[GameViewController.Scene.TeamScene]
                     viewController!.changeScene(prev, nextScene: GameViewController.Scene.TeamScene)
                     touchType = TouchType.button
                     prevPressedObj = c as! Clickable

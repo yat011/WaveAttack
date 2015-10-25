@@ -23,6 +23,8 @@ class TeamScene: TransitableScene{
         clickables=[_Clickable]()
         characterButtonGroup=SKNode()
         characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: 0), size: CGSize(width: 375, height: 500))
+        transitioning=false
+        touching=false
         
         super.init(size: size, viewController: viewController, prevScene: prevScene)
         selfScene=GameViewController.Scene.TeamScene
@@ -59,77 +61,91 @@ class TeamScene: TransitableScene{
         backButton.color=UIColor.redColor()
         self.addChild(backButton)
         clickables.append(backButton)
+        
+        transitioning=false
     }
-    var touching:Bool?
+    var transitioning:Bool
+    var touching:Bool
     var prevTouch:_Clickable?
     var prevPoint:CGPoint?
     var dragVelocity:CGFloat=0
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touches.count > 0){
-            if let touch = touches.first{
-                touching=true
-                let touchPoint=touch.locationInNode(centeredNode)
-                for c in clickables{
-                    if c.checkTouch(touch){
-                        prevTouch=c
-                        timer.runAction(SKAction.waitForDuration(1),completion:onHold)
-                        break
+        if !transitioning {
+            if (touches.count > 0){
+                if let touch = touches.first{
+                    touching=true
+                    let touchPoint=touch.locationInNode(centeredNode)
+                    for c in clickables{
+                        if c.checkTouch(touch){
+                            prevTouch=c
+                            timer.runAction(SKAction.waitForDuration(1),completion:onHold)
+                            break
+                        }
                     }
-                }
-                if prevTouch==nil{//touch else
-                    prevPoint=touchPoint
+                    if prevTouch==nil{//touch else
+                        prevPoint=touchPoint
+                    }
                 }
             }
         }
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touches.count > 0){
-            if let touch = touches.first{
-                let touchPoint=touch.locationInNode(centeredNode)
-                if prevTouch != nil{
-                    if !(prevTouch!.checkTouch(touch)){//moved out of button
-                        timer.removeAllActions()
+        if !transitioning {
+            if (touches.count > 0){
+                if let touch = touches.first{
+                    let touchPoint=touch.locationInNode(centeredNode)
+                    if prevTouch != nil{
+                        if !(prevTouch!.checkTouch(touch)){//moved out of button
+                            timer.removeAllActions()
+                        }
                     }
-                }
-                if prevPoint != nil{
-                    let d=MathHelper.displacement(prevPoint!, p1: touchPoint)
-                    dragVelocity=d.dy
-                    moveCharacterButtonGroupTo(characterButtonGroup.position.y+d.dy)
-                    prevPoint = touchPoint
+                    if prevPoint != nil{
+                        let d=MathHelper.displacement(prevPoint!, p1: touchPoint)
+                        dragVelocity=d.dy
+                        moveCharacterButtonGroupTo(characterButtonGroup.position.y+d.dy)
+                        prevPoint = touchPoint
+                    }
                 }
             }
         }
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        timer.removeAllActions()
-        if (touches.count > 0){
-            if let touch = touches.first{
-                touching=false
-                //let touchPoint=touch.locationInNode(centeredNode)
-                if prevTouch != nil{
-                    if (prevTouch!.checkTouch(touch)){
-                        //prevTouch!.click()
-                        //click(prevTouch!)
-                        if(prevTouch?.getClass()=="BackButton"){
-                            (prevTouch as! BackButton).back()
+        if !transitioning {
+            timer.removeAllActions()
+            if (touches.count > 0){
+                if let touch = touches.first{
+                    touching=false
+                    //let touchPoint=touch.locationInNode(centeredNode)
+                    if prevTouch != nil{
+                        if (prevTouch!.checkTouch(touch)){
+                            //prevTouch!.click()
+                            //click(prevTouch!)
+                            if(prevTouch?.getClass()=="BackButton"){
+                                transitioning=true
+                                (prevTouch as! BackButton).back()
+                            }
+                            prevTouch=nil
                         }
-                        prevTouch=nil
                     }
                 }
             }
         }
     }
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        prevTouch=nil
-        timer.removeAllActions()
+        if !transitioning {
+            prevTouch=nil
+            timer.removeAllActions()
+        }
     }
     func onHold(){
         //prevTouch!.hold()
         if(prevTouch?.getClass()=="CharacterButton"){
+            transitioning=true
             prevScene.append(self.selfScene)
             viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterButton).character)
         }
         else if (prevTouch?.getClass()=="CharacterSlot"){
+            transitioning=true
             prevScene.append(self.selfScene)
             viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }

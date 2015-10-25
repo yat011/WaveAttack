@@ -72,6 +72,8 @@
 		5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C191BD771DF0003B89D /* CharacterButton.swift */; settings = {ASSET_TAGS = (); }; };
 		5F71B6A51BDA0144002F49B5 /* interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A41BDA0144002F49B5 /* interactable.swift */; settings = {ASSET_TAGS = (); }; };
 		5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A71BDA2429002F49B5 /* CharScene.swift */; settings = {ASSET_TAGS = (); }; };
+		5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */; settings = {ASSET_TAGS = (); }; };
+		5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +165,8 @@
 		5F411C191BD771DF0003B89D /* CharacterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterButton.swift; sourceTree = "<group>"; };
 		5F71B6A41BDA0144002F49B5 /* interactable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = interactable.swift; sourceTree = "<group>"; };
 		5F71B6A71BDA2429002F49B5 /* CharScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharScene.swift; sourceTree = "<group>"; };
+		5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitableScene.swift; sourceTree = "<group>"; };
+		5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +326,7 @@
 				54553E341BA6F3F700A38B18 /* Extension.swift */,
 				54F8D8881BB04271009E9654 /* GameObjectFactory.swift */,
 				5420A60E1BC589A8000F2E14 /* TextureTools.swift */,
+				5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				5F411C171BD771C10003B89D /* CharacterSlot.swift */,
 				5F411C191BD771DF0003B89D /* CharacterButton.swift */,
 				5F71B6A41BDA0144002F49B5 /* interactable.swift */,
+				5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */,
 			);
 			name = TeamScene;
 			sourceTree = "<group>";
@@ -619,6 +625,7 @@
 				544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
 				54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */,
+				5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
@@ -635,6 +642,7 @@
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				54553E391BA6FD6000A38B18 /* SampleBox.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
+				5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */,
 				54553E301BA5C22900A38B18 /* Soil.swift in Sources */,
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
 				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,

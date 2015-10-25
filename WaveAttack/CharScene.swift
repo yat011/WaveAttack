@@ -9,13 +9,13 @@
 import Foundation
 import SpriteKit
 
-class CharScene:SKScene{
-    var viewController:GameViewController?
-    var prevScene:SKScene?
+class CharScene:TransitableScene{
     var character:Character?
-    override init(size:CGSize){
+    override init(size: CGSize, viewController: GameViewController, prevScene: [GameViewController.Scene]) {
         
-        super.init(size: size)
+        
+        super.init(size: size, viewController: viewController, prevScene: prevScene)
+        selfScene=GameViewController.Scene.CharScene
     }
 
     required init?(coder aDecoder: NSCoder) {

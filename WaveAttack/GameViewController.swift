@@ -10,38 +10,38 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-
     enum Scene{
+        case None
         case MenuScene
         case OptionScene
         case MissionScene
         case GameScene
         case TeamScene
+        case CharScene
     }
     
     let fixedFps : Int = 30
-    
+    let screenSize:CGSize=CGSize(width: 375, height: 667)
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-          //  skView.showsPhysics = true
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            skView.frameInterval = 60 / fixedFps
-        let scene = GameScene(size: CGSize(width: 375, height: 667))
+        
+        let skView = self.view as! SKView
+        // Configure the view.
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        //  skView.showsPhysics = true
+        /* Sprite Kit applies additional optimizations to improve rendering performance */
+        skView.ignoresSiblingOrder = true
+        skView.frameInterval = 60 / fixedFps
+        let scene = GameScene(size: screenSize)
         
         
-           /* if let scene = GameScene(fileNamed : "GameScene"){
-            /* Set the scale mode to scale to fit the window */
-                scene.scaleMode = .AspectFill
-            
-                skView.presentScene(scene)
-            }
+        /* if let scene = GameScene(fileNamed : "GameScene"){
+        /* Set the scale mode to scale to fit the window */
+        scene.scaleMode = .AspectFill
+        
+        skView.presentScene(scene)
+        }
         */
         scene.scaleMode = .AspectFit
         scene.viewController=self
@@ -71,22 +71,29 @@ class GameViewController: UIViewController {
         return true
     }
     
-    func changeScene(s:Scene){
+    func changeScene(nextScene:Scene){
+        let transition=SKTransition.fadeWithDuration(5)
+        changeScene([Scene](), nextScene: nextScene, transision: transition)
+    }
+    func changeScene(prevScene:[Scene], nextScene:Scene){
+    //func changeScene(prevScene:Scene, nextScene:Scene){
+        let transition=SKTransition.fadeWithDuration(5)
+        changeScene(prevScene, nextScene: nextScene, transision: transition)
+    }
+    func changeScene(prevScene:[Scene], nextScene:Scene, transision:SKTransition){
+    //func changeScene(prevScene:Scene, nextScene:Scene, transision:SKTransition){
         let skView = self.view as! SKView
-        let t=SKTransition.fadeWithDuration(5)
         let tempScene:SKScene
-        if (s == Scene.TeamScene){
-            tempScene=TeamScene(size: CGSize(width: 300, height: 300))
-            (tempScene as! TeamScene).viewController=self
-            skView.presentScene(tempScene,transition: t)
+        if (nextScene == Scene.TeamScene){
+            tempScene=TeamScene(size: screenSize, viewController: self, prevScene: prevScene)
+            skView.presentScene(tempScene,transition: transision)
         }
     }
-    func showCharScene(c:Character){
+    func showCharScene(prevScene:[Scene], c:Character){
         let skView = self.view as! SKView
         let t=SKTransition.fadeWithDuration(5)
         let tempScene:CharScene
-        tempScene=CharScene(size: CGSize(width: 300, height: 300))
-        tempScene.viewController=self
+        tempScene=CharScene(size: screenSize, viewController: self, prevScene:prevScene)
         skView.presentScene(tempScene,transition: t)
     }
 }

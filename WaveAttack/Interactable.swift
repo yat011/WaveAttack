@@ -16,8 +16,6 @@ protocol _Clickable{
 }
 extension _Clickable where Self : SKSpriteNode{
     func checkTouch(touch:UITouch)->Bool{
-        print(CGRect(origin: self.position, size: self.size))
-        print(touch.locationInNode(self.parent!))
         return CGRectContainsPoint(MathHelper.nodeToCGRect(self),touch.locationInNode(self.parent!))
     }
     func checkTouch(touchPoint:CGPoint)->Bool{

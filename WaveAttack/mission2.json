@@ -1,47 +1,50 @@
 {
     "subMission": [
                    {
-                   "terrain": "Soil",
+                   "terrain": "Air",
                    "object": [
-                              
                               {
-                              "type": "SampleBox",
-                              "x": "200",
-                              "y": "200",
-                              "width": "50",
-                              "height": "50",
-                              "hp": "5003",
-                              "target": "true",
-                            
+                              "type": "Soil",
+                              "x": "187.5",
+                              "y": "0",
+                              "width": "375",
+                              "height": "500",
                               
                               },
-                              {
-                              "type": "SampleBox",
-                              "x": "50",
-                              "y": "100",
-                              "width": "20",
-                              "height": "20",
-                              "hp": "5003",
-                              "target": "true",
-                              "rotation" : "0"
                               
-                              },
                               {
+                              
                               "type": "SampleBox",
                               "x": "150",
-                              "y": "400",
-                              "width": "100",
+                              "y": "200",
+                              "width": "200",
                               "height": "100",
-                              "hp": "5003",
-                              "target": "false",
-                              "rotation" : "1.5"
+                              "hp": "10000",
+                              },
+                              {
                               
-                              }
-                              ]
+                              "type": "Snail",
+                              "x": "150",
+                              "y": "500",
+                              "width": "200",
+                              "height": "100",
+                              "hp": "10000",
+                              "target": "true"
+                              
+                              }      ]
                    },
                    {
-                   "terrain": "Soil",
+                   "terrain": "Air",
                    "object": [
+                              {
+                              "type": "Soil",
+                              "x": "187.5",
+                              "y": "0",
+                              "width": "375",
+                              "height": "500",
+                              
+                              },
+                              
                               {
                               "type": "Snail",
                               "x": "150",
@@ -50,20 +53,11 @@
                               "height": "100",
                               "hp": "10000",
                               "target": "true"
-                              },{
-                              "type": "Snail",
-                              "x": "100",
-                              "y": "200",
-                              "width": "200",
-                              "height": "200",
-                              "hp": "10000",
-                              "target": "true"
-                              
-                              }
-                              ]
+                              }      ]
                    }
                    
                    ],
     "grade": [ 6, 9, 12 ,15 ,19, 25],
-    "name": "Keep Going"
+    "name": "Second Mission"
+    
 }

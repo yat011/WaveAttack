@@ -22,7 +22,7 @@ class UINode: SKNode,Draggable{
         var UIWaveButton0:UIWaveButton
         let UIWaveButtonGroup=SKNode()
         UIWaveButtonGroup.name="UIWaveButtonGroup"
-        var temppos :[CGFloat] = [-438.4, -446.5,-424,-401,-453]
+        var temppos :[CGFloat] = [-415, -547,-562,-565,-569]
        
         var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
         print(characters.count)
@@ -39,7 +39,7 @@ class UINode: SKNode,Draggable{
             UIWaveButton0 = UIWaveButton(size: CGSize(width: 300, height: 66), position: CGPoint(x: 0, y: 66 * Double(i) + 33), wave:character0.getWave())
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
-            UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i], y:0)
+            //UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i], y:0)
             waveButtons.append(UIWaveButton0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
             chs[i].waveUI = UIWaveButton0

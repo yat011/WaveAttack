@@ -64,12 +64,22 @@ class GameLayer : SKNode{
             addGameObject(medium)
         }
 
-
+        initBoundary()
        
         
     }
 
-   
+    func initBoundary (){
+        var boundary = SKSpriteNode()
+        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size:  gameScene!.gameArea!.size))
+        phys.collisionBitMask = CollisionLayer.Objects.rawValue
+        phys.categoryBitMask = CollisionLayer.Objects.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue
+        boundary.physicsBody = phys
+        
+        self.addChild(boundary)
+        
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

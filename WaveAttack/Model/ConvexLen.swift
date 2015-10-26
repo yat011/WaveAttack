@@ -19,7 +19,9 @@ class ConvexLen: DestructibleObject{
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         
         super.initialize(size, position: position, gameScene: gameScene)
-        
+        self.sprite.physicsBody!.dynamic = false
+        self.sprite.physicsBody!.categoryBitMask = 0
+        self.sprite.physicsBody!.collisionBitMask = 0
         self.propagationSpeed = 2.5
         
         self.collisionAbsorption = 50

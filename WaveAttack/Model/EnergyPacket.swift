@@ -301,7 +301,7 @@ class EnergyPacket : GameObject{
             reflectRatio = 1 - tranRatio
         }
         let diff: CGFloat = CGFloat( abs( to!.collisionAbsorption - from!.collisionAbsorption))
-        let energyAttenuation = diff * ( 1 + reflectRatio)
+        let energyAttenuation = diff * ( 1 + reflectRatio) + 5
         self.energy = self.energy - energyAttenuation
        // _ = self.energy * tranRatio
        

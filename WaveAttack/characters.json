@@ -8,7 +8,7 @@
                       "skillID":"0",
                       "image": "ch01",
                       "skill" : "ConvexLenSkill",
-                      "skillRound" : "1",
+                      "skillRound" : "2",
                       "wave":[
                               {
                               "type":     "sine1",
@@ -31,8 +31,8 @@
                               "height":   "-20"
                               }
                               ],
-                      "minSpeed": "3",
-                      "maxSpeed": "6",
+                      "minSpeed": "1.5",
+                      "maxSpeed": "2",
                         "dir" : "right"
                   },
                   {
@@ -65,7 +65,7 @@
                               }
                               ],
                       "minSpeed": "3",
-                      "maxSpeed": "5"
+                      "maxSpeed": "4"
                   }
                  
                   ]

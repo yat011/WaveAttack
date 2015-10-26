@@ -841,7 +841,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         pendingCharacter = character
         
     }
-    
+    func clearSkill(){
+        
+        pressedSkill = nil
+        pendingCharacter = nil
+
+    }
   
     
     func clearTouch (){
@@ -1121,6 +1126,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             medium.syncPos()
         }
     }
+   
 }
 
 

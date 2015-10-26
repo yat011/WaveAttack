@@ -10,16 +10,13 @@ import Foundation
 import SpriteKit
 
 class TransitableScene:SKScene{
-    var prevScene:[GameViewController.Scene]      //will change to stack-like implementation
-    //var prevScene:GameViewController.Scene?
     //var transition:[SKTransition]
     var viewController:GameViewController
     var selfScene:GameViewController.Scene
     
-    init(size: CGSize, viewController:GameViewController, prevScene:[GameViewController.Scene]) {
-    //init(size: CGSize, viewController:GameViewController, prevScene:GameViewController.Scene) {
+    init(size: CGSize, viewController:GameViewController) {
+    //init(size: CGSize, viewController:GameViewController) {
         self.viewController=viewController
-        self.prevScene=prevScene
         self.selfScene=GameViewController.Scene.None
         super.init(size: size)
     }
@@ -29,7 +26,6 @@ class TransitableScene:SKScene{
     }
     
     func changeScene(nextScene:GameViewController.Scene){
-        prevScene.append(selfScene)
-        viewController.changeScene(prevScene, nextScene: nextScene)
+        viewController.sceneTransitionForward(selfScene, nextScene: nextScene)
     }
 }

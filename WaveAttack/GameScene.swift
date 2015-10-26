@@ -29,9 +29,7 @@ enum TouchType {
 
 }
 
-class GameScene: SKScene , SKPhysicsContactDelegate{
-   
-    var viewController:GameViewController?
+class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     var gameLayer :GameLayer? = nil
     var infoLayer : InfoLayer? = nil
@@ -56,11 +54,12 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
-    override init(size: CGSize) {
+    override init(size: CGSize, viewController:GameViewController) {
         
      
         //updateTimeInterval = 1.0 / fixedFps33 
-        super.init(size: size)
+        super.init(size: size, viewController:viewController)
+        selfScene=GameViewController.Scene.GameScene
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
         self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
@@ -565,8 +564,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
                 {
                     //do action
-                    let prev:[GameViewController.Scene]=[GameViewController.Scene.TeamScene]
-                    viewController!.changeScene(prev, nextScene: GameViewController.Scene.TeamScene)
+                    viewController.sceneTransitionForward(selfScene, nextScene: GameViewController.Scene.TeamScene)
                     touchType = TouchType.button
                     prevPressedObj = c as! Clickable
                     break

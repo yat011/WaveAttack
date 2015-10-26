@@ -16,17 +16,17 @@ class TeamScene: TransitableScene{
     var clickables:[_Clickable]
     var characterButtonGroup:SKNode
     var characterButtonGroupRect:CGRect
-    override init(size: CGSize, viewController:GameViewController, prevScene:[GameViewController.Scene]) {
+    override init(size: CGSize, viewController:GameViewController) {
         centeredNode=SKNode()
         centeredNode.position=CGPoint(x: 375/2, y:0)
         timer=SKNode()
         clickables=[_Clickable]()
         characterButtonGroup=SKNode()
         characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: 0), size: CGSize(width: 375, height: 500))
-        transitioning=false
+        touchable=false
         touching=false
         
-        super.init(size: size, viewController: viewController, prevScene: prevScene)
+        super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.TeamScene
         
         self.addChild(centeredNode)
@@ -62,15 +62,15 @@ class TeamScene: TransitableScene{
         self.addChild(backButton)
         clickables.append(backButton)
         
-        transitioning=false
+        touchable=true
     }
-    var transitioning:Bool
+    var touchable:Bool
     var touching:Bool
     var prevTouch:_Clickable?
     var prevPoint:CGPoint?
     var dragVelocity:CGFloat=0
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if !transitioning {
+        if touchable {
             if (touches.count > 0){
                 if let touch = touches.first{
                     touching=true
@@ -90,7 +90,7 @@ class TeamScene: TransitableScene{
         }
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if !transitioning {
+        if touchable {
             if (touches.count > 0){
                 if let touch = touches.first{
                     let touchPoint=touch.locationInNode(centeredNode)
@@ -110,7 +110,7 @@ class TeamScene: TransitableScene{
         }
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if !transitioning {
+        if touchable {
             timer.removeAllActions()
             if (touches.count > 0){
                 if let touch = touches.first{
@@ -121,8 +121,8 @@ class TeamScene: TransitableScene{
                             //prevTouch!.click()
                             //click(prevTouch!)
                             if(prevTouch?.getClass()=="BackButton"){
-                                transitioning=true
-                                (prevTouch as! BackButton).back()
+                                touchable=false
+                                (prevTouch as! BackButton).click()
                             }
                             prevTouch=nil
                         }
@@ -132,7 +132,7 @@ class TeamScene: TransitableScene{
         }
     }
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if !transitioning {
+        if touchable {
             prevTouch=nil
             timer.removeAllActions()
         }
@@ -140,14 +140,14 @@ class TeamScene: TransitableScene{
     func onHold(){
         //prevTouch!.hold()
         if(prevTouch?.getClass()=="CharacterButton"){
-            transitioning=true
-            prevScene.append(self.selfScene)
-            viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterButton).character)
+            touchable=false
+            viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
+            //viewController.sceneTransitionSK(prevScene, c: (prevTouch! as! CharacterButton).character)
         }
         else if (prevTouch?.getClass()=="CharacterSlot"){
-            transitioning=true
-            prevScene.append(self.selfScene)
-            viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
+            touchable=false
+            viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
+            //viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }
     }
     func moveCharacterButtonGroupTo(var newY:CGFloat){

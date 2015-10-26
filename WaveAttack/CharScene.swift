@@ -11,11 +11,16 @@ import SpriteKit
 
 class CharScene:TransitableScene{
     var character:Character?
-    override init(size: CGSize, viewController: GameViewController, prevScene: [GameViewController.Scene]) {
+    override init(size: CGSize, viewController: GameViewController) {
         
         
-        super.init(size: size, viewController: viewController, prevScene: prevScene)
+        super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.CharScene
+        let backButton=BackButton(texture: nil, size: CGSize(width: 50, height: 50))
+        backButton.position=CGPoint(x: 375/2, y: 300)
+        backButton.color=UIColor.redColor()
+        self.addChild(backButton)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {

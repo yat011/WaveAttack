@@ -18,8 +18,11 @@ class BackButton:SKSpriteNode,_Clickable{
         back()
     }
     func back(){
+        (self.scene! as! TransitableScene).viewController.sceneTransitionBackward()
+        /*
         let scene=(self.scene! as! TransitableScene)
         let last=scene.prevScene.removeLast()
         scene.viewController.changeScene(scene.prevScene, nextScene: last)
+        */
     }
 }

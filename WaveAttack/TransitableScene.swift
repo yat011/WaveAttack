@@ -58,14 +58,14 @@ class TransitableScene:SKScene{
             if (touches.count > 0){
                 if let touch = touches.first{
                     
-                    let touchPoint=touch.locationInNode(self)
                     if prevTouch != nil{
                         if !(prevTouch!.checkTouch(touch)){//moved out of button
                             holdTimer.removeAllActions()
                         }
                     }
                     if prevPoint != nil{
-                        onMove(MathHelper.displacement(prevPoint!, p1: touchPoint))
+                        let touchPoint=touch.locationInNode(self)
+                        onMove(prevPoint!, p1: touchPoint)
                         prevPoint = touchPoint
                     }
                 }
@@ -78,8 +78,10 @@ class TransitableScene:SKScene{
             holdTimer.removeAllActions()
             if (touches.count > 0){
                 if let touch = touches.first{
-                    if prevTouch!.checkTouch(touch){
-                        onClick()
+                    if prevTouch != nil{
+                        if prevTouch!.checkTouch(touch){
+                            onClick()
+                        }
                     }
                 }
             }
@@ -97,7 +99,7 @@ class TransitableScene:SKScene{
     func onClick(){
         //prevTouch.onClick()
     }
-    func onMove(d:(dx:CGFloat, dy:CGFloat)){
+    func onMove(p0:CGPoint, p1:CGPoint){
         //prevTouch.onMove()
     }
     func onHold(){

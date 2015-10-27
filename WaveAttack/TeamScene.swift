@@ -13,7 +13,6 @@ class TeamScene: TransitableScene{
     var centeredNode:SKNode
     //var clickNodes:SKNode
     var timer:SKNode
-    var clickables:[Interactable]=[Interactable]()
     var characterButtonGroup:SKNode
     var characterButtonGroupRect:CGRect
     override init(size: CGSize, viewController:GameViewController) {
@@ -43,21 +42,21 @@ class TeamScene: TransitableScene{
                 buttonX = -120
                 buttonY += 100
             }
-            clickables.append(cb)
+            interactables.append(cb)
         }
         for i in 0..<5{
             //make slots
             let cs=CharacterSlot(x: -120+60*i,y: 600,character: CharacterManager.getCharacterByID(CharacterManager.team[i]))
             cs.name="CharacterSlot"
             centeredNode.addChild(cs)
-            clickables.append(cs)
+            interactables.append(cs)
         }
         self.backgroundColor=UIColor.blueColor()
         let backButton=BackButton(texture: nil, size: CGSize(width: 50, height: 50))
         backButton.position=CGPoint(x: 375/2, y: 300)
         backButton.color=UIColor.redColor()
         self.addChild(backButton)
-        clickables.append(backButton)
+        interactables.append(backButton)
         
     }
     
@@ -69,7 +68,9 @@ class TeamScene: TransitableScene{
         }
         prevTouch=nil
     }
-    override func onMove(d:(dx:CGFloat, dy:CGFloat)){
+    override func onMove(p0:CGPoint, p1:CGPoint){
+        //can use p0,p1 for moving-component check
+        let d=MathHelper.displacement(p0, p1: p1)
         dragVelocity=d.dy
         moveCharacterButtonGroupTo(characterButtonGroup.position.y+d.dy)
     }

@@ -361,7 +361,6 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
 //----------------------touching --------------------------
-    var touching : Bool = false
     var touchType : TouchType? = nil
     var prevTouchPoint : CGPoint? = nil
 

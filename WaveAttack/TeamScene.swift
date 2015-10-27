@@ -60,80 +60,20 @@ class TeamScene: TransitableScene{
         clickables.append(backButton)
         
     }
-    var touchable:Bool=true
-    var touching:Bool=false
-    var prevTouch:Interactable?=nil
-    var prevPoint:CGPoint?=nil
-    var dragVelocity:CGFloat=0
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if touchable {
-            if (touches.count > 0){
-                if let touch = touches.first{
-                    touching=true
-                    let touchPoint=touch.locationInNode(centeredNode)
-                    for c in clickables{
-                        if c.checkTouch(touch){
-                            prevTouch=c
-                            timer.runAction(SKAction.waitForDuration(1),completion:onHold)
-                            break
-                        }
-                    }
-                    if prevTouch==nil{//touch else
-                        prevPoint=touchPoint
-                    }
-                }
-            }
+    
+    
+    override func onClick(){
+        if(prevTouch?.getClass()=="BackButton"){
+            touchable=false
+            (prevTouch as! BackButton).click()
         }
+        prevTouch=nil
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if touchable {
-            if (touches.count > 0){
-                if let touch = touches.first{
-                    let touchPoint=touch.locationInNode(centeredNode)
-                    if prevTouch != nil{
-                        if !(prevTouch!.checkTouch(touch)){//moved out of button
-                            timer.removeAllActions()
-                        }
-                    }
-                    if prevPoint != nil{
-                        let d=MathHelper.displacement(prevPoint!, p1: touchPoint)
-                        dragVelocity=d.dy
-                        moveCharacterButtonGroupTo(characterButtonGroup.position.y+d.dy)
-                        prevPoint = touchPoint
-                    }
-                }
-            }
-        }
+    override func onMove(d:(dx:CGFloat, dy:CGFloat)){
+        dragVelocity=d.dy
+        moveCharacterButtonGroupTo(characterButtonGroup.position.y+d.dy)
     }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if touchable {
-            timer.removeAllActions()
-            if (touches.count > 0){
-                if let touch = touches.first{
-                    touching=false
-                    //let touchPoint=touch.locationInNode(centeredNode)
-                    if prevTouch != nil{
-                        if (prevTouch!.checkTouch(touch)){
-                            //prevTouch!.click()
-                            //click(prevTouch!)
-                            if(prevTouch?.getClass()=="BackButton"){
-                                touchable=false
-                                (prevTouch as! BackButton).click()
-                            }
-                            prevTouch=nil
-                        }
-                    }
-                }
-            }
-        }
-    }
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if touchable {
-            prevTouch=nil
-            timer.removeAllActions()
-        }
-    }
-    func onHold(){
+    override func onHold(){
         //prevTouch!.hold()
         if(prevTouch?.getClass()=="CharacterButton"){
             touchable=false
@@ -146,6 +86,8 @@ class TeamScene: TransitableScene{
             //viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }
     }
+    
+    
     func moveCharacterButtonGroupTo(var newY:CGFloat){
         if newY<0{
             newY=0
@@ -157,8 +99,10 @@ class TeamScene: TransitableScene{
         }
         characterButtonGroup.runAction(SKAction.moveToY(newY, duration: 0))
     }
+    
+    
+    var dragVelocity:CGFloat=0
     override func update(currentTime: CFTimeInterval) {
-        
         var tempx: CGFloat = (self.size.width/2)
         if touching==false{
             if abs(dragVelocity)>0{
@@ -170,6 +114,8 @@ class TeamScene: TransitableScene{
             }
         }
     }
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

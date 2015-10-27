@@ -37,4 +37,7 @@ class MathHelper{
     static func displacement(p0:CGPoint, p1:CGPoint)->(dx:CGFloat, dy:CGFloat){
         return (dx:p1.x-p0.x, dy:p1.y-p0.y)
     }
+    static func translatePoint(p0:CGPoint, p1:CGPoint)->(dx:CGFloat, dy:CGFloat){
+        return (dx:p1.x-p0.x, dy:p1.y-p0.y)
+    }
 }

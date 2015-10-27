@@ -13,6 +13,9 @@ protocol Interactable{
     func getClass()->String
     func checkTouch(touch:UITouch)->Bool
     //func checkTouch(touchPoint:CGPoint)->Bool
+    //func onClick()
+    //func onMove()
+    //func onHold()
 }
 extension Interactable where Self : SKSpriteNode{
     func checkTouch(touch:UITouch)->Bool{

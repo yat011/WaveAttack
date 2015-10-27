@@ -14,4 +14,8 @@ class Team: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 
+    
+    func getCharacter (index:Int) -> OwnedCharacter{
+       return characters!.allObjects[index] as! OwnedCharacter
+    }
 }

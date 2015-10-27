@@ -327,6 +327,7 @@
 				54F8D8881BB04271009E9654 /* GameObjectFactory.swift */,
 				5420A60E1BC589A8000F2E14 /* TextureTools.swift */,
 				5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */,
+				5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -441,7 +442,6 @@
 				5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */,
 				5F411C171BD771C10003B89D /* CharacterSlot.swift */,
 				5F411C191BD771DF0003B89D /* CharacterButton.swift */,
-				5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */,
 			);
 			name = TeamScene;
 			sourceTree = "<group>";
@@ -618,9 +618,9 @@
 				544B60EB1BCA22710064B8AE /* MathHelper.swift in Sources */,
 				544B60EC1BCA22710064B8AE /* PointerHelper.swift in Sources */,
 				54553E321BA5C3A900A38B18 /* CustomSKNode.swift in Sources */,
-				5F71B6A51BDA0144002F49B5 /* Interactable.swift in Sources */,
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
+				5F71B6A51BDA0144002F49B5 /* Interactable.swift in Sources */,
 				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
 				544B60F11BCA22710064B8AE /* WaveFactory.swift in Sources */,
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,

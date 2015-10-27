@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class CharacterButton:SKSpriteNode,_Clickable{
+class CharacterButton:SKSpriteNode,Interactable{
     var character:Character
     init(x:Int, y:Int, character:Character) {
         self.character=character

@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class BackButton:SKSpriteNode,_Clickable{
+class BackButton:SKSpriteNode,Interactable{
     
     func getClass()->String{
         return "BackButton"

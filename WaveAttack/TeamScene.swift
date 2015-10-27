@@ -13,18 +13,15 @@ class TeamScene: TransitableScene{
     var centeredNode:SKNode
     //var clickNodes:SKNode
     var timer:SKNode
-    var clickables:[_Clickable]
+    var clickables:[Interactable]=[Interactable]()
     var characterButtonGroup:SKNode
     var characterButtonGroupRect:CGRect
     override init(size: CGSize, viewController:GameViewController) {
         centeredNode=SKNode()
         centeredNode.position=CGPoint(x: 375/2, y:0)
         timer=SKNode()
-        clickables=[_Clickable]()
         characterButtonGroup=SKNode()
         characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: 0), size: CGSize(width: 375, height: 500))
-        touchable=false
-        touching=false
         
         super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.TeamScene
@@ -62,12 +59,11 @@ class TeamScene: TransitableScene{
         self.addChild(backButton)
         clickables.append(backButton)
         
-        touchable=true
     }
-    var touchable:Bool
-    var touching:Bool
-    var prevTouch:_Clickable?
-    var prevPoint:CGPoint?
+    var touchable:Bool=true
+    var touching:Bool=false
+    var prevTouch:Interactable?=nil
+    var prevPoint:CGPoint?=nil
     var dragVelocity:CGFloat=0
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if touchable {

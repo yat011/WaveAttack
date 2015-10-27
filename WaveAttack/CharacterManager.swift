@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class CharacterManager{
-    static var team:[Int]=[0,0,0,0,0]
+    //static var team:[Int]=[0,0,1,1,0]
     static var characters:[Character]?
     static func parse(res:String){
         var name="characters"
@@ -46,22 +46,48 @@ class CharacterManager{
                 character.lore=JSONHelper.getValue(c, key: "lore").description
                 character.str=JSONHelper.getValue(c, key: "strength").integerValue
                 character.wave=wave
-                
+                character.texture = SKTexture(imageNamed: JSONHelper.getValue(c, key: "image").description)
+                var skill  = c["skill"]
+                if skill != nil{
+                    character.skill = GameObjectFactory.getInstance().create(skill as! String) as! Skill
+                    character.round = JSONHelper.getValue(c,key: "skillRound").integerValue
+                }
+                character.minSpeed = CGFloat(JSONHelper.getValue(c, key: "minSpeed").floatValue)
+                character.maxSpeed = CGFloat(JSONHelper.getValue(c, key: "maxSpeed").floatValue)
                 characters?.append(character)
             }
         }
     }
+    
+    
+    
     static func getCharacterByID(ID:Int)->Character?{
         if (characters == nil) {return nil}
         for c in characters!{
-            if (c.ID==ID) {return c}
+            if (c.ID==ID) {return copyFromRef(c)}
         }
         return nil
     }
+    
+    private static func copyFromRef (sample: Character) -> Character{
+        var ch = Character()
+        ch.wave = sample.wave
+        ch.ID = sample.ID
+        ch.name = sample.name
+        ch.lore = sample.lore
+        ch.str = sample.str
+        ch.texture = sample.texture
+        ch.skill = sample.skill
+        ch.round = sample.round
+        ch.minSpeed = sample.minSpeed
+        ch.maxSpeed = sample.maxSpeed
+        return ch
+    }
+    
     static func getCharacterByName(name:String)->Character?{
         if (characters == nil) {return nil}
         for c in characters!{
-            if (c.name==name) {return c}
+            if (c.name==name) {return copyFromRef(c)}
         }
         return nil
     }

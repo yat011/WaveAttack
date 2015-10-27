@@ -12,6 +12,7 @@ enum CollisionLayer : UInt32 {
     case GameBoundary = 0x1
     case Packet = 0x2
     case Medium = 0x4
+    case Objects = 0x8
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -21,7 +22,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition, Attack, enemy,Temp,  Complete, Pause, Checking
+    case Superposition,Supering, Attack, enemy,Temp,  Complete, Pause, Checking
 }
 
 enum TouchType {
@@ -29,13 +30,24 @@ enum TouchType {
 
 }
 
+
 class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
+   
+    
+    static weak var current: GameScene? = nil
     var gameLayer :GameLayer? = nil
     var infoLayer : InfoLayer? = nil
     var player : Player? = nil
     var controlLayer : UINode? = nil
-    var currentStage : GameStage = GameStage.Superposition
+    var _prevStage : GameStage? = nil
+    var _currentStage : GameStage = GameStage.Superposition
+    var currentStage : GameStage {get {return _currentStage}
+        set(c){
+            _prevStage = _currentStage
+            _currentStage = c
+        }
+    }
     var contactQueue = Array<SKPhysicsContact>()
     var endContactQueue  = [SKPhysicsContact]()
    
@@ -49,27 +61,35 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
    // let fixedFps : Double = 30
     var lastTimeStamp : CFTimeInterval = -100
    // var updateTimeInterval : Double
-    
+    var buttonList = Dictionary<GameStage, [Clickable]>()
     var objectHpBar : HpBar? = nil
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
-    override init(size: CGSize, viewController:GameViewController) {
+    var character : [Character] = []
+    var inited : Int = 0 //for texture
+
+
+    
+    
+    init(size: CGSize, missionId: Int,viewController:GameViewController) {
         
-     
-        //updateTimeInterval = 1.0 / fixedFps33 
+       
         super.init(size: size, viewController:viewController)
         selfScene=GameViewController.Scene.GameScene
+        //updateTimeInterval = 1.0 / fixedFps33 
+        GameScene.current = self
+
         // load mission
         self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
         self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
         
-        mission =  Mission.loadMission(1,gameScene: self)
+        mission =  Mission.loadMission(missionId,gameScene: self)
         
         
         //-------------------------
 
-        CharacterManager.parse("")
+        
         
         srandom(UInt32(NSDate().timeIntervalSinceReferenceDate))
 
@@ -94,7 +114,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
       
         
         
-        initControlLayer()
+        
  
         //self.addChild(controlLayer)
         self.addChild(infoLayer!)
@@ -103,8 +123,18 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
  
         
         physicsWorld.contactDelegate = self
-       
-    }
+
+       // var temp = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
+        //self.addChild(temp)
+     /*   for obj in gameLayer!.attackPhaseObjects{
+            if obj is Medium{
+                let medium = obj as! Medium
+                var temp = SKShapeNode(path: medium.path!)
+                gameLayer!.addChild(temp)
+                
+            }
+        }*/
+     }
 
 
     
@@ -125,22 +155,19 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
         controlLayer = UIN
         UIN.zPosition=100000
+                
         self.addChild(UIN)
 
     }
 //-------------------- start Sub-Mission --------------------
     func startSubMission(subMission : SubMission){
         if gameLayer != nil{
-            var pPos = self.gameLayer!.position
             self.gameLayer!.deleteSelf()
             gameLayer!.removeFromParent()
             gameLayer = GameLayer(subMission: subMission, gameScene: self)
-            gameLayer!.position = pPos
         }else{
-            let ph: CGFloat = size.height / 2
-            let pPos = CGPoint(x: 0, y : ph)
             gameLayer = GameLayer(subMission: subMission, gameScene: self)
-            gameLayer!.position = pPos
+            
         }
         self.addChild(gameLayer!)
         
@@ -149,9 +176,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         let lowerBound = playRect!.origin.y - diff
         gameLayer!.position = CGPoint(x:0 , y:lowerBound)
         controlLayer?.position = CGPoint(x: self.size.width/2, y: 0)
-        print (gameArea!.origin.y)
-        print(lowerBound)
-        
+       // print (gameArea!.origin.y)
+       // print(lowerBound)
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in
@@ -374,6 +400,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var clearUpNodes = Set<SKNode>()
     var pressedSkill : Skill? = nil
     var dragSkillObj : GameObject? = nil
+    var pendingCharacter : Character? = nil
+    
+    
     func overTap() {
         isTap = false
     }
@@ -409,10 +438,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var dragVelocity : CGFloat = 0
     var dragging : SKNode?=nil
     var timerStarted=false
-
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
-        if touches.count > 0 {//drag
+        if touching {
+            clearTouch()
+            
+            return
+        }
+        
+        if touches.count == 1 {//drag
+            
             if let touch = touches.first  {
 
                     touching  = true
@@ -435,6 +470,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 */
 
             }
+        }else if touches.count > 1{
+            prevTouchPoint = touches.first!.locationInNode(self)
         }
 
         
@@ -444,10 +481,15 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func timeOut(){
         print("timeOut")
-        let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-        spawnWave(resultWave.getAmplitudes())
-        timerStarted = false
-        clearTouch()
+        currentStage = .Temp
+        controlLayer?.animateSuperposition({
+            ()->() in
+            let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
+            self.spawnWave(resultWave.getAmplitudes())
+            self.timerStarted = false
+            self.clearTouch()
+        })
+        
     }
     var waveData:[CGFloat]?
     func spawnWave(waveData:[CGFloat]){
@@ -465,7 +507,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
             //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             //tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(abs(waveData[i])*40+200, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
+            let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -473,6 +515,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 if obj is Medium{
                     var medium = obj as! Medium
                     var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
+                    
+                    print(mediumPt)
+                    
                     if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
                         p1.addBelong(medium)
                     }
@@ -481,6 +526,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
             gameLayer!.addGameObject(p1)
         }
+        
+        
+        //-----------
+        
+        
+        //-------------
         startAttackPhase()
         
         
@@ -489,14 +540,49 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
 
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (touching == false) {return}
-        if (self.touchType == nil) { return }
-        if (touches.count > 0 ) {//drag
+        
+       
+        //print(touches.count)
+        if (touches.count == 1 ) {//drag
+             if (touching == false) {return}
+             if (self.touchType == nil) { return }
             if let touch = touches.first {
 
                  let touchDown = touch.locationInNode(self)
-                checkPressing(touchDown)
+                checkPressing(touchDown, touches: touches)
             }
+        }else if (touches.count > 1){//multi touch scroll
+            
+            if (prevTouchPoint == nil || touching){
+                clearTouch()
+                prevTouchPoint = touches.first!.locationInNode(self)
+           //     dragSkillObj?.getSprite()!.removeFromParent()
+             //   dragSkillObj = nil
+                return
+            }
+            touching = false
+            
+            var minlen:CGFloat = 1000000
+            var touchDown = CGPoint()
+            for touch in touches {
+                var temp = touch.locationInNode(self)
+                var diff:CGVector = (temp - prevTouchPoint!)
+                //print("diff \(diff.length)")
+                if diff.length < minlen {
+                    minlen = diff.length
+                    touchDown = temp
+                }
+                
+                
+            }
+             let diff :CGVector =  prevTouchPoint! - touchDown
+            var moveY = diff.dy * 2
+            moveY = (prevMoveY + moveY) / 2
+            prevMoveY = moveY
+            scrollLayers(-moveY)
+            dragVelocity = (-moveY)
+            prevTouchPoint = touchDown
+            
         }
     }
     
@@ -504,7 +590,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (touching){
             
-            checkEndPress()
+            checkEndPress(touches)
             
         }
         clearTouch()
@@ -519,11 +605,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func checkPressOn(touchDown :CGPoint,touches: Set<UITouch>){
         
         
-        if (CGRectContainsPoint(CGRect(origin: gameLayer!.position, size: gameLayer!.calculateAccumulatedFrame().size), (touches.first?.locationInNode(gameLayer!.parent!))!)){
+        if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
             touchType = TouchType.gameArea
             prevTouchPoint = touchDown
             if pressedSkill != nil{
-                touchesBeganSkill(prevTouchPoint!)
+                touchesBeganSkill(prevTouchPoint!, touches: touches)
                 return
             }else{
                 for gameObject in (gameLayer?.attackPhaseObjects)!{ // find GameObject pressed
@@ -539,7 +625,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
               
             }
-        }else if currentStage == GameStage.Superposition && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
+        }else if (currentStage == GameStage.Superposition || currentStage == GameStage.Supering) && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
             touchType = TouchType.controlArea
             prevTouchPoint = touchDown
             for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
@@ -555,7 +641,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     break
                 }
             }
-            for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
+        /*    for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
             {
                 //print(c.description)
                 //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
@@ -569,33 +655,54 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     break
                 }
             }
+*/
         }
         //button
+        var btns = self.buttonList[currentStage]
+       // print(btns!.count)
+        if btns != nil{
+            for btn in btns! {
+                //print(touchDown)
+                var clicked = btn.checkClick(touchDown)
+                
+                if clicked != nil{
+                    touchType = TouchType.button
+                    prevPressedObj = clicked
+                }
+            }
+        }
+        
+      /*
         var tempBtn  = infoLayer?.checkClick(touchDown)
         if tempBtn != nil{
             touchType = TouchType.button
             prevPressedObj  = tempBtn!
         }
-        
+        */
         
         
     }
-
+    var prevMoveY: CGFloat = 0
     
-    func checkPressing(touchDown :CGPoint){
+    func checkPressing(touchDown :CGPoint,touches: Set<UITouch>){
+        if (prevTouchPoint == nil){
+            prevTouchPoint = touchDown
+        }
         let diff :CGVector =  prevTouchPoint! - touchDown
        // print(diff)
-        let moveY = diff.dy * 2
-        if (touchType! == TouchType.gameArea){
+        var moveY = diff.dy * 2
+        moveY = (prevMoveY + moveY) / 2
+        prevMoveY = moveY
+        if (touchType! == TouchType.gameArea){ //
             
             prevTouchPoint  = touchDown
-            if (pressedSkill != nil && touchesMovedSkill(touchDown) == false){
+            if (pressedSkill != nil && touchesMovedSkill(touchDown, touches: touches) == false){
                 return
             }
-            
-            
-            scrollLayers(-moveY)
-            dragVelocity = (-moveY)
+            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering){
+                scrollLayers(-moveY)
+                dragVelocity = (-moveY)
+            }
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
                 if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
@@ -606,13 +713,17 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 
             }
             
-        }else if(touchType! == TouchType.waveButton){
+        }else if(touchType! == TouchType.waveButton){ //
             if(!timerStarted){
                // let timer = NSTimer(timeInterval: 5.0, target: self, selector: "timeOut", userInfo: nil, repeats: false)
                 //NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+                var timelimit:Double = 5
                 var timerNode = SKNode()
+                
                 self.addChild(timerNode)
-                timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(5), SKAction.removeFromParent()]),completion: self.timeOut)
+                timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(timelimit), SKAction.removeFromParent()]),completion: self.timeOut)
+                self.controlLayer!.timerUI!.startTimer(timelimit)
+                self.currentStage = .Supering
                 print("start timer")
                 timerStarted=true
             }
@@ -631,11 +742,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
         }
     }
-    func checkEndPress (){
+    func checkEndPress (touches: Set<UITouch>){
         if self.currentStage == GameStage.Superposition{
             
             if touchType == TouchType.gameArea{
-                if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!) == false){
+                if (pressedSkill != nil && touchesEndedSkill(prevTouchPoint!, touches: touches) == false){
                     return
                 }
                 if (isTap){
@@ -659,7 +770,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
     
-    func touchesBeganSkill(touchDown :CGPoint){
+    func touchesBeganSkill(touchDown :CGPoint,touches: Set<UITouch>){
         if (pressedSkill is PlacableSkill){
             let temp =  pressedSkill as! PlacableSkill
             var gameObj = temp.createGameObj(gameLayer!.maxZIndex, gameScene: self)
@@ -671,10 +782,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
         }
     }
-    func touchesMovedSkill(touchDown :CGPoint) -> Bool{
+    func touchesMovedSkill(touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-            if (CGRectContainsPoint(playRect!, touchDown)){
-               
+             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
                 dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
                 return false
             }else {
@@ -688,12 +798,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         return false
     }
     
-    func touchesEndedSkill (touchDown :CGPoint) -> Bool{
+    func touchesEndedSkill (touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-            if (CGRectContainsPoint(playRect!, touchDown)){
-                
+             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
                 dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
                 dragSkillObj?.getSprite()!.runAction(SKAction.fadeAlphaTo(1, duration: 0))
+                pendingCharacter!.resetRound()
+                pendingCharacter = nil
                 dragSkillObj = nil
                 pressedSkill = nil
                 return false
@@ -723,37 +834,26 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             newY = playRect!.origin.y
         }
         //gameLayer.position.y = newY
+        
+        
+        
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
         controlLayer!.scroll(0, y: newY-self.size.height/2)
 
     }
     
-
-    func clickOnControlLayer(){
-        //prevPressObj ??
-        
-        // find skill
-        
-        //temp ------
    
-        if (pressedSkill != nil){
-            pressedSkill = nil
-            return
-        }
-        
-        
-        var choseSkill = ConvexLenSkill()
-        
-        //check
-        if (choseSkill is SimpleSkill){
-            choseSkill.perform(self)
-        }else{
-            pressedSkill = ConvexLenSkill()
-        }
-    
+    func setPendingSkill( character : Character){
+        pressedSkill = character.skill!
+        pendingCharacter = character
         
     }
-    
+    func clearSkill(){
+        
+        pressedSkill = nil
+        pendingCharacter = nil
+
+    }
   
     
     func clearTouch (){
@@ -768,7 +868,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         pressedDestObject = nil
         destHpBar?.removeFromParent()
         destHpBar = nil
-
+        prevTouchPoint = nil
+        prevMoveY = 0
+        dragging = nil
     }
     
     func tempCreatePacket(){
@@ -806,33 +908,20 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             attackPhaseUpdate(currentTime)
            
             break
+        case .Superposition:
+            moveWaves()
+            break
+        case .Supering:
+            moveWaves()
+            break
         default:
             break
         }
+        
+      
 
-        //////print(currentTime - lastTimeStamp)
-        if (countFrame % 30 == 0 && countFrame < 1000){
-            switch (currentStage){
-            case .Attack:
-                
-                if (waveData != nil){
-                 /*
-                    var tempx: CGFloat = (self.size.width/2)
-                    let p1 = NormalEnergyPacket( abs(waveData![counter])*40+1000, position: CGPoint(x: 37.5 + Double(counter), y: 50), gameScene :self)
-                    p1.direction = CGVector(dx: 0, dy: 1)
-                    p1.gameLayer = gameLayer
-                    p1.pushBelongTo(gameLayer!.background!)
-                    gameLayer!.addGameObject(p1)
-                    counter=(counter+1)%300
-*/
-                }
 
-                break
-            default:
-                break
-            }
-            
-        }
+        
         
         //smooth scrolling
         if ((dragVelocity != 0) && (touching == false))
@@ -843,18 +932,22 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
 
       
-        
-        countFrame += 1
-        if ((currentTime - lastTimeStamp) > 1  ){
-            
-            /* Called before each frame is rendered */
-            lastTimeStamp = currentTime
-        }
-       
     
+        if inited == 1{ // init
+            initControlLayer()
+        }
+            inited++
         
+    
     }
-
+    func moveWaves(){
+        for var each in character{
+            guard each.waveUI !== dragging else{
+                continue
+            }
+            each.moveWave()
+        }
+    }
     
 //----------- phase change -----------------------------
     func startEnemyPhase (){
@@ -873,6 +966,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
         print("start superposition")
+        for var each in self.character{
+            each.nextRound()
+        }
+        if numRounds > 0{
+            controlLayer!.showWaveButtons()
+            controlLayer!.timerUI!.resetTimer()
+        }
         numRounds += 1
     }
     
@@ -906,12 +1006,24 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func completeSubMission(){
         currentMission += 1
         
-        if (currentMission >= mission?.missions.count){
+        if (currentMission >= mission?.missions.count){ // complete Mission
             currentStage = GameStage.Complete
             print("complete Mission")
+          
+            if PlayerInfo.playerInfo!.passMission?.integerValue < mission!.missionId{
+                PlayerInfo.playerInfo!.passMission = mission!.missionId
+            }
+            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
+            do{
+                try app.managedObjectContext!.save()
+                print("saved")
+            }catch{
+                print("fail")
+            }
             gameLayer!.fadeOutAll({
                 () -> () in
-                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: 30,y: 100), size: CGSize(width: 300, height: 550)), gameScene : self)
+                
+                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
                 self.addChild(self.resultUI!)
                 
                 //numRounds = 20
@@ -962,6 +1074,66 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     
+    
+    func BackToMenu(){
+        if (GameViewController.current == nil){
+            print("nil current")
+        }
+        var storyBoard = GameViewController.current?.storyboard
+        if (storyBoard == nil){
+            print("nil board")
+        }
+        //var main = GameViewController.current?.storyboard?.instantiateViewControllerWithIdentifier("MainMenu")
+        //  GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        /*if GameViewController.current!.navigationController == nil{
+        print("nil nav")
+        }
+        GameViewController.current?.navigationController?.popToViewController(main!, animated: false)*/
+        //GameViewController.current!.seg`
+        print(GameViewController.current!.presentedViewController)
+        
+        GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        
+        // GameViewController.current!.performSegueWithIdentifier("BackToMissions", sender: nil)
+        GameViewController.current = nil
+        //GameViewController.current!.pop
+        //  GameViewController.current!.show
+        //GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
+        /*  GameViewController.current?.dismissViewControllerAnimated(true, completion: {
+        () -> () in
+        GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
+        })*/
+    }
+    
+    
+//---------manage Clickable
+    func addClickable(stage: GameStage, _ click : Clickable) {
+        if self.buttonList[stage] == nil{
+            self.buttonList[stage] = []
+        }
+        self.buttonList[stage]!.append(click)
+    }
+    //---remove -------
+    
+    
+    // recover prevStage
+    func resumeStage(){
+        if (_prevStage != nil){
+            _currentStage = _prevStage!
+        }
+    }
+    
+//------------------------
+    override func didSimulatePhysics() {
+        for each in gameLayer!.attackPhaseObjects{
+            guard each is Medium else{
+                continue
+            }
+            let medium = each as! Medium
+            medium.syncPos()
+        }
+    }
+   
 }
 
 

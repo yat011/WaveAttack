@@ -8,24 +8,28 @@
 
 import Foundation
 
-protocol Skill{
-    
-    
-}
-
-
-protocol DecisionSkill : Skill{
+class Skill: GameObject{
+    func perform(){
+        
+    }
     
 }
 
-protocol SimpleSkill : Skill{
+
+class DecisionSkill : Skill{
     
 }
 
-protocol TargetSkill : DecisionSkill{
+class SimpleSkill : Skill{
     
 }
 
-protocol PlacableSkill :DecisionSkill{
-    func createGameObj(zIndex: Int, gameScene: GameScene) -> GameObject
+class TargetSkill : DecisionSkill{
+    
+}
+
+class PlacableSkill :DecisionSkill{
+    func createGameObj(zIndex: Int, gameScene: GameScene) -> GameObject{
+        fatalError("not implement")
+    }
 }

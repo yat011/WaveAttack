@@ -11,5 +11,8 @@ import Foundation
 enum GameEvent : String{
     case HpChanged = "hpchanged",
     RoundChanged = "roundchanged",
-    Dead = "dead"
+    Dead = "dead",
+    SkillReady = "skillready",
+    SKillPending = "skillpending",
+    SKillUsed = "skillused"
 }

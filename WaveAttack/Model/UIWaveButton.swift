@@ -12,7 +12,7 @@ import SpriteKit
 class UIWaveButton : SKCropNode,Draggable {
     var wave:Wave
     let pet:String = ""
-    var waveShapeNode:SKShapeNode?=nil
+    var waveShapeNode:SKNode?=nil
     //let WaveData
 
     init(size : CGSize , position : CGPoint, wave:Wave){
@@ -26,10 +26,24 @@ class UIWaveButton : SKCropNode,Draggable {
         waveShapeNode=wave.getShape()
         waveShapeNode!.position.x=CGFloat(random()%wave.length)-CGFloat(wave.length*2)
         print(waveShapeNode)
+        let path:CGMutablePathRef=CGPathCreateMutable()
+        CGPathMoveToPoint(path, nil, 0, 0)
+        CGPathAddLineToPoint(path, nil, 300, 0)
+        
+        
+        var boundary = SKShapeNode(rectOfSize: CGSize(width: 300, height: size.height))
+        boundary.strokeColor = SKColor.blackColor()
+       // boundary.position = CGPoint(x: -150, y:0)
+        self.addChild(boundary)
+        var dottedLine = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [5,5], 2)!)
+        dottedLine.alpha = 0.5
+        dottedLine.position = CGPoint(x: -150, y: 0)
         self.addChild(waveShapeNode!)
-        let UIWaveButtonBackground=SKSpriteNode(texture: nil, color: UIColor.brownColor(), size: CGSize(width: 300, height: 50))
+        self.addChild(dottedLine)
+        let UIWaveButtonBackground=SKSpriteNode(texture: nil, color: UIColor.brownColor(), size: size)
         UIWaveButtonBackground.zPosition = -1
         self.addChild(UIWaveButtonBackground)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +54,7 @@ class UIWaveButton : SKCropNode,Draggable {
         var newX = waveShapeNode!.position.x + dx
         if(newX < CGFloat(-wave.length*2)) {newX = newX + CGFloat(wave.length)}
         else if(newX > CGFloat(-wave.length)) {newX = newX - CGFloat(wave.length)}
+       // newX =  CGFloat(-wave.length)
         waveShapeNode!.runAction(SKAction.moveToX(newX, duration: 0))
         // print("dragging:"+newX.description)
     }

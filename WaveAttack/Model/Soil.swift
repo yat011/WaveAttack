@@ -9,30 +9,15 @@
 import Foundation
 import SpriteKit
 
-class Soil : Medium {
+class Soil : SolidMedium{
     
-    var sprite : GameSKShapeNode? = nil
-    override var path: CGPath? { get{ return sprite!.path}}
-    
-  
-    
+    var sprite : GameSKSpriteNode = GameSKSpriteNode(color: SKColor.brownColor(), size: CGSize())
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
-        propagationSpeed = 3.5
+        //sprite.anchorPoint = CGPoint()
+        super.initialize(size, position: position, gameScene: gameScene)
+        propagationSpeed = 2
         
-        
-        self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: gameScene.gameArea!.size))
-        
-        let phys = SKPhysicsBody(rectangleOfSize: size, center: CGPoint(x: size.width / 2, y: size.height / 2))
-        phys.categoryBitMask = CollisionLayer.Medium.rawValue
-        phys.affectedByGravity = false
-        phys.collisionBitMask = 0x0
-        // sprite!.physicsBody = phys
-        sprite!.name = GameObjectName.Medium.rawValue
-        sprite?.fillColor = SKColor.brownColor()
     }
-    
-    
-    
     
     override func getSprite() -> SKNode? {
         return sprite

@@ -34,9 +34,12 @@ class Snail : DestructibleObject , EnemyActable{
         self.propagationSpeed = 2.5
         
         self.collisionAbsorption = 10
+        print(physContactSprite.position)
+        print(getSprite()!.position)
         
     }
     
+  
     
     override func drawPath(path: CGMutablePath, offsetX: CGFloat, offsetY: CGFloat) {
         

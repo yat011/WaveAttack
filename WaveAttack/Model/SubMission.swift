@@ -22,13 +22,15 @@ class SubMission{
         var sub = SubMission()
         
         sub.terrain = GameObjectFactory.getInstance().create(terrainStr) as! Medium
-        sub.terrain!.initialize(gameScene.size, position: gameScene.gameArea!.origin, gameScene: gameScene)
+        var terrainPos = gameScene.gameArea!.origin + CGPoint(x:gameScene.gameArea!.size
+            .width/2, y: gameScene.gameArea!.size.height / 2)
+            sub.terrain!.initialize(gameScene.size, position: terrainPos, gameScene: gameScene)
         
         
         var objects = obj["object"] as! [AnyObject]
         for dictObj in objects{
             var dict = dictObj as! [String : String]
-            print (dict["type"])
+           // print (dict["type"])
 
             var medium: Medium = GameObjectFactory.getInstance().create(dict["type"]!) as! Medium
             var x : CGFloat = CGFloat((dict["x"]! as NSString).floatValue)

@@ -10,7 +10,10 @@ import Foundation
 import SpriteKit
 
 class UINode: SKNode,Draggable{
-    init(position : CGPoint, parent:SKScene){
+    var resultantWaveShape: SKNode? = nil
+    var timerUI : TimerUI? = nil
+    var waveButtons :[UIWaveButton] = []
+    init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
         self.name = "UINode"
@@ -19,29 +22,43 @@ class UINode: SKNode,Draggable{
         var UIWaveButton0:UIWaveButton
         let UIWaveButtonGroup=SKNode()
         UIWaveButtonGroup.name="UIWaveButtonGroup"
-//var temppos:[CGFloat] = [-438.4, -446.5, -424, -401, -453]
+        var temppos :[CGFloat] = [-415, -547,-562,-565,-569]
+       
+        var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
+        print(characters.count)
+        var chs : [Character] = []
+        
+        for i in 0...4 {
+            chs.append( CharacterManager.getCharacterByID(characters[i].characterId!.integerValue)!)
+        }
+         parent.character = chs
         for i in 0...4
         {
             //get team list
-            character0=CharacterManager.getCharacterByID(CharacterManager.team[i])!
-            UIWaveButton0 = UIWaveButton(size: CGSize(width: 200, height: 50), position: CGPoint(x: 0, y: 50*i+25), wave:character0.getWave())
+            character0=chs[i]
+            UIWaveButton0 = UIWaveButton(size: CGSize(width: 300, height: 66), position: CGPoint(x: 0, y: 66 * Double(i) + 33), wave:character0.getWave())
             UIWaveButton0.zPosition=1
             UIWaveButton0.name="UIWaveButton"
-//UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i],y:0)
+            //UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i],y:0)
+            waveButtons.append(UIWaveButton0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
+            chs[i].waveUI = UIWaveButton0
         }
         self.addChild(UIWaveButtonGroup)
         
-        
+      
         var UICharacterButton0:UICharacterButton
         let UICharacterButtonGroup=SKNode()
         UICharacterButtonGroup.name="UICharacterButtonGroup"
+      
         for i in 0...4
         {
-            UICharacterButton0 = UICharacterButton(size: CGSize(width: 30, height: 30), position: CGPoint(x:-150-30/2 , y: 50*i+25), character:nil)
+            UICharacterButton0 = UICharacterButton(size: CGSize(width: 35, height: 35), position: CGPoint(x:-150-35/2 , y: 66 * Double(i) + 33), character: chs[i])
             UICharacterButton0.zPosition=999
             UICharacterButton0.name="UICharacterButton0"
             UICharacterButtonGroup.addChild(UICharacterButton0)
+            parent.addClickable(GameStage.Superposition, UICharacterButton0)
+            
         }
         self.addChild(UICharacterButtonGroup)
         
@@ -73,6 +90,12 @@ class UINode: SKNode,Draggable{
         UIForeground0 = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: c.width, height: c.height))
         UIForeground0.position=CGPoint(x: c.midX,y: c.midY)
         UIForeground.addChild(UIForeground0)
+        
+        
+        self.timerUI = TimerUI.createInstance()
+        self.addChild(self.timerUI!)
+        
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -85,6 +108,13 @@ class UINode: SKNode,Draggable{
         let w2=(self.childNodeWithName("UIWaveButtonGroup")!.children[2] as! UIWaveButton)
         let w3=(self.childNodeWithName("UIWaveButtonGroup")!.children[3] as! UIWaveButton)
         let w4=(self.childNodeWithName("UIWaveButtonGroup")!.children[4] as! UIWaveButton)
+        
+        print(w0.waveShapeNode!.position)
+        print(w1.waveShapeNode!.position)
+        print(w2.waveShapeNode!.position)
+        print(w3.waveShapeNode!.position)
+        print(w4.waveShapeNode!.position)
+        
         var d0 = (w0.waveShapeNode?.position.x)!
         d0 = -d0+750
         var d1 = (w1.waveShapeNode?.position.x)!
@@ -106,9 +136,47 @@ class UINode: SKNode,Draggable{
         //w=Wave.superposition(w0.wave,d1: Int(d0),w2: w0.wave,d2: Int(d0))
         w.normalize()
         let n=w.getShape()
-        n.position=CGPoint(x:-150, y:300)
-        self.addChild(n)
+        n.position=CGPoint(x:-150, y:166.5)
+        if (self.resultantWaveShape != nil){
+            self.resultantWaveShape!.removeFromParent()
+        }else{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 300, 0)
+            var dottedLine = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [5,5], 2)!)
+            dottedLine.alpha = 0.5
+            dottedLine.position = CGPoint(x: 0, y: 0)
+            n.addChild(dottedLine)
+        
+        }
+        self.resultantWaveShape = n
+        self.addChild(self.resultantWaveShape!)
         return w
+    }
+    
+    func animateSuperposition(completion:(()->())){
+        var i = 0
+        for btn in waveButtons{
+            var action = [SKAction.moveToY(66 * CGFloat(2) + 33, duration: 0.5),SKAction.scaleYTo(4, duration: 0.5),SKAction.waitForDuration(1),SKAction.fadeOutWithDuration(0.5)]
+            if i == 0 {
+                btn.runAction(SKAction.sequence(action), completion: completion)
+            }else{
+                btn.runAction(SKAction.sequence(action))
+            }
+            i++
+        }
+    }
+    func showWaveButtons(){
+        var i:CGFloat = 0
+        if self.resultantWaveShape != nil{
+            self.resultantWaveShape!.removeFromParent()
+            self.resultantWaveShape = nil
+        }
+        for btn in waveButtons{
+            var actions = [SKAction.moveToY(66 * CGFloat(i) + 33, duration: 0),SKAction.scaleYTo(1, duration: 0), SKAction.fadeInWithDuration(0.5)]
+            btn.runAction(SKAction.sequence(actions))
+            i++
+        }
     }
     
     func checkClick(touchPoint : CGPoint)-> Clickable?{

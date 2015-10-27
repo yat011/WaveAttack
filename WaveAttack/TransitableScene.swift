@@ -11,7 +11,7 @@ import SpriteKit
 
 class TransitableScene:SKScene{
     //var transition:[SKTransition]
-    var viewController:GameViewController
+    weak var viewController:GameViewController? = nil
     var selfScene:GameViewController.Scene
     let holdTimer=SKNode()
     
@@ -108,6 +108,6 @@ class TransitableScene:SKScene{
     
     
     func changeScene(nextScene:GameViewController.Scene){
-        viewController.sceneTransitionForward(selfScene, nextScene: nextScene)
+        viewController!.sceneTransitionForward(selfScene, nextScene: nextScene)
     }
 }

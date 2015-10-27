@@ -26,9 +26,7 @@ class GameObjectFactory{
         return _this!
     }
     
-    func register(name : String,createFunc: ()->GameObject){
-        hash[name] = createFunc
-    }
+  
     
     func create(name: String) -> GameObject?{
         print(name)

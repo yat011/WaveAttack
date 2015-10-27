@@ -18,13 +18,14 @@ class ResultUI : SKShapeNode{
     static let GRADE_STR = "Grade %@"
     static let NUM_ROUNDS_STR = "Rounds Used %d"
     static func createResultUI(rect: CGRect, gameScene: GameScene ) -> ResultUI{
-        var res = ResultUI (rect: rect, cornerRadius: 2)
+        var res = ResultUI (rectOfSize: rect.size, cornerRadius: 2)
+        res.position = rect.origin
         res.fillColor = SKColor.blackColor()
         res.strokeColor = SKColor.brownColor()
         res.alpha = 0.7
         var label =  SKLabelNode(text: "Mission Complete")
         label.fontName = "Helvetica"
-        label.position = CGPoint(x: rect.origin.x + rect.size.width / 2, y: rect.origin.y + rect.size.height / 1.3)
+        label.position = CGPoint(x: 0, y:  200)
         res.addChild(label)
         
         
@@ -32,14 +33,25 @@ class ResultUI : SKShapeNode{
         res.gradeLabel!.text = String (format: GRADE_STR, "S" )
         res.gradeLabel!.fontSize = 18
         res.gradeLabel!.horizontalAlignmentMode = .Left
-        res.gradeLabel!.position = CGPoint(x: rect.origin.x + 10, y: rect.origin.y + rect.size.height / 2)
+        res.gradeLabel!.position = CGPoint(x:  -120, y: 0)
 
         res.numRoundsLabel = SKLabelNode(fontNamed: "Helvetica")
         res.numRoundsLabel!.text = String (format: NUM_ROUNDS_STR, 0 )
         res.numRoundsLabel!.fontSize = 18
         res.numRoundsLabel!.horizontalAlignmentMode = .Left
-        res.numRoundsLabel!.position = CGPoint(x: rect.origin.x + 10, y: rect.origin.y + rect.size.height / 2 - 50)
+        res.numRoundsLabel!.position = CGPoint(x: -120, y: -50)
         res.gameScene = gameScene
+        
+        
+        var menuButton = ButtonUI.createButton(CGRect(x:0, y: -150, width:150, height: 30), text: "Back to Main Menu", onClick: {
+            () -> () in
+                gameScene.BackToMenu()
+            }, gameScene: gameScene)
+         //GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        
+        gameScene.addClickable(GameStage.Complete, menuButton)
+        res.addChild(menuButton)
+        
         res.addChild(res.gradeLabel!)
         res.addChild(res.numRoundsLabel!)
         res.zPosition = 1000000

@@ -64,12 +64,22 @@ class GameLayer : SKNode{
             addGameObject(medium)
         }
 
-
+        initBoundary()
        
         
     }
 
-   
+    func initBoundary (){
+        var boundary = SKSpriteNode()
+        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size:  gameScene!.gameArea!.size))
+        phys.collisionBitMask = CollisionLayer.Objects.rawValue
+        phys.categoryBitMask = CollisionLayer.Objects.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue
+        boundary.physicsBody = phys
+        
+        self.addChild(boundary)
+        
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -82,7 +92,7 @@ class GameLayer : SKNode{
             if temp.zIndex > maxZIndex {
                 maxZIndex = temp.zIndex
             }
- 
+            //self.addChild(temp.physContactSprite)
         }
         
         if (obj is EnergyPacket){
@@ -95,10 +105,11 @@ class GameLayer : SKNode{
     
     func removeGameObject (obj : GameObject){
         attackPhaseObjects.remove(obj)
+       obj.deleteSelf()
         if  (obj is EnergyPacket){
             energyPackets.remove(obj as! EnergyPacket)
         }
-
+    
         
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()

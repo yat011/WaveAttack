@@ -19,13 +19,16 @@ class ActRoundLabel : SKShapeNode {
        // back.anchorPoint  = CGPoint(x: 0.5, y: 0)
         //label.zPosition  = 2
         res.strokeColor = SKColor.blackColor()
+        res.fillColor = SKColor.blackColor()
         res.zPosition = 10
         //back.zPosition = 1
       //  back.strokeColor = SKColor.blueColor()
         //back.fillColor = SKColor.redColor()
        // var label = SKLabelNode(text: String(enemy.leftRound))
         label.fontSize = 14
+        label.zPosition = 15
         label.fontColor = SKColor.whiteColor()
+        label.fontName = "Helvetica"
         //label.addChild(text)
         label.horizontalAlignmentMode = .Left
         label.position = CGPoint(x: rect.origin.x , y: rect.origin.y)

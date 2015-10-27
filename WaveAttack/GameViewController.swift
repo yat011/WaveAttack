@@ -11,6 +11,10 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     var prevScene:[Scene] = []
+    static weak var current: GameViewController? = nil
+    static var currentMissionId = 1
+    static weak var skView :SKView? = nil
+    static weak var currentScene : SKScene? = nil
     enum Scene{
         case None
         case MenuScene
@@ -22,19 +26,25 @@ class GameViewController: UIViewController {
     }
     
     let fixedFps : Int = 30
+
     let screenSize:CGSize=CGSize(width: 375, height: 667)
+
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+       
+            // Configure the view.
+            let skView = self.view as! SKView
+            GameViewController.skView = skView
         
-        let skView = self.view as! SKView
-        // Configure the view.
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        //  skView.showsPhysics = true
-        /* Sprite Kit applies additional optimizations to improve rendering performance */
-        skView.ignoresSiblingOrder = true
-        skView.frameInterval = 60 / fixedFps
-        let scene = GameScene(size: screenSize, viewController: self)
+            skView.showsFPS = true
+            skView.showsNodeCount = true
+           //skView.showsPhysics = true
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = true
+            skView.frameInterval = 60 / fixedFps
+            let scene = GameScene(size: screenSize, missionId: GameViewController.currentMissionId, viewController: self)
         
         
         /* if let scene = GameScene(fileNamed : "GameScene"){
@@ -45,7 +55,15 @@ class GameViewController: UIViewController {
         }
         */
         scene.scaleMode = .AspectFit
+
+        scene.viewController=self
+
+        
+        GameViewController.current = self
+        print(skView.scene)
+
         skView.presentScene(scene)
+       // skView.
         //print(skView.bounds.size)
         
     }
@@ -88,7 +106,7 @@ class GameViewController: UIViewController {
             sceneTransition(TeamScene(size: screenSize, viewController: self), transition:transition)
         }
         else if (nextScene == Scene.GameScene){
-            sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
+            //sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
         }
     }
     
@@ -102,7 +120,7 @@ class GameViewController: UIViewController {
             sceneTransition(TeamScene(size: screenSize, viewController: self), transition:transition)
         }
         else if (prev == Scene.GameScene){
-            sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
+           // sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
         }
     }
     

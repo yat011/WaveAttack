@@ -9,12 +9,31 @@
 import Foundation
 import SpriteKit
 
-class ButtonUI : SKSpriteNode, Clickable{
+class ButtonUI : SKSpriteNode,Interactable ,Clickable{
     
     var clickfunc :(()->())? = nil
     var label : SKLabelNode? = nil
     weak var gameScene: GameScene? = nil
-    static func createButton ( rect :CGRect, text : String , onClick : (() -> ()) , gameScene : GameScene ) -> ButtonUI{
+    
+    convenience init( rect :CGRect, text : String , onClick : (() -> ()) , gameScene : GameScene? ){
+        self.init(color: SKColor.grayColor(), size: rect.size)
+        position = rect.origin
+        clickfunc = onClick
+        label = SKLabelNode(text: text)
+        label!.fontSize = 16
+        //  base.label!.position = CGPoint(x: rect.origin.x, y: rect.origin.y)
+        label!.fontColor = SKColor.whiteColor()
+        label!.horizontalAlignmentMode = .Center
+        label!.verticalAlignmentMode = .Center
+        label!.fontName = "Helvetica"
+        zPosition = 20000
+        label!.zPosition = 20001
+        addChild(label!)
+        self.gameScene = gameScene
+    }
+    
+    
+    static func createButton ( rect :CGRect, text : String , onClick : (() -> ()) , gameScene : GameScene? ) -> ButtonUI{
         var base = ButtonUI(color: SKColor.grayColor(), size: rect.size)
       //  var base = ButtonUI()
         //base.size = rect.size
@@ -34,6 +53,10 @@ class ButtonUI : SKSpriteNode, Clickable{
         return base
     }
     
+    func checkTouch(touch:UITouch)->Bool{
+        return CGRectContainsPoint(MathHelper.nodeToCGRect(self),touch.locationInNode(self.parent!))
+    }
+   
     
     func click(){
         if (self.scene != nil){
@@ -46,5 +69,8 @@ class ButtonUI : SKSpriteNode, Clickable{
         return CGRect (origin: globalPos, size: self.frame.size)
     }
    
+    func getClass()->String{
+        return "ButtonUI"
+    }
         
 }

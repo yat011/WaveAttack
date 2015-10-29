@@ -44,7 +44,7 @@ class GameViewController: UIViewController {
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             skView.frameInterval = 60 / fixedFps
-            let scene = GameScene(size: screenSize, missionId: GameViewController.currentMissionId, viewController: self)
+         //   let scene = GameScene(size: screenSize, missionId: GameViewController.currentMissionId, viewController: self)
         
         
         /* if let scene = GameScene(fileNamed : "GameScene"){
@@ -54,15 +54,17 @@ class GameViewController: UIViewController {
         skView.presentScene(scene)
         }
         */
-        scene.scaleMode = .AspectFit
+       // scene.scaleMode = .AspectFit
 
-        scene.viewController=self
+        //scene.viewController=self
 
         
         GameViewController.current = self
         print(skView.scene)
 
-        skView.presentScene(scene)
+       
+        
+        skView.presentScene(MainMenu(size: self.screenSize, viewController: self))
        // skView.
         //print(skView.bounds.size)
         
@@ -97,31 +99,50 @@ class GameViewController: UIViewController {
     }
     
     func sceneTransitionForward(selfScene:Scene, nextScene:Scene){
-        let transition=SKTransition.fadeWithDuration(5)
+        let transition=SKTransition.fadeWithDuration(2)
         sceneTransitionForward(selfScene, nextScene:nextScene, transition:transition)
     }
     func sceneTransitionForward(selfScene:Scene, nextScene:Scene, transition:SKTransition){
         prevScene.append(selfScene)
-        if (nextScene == Scene.TeamScene){
+     
+        switch nextScene {
+        case .TeamScene:
             sceneTransition(TeamScene(size: screenSize, viewController: self), transition:transition)
-        }
-        else if (nextScene == Scene.GameScene){
-            //sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
+            break
+        case .GameScene:
+            sceneTransition(GameScene(size: screenSize,missionId: GameViewController.currentMissionId, viewController: self), transition:transition)
+            break
+        case .MenuScene:
+            sceneTransition(MainMenu(size: screenSize, viewController: self), transition:transition)
+            break
+        case .MissionScene:
+            sceneTransition(MissionScene(size: screenSize, viewController: self), transition: transition)
+        default:
+            break
         }
     }
     
     func sceneTransitionBackward(){
-        let transition=SKTransition.fadeWithDuration(5)
+        let transition=SKTransition.fadeWithDuration(2)
         sceneTransitionBackward(transition)
     }
     func sceneTransitionBackward(transition:SKTransition){
         let prev=prevScene.removeLast()
-        if (prev == Scene.TeamScene){
+        switch prev {
+        case .TeamScene:
             sceneTransition(TeamScene(size: screenSize, viewController: self), transition:transition)
+            break
+        case .GameScene:
+            break
+        case .MenuScene:
+            sceneTransition(MainMenu(size: screenSize, viewController: self), transition:transition)
+            break
+        case .MissionScene:
+            sceneTransition(MissionScene(size: screenSize, viewController: self), transition: transition)
+        default:
+            break
         }
-        else if (prev == Scene.GameScene){
-           // sceneTransition(GameScene(size: screenSize, viewController: self), transition:transition)
-        }
+        
     }
     
     func sceneTransitionSK(selfScene:Scene, nextScene:SKScene){

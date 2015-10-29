@@ -57,6 +57,15 @@
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
 		549D82AC1BDA6FF400907150 /* SolidMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AB1BDA6FF400907150 /* SolidMedium.swift */; };
+		549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AD1BDF76A500907150 /* MainMenu.swift */; };
+		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
+		549D82B21BDFD18500907150 /* DraggableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82B11BDFD18500907150 /* DraggableNode.swift */; };
+		549D82B41BE211ED00907150 /* MissionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82B31BE211ED00907150 /* MissionButton.swift */; };
+		549D82BA1BE2164F00907150 /* mission3.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B51BE2164F00907150 /* mission3.json */; };
+		549D82BB1BE2164F00907150 /* mission4.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B61BE2164F00907150 /* mission4.json */; };
+		549D82BC1BE2164F00907150 /* mission5.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B71BE2164F00907150 /* mission5.json */; };
+		549D82BD1BE2164F00907150 /* mission6.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B81BE2164F00907150 /* mission6.json */; };
+		549D82BE1BE2164F00907150 /* mission7.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B91BE2164F00907150 /* mission7.json */; };
 		54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAA1BBA97A70039D744 /* InfoLayer.swift */; };
 		54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAC1BBA9B1F0039D744 /* Player.swift */; };
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
@@ -82,19 +91,14 @@
 		54F8D8941BB05879009E9654 /* SubMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8931BB05879009E9654 /* SubMission.swift */; };
 		54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8951BB1D29B009E9654 /* HpBar.swift */; };
 		54F8D8981BB1D943009E9654 /* redbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D8971BB1D943009E9654 /* redbar.png */; };
-		5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9EB1BD4A8850003C711 /* SkillManager.swift */; settings = {ASSET_TAGS = (); }; };
-		5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */; settings = {ASSET_TAGS = (); }; };
-		5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C171BD771C10003B89D /* CharacterSlot.swift */; settings = {ASSET_TAGS = (); }; };
-		5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C191BD771DF0003B89D /* CharacterButton.swift */; settings = {ASSET_TAGS = (); }; };
-		5F71B6A51BDA0144002F49B5 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A41BDA0144002F49B5 /* Interactable.swift */; settings = {ASSET_TAGS = (); }; };
-		5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A71BDA2429002F49B5 /* CharScene.swift */; settings = {ASSET_TAGS = (); }; };
-		5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */; settings = {ASSET_TAGS = (); }; };
-		5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */; settings = {ASSET_TAGS = (); }; };
-
 		5F01C9EC1BD4A8850003C711 /* SkillManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9EB1BD4A8850003C711 /* SkillManager.swift */; };
 		5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F01C9F31BD4AE8D0003C711 /* TeamScene.swift */; };
 		5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C171BD771C10003B89D /* CharacterSlot.swift */; };
 		5F411C1A1BD771DF0003B89D /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F411C191BD771DF0003B89D /* CharacterButton.swift */; };
+		5F71B6A51BDA0144002F49B5 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A41BDA0144002F49B5 /* Interactable.swift */; };
+		5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A71BDA2429002F49B5 /* CharScene.swift */; };
+		5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */; };
+		5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,7 +134,7 @@
 		5420A6051BC404E0000F2E14 /* ResultUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultUI.swift; sourceTree = "<group>"; };
 		5420A60C1BC572E5000F2E14 /* crack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crack.png; sourceTree = "<group>"; };
 		5420A60E1BC589A8000F2E14 /* TextureTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureTools.swift; sourceTree = "<group>"; };
-		5420A6101BC6747E000F2E14 /* ButtonUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonUI.swift; sourceTree = "<group>"; };
+		5420A6101BC6747E000F2E14 /* ButtonUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonUI.swift; path = Model/ButtonUI.swift; sourceTree = "<group>"; };
 		5420A6121BC6F322000F2E14 /* Clickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clickable.swift; sourceTree = "<group>"; };
 		544B60DC1BCA22710064B8AE /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		544B60DD1BCA22710064B8AE /* CharacterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterManager.swift; sourceTree = "<group>"; };
@@ -171,6 +175,15 @@
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
 		549D82AB1BDA6FF400907150 /* SolidMedium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolidMedium.swift; sourceTree = "<group>"; };
+		549D82AD1BDF76A500907150 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
+		549D82B11BDFD18500907150 /* DraggableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableNode.swift; sourceTree = "<group>"; };
+		549D82B31BE211ED00907150 /* MissionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionButton.swift; sourceTree = "<group>"; };
+		549D82B51BE2164F00907150 /* mission3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission3.json; sourceTree = "<group>"; };
+		549D82B61BE2164F00907150 /* mission4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission4.json; sourceTree = "<group>"; };
+		549D82B71BE2164F00907150 /* mission5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission5.json; sourceTree = "<group>"; };
+		549D82B81BE2164F00907150 /* mission6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission6.json; sourceTree = "<group>"; };
+		549D82B91BE2164F00907150 /* mission7.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission7.json; sourceTree = "<group>"; };
 		54A55BAA1BBA97A70039D744 /* InfoLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLayer.swift; sourceTree = "<group>"; };
 		54A55BAC1BBA9B1F0039D744 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
@@ -278,7 +291,6 @@
 				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
-				5420A6101BC6747E000F2E14 /* ButtonUI.swift */,
 				54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */,
 			);
 			name = UI;
@@ -366,12 +378,14 @@
 		54553E331BA6F3E400A38B18 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5420A6101BC6747E000F2E14 /* ButtonUI.swift */,
 				54A611901BA810DC009299A6 /* Protocol */,
 				54553E341BA6F3F700A38B18 /* Extension.swift */,
 				54F8D8881BB04271009E9654 /* GameObjectFactory.swift */,
 				5420A60E1BC589A8000F2E14 /* TextureTools.swift */,
 				5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */,
 				5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */,
+				549D82B11BDFD18500907150 /* DraggableNode.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -419,10 +433,8 @@
 				54A611911BA81EEC009299A6 /* Reflectable.swift */,
 				54A611931BA8212C009299A6 /* Cloneable.swift */,
 				5420A6121BC6F322000F2E14 /* Clickable.swift */,
-
 				5F71B6A41BDA0144002F49B5 /* Interactable.swift */,
 				54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */,
-
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -430,6 +442,11 @@
 		54F8D8871BB03AAE009E9654 /* mission */ = {
 			isa = PBXGroup;
 			children = (
+				549D82B51BE2164F00907150 /* mission3.json */,
+				549D82B61BE2164F00907150 /* mission4.json */,
+				549D82B71BE2164F00907150 /* mission5.json */,
+				549D82B81BE2164F00907150 /* mission6.json */,
+				549D82B91BE2164F00907150 /* mission7.json */,
 				54D44C191BD765F700B24EE6 /* mission2.json */,
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
@@ -504,6 +521,7 @@
 		5F01C9F61BD4B68B0003C711 /* MenuScene */ = {
 			isa = PBXGroup;
 			children = (
+				549D82AD1BDF76A500907150 /* MainMenu.swift */,
 			);
 			name = MenuScene;
 			sourceTree = "<group>";
@@ -511,6 +529,8 @@
 		5F01C9F71BD4B6AB0003C711 /* MissionScene */ = {
 			isa = PBXGroup;
 			children = (
+				549D82AF1BDFCBA100907150 /* MissionScene.swift */,
+				549D82B31BE211ED00907150 /* MissionButton.swift */,
 			);
 			name = MissionScene;
 			sourceTree = "<group>";
@@ -628,16 +648,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				549D82BC1BE2164F00907150 /* mission5.json in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
+				549D82BA1BE2164F00907150 /* mission3.json in Resources */,
 				54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */,
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
+				549D82BD1BE2164F00907150 /* mission6.json in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				5420A5E91BC04935000F2E14 /* Oval.png in Resources */,
+				549D82BB1BE2164F00907150 /* mission4.json in Resources */,
+				549D82BE1BE2164F00907150 /* mission7.json in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 				5420A60D1BC572E5000F2E14 /* crack.png in Resources */,
 				54D44C1B1BD765F700B24EE6 /* mission2.json in Resources */,
@@ -680,7 +705,6 @@
 				5420A6061BC404E0000F2E14 /* ResultUI.swift in Sources */,
 				54BBD9281BD7CEB300BAFFA2 /* Team+CoreDataProperties.swift in Sources */,
 				54A611921BA81EEC009299A6 /* Reflectable.swift in Sources */,
-
 				5F71B6A51BDA0144002F49B5 /* Interactable.swift in Sources */,
 				54D44C181BD765DD00B24EE6 /* Model.xcdatamodeld in Sources */,
 				5420A5DB1BBE7152000F2E14 /* Snail.swift in Sources */,
@@ -688,6 +712,7 @@
 				54553E351BA6F3F700A38B18 /* Extension.swift in Sources */,
 				54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */,
 				5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */,
+				549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
 				54BBD9431BD94DFB00BAFFA2 /* TimerBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
@@ -710,13 +735,16 @@
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
 				5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */,
 				54553E301BA5C22900A38B18 /* Soil.swift in Sources */,
+				549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */,
 				546F54151BA32E1F00EB576B /* Refractable.swift in Sources */,
 				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				54D44C241BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift in Sources */,
 				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
+				549D82B21BDFD18500907150 /* DraggableNode.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
+				549D82B41BE211ED00907150 /* MissionButton.swift in Sources */,
 				5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */,
 				54D44C201BD7660F00B24EE6 /* MainMenuController.swift in Sources */,
 				54D44C1C1BD765F700B24EE6 /* MissionsController.swift in Sources */,

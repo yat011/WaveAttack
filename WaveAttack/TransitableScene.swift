@@ -29,10 +29,12 @@ class TransitableScene:SKScene{
     
     
     var interactables:[Interactable]=[Interactable]()
+    var draggables: [Draggable] = []
     var touchable:Bool=true
     var touching:Bool=false
     var prevTouch:Interactable?=nil
     var prevPoint:CGPoint?=nil
+    var dragNode: Draggable? = nil
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if touchable {
             if (touches.count > 0){
@@ -48,6 +50,12 @@ class TransitableScene:SKScene{
                     if prevTouch==nil{//touch else
                         let touchPoint=touch.locationInNode(self)   //?
                         prevPoint=touchPoint
+                    }
+                    for drag in draggables{
+                        if drag.checkTouch(touch){
+                            dragNode = drag
+                            break
+                        }
                     }
                 }
             }
@@ -67,7 +75,9 @@ class TransitableScene:SKScene{
                         let touchPoint=touch.locationInNode(self)
                         onMove(prevPoint!, p1: touchPoint)
                         prevPoint = touchPoint
+ 
                     }
+                   
                 }
             }
         }
@@ -98,9 +108,16 @@ class TransitableScene:SKScene{
     
     func onClick(){
         //prevTouch.onClick()
+        if (prevTouch is Clickable){
+            (prevTouch as! Clickable).click()
+        }
     }
     func onMove(p0:CGPoint, p1:CGPoint){
         //prevTouch.onMove()
+        if (dragNode != nil){
+            var diff:CGVector = p1 - p0
+            dragNode!.scroll(diff.dx, dy: diff.dy)
+        }
     }
     func onHold(){
         //prevTouch.onHold()

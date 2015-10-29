@@ -22,7 +22,7 @@ enum GameObjectName : String{
 
 
 enum GameStage {
-    case Superposition,Supering, Attack, enemy,Temp,  Complete, Pause, Checking
+    case Superposition,Supering, SuperpositionAnimating, Attack, enemy,Temp,  Complete, Pause, Checking
 }
 
 enum TouchType {
@@ -481,7 +481,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func timeOut(){
         print("timeOut")
-        currentStage = .Temp
+        currentStage = .SuperpositionAnimating
+        
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
@@ -641,21 +642,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     break
                 }
             }
-        /*    for c in (self.childNodeWithName("UINode")?.childNodeWithName("UICharacterButtonGroup")!.children)!
-            {
-                //print(c.description)
-                //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
-                //check clicked on Button
-                if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
-                {
-                    //do action
-                    viewController.sceneTransitionForward(selfScene, nextScene: GameViewController.Scene.TeamScene)
-                    touchType = TouchType.button
-                    prevPressedObj = c as! Clickable
-                    break
-                }
-            }
-*/
+      
         }
         //button
         var btns = self.buttonList[currentStage]
@@ -672,15 +659,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
         }
         
-      /*
-        var tempBtn  = infoLayer?.checkClick(touchDown)
-        if tempBtn != nil{
-            touchType = TouchType.button
-            prevPressedObj  = tempBtn!
-        }
-        */
-        
-        
+     
     }
     var prevMoveY: CGFloat = 0
     
@@ -699,7 +678,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             if (pressedSkill != nil && touchesMovedSkill(touchDown, touches: touches) == false){
                 return
             }
-            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering){
+            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering || self.currentStage == GameStage.SuperpositionAnimating){
                 scrollLayers(-moveY)
                 dragVelocity = (-moveY)
             }
@@ -844,6 +823,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
    
     func setPendingSkill( character : Character){
+        if pressedSkill != nil{
+            pendingCharacter!.canelSkill()
+        }
         pressedSkill = character.skill!
         pendingCharacter = character
         
@@ -1090,12 +1072,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         GameViewController.current?.navigationController?.popToViewController(main!, animated: false)*/
         //GameViewController.current!.seg`
-        print(GameViewController.current!.presentedViewController)
+       // print(GameViewController.current!.presentedViewController)
         
-        GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
+        //GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
         
         // GameViewController.current!.performSegueWithIdentifier("BackToMissions", sender: nil)
-        GameViewController.current = nil
+        //GameViewController.current = nil
         //GameViewController.current!.pop
         //  GameViewController.current!.show
         //GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
@@ -1103,6 +1085,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         () -> () in
         GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
         })*/
+        self.viewController!.sceneTransitionBackward()
     }
     
     

@@ -92,6 +92,10 @@ class Character : GameObject{
             self.triggerEvent(GameEvent.SkillReady.rawValue)
         }
     }
+    func canelSkill(){
+        pending = false
+        self.triggerEvent(GameEvent.SkillReady.rawValue)
+    }
     
     func moveWave(){
         waveUI?.scroll(currentSpeed, dy: 0)

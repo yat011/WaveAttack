@@ -13,6 +13,8 @@ class UINode: SKNode,Draggable{
     var resultantWaveShape: SKNode? = nil
     var timerUI : TimerUI? = nil
     var waveButtons :[UIWaveButton] = []
+    weak var gameScene: GameScene? = nil
+    var cropNode : SKCropNode? = nil
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -96,6 +98,16 @@ class UINode: SKNode,Draggable{
         self.addChild(self.timerUI!)
         
         
+        gameScene = parent
+        
+        
+        cropNode = SKCropNode()
+        var mask = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: 300, height: 333.5))
+        mask.position = CGPoint(x:0, y:166.5)
+        cropNode!.maskNode = mask
+        //cropNode!.position = CGPoint(x:-70, y:166.5)
+        self.addChild(cropNode!)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -150,7 +162,7 @@ class UINode: SKNode,Draggable{
         
         }
         self.resultantWaveShape = n
-        self.addChild(self.resultantWaveShape!)
+        self.cropNode!.addChild(self.resultantWaveShape!)
         return w
     }
     
@@ -166,6 +178,36 @@ class UINode: SKNode,Draggable{
             i++
         }
     }
+    func animateGeneration(wave : Wave, completion:(()->())){
+       var amp = wave.getAmplitudes()
+        var generated: [Bool] = [Bool](count:amp.count, repeatedValue: false)
+        var callBack :(()->())? = nil
+        callBack = {
+            () -> () in
+            var done = true
+            for var i = 0 ; i < amp.count ; i++ {
+ 
+                if (generated[i] == false && amp[i] + self.resultantWaveShape!.position.y > 333.5) {
+                    self.gameScene!.generatePacket(amp, i)
+                    generated[i] = true
+                    done = false
+                }else if generated[i] == false {
+                    done = false
+                }
+            }
+            if done{
+                completion()
+            }else{
+                self.resultantWaveShape!.runAction(SKAction.moveByX(0, y: 10, duration: 0.1), completion: callBack!)
+            }
+        }
+        
+        resultantWaveShape?.runAction(SKAction.moveByX(0, y: 10, duration: 0.1), completion: callBack!)
+        
+        
+    }
+    
+    
     func showWaveButtons(){
         var i:CGFloat = 0
         if self.resultantWaveShape != nil{

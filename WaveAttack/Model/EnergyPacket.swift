@@ -11,7 +11,7 @@ import SpriteKit
 
 class EnergyPacket : GameObject{
 
-    let radius : CGFloat = 5
+    let radius : CGFloat = 4
     var physRadius :CGFloat = 2.5
     var sprite : GameSKShapeNode? = nil
     var energy : CGFloat = 0
@@ -24,7 +24,7 @@ class EnergyPacket : GameObject{
     
     
     static let DELETED_EVENT = "deleted"
-    static let energyThreshold: CGFloat = 5
+    static let energyThreshold: CGFloat = 2
     
     var belongTo : [Medium] = []
     var prevBelongTo : [Medium] = []

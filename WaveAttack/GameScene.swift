@@ -486,9 +486,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-            self.spawnWave(resultWave.getAmplitudes())
-            self.timerStarted = false
-            self.clearTouch()
+            self.controlLayer!.animateGeneration(resultWave, completion: {
+                () -> () in
+                self.startAttackPhase()
+                self.timerStarted = false
+                self.clearTouch()
+            })
+         //   self.spawnWave(resultWave.getAmplitudes())
+        
         })
         
     }
@@ -497,7 +502,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         self.waveData=waveData
         
         for i in 0...waveData.count-1{
-            if (i % 8 != 0) {continue}
+            if (i % 6 != 0) {continue}
            // let p1 = NormalEnergyPacket(abs(waveData[i])*40+1000, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
             //p1.direction = CGVector(dx: 0, dy: 1)
             //p1.gameLayer = gameLayer
@@ -508,7 +513,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
             //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             //tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
+            let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 2.1, position: CGPoint(x: 37.5 + Double(i), y: 2), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -528,6 +533,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             gameLayer!.addGameObject(p1)
         }
         
+ 
         
         //-----------
         
@@ -540,6 +546,38 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
 
     }
+    func generatePacket(waveData:[CGFloat],_ i:Int){
+        if (i % 6 != 0) {return}
+        // let p1 = NormalEnergyPacket(abs(waveData[i])*40+1000, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
+        //p1.direction = CGVector(dx: 0, dy: 1)
+        //p1.gameLayer = gameLayer
+        //p1.pushBelongTo(gameLayer!.background!)
+        //gameLayer!.addGameObject(p1)
+        
+        
+        
+        //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
+        //tempx = tempx * CGFloat(i) + 10
+        let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
+        p1.direction = CGVector(dx: 0, dy: 1)
+        p1.gameLayer = gameLayer
+        p1.pushBelongTo(gameLayer!.background!)
+        for obj in gameLayer!.attackPhaseObjects{
+            if obj is Medium{
+                var medium = obj as! Medium
+                var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
+                
+                print(mediumPt)
+                
+                if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
+                    p1.addBelong(medium)
+                }
+            }
+        }
+        
+        gameLayer!.addGameObject(p1)
+    }
+    
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
        
@@ -1045,6 +1083,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         label.position = CGPoint(x: self.size.width / 2, y: 500)
         label.zPosition = 10000
         label.fontName = "Helvetica"
+        label.verticalAlignmentMode = .Center
+        var back = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 200, height: 80))
+        back.alpha = 0.7
+        back.zPosition = -1
+        label.addChild(back)
         var seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
         
         self.addChild(label)

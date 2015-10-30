@@ -10,6 +10,12 @@ import Foundation
 import SpriteKit
 
 class TeamScene: TransitableScene{
+    enum states:String{
+        case none="none"
+        case selectedButton="selectedButton"
+        case selectedSlot="selectedSlot"
+    }
+    var state:states=states.none
     var centeredNode:SKNode
     //var clickNodes:SKNode
     var timer:SKNode
@@ -20,14 +26,15 @@ class TeamScene: TransitableScene{
         centeredNode.position=CGPoint(x: 375/2, y:0)
         timer=SKNode()
         characterButtonGroup=SKNode()
-        characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: 0), size: CGSize(width: 375, height: 500))
+        characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: viewController.screenSize.height-200), size: CGSize(width: 375, height: 500))
+        characterButtonGroup.position=CGPoint(x:0, y:500)
         
         super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.TeamScene
         
         self.addChild(centeredNode)
         var buttonX = -120
-        var buttonY = 100
+        var buttonY = 0
         //centeredNode.addChild(clickNodes)
         self.addChild(timer)
         centeredNode.addChild(characterButtonGroup)
@@ -35,12 +42,13 @@ class TeamScene: TransitableScene{
             //make buttons
             let cb=CharacterButton(x: buttonX,y: buttonY,character: c)
             cb.name="CharacterButton"
+            //cb.character=c
             characterButtonGroup.addChild(cb)
             //displace next button
             buttonX += 60
             if (buttonX == 180){
                 buttonX = -120
-                buttonY += 100
+                buttonY -= 100
             }
             interactables.append(cb)
         }
@@ -52,23 +60,69 @@ class TeamScene: TransitableScene{
             interactables.append(cs)
         }
         self.backgroundColor=UIColor.blueColor()
-        let backButton=BackButton(texture: nil, size: CGSize(width: 50, height: 50))
-        backButton.position=CGPoint(x: 375/2, y: 300)
+        let backButton=BackButton(texture: nil, size: CGSize(width: 60, height: 30))
+        backButton.position=CGPoint(x:30, y:viewController.screenSize.height-20)
         backButton.color=UIColor.redColor()
-        self.addChild(backButton)
         interactables.append(backButton)
-        
+        self.addChild(backButton)
     }
     
-    
+    var selected:Interactable?=nil
     override func onClick(){
         if(prevTouch?.getClass()=="BackButton"){
             touchable=false
-            (prevTouch as! BackButton).click()
+            prevTouch!.onClick()
+        }
+        else if(prevTouch?.getClass()=="CharacterSlot"){
+            if state==states.none{
+                selected=prevTouch
+                state=states.selectedSlot
+            }
+            else if state==states.selectedButton{   //button-slot
+                (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
+                (prevTouch! as! CharacterSlot).updateGraphics()
+                state=states.none
+            }
+            else if state==states.selectedSlot{     //slot-slot
+                if (selected! as! CharacterSlot) === (prevTouch! as! CharacterSlot) {       //cancel select
+                    (selected! as! CharacterSlot).character=nil
+                    (selected! as! CharacterSlot).updateGraphics()
+                    selected=nil
+                }
+                else{
+                    let tempChar = (prevTouch! as! CharacterSlot).character!
+                    (prevTouch! as! CharacterSlot).character = (selected! as! CharacterSlot).character!
+                    (selected! as! CharacterSlot).character = tempChar
+                    (prevTouch! as! CharacterSlot).updateGraphics()
+                    (selected! as! CharacterSlot).updateGraphics()
+                }
+                state=states.none
+            }
+        }
+        else if(prevTouch?.getClass()=="CharacterButton"){
+            if state==states.none{
+                selected=prevTouch
+                state=states.selectedButton
+            }
+            else if state==states.selectedButton{     //button-button
+                if (selected! as! CharacterButton) === (prevTouch! as! CharacterButton) {   //cancel selection
+                    selected=nil
+                    state=states.none
+                }
+                else{
+                    selected=prevTouch
+                    state=states.selectedButton
+                }
+            }
+            else if state==states.selectedSlot{     //slot-button
+                (selected! as! CharacterSlot).character = (prevTouch! as! CharacterButton).character
+                (selected! as! CharacterSlot).updateGraphics()
+                state=states.none
+            }
         }
         prevTouch=nil
     }
-    override func onMove(p0:CGPoint, p1:CGPoint){
+    override func onDrag(p0:CGPoint, p1:CGPoint){
         //can use p0,p1 for moving-component check
         let d=MathHelper.displacement(p0, p1: p1)
         dragVelocity=d.dy
@@ -78,23 +132,25 @@ class TeamScene: TransitableScene{
         //prevTouch!.hold()
         if(prevTouch?.getClass()=="CharacterButton"){
             touchable=false
-            viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
+            prevTouch!.onHold()
+            //viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
             //viewController.sceneTransitionSK(prevScene, c: (prevTouch! as! CharacterButton).character)
         }
         else if (prevTouch?.getClass()=="CharacterSlot"){
             touchable=false
-            viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
+            prevTouch!.onHold()
+            //viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
             //viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }
     }
     
     
     func moveCharacterButtonGroupTo(var newY:CGFloat){
-        if newY<0{
-            newY=0
+        if newY>600{
+            newY=600
             dragVelocity=0
         }
-        if newY>500{
+        if newY<500{
             newY=500
             dragVelocity=0
         }

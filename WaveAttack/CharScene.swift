@@ -15,17 +15,21 @@ class CharScene:TransitableScene{
         super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.CharScene
         
-        let backButton=BackButton(texture: nil, size: CGSize(width: 50, height: 50))
-        backButton.position=CGPoint(x: 375/2, y: 300)
+        let backButton=BackButton(texture: nil, size: CGSize(width: 60, height: 30))
+        backButton.position=CGPoint(x:30, y:viewController.screenSize.height-20)
         backButton.color=UIColor.redColor()
         interactables.append(backButton)
         self.addChild(backButton)
+        
+        let label =  SKLabelNode(text: "TEST")
+        label.position=CGPoint(x:300, y:300)
+        self.addChild(label)
     }
 
     override func onClick(){
         if(prevTouch?.getClass()=="BackButton"){
             touchable=false
-            (prevTouch as! BackButton).click()
+            prevTouch!.onClick()
         }
         prevTouch=nil
     }

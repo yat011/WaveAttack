@@ -23,8 +23,10 @@ class CharacterSlot:SKSpriteNode,Interactable{
     }
     
     func onHold(){
-        let scene=(self.scene! as! TransitableScene)
-            scene.viewController.sceneTransitionSK(scene.selfScene, nextScene:CharScene(size: self.size, viewController: scene.viewController))
+        if character != nil{
+            let scene=(self.scene! as! TransitableScene)
+            scene.viewController.sceneTransitionSK(scene.selfScene, nextScene:CharScene(size: scene.size, viewController: scene.viewController, character:character!))
+        }
     }
     
     func getClass()->String{

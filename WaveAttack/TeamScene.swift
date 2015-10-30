@@ -137,8 +137,10 @@ class TeamScene: TransitableScene{
             //viewController.sceneTransitionSK(prevScene, c: (prevTouch! as! CharacterButton).character)
         }
         else if (prevTouch?.getClass()=="CharacterSlot"){
-            touchable=false
-            prevTouch!.onHold()
+            if ((prevTouch! as! CharacterSlot).character != nil){
+                touchable=false
+                prevTouch!.onHold()
+            }
             //viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
             //viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }

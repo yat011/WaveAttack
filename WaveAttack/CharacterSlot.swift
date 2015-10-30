@@ -14,6 +14,7 @@ class CharacterSlot:SKSpriteNode,Interactable{
     init(x:Int, y:Int, character:Character?) {
         self.character=character
         super.init(texture: nil, color: UIColor.greenColor(), size: CGSize(width: 40, height: 40))
+        updateGraphics()
         self.position=CGPoint(x: x, y: y)
     }
     
@@ -21,7 +22,20 @@ class CharacterSlot:SKSpriteNode,Interactable{
         fatalError("init(coder:) has not been implemented")
     }
     
+    func onHold(){
+        if character != nil{
+            let scene=(self.scene! as! TransitableScene)
+            scene.viewController!.sceneTransitionSK(scene.selfScene, nextScene:CharScene(size: scene.size, viewController: scene.viewController!, character:character!))
+        }
+    }
+    
     func getClass()->String{
         return "CharacterSlot"
+    }
+    func updateGraphics(){
+        if character==nil{
+            self.texture=nil
+        }
+        else{self.texture=character!.getIcon()}
     }
 }

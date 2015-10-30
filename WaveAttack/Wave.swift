@@ -109,18 +109,19 @@ class Wave{
             temp.zPosition = -1000
           //  temp.position = CGPoint(x: 0, y: 0)
            
-            GameScene.current!.addChild(temp)
+            //GameScene.current!.addChild(temp)
                 
            // temp.hidden = true
-            texture  = GameScene.current!.view!.textureFromNode(temp)
+            texture  = GameViewController.skView!.textureFromNode(temp)
            // temp.removeFromParent()
             //texture?.filteringMode = SKTextureFilteringMode.Nearest
-            temp.removeFromParent()
+           // temp.removeFromParent()
         }
         var scale:CGFloat = 1
         if (UIScreen.mainScreen().scale == 2){
             scale = 0.5
         }
+     //   print(texture)
         var res = SKSpriteNode(texture: texture, size: CGSize(width: texture!.size().width * scale, height: texture!.size().height * scale))
         res.anchorPoint = CGPoint(x:0, y:0.5)
         

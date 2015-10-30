@@ -16,7 +16,8 @@ enum WaveDirection {
 class Character : GameObject{
     var wave:Wave?
     var str:Int
-    var texture:SKTexture
+    var texture:SKTexture?
+    var icon:SKTexture?
     var skill:Skill?
     var ID:Int
     var name:String
@@ -45,6 +46,8 @@ class Character : GameObject{
         name=""
         lore=""
         texture=SKTexture()
+        icon=SKTexture(noiseWithSmoothness: CGFloat(0.5), size: CGSize(width: 50, height: 50), grayscale: false)
+
         super.init()
     }
     
@@ -97,6 +100,9 @@ class Character : GameObject{
     func canelSkill(){
         pending = false
         self.triggerEvent(GameEvent.SkillReady.rawValue)
+
+        
+
     }
     
     func moveWave(){
@@ -106,5 +112,11 @@ class Character : GameObject{
     
     func getWave()->Wave{
         return wave!
+    }
+    func getIcon()->SKTexture?{
+        return texture
+    }
+    func getTexture()->SKTexture?{
+        return texture
     }
 }

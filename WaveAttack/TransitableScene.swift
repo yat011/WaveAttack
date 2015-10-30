@@ -73,7 +73,7 @@ class TransitableScene:SKScene{
                     }
                     if prevPoint != nil{
                         let touchPoint=touch.locationInNode(self)
-                        onMove(prevPoint!, p1: touchPoint)
+                        onDrag(prevPoint!, p1: touchPoint)
                         prevPoint = touchPoint
  
                     }
@@ -93,6 +93,7 @@ class TransitableScene:SKScene{
                             onClick()
                         }
                     }
+                    else {touchable=true}
                 }
             }
         }
@@ -112,8 +113,16 @@ class TransitableScene:SKScene{
             (prevTouch as! Clickable).click()
         }
     }
+
     func onMove(p0:CGPoint, p1:CGPoint){
         //prevTouch.onMove()
+        if (dragNode != nil){
+            var diff:CGVector = p1 - p0
+            dragNode!.scroll(diff.dx, dy: diff.dy)
+        }
+    }
+    func onDrag(p0:CGPoint, p1:CGPoint){
+        //prevTouch.onDrag()
         if (dragNode != nil){
             var diff:CGVector = p1 - p0
             dragNode!.scroll(diff.dx, dy: diff.dy)

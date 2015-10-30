@@ -66,6 +66,8 @@
 		549D82BC1BE2164F00907150 /* mission5.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B71BE2164F00907150 /* mission5.json */; };
 		549D82BD1BE2164F00907150 /* mission6.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B81BE2164F00907150 /* mission6.json */; };
 		549D82BE1BE2164F00907150 /* mission7.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B91BE2164F00907150 /* mission7.json */; };
+		549D82C01BE33C3800907150 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82BF1BE33C3800907150 /* sky.png */; };
+		549D82C21BE33CA400907150 /* DaytimeSky.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82C11BE33CA400907150 /* DaytimeSky.png */; };
 		54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAA1BBA97A70039D744 /* InfoLayer.swift */; };
 		54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAC1BBA9B1F0039D744 /* Player.swift */; };
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
@@ -184,6 +186,8 @@
 		549D82B71BE2164F00907150 /* mission5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission5.json; sourceTree = "<group>"; };
 		549D82B81BE2164F00907150 /* mission6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission6.json; sourceTree = "<group>"; };
 		549D82B91BE2164F00907150 /* mission7.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission7.json; sourceTree = "<group>"; };
+		549D82BF1BE33C3800907150 /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
+		549D82C11BE33CA400907150 /* DaytimeSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DaytimeSky.png; sourceTree = "<group>"; };
 		54A55BAA1BBA97A70039D744 /* InfoLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLayer.swift; sourceTree = "<group>"; };
 		54A55BAC1BBA9B1F0039D744 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
@@ -393,6 +397,8 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				549D82C11BE33CA400907150 /* DaytimeSky.png */,
+				549D82BF1BE33C3800907150 /* sky.png */,
 				54BBD93E1BD7E0C700BAFFA2 /* ch01.png */,
 				5420A60C1BC572E5000F2E14 /* crack.png */,
 				5420A5E81BC04935000F2E14 /* Oval.png */,
@@ -649,6 +655,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				549D82BC1BE2164F00907150 /* mission5.json in Resources */,
+				549D82C01BE33C3800907150 /* sky.png in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				549D82BA1BE2164F00907150 /* mission3.json in Resources */,
 				54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */,
@@ -659,6 +666,7 @@
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
+				549D82C21BE33CA400907150 /* DaytimeSky.png in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				5420A5E91BC04935000F2E14 /* Oval.png in Resources */,
 				549D82BB1BE2164F00907150 /* mission4.json in Resources */,

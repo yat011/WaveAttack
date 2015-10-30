@@ -54,6 +54,8 @@ class CharacterManager{
                 }
                 character.minSpeed = CGFloat(JSONHelper.getValue(c, key: "minSpeed").floatValue)
                 character.maxSpeed = CGFloat(JSONHelper.getValue(c, key: "maxSpeed").floatValue)
+                character.basicAttackPower = CGFloat(JSONHelper.getValue(c, key: "attackPow").floatValue)
+                character.hp = CGFloat(JSONHelper.getValue(c, key: "hp").floatValue)
                 characters?.append(character)
             }
         }
@@ -81,6 +83,8 @@ class CharacterManager{
         ch.round = sample.round
         ch.minSpeed = sample.minSpeed
         ch.maxSpeed = sample.maxSpeed
+        ch.basicAttackPower = sample.basicAttackPower
+        ch.hp = sample.hp
         return ch
     }
     

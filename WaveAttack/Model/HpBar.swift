@@ -55,6 +55,11 @@ class HpBar : SKShapeNode {
             }else if sender is Player{
                 let temp = sender as! Player
                 wBar!.updateCurrentHp(temp.hp)
+                var first = SKAction.moveByX(2, y: 0, duration: 0.2)
+                var reverse = first.reversedAction()
+                var actions = [first,reverse]
+                
+                wBar!.runAction(SKAction.repeatAction(SKAction.sequence(actions),count: 5))
         
             }
         })

@@ -105,9 +105,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         
         
-        var tplayer = Player(hp: 1000)
-        self.player = tplayer
-        self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
+       
         
         
         backgroundColor = SKColor.whiteColor()
@@ -117,7 +115,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
  
         //self.addChild(controlLayer)
-        self.addChild(infoLayer!)
+        
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
  
@@ -155,7 +153,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
         controlLayer = UIN
         UIN.zPosition=100000
-                
+        
+      //  self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
         self.addChild(UIN)
 
     }
@@ -513,7 +512,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
             //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
             //tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 2.1, position: CGPoint(x: 37.5 + Double(i), y: 2), gameScene :self)
+            var sumAttack: CGFloat = 0
+            for ch in character{
+                sumAttack += ch.basicAttackPower
+            }
+            print("sum \(sumAttack)")
+            let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 2.1, position: CGPoint(x: 37.5 + Double(i), y: 2), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
             p1.pushBelongTo(gameLayer!.background!)
@@ -548,17 +552,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     func generatePacket(waveData:[CGFloat],_ i:Int){
         if (i % 6 != 0) {return}
-        // let p1 = NormalEnergyPacket(abs(waveData[i])*40+1000, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
-        //p1.direction = CGVector(dx: 0, dy: 1)
-        //p1.gameLayer = gameLayer
-        //p1.pushBelongTo(gameLayer!.background!)
-        //gameLayer!.addGameObject(p1)
-        
-        
-        
-        //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
-        //tempx = tempx * CGFloat(i) + 10
-        let p1 = NormalEnergyPacket(abs(waveData[i]) * 20 + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
+        var sumAttack : CGFloat = 0
+        for ch in character{
+            sumAttack += ch.basicAttackPower
+        }
+        print("sum \(sumAttack)")
+        let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
         p1.direction = CGVector(dx: 0, dy: 1)
         p1.gameLayer = gameLayer
         p1.pushBelongTo(gameLayer!.background!)
@@ -955,6 +954,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
         if inited == 1{ // init
             initControlLayer()
+            var sumhp :CGFloat = 0
+            for ch in character{
+                sumhp += ch.hp
+            }
+            var tplayer = Player(hp: sumhp)
+            self.player = tplayer
+            self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
+            self.addChild(infoLayer!)
         }
             inited++
         

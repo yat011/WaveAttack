@@ -40,7 +40,7 @@ class UIWaveButton : SKCropNode,Draggable {
         dottedLine.position = CGPoint(x: -150, y: 0)
         self.addChild(waveShapeNode!)
         self.addChild(dottedLine)
-        let UIWaveButtonBackground=SKSpriteNode(texture: nil, color: UIColor.brownColor(), size: size)
+        let UIWaveButtonBackground=SKSpriteNode(texture: nil, color: UIColor(red: 0x42/255, green: 0x42/255, blue: 0x3f/255, alpha: 1), size: size)
         UIWaveButtonBackground.zPosition = -1
         self.addChild(UIWaveButtonBackground)
         

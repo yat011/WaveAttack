@@ -11,7 +11,7 @@ import SpriteKit
 
 class Air: Medium {
     
-    var sprite : GameSKSpriteNode? = GameSKSpriteNode(color: SKColor.whiteColor(), size: CGSize())
+    var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "DaytimeSky")
     
     
     
@@ -22,6 +22,7 @@ class Air: Medium {
         
         self.sprite?.size = size
         self.sprite?.position = position
+        self.sprite?.zPosition = -1
        // self.sprite?.anchorPoint  = CGPoint()
         
         let phys = SKPhysicsBody(rectangleOfSize: size, center: CGPoint(x: size.width / 2, y: size.height / 2))
@@ -33,6 +34,8 @@ class Air: Medium {
         
         sprite!.name = GameObjectName.Medium.rawValue
         //sprite?.fillColor = SKColor.blueColor()
+        
+        self.sprite!.runAction(SKAction.scaleXTo(2, duration: 0))
         
         sprite!.addChild(self.physContactSprite)
     }

@@ -9,6 +9,8 @@
                       "image": "ch01",
                       "skill" : "ConvexLenSkill",
                       "skillRound" : "2",
+                  "attackPow": "2",
+                  "hp" : "100",
                       "wave":[
                               {
                               "type":     "sine1",
@@ -42,6 +44,8 @@
                       "strength":"1",
                       "skillID":"1",
                       "image": "ch01",
+                  "attackPow": "2",
+                  "hp" : "100",
                       "wave":[
                               {
                               "type":     "sine1",

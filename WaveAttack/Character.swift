@@ -27,7 +27,9 @@ class Character : GameObject{
     var currentSpeed: CGFloat = 1
     var _round: Int = 0
     weak var waveUI : UIWaveButton? = nil
+    var basicAttackPower : CGFloat = 1
     var pending : Bool = false
+    var hp : CGFloat = 10
     var round : Int { get{return _round} set(v) {
         _round = v
         oriRound = _round

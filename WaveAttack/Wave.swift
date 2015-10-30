@@ -104,6 +104,8 @@ class Wave{
         
         if texture == nil{
             var temp = SKShapeNode(path: path)
+            temp.strokeColor = SKColor.cyanColor()
+            temp.lineWidth = 1.5
             temp.zPosition = -1000
           //  temp.position = CGPoint(x: 0, y: 0)
            

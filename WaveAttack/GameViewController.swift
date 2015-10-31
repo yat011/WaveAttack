@@ -60,8 +60,7 @@ class GameViewController: UIViewController {
 
         
         GameViewController.current = self
-        print(skView.scene)
-
+        
        
         
         skView.presentScene(MainMenu(size: self.screenSize, viewController: self))

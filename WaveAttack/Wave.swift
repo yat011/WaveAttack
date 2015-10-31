@@ -67,8 +67,10 @@ class Wave{
         let path:CGMutablePathRef=CGPathCreateMutable()
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
+        var totLen: CGFloat = 0
         if (waveData != nil){
             CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
+            totLen = CGFloat(getAmplitudes().count - 1)
         }
         else{
             for _ in 1...3 //repeat 2-3 times for looping
@@ -76,6 +78,7 @@ class Wave{
                 for c in componentList
                 {
                     WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height, directConnect: true)
+                    totLen = totLen + CGFloat(c.length)
                 }
                 /*
                 WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 50, height: 10, directConnect: true)
@@ -103,22 +106,27 @@ class Wave{
 */
         
         if texture == nil{
+            
             var temp = SKShapeNode(path: path)
             temp.strokeColor = SKColor.cyanColor()
             temp.lineWidth = 1.5
             temp.zPosition = -1000
           //  temp.position = CGPoint(x: 0, y: 0)
            
-            //GameScene.current!.addChild(temp)
+            GameViewController.skView!.scene!
+                .addChild(temp)
                 
-           // temp.hidden = true
+            //temp.hidden = true
             texture  = GameViewController.skView!.textureFromNode(temp)
+            
            // temp.removeFromParent()
             //texture?.filteringMode = SKTextureFilteringMode.Nearest
-           // temp.removeFromParent()
+            temp.removeFromParent()
         }
         var scale:CGFloat = 1
-        if (UIScreen.mainScreen().scale == 2){
+        print("\(totLen) vs \(texture!.size().width)")
+        scale  = totLen / texture!.size().width
+        if (UIScreen.mainScreen().scale == 2 && scale < 0.6){
             scale = 0.5
         }
      //   print(texture)

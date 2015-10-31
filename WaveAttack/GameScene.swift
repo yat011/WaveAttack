@@ -892,28 +892,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         dragging = nil
     }
     
-    func tempCreatePacket(){
-        for i in 0...20{
-            var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
-            tempx = tempx * CGFloat(i) + 10
-            let p1 = NormalEnergyPacket(1000, position: CGPoint(x: tempx , y: 1), gameScene: self)
-            p1.direction = CGVector(dx: 0, dy: 1)
-            p1.gameLayer = gameLayer
-            p1.pushBelongTo(gameLayer!.background!)
-            for obj in gameLayer!.attackPhaseObjects{
-                if obj is Medium{
-                    var medium = obj as! Medium
-                    var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
-                    if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
-                        p1.addBelong(medium)
-                    }
-                }
-            }
-            
-            gameLayer!.addGameObject(p1)
-            
-        }
-    }
+   
     
     
     var countFrame :Int = 0

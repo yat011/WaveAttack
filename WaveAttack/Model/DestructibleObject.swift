@@ -44,7 +44,7 @@ class DestructibleObject : Medium {
     var prevScale : CGFloat = 1
     
     override var path: CGPath? { get{ return _path}}
-    var xDivMax: CGFloat  {get { fatalError(); return 1}}
+    var xDivMax: CGFloat  {get { fatalError(); return 1}} // for edge path
     var yDivMax: CGFloat {get {fatalError() ; return 1}}
     var _path : CGPath? = nil
     var moveRound : Int = 3
@@ -56,6 +56,12 @@ class DestructibleObject : Medium {
     var dead : Bool = false
     var originSize :CGSize? = nil
     var originPoint :CGPoint? = nil
+//----crack UI---
+    var crackUI :SKSpriteNode? = nil
+    var cropCrackUI :SKCropNode? = nil
+    var completeCrack :Bool = false
+    
+    
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if getSprite() == nil {
             fatalError("sprite == nil")
@@ -117,13 +123,15 @@ class DestructibleObject : Medium {
         //getSprite()!.physicsBody = phys
                // var anPoint = tempSprite.anchorPoint
         
-        var temp = getSprite() as! SKSpriteNode
+        var temp = getSprite() as! GameSKSpriteNode
+        temp.gameObject = self
         //var shape = SKShapeNode(path: _path!)
         //var texture = GameViewController.skView!.textureFromNode(shape)
         phys = SKPhysicsBody(texture: temp.texture!, size: temp.size)
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
         phys.affectedByGravity = true
         phys.collisionBitMask = CollisionLayer.Objects.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue
         phys.dynamic = true
       //  phys.usesPreciseCollisionDetection = true
         getSprite()!.physicsBody = phys
@@ -169,6 +177,26 @@ class DestructibleObject : Medium {
     }
     
     
+    func impulseDamage(impulse : CGFloat){
+        let threshold:CGFloat = 100
+        guard impulse > threshold && getSprite() != nil && getSprite()!.physicsBody != nil else{
+            return
+        }
+        var damage = (impulse - threshold) * CGFloat(15) * (1 - getSprite()!.physicsBody!.restitution)
+        changeHpBy(-damage)
+        
+    }
+    
+    func changeHpBy(delta : CGFloat){
+        _hp = hp + delta
+        if (hp < 0 && dead == false){
+            die()
+        }
+        triggerEvent(GameEvent.HpChanged.rawValue)
+
+    }
+    
+    
     
     func PathAddLineToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
         let tempx = x * scaleX
@@ -191,9 +219,14 @@ class DestructibleObject : Medium {
     
    var prevAction :SKAction? = nil
     var animating : Bool = false
+    var prevCrackAction :SKAction? = nil
     func expandComplete(){
         
         getSprite()!.runAction(prevAction!.reversedAction(), completion: completeShake)
+        guard prevCrackAction != nil else {return}
+        crackUI?.runAction(prevCrackAction!.reversedAction())
+        
+        cropCrackUI?.maskNode!.runAction(prevCrackAction!.reversedAction())
     }
     func completeShake(){
         animating = false
@@ -210,8 +243,16 @@ class DestructibleObject : Medium {
         var oriSize = (getSprite()! as! SKSpriteNode).size
         //(getSprite()! as! SKSpriteNode).size = CGSize(width: prevScale * oriSize.width, height: prevScale *  oriSize.height)
         prevAction = SKAction.resizeByWidth(prevScale * oriSize.width, height: prevScale * oriSize.height, duration: 0.1)
+        
         animating = true
         getSprite()!.runAction(prevAction!, completion: expandComplete)
+        if (completeCrack){
+            //prevCrackAction = SKAction.resizeToWidth((1 + prevScale) * oriSize.width, height: (1 + prevScale) * oriSize.height, duration: 0.1)
+            prevCrackAction = prevAction
+            crackUI?.runAction(prevCrackAction!)
+           // SKAction.resizeToWidth((1 + prevScale) * oriSize.width, height: (1 + prevScale) * oriSize.height, duration: 0.1)
+            cropCrackUI?.maskNode!.runAction(prevCrackAction!)
+        }
         scaled = true
         
     }
@@ -292,8 +333,14 @@ class DestructibleObject : Medium {
         //crackUI.texture = SKTexture(image: TextureTools.createTiledTexture("crack.png", tiledSize: CGSize(width: 50, height: 50), targetSize: originSize!))
         crackUI.size = CGSize(width: 5, height: 5)
        // crackUI.runAction(SKAction.resizeToWidth(originSize!.width, height: originSize!.height, duration: 1))
-        crackUI.runAction(SKAction.animateWithTextures(aniTexture, timePerFrame: 0.2, resize: true, restore: false))
+        crackUI.runAction(SKAction.animateWithTextures(aniTexture, timePerFrame: 0.2, resize: true, restore: false),completion:{
+            ()->() in
+            self.completeCrack = true
+            
+            })
         // SKAction.an
+        self.crackUI = crackUI
+        self.cropCrackUI = crop
         crop.addChild(crackUI)
         crop.zPosition = getSprite()!.zPosition + 1
         self.getSprite()!.addChild(crop)

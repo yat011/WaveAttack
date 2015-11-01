@@ -175,8 +175,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         let lowerBound = playRect!.origin.y - diff
         gameLayer!.position = CGPoint(x:0 , y:lowerBound)
         controlLayer?.position = CGPoint(x: self.size.width/2, y: 0)
-       // print (gameArea!.origin.y)
-       // print(lowerBound)
+       // //print (gameArea!.origin.y)
+       // //print(lowerBound)
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
             () -> () in
@@ -191,31 +191,56 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
 //-------------------- phys detect-----------------------------------------
     func didBeginContact(contact: SKPhysicsContact) {
-     //   ////print("contact")
-        ////print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
+     //   //////print("contact")
+        //////print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
        // self.contactQueue.append(contact)
-       //     ////print (contact.contactPoint)
-     //////print(contact.contactNormal)
+       //     //////print (contact.contactPoint)
+     ////////print(contact.contactNormal)
         
         if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
             return
         }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
             return
+        }else{
+            print("impluse \(contact.collisionImpulse)")
+            print(contact.bodyA.node!.name)
+            print(contact.bodyB.node!.name)
+            guard contact.bodyA.node is GameSKSpriteNode && contact.bodyA.node is GameSKSpriteNode else{
+                return
+            }
+            collisionDamage((contact.bodyA.node! as! GameSKSpriteNode).gameObject as! Medium, mB: (contact.bodyB.node! as! GameSKSpriteNode).gameObject! as! Medium, contact: contact)
+            
         }
         
         
         
     }
     
+    func collisionDamage(mA : Medium, mB:Medium, contact : SKPhysicsContact){
+        
+        if mA is DestructibleObject{
+            let dest = mA as! DestructibleObject
+            dest.impulseDamage(contact.collisionImpulse)
+            
+        }
+        if mB is DestructibleObject{
+            let dest = mB as! DestructibleObject
+            dest.impulseDamage(contact.collisionImpulse)
+        }
+        
+    }
+
+    
+    
     func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit: Bool) -> Bool{
         if (packet.deleted){
             return false
         }
-        ////print(medium.path)
-        ////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
-        //print (contact.contactNormal)
+        //////print(medium.path)
+        //////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
+        ////print (contact.contactNormal)
         var conPos = medium.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
-        // //print(CGPathContainsPoint(medium.path, nil,temp , true))
+        // ////print(CGPathContainsPoint(medium.path, nil,temp , true))
         var toward: CGVector = contact.contactPoint - (packet.sprite!.position + gameLayer!.position)
         toward.normalize()
         var contactPt = medium.getSprite()!.convertPoint(contact.contactPoint, fromNode: self)
@@ -250,7 +275,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         var packet: EnergyPacket? = nil
         if (sk is HasGameObject){
             let has = sk as! HasGameObject?
-            ////print ("gameObject : \(has?.gameObject)")
+            //////print ("gameObject : \(has?.gameObject)")
             if ( has?.gameObject is EnergyPacket){
                 packet = has!.gameObject as! EnergyPacket
         
@@ -354,7 +379,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             for (to, contact) in wrapper.enter{
                 tos.insert(to)
                // var conPos = to.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
-                //print("pos:\(CGPathContainsPoint(to.path, nil, conPos, true))  normal: \(contact.contactNormal) " )
+                ////print("pos:\(CGPathContainsPoint(to.path, nil, conPos, true))  normal: \(contact.contactNormal) " )
                 contacts[to] = contact
             }
             
@@ -418,9 +443,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     func longPressOnDest(){
-        // print("long press on obj")
+        // //print("long press on obj")
         var sprite = pressedDestObject!.getSprite()!
-        // print(sprite.position)
+        // //print(sprite.position)
         var hpbar = HpBar.createHpBar(CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 20)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
         gameLayer?.addChild(hpbar)
         destHpBar = hpbar
@@ -464,7 +489,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 if (CGRectContainsPoint(playRect!, touchDown)){
                         touchType = TouchType.gameArea
                     prevTouchPoint = touchDown
-                    print(CGRectContainsPoint(gameLayer.calculateAccumulatedFrame(), (touches.first?.locationInNode(gameLayer.parent!))!))
+                    //print(CGRectContainsPoint(gameLayer.calculateAccumulatedFrame(), (touches.first?.locationInNode(gameLayer.parent!))!))
                 }
                 */
 
@@ -479,7 +504,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     func timeOut(){
-        print("timeOut")
+        //print("timeOut")
         currentStage = .SuperpositionAnimating
         
         controlLayer?.animateSuperposition({
@@ -516,7 +541,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             for ch in character{
                 sumAttack += ch.basicAttackPower
             }
-            print("sum \(sumAttack)")
+            //print("sum \(sumAttack)")
             let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 2.1, position: CGPoint(x: 37.5 + Double(i), y: 2), gameScene :self)
             p1.direction = CGVector(dx: 0, dy: 1)
             p1.gameLayer = gameLayer
@@ -526,7 +551,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     var medium = obj as! Medium
                     var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
                     
-                    print(mediumPt)
+                    //print(mediumPt)
                     
                     if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
                         p1.addBelong(medium)
@@ -556,7 +581,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         for ch in character{
             sumAttack += ch.basicAttackPower
         }
-        print("sum \(sumAttack)")
+        //print("sum \(sumAttack)")
         let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
         p1.direction = CGVector(dx: 0, dy: 1)
         p1.gameLayer = gameLayer
@@ -566,7 +591,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 var medium = obj as! Medium
                 var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
                 
-                print(mediumPt)
+                //print(mediumPt)
                 
                 if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
                     p1.addBelong(medium)
@@ -580,7 +605,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
        
-        //print(touches.count)
+        ////print(touches.count)
         if (touches.count == 1 ) {//drag
              if (touching == false) {return}
              if (self.touchType == nil) { return }
@@ -605,7 +630,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             for touch in touches {
                 var temp = touch.locationInNode(self)
                 var diff:CGVector = (temp - prevTouchPoint!)
-                //print("diff \(diff.length)")
+                ////print("diff \(diff.length)")
                 if diff.length < minlen {
                     minlen = diff.length
                     touchDown = temp
@@ -668,8 +693,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             prevTouchPoint = touchDown
             for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
             {
-                //print(c.description)
-                //print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
+                ////print(c.description)
+                ////print(CGRectContainsPoint(c.frame, (touches.first?.locationInNode(c.parent!))!))
                 //check clicked on Button
                 if (CGRectContainsPoint(c.calculateAccumulatedFrame(), (touches.first?.locationInNode(c.parent!))!))
                 {
@@ -683,10 +708,10 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         //button
         var btns = self.buttonList[currentStage]
-       // print(btns!.count)
+       // //print(btns!.count)
         if btns != nil{
             for btn in btns! {
-                //print(touchDown)
+                ////print(touchDown)
                 var clicked = btn.checkClick(touchDown)
                 
                 if clicked != nil{
@@ -705,7 +730,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             prevTouchPoint = touchDown
         }
         let diff :CGVector =  prevTouchPoint! - touchDown
-       // print(diff)
+       // //print(diff)
         var moveY = diff.dy * 2
         moveY = (prevMoveY + moveY) / 2
         prevMoveY = moveY
@@ -740,11 +765,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(timelimit), SKAction.removeFromParent()]),completion: self.timeOut)
                 self.controlLayer!.timerUI!.startTimer(timelimit)
                 self.currentStage = .Supering
-                print("start timer")
+                //print("start timer")
                 timerStarted=true
             }
             prevTouchPoint  = touchDown
-           // print(diff.dx)
+           // //print(diff.dx)
             (dragging as! UIWaveButton).scroll(-diff.dx,dy: 0)
             
         }else if (touchType == TouchType.button){
@@ -837,7 +862,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     func scrollLayers(movement : CGFloat){
-        //print(gameArea)
+        ////print(gameArea)
         
         var newY = gameLayer!.position.y + movement
         let diff = gameArea!.height - playRect!.size.height
@@ -959,7 +984,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func startEnemyPhase (){
         self.currentStage = GameStage.enemy
         gameLayer!.enemyDoAction()
-        print("start enemy phase")
+        //print("start enemy phase")
         
     }
     func startCheckResult(){
@@ -971,7 +996,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
-        print("start superposition")
+        //print("start superposition")
         for var each in self.character{
             each.nextRound()
         }
@@ -984,7 +1009,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func startAttackPhase(){
         self.currentStage = GameStage.Attack
-        print("start attack phase")
+        //print("start attack phase")
         
     }
     
@@ -1014,7 +1039,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         if (currentMission >= mission?.missions.count){ // complete Mission
             currentStage = GameStage.Complete
-            print("complete Mission")
+            //print("complete Mission")
           
             if PlayerInfo.playerInfo!.passMission?.integerValue < mission!.missionId{
                 PlayerInfo.playerInfo!.passMission = mission!.missionId
@@ -1022,9 +1047,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
             do{
                 try app.managedObjectContext!.save()
-                print("saved")
+                //print("saved")
             }catch{
-                print("fail")
+                //print("fail")
             }
             gameLayer!.fadeOutAll({
                 () -> () in
@@ -1035,7 +1060,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 //numRounds = 20
                 self.resultUI!.showResult({
                     () -> () in
-                    print("finished")
+                    //print("finished")
                 })
             
                 return
@@ -1088,20 +1113,20 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func BackToMenu(){
         if (GameViewController.current == nil){
-            print("nil current")
+            //print("nil current")
         }
         var storyBoard = GameViewController.current?.storyboard
         if (storyBoard == nil){
-            print("nil board")
+            //print("nil board")
         }
         //var main = GameViewController.current?.storyboard?.instantiateViewControllerWithIdentifier("MainMenu")
         //  GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
         /*if GameViewController.current!.navigationController == nil{
-        print("nil nav")
+        //print("nil nav")
         }
         GameViewController.current?.navigationController?.popToViewController(main!, animated: false)*/
         //GameViewController.current!.seg`
-       // print(GameViewController.current!.presentedViewController)
+       // //print(GameViewController.current!.presentedViewController)
         
         //GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
         

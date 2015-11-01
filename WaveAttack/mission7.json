@@ -1,28 +1,8 @@
 {
   "subMission": [
     
+         
          {
-         "terrain": "Air",
-         "object": [
-                    {
-                    "type": "Soil",
-                    "x": "300",
-                    "y": "-200",
-                    "width": "600",
-                    "height": "600",
-                    
-                    },
-                    
-                    {
-                    "type": "Snail",
-                    "x": "150",
-                    "y": "500",
-                    "width": "200",
-                    "height": "100",
-                    "hp": "10000",
-                    "target": "true"
-                    }      ]
-                 },{
                  "terrain": "Air",
                  "object": [
                             {

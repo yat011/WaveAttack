@@ -16,6 +16,8 @@ class GameObject : NSObject {
     weak var gameScene : GameScene? = nil
     
     var eventFunc = [String : [CallBack]]()
+    var name : String = ""
+    
     
     func subscribeEvent ( event :String , call: CallBack){
         if eventFunc[event] == nil{

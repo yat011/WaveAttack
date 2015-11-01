@@ -25,14 +25,7 @@ class Air: Medium {
         self.sprite?.zPosition = -1
        // self.sprite?.anchorPoint  = CGPoint()
         
-        let phys = SKPhysicsBody(rectangleOfSize: size, center: CGPoint(x: size.width / 2, y: size.height / 2))
-        phys.categoryBitMask = CollisionLayer.Objects.rawValue
-        phys.affectedByGravity = false
-        phys.collisionBitMask = 0x0
-        // sprite!.physicsBody = phys
-        //self.physContactSprite.physicsBody = phys
-        
-        sprite!.name = GameObjectName.Medium.rawValue
+        sprite!.name = "air"
         //sprite?.fillColor = SKColor.blueColor()
         
         self.sprite!.runAction(SKAction.scaleXTo(2, duration: 0))

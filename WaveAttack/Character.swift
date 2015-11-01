@@ -20,7 +20,7 @@ class Character : GameObject{
     var icon:SKTexture?
     var skill:Skill?
     var ID:Int
-    var name:String
+    
     var lore:String
     var minSpeed: CGFloat = 0
     var maxSpeed :CGFloat = 2
@@ -43,12 +43,13 @@ class Character : GameObject{
         
         str=0
         ID=0
-        name=""
+      //  name=""
         lore=""
         texture=SKTexture()
         icon=SKTexture(noiseWithSmoothness: CGFloat(0.5), size: CGSize(width: 50, height: 50), grayscale: false)
 
         super.init()
+         name=""
     }
     
     func useSkill(){

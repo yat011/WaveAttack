@@ -18,7 +18,7 @@ class SampleBox : DestructibleObject {
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
 
         super.initialize(size, position: position, gameScene: gameScene)
-        
+        sprite!.name = "box"
         self.propagationSpeed = 3.2
         
         self.collisionAbsorption = 50

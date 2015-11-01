@@ -30,7 +30,8 @@ class Snail : DestructibleObject , EnemyActable{
         action = DirectAttack()
         action!.initialize(self)
         moveRound = 3
-        
+        sprite!.name = "Snail"
+        sprite!.gameObject = self
         self.propagationSpeed = 2.5
         
         self.collisionAbsorption = 10

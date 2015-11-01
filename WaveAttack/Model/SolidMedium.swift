@@ -19,6 +19,7 @@ class SolidMedium:Medium{
         
         //self.sprite = GameSKShapeNode(rect: CGRect(origin: CGPoint(x: 0,y: 0), size: gameScene.gameArea!.size))
         var tempSprite: GameSKSpriteNode = getSprite() as! GameSKSpriteNode
+        tempSprite.gameObject = self
         tempSprite.size = size
         var phys:SKPhysicsBody? = nil
        // var anPoint = tempSprite.anchorPoint
@@ -30,6 +31,7 @@ class SolidMedium:Medium{
         phys!.categoryBitMask = CollisionLayer.Objects.rawValue
         phys!.affectedByGravity = false
         phys!.collisionBitMask = CollisionLayer.Objects.rawValue
+        phys!.contactTestBitMask = CollisionLayer.Objects.rawValue
         phys!.dynamic = false
       //  phys!.usesPreciseCollisionDetection = true
         tempSprite.physicsBody = phys
@@ -37,6 +39,10 @@ class SolidMedium:Medium{
         //contact Sprite -----------------
         tempSprite.position = position
 
+        
+  //-----------------edge------------------
+        
+        
         phys = SKPhysicsBody (edgeLoopFromPath: self.path!)
         
    //     phys.usesPreciseCollisionDetection = true

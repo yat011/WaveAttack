@@ -74,8 +74,9 @@ class GameLayer : SKNode{
         let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size:  gameScene!.gameArea!.size))
         phys.collisionBitMask = CollisionLayer.Objects.rawValue
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue
+        phys.contactTestBitMask = 0
         boundary.physicsBody = phys
+        boundary.name = "boundary"
         
         self.addChild(boundary)
         

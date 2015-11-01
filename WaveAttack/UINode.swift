@@ -27,7 +27,7 @@ class UINode: SKNode,Draggable{
         var temppos :[CGFloat] = [-415, -547,-562,-565,-569]
        
         var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
-        print(characters.count)
+        //print(characters.count)
         var chs : [Character] = []
         
         for i in 0...4 {
@@ -121,11 +121,11 @@ class UINode: SKNode,Draggable{
         let w3=(self.childNodeWithName("UIWaveButtonGroup")!.children[3] as! UIWaveButton)
         let w4=(self.childNodeWithName("UIWaveButtonGroup")!.children[4] as! UIWaveButton)
         
-        print(w0.waveShapeNode!.position)
-        print(w1.waveShapeNode!.position)
-        print(w2.waveShapeNode!.position)
-        print(w3.waveShapeNode!.position)
-        print(w4.waveShapeNode!.position)
+        //print(w0.waveShapeNode!.position)
+        //print(w1.waveShapeNode!.position)
+        //print(w2.waveShapeNode!.position)
+        //print(w3.waveShapeNode!.position)
+        //print(w4.waveShapeNode!.position)
         
         var d0 = (w0.waveShapeNode?.position.x)!
         d0 = -d0+750
@@ -137,7 +137,7 @@ class UINode: SKNode,Draggable{
         d3 = -d3+750
         var d4 = (w4.waveShapeNode?.position.x)!
         d4 = -d4+750
-        print(w0.waveShapeNode?.position.x)
+        //print(w0.waveShapeNode?.position.x)
         
         var w=Wave.superposition(w0.wave,d1: Int(d0),
             w2: Wave.superposition(w1.wave,d1: Int(d1),
@@ -181,6 +181,7 @@ class UINode: SKNode,Draggable{
     func animateGeneration(wave : Wave, completion:(()->())){
        var amp = wave.getAmplitudes()
         var generated: [Bool] = [Bool](count:amp.count, repeatedValue: false)
+        let speed: CGFloat = 15
         var callBack :(()->())? = nil
         callBack = {
             () -> () in
@@ -198,11 +199,11 @@ class UINode: SKNode,Draggable{
             if done{
                 completion()
             }else{
-                self.resultantWaveShape!.runAction(SKAction.moveByX(0, y: 10, duration: 0.1), completion: callBack!)
+                self.resultantWaveShape!.runAction(SKAction.moveByX(0, y: speed, duration: 0.1), completion: callBack!)
             }
         }
         
-        resultantWaveShape?.runAction(SKAction.moveByX(0, y: 10, duration: 0.1), completion: callBack!)
+        resultantWaveShape?.runAction(SKAction.moveByX(0, y: speed, duration: 0.1), completion: callBack!)
         
         
     }

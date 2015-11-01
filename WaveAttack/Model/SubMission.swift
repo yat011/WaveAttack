@@ -46,6 +46,10 @@ class SubMission{
                 }
             }
             
+            if let name = dict["name"]{
+                medium.name = name
+            }
+            
             
             medium.initialize(CGSize(width: width, height: height), position: CGPoint(x: x, y: y), gameScene: gameScene)
             if (medium is DestructibleObject){

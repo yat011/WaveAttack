@@ -183,6 +183,8 @@ class DestructibleObject : Medium {
             return
         }
         var damage = (impulse - threshold) * CGFloat(15) * (1 - getSprite()!.physicsBody!.restitution)
+        
+        
         changeHpBy(-damage)
         
     }

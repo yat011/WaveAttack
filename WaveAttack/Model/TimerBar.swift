@@ -27,7 +27,7 @@ class TimerUI : SKShapeNode{
         // super.init(rectOfSize: size, cornerRadius: 2)
        // print("hpbar rect : \(rect)")
         bar.strokeColor = SKColor.blueColor()
-        bar.fillColor = SKColor.blueColor()
+       // bar.fillColor = SKColor.blueColor()
        // bar.max = timelimit
         //bar.current = timelimit
         // bar.hpBar = SKSpriteNode(imageNamed: "redbar")
@@ -49,8 +49,10 @@ class TimerUI : SKShapeNode{
         bar.alpha = 0.6
         
         
-        bar.timerIcon = SKSpriteNode(color: SKColor.greenColor(), size: CGSize(width: 30,height: 30))
-        bar.timerIcon!.position = CGPoint(x: 0, y: 165)
+        bar.timerIcon = SKSpriteNode(imageNamed: "clock")
+        bar.timerIcon!.size =  CGSize(width: 30,height: 30)
+          //  SKSpriteNode(color: SKColor.greenColor(), size: CGSize(width: 30,height: 30))
+        bar.timerIcon!.position = CGPoint(x: 0, y: 167)
         bar.addChild(bar.timerIcon!)
         
         /*
@@ -73,6 +75,7 @@ class TimerUI : SKShapeNode{
     func startTimer(timelimit :Double) {
         
         timeBar!.runAction( SKAction.resizeToHeight(0, duration: timelimit))
+        timerIcon!.runAction(SKAction.rotateByAngle(-MathHelper.PI * 2, duration: timelimit))
         
       //  label!.text = String(format: "%.2f / %.2f", current, max)
     }

@@ -29,39 +29,54 @@ class SubMission{
         
         var objects = obj["object"] as! [AnyObject]
         for dictObj in objects{
-            var dict = dictObj as! [String : String]
+            var dict = dictObj as! [String : AnyObject]
            // print (dict["type"])
 
-            var medium: Medium = GameObjectFactory.getInstance().create(dict["type"]!) as! Medium
-            var x : CGFloat = CGFloat((dict["x"]! as NSString).floatValue)
-            var y : CGFloat = CGFloat((dict["y"]! as NSString).floatValue)
-            var width : CGFloat = CGFloat((dict["width"]! as NSString).floatValue)
-            var height : CGFloat = CGFloat((dict["height"]! as NSString).floatValue)
-            var bTarget : Bool = false
+            var medium: Medium = GameObjectFactory.getInstance().create(dict["type"]! as! String) as! Medium
+            var x : CGFloat = CGFloat((dict["x"]! as! NSNumber).floatValue)
+            var y : CGFloat = CGFloat((dict["y"]! as! NSNumber).floatValue)
+            y = gameScene.gameArea!.size.height -  y
             
+            var width : CGFloat = CGFloat((dict["width"]! as! NSNumber).floatValue)
+            var height : CGFloat = CGFloat((dict["height"]! as! NSNumber).floatValue)
             
-            if let target = dict["target"]{
-                if target == "true"{
-                    bTarget = true
-                }
+            if medium.getSprite()! is SKSpriteNode{
+                let node = medium.getSprite() as! SKSpriteNode
+                x =  x + node.anchorPoint.x * width
+                y = y + node.anchorPoint.y * height
+            }else if medium.getSprite()! is SKShapeNode{
+                let node = medium.getSprite() as! SKShapeNode
+                y = y + 0.5 * height
             }
-            
             if let name = dict["name"]{
-                medium.name = name
+                medium.name = name as! String
             }
+// ------------ properties--------------
             
+           
+    
             
             medium.initialize(CGSize(width: width, height: height), position: CGPoint(x: x, y: y), gameScene: gameScene)
+          
+            let properties = dict["properties"] as![String: AnyObject]
+            
+            
+            var bTarget : Bool = false
+            if let target = (properties["target"] ){
+                bTarget = (target as! NSString).boolValue
+            }
             if (medium is DestructibleObject){
                 let des = medium as! DestructibleObject
                 des.target = bTarget
-                if let hpStr = dict["hp"] {
-                    des.originHp = CGFloat((hpStr as NSString).floatValue)
+                if let hpStr = properties["hp"] {
+                    des.originHp = CGFloat((hpStr as! NSString).floatValue)
                 }
             }
+            
             if let rotation  = dict["rotation"]{
-                medium.getSprite()!.runAction(SKAction.rotateByAngle(CGFloat((rotation as NSString).floatValue), duration: 0))
+                medium.getSprite()!.runAction(SKAction.rotateByAngle(CGFloat((rotation as! NSNumber).floatValue), duration: 0))
             }
+           
             medium.zIndex = zIndex
             sub.objects.append(medium)
             zIndex += 1

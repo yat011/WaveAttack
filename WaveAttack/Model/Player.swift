@@ -25,6 +25,7 @@ class Player : GameObject{
         
         if newHp < 0 {
             _hp = 0
+            triggerEvent(GameEvent.PlayerDead.rawValue)
         }else if (newHp > oriHp){
             _hp = oriHp
         }else{

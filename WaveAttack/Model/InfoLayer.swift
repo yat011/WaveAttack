@@ -27,7 +27,7 @@ class InfoLayer : SKNode , Clickable{
         
         hpBar = HpBar.createHpBar( CGRect(origin: hpPos, size: barSize) , max: player.oriHp, current: player.hp, belongTo : player)
         self.addChild(hpBar!)
-        
+        hpBar!.label!.hidden = false
         menu = ButtonUI.createButton(CGRect(x: 340, y: 10, width: 50 , height: 25), text: "Menu", onClick: {
             () -> () in
             print("click")

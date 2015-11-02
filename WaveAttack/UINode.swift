@@ -15,6 +15,8 @@ class UINode: SKNode,Draggable{
     var waveButtons :[UIWaveButton] = []
     weak var gameScene: GameScene? = nil
     var cropNode : SKCropNode? = nil
+    var stateLabel :SKLabelNode = SKLabelNode(fontNamed: "Helvetica")
+    var waveButtonsGroup : SKNode? = nil
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -39,23 +41,32 @@ class UINode: SKNode,Draggable{
             //get team list
             character0=chs[i]
             UIWaveButton0 = UIWaveButton(size: CGSize(width: 300, height: 66), position: CGPoint(x: 0, y: 66 * Double(i) + 33), wave:character0.getWave())
-            UIWaveButton0.zPosition=1
+            UIWaveButton0.zPosition=12
             UIWaveButton0.name="UIWaveButton"
             //UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i],y:0)
             waveButtons.append(UIWaveButton0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
             chs[i].waveUI = UIWaveButton0
         }
-        self.addChild(UIWaveButtonGroup)
+        var tempCrop = SKCropNode()
+        var maskNode = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: 300,height: 333.5))
+        maskNode.position = CGPoint(x: 0, y: 166.75)
+            
+        tempCrop.maskNode = maskNode
+        //self.addChild(UIWaveButtonGroup)
+        tempCrop.addChild(UIWaveButtonGroup)
+        tempCrop.zPosition = 12
+        self.addChild(tempCrop)
         
-      
+        
+        
         var UICharacterButton0:UICharacterButton
         let UICharacterButtonGroup=SKNode()
         UICharacterButtonGroup.name="UICharacterButtonGroup"
       
         for i in 0...4
         {
-            UICharacterButton0 = UICharacterButton(size: CGSize(width: 35, height: 35), position: CGPoint(x:-150-35/2 , y: 66 * Double(i) + 33), character: chs[i])
+            UICharacterButton0 = UICharacterButton(size: CGSize(width: 35, height: 35), position: CGPoint(x:-153-35/2 , y: 66 * Double(i) + 33), character: chs[i])
             UICharacterButton0.zPosition=999
             UICharacterButton0.name="UICharacterButton0"
             UICharacterButtonGroup.addChild(UICharacterButton0)
@@ -72,8 +83,10 @@ class UINode: SKNode,Draggable{
         */
         
         
-        
-        let UIBackground = SKSpriteNode(texture: nil, color: UIColor.darkGrayColor(), size: CGSize(width: parent.size.width, height: parent.size.height/2))
+   
+        let UIBackground = SKSpriteNode(imageNamed: "UIBackground")
+        //SKSpriteNode(texture: nil, color: UIColor.darkGrayColor(), size: CGSize(width: parent.size.width, height: parent.size.height/2))
+        UIBackground.size = CGSize(width: parent.size.width, height: parent.size.height/2)
         UIBackground.position=CGPoint(x: 0, y: parent.size.height/4)
         UIBackground.zPosition = -1
         self.addChild(UIBackground)
@@ -82,18 +95,24 @@ class UINode: SKNode,Draggable{
         let UIForeground = SKNode()
         UIForeground.name="UIForeground"
         UIForeground.zPosition=10
-        self.addChild(UIForeground)
+    //    self.addChild(UIForeground)
         
         var c = MathHelper.boundsToCGRect(-parent.size.width/2, x2: -150, y1: 0, y2: parent.size.height/2)
-        var UIForeground0 = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: c.width, height: c.height))
+        var UIForeground0 = SKSpriteNode(imageNamed: "UIBackground")
+        //SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: c.width, height: c.height))
+        UIForeground0.size = CGSize(width: c.width, height: c.height)
         UIForeground0.position=CGPoint(x: c.midX,y: c.midY)
         UIForeground.addChild(UIForeground0)
         c = MathHelper.boundsToCGRect(parent.size.width/2, x2: 150, y1: 0, y2: parent.size.height/2)
         UIForeground0 = SKSpriteNode(texture: nil, color: UIColor.blackColor(), size: CGSize(width: c.width, height: c.height))
         UIForeground0.position=CGPoint(x: c.midX,y: c.midY)
-        UIForeground.addChild(UIForeground0)
+       // UIForeground.addChild(UIForeground0)
         
         
+        let background = SKSpriteNode(texture: nil, color: UIColor(red: 0x42/255, green: 0x42/255, blue: 0x3f/255, alpha: 1), size: CGSize(width: 300, height: 335.5))
+        background.position = CGPoint(x: 0, y: 166.5)
+        self.addChild(background)
+        background .zPosition = -1
         self.timerUI = TimerUI.createInstance()
         self.addChild(self.timerUI!)
         
@@ -106,7 +125,22 @@ class UINode: SKNode,Draggable{
         mask.position = CGPoint(x:0, y:166.5)
         cropNode!.maskNode = mask
         //cropNode!.position = CGPoint(x:-70, y:166.5)
+        //cropNode!.zPosition = 12
+        UIBackground.zPosition = -1
+        background.zPosition = 0
+        
         self.addChild(cropNode!)
+        
+        
+        
+        stateLabel.zPosition = 11
+        stateLabel.text = "Attacking"
+        stateLabel.position = CGPoint(x: 0, y: 166.5)
+        stateLabel.hidden = true
+        self.addChild(stateLabel)
+        
+       // self.zPosition = 1000000
+        
         
     }
 
@@ -115,11 +149,11 @@ class UINode: SKNode,Draggable{
     }
     
     func drawSuperposition()->Wave{
-        let w0=(self.childNodeWithName("UIWaveButtonGroup")!.children[0] as! UIWaveButton)
-        let w1=(self.childNodeWithName("UIWaveButtonGroup")!.children[1] as! UIWaveButton)
-        let w2=(self.childNodeWithName("UIWaveButtonGroup")!.children[2] as! UIWaveButton)
-        let w3=(self.childNodeWithName("UIWaveButtonGroup")!.children[3] as! UIWaveButton)
-        let w4=(self.childNodeWithName("UIWaveButtonGroup")!.children[4] as! UIWaveButton)
+        let w0=waveButtons[0]
+        let w1=waveButtons[1]
+        let w2=waveButtons[2]
+        let w3=waveButtons[3]
+        let w4=waveButtons[4]
         
         //print(w0.waveShapeNode!.position)
         //print(w1.waveShapeNode!.position)
@@ -218,6 +252,7 @@ class UINode: SKNode,Draggable{
         for btn in waveButtons{
             var actions = [SKAction.moveToY(66 * CGFloat(i) + 33, duration: 0),SKAction.scaleYTo(1, duration: 0), SKAction.fadeInWithDuration(0.5)]
             btn.runAction(SKAction.sequence(actions))
+            btn.scroll(CGFloat(rand()) % 300, dy: 0)
             i++
         }
     }

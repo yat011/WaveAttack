@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import CoreData
 
 enum CollisionLayer : UInt32 {
     case GameBoundary = 0x1
@@ -76,6 +77,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
        
         super.init(size: size, viewController:viewController)
+        self.scaleMode = .AspectFit
         selfScene=GameViewController.Scene.GameScene
         //updateTimeInterval = 1.0 / fixedFps33 
         GameScene.current = self
@@ -142,13 +144,20 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         fatalError("init(coder:) has not been implemented")
     }
 
-/*
-    func initControlLayer() -> (){
-        controlLayer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height / 2) )
-        controlLayer.fillColor = SKColor.blueColor()
-        controlLayer.zPosition = 10000
-        
-*/
+    func lateInit(){
+        initControlLayer()
+        var sumhp :CGFloat = 0
+        for ch in character{
+            sumhp += ch.hp
+        }
+        var tplayer = Player(hp: sumhp)
+        self.player = tplayer
+        self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
+       // player?.subscribeEvent(GameEvent.PlayerDead, call: <#T##CallBack##CallBack##(GameObject) -> ()#>)
+        self.addChild(infoLayer!)
+    }
+    
+
     func initControlLayer() -> (){
         let UIN = UINode(position: CGPoint(x: self.size.width/2,y: 0), parent:self)
         controlLayer = UIN
@@ -238,7 +247,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         //////print(medium.path)
         //////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
-        ////print (contact.contactNormal)
+        //print (contact.contactNormal)
         var conPos = medium.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
         // ////print(CGPathContainsPoint(medium.path, nil,temp , true))
         var toward: CGVector = contact.contactPoint - (packet.sprite!.position + gameLayer!.position)
@@ -257,7 +266,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
         }
         var product = contact.contactNormal.dot(packet.direction)
-        if (product >= 0 ){
+        if (product >= -1e-4 ){
             return false
         }else{
             return true
@@ -420,7 +429,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var pressedDestObject : DestructibleObject? = nil
     var prevPressedObj : Clickable? = nil
     var destHpBarSize : CGSize = CGSize(width: 50, height: 10)
-    var destHpBar : HpBar? = nil
+    var destHpBar : SKNode? = nil
     var clearUpNodes = Set<SKNode>()
     var pressedSkill : Skill? = nil
     var dragSkillObj : GameObject? = nil
@@ -446,7 +455,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         // //print("long press on obj")
         var sprite = pressedDestObject!.getSprite()!
         // //print(sprite.position)
-        var hpbar = HpBar.createHpBar(CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 20)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
+        var hpbar = HpLabel(rect: CGRect(origin: convertTouchPointToGameAreaPoint(CGPoint(x: prevTouchPoint!.x - 25 , y: prevTouchPoint!.y + 30)) , size: destHpBarSize), max: pressedDestObject!.originHp, current: pressedDestObject!.hp, belongTo: pressedDestObject!)
+        
+      
+        
+        
         gameLayer?.addChild(hpbar)
         destHpBar = hpbar
         //clearUpNodes.insert(hpbar)
@@ -506,7 +519,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func timeOut(){
         //print("timeOut")
         currentStage = .SuperpositionAnimating
-        
+        self.clearTouch()
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
@@ -514,7 +527,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 () -> () in
                 self.startAttackPhase()
                 self.timerStarted = false
-                self.clearTouch()
+                self.controlLayer!.stateLabel.hidden = false
+                self.controlLayer!.stateLabel.text = "Attacking ..."
+                self.controlLayer!.stateLabel.removeAllActions()
+                var fade = SKAction.fadeAlphaTo(0.5, duration: 1)
+                var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
+                self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
             })
          //   self.spawnWave(resultWave.getAmplitudes())
         
@@ -691,6 +709,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }else if (currentStage == GameStage.Superposition || currentStage == GameStage.Supering) && CGRectContainsPoint(controlRect!, touchDown){ // control Layer
             touchType = TouchType.controlArea
             prevTouchPoint = touchDown
+            for ch in character{
+                if (CGRectContainsPoint(ch.waveUI!.calculateAccumulatedFrame(), (touches.first?.locationInNode(ch.waveUI!.parent!))!))
+                {
+                    //do action
+                    touchType = TouchType.waveButton
+                    dragging=ch.waveUI
+                    break
+                }
+            }
+        /*
             for c in (self.childNodeWithName("UINode")?.childNodeWithName("UIWaveButtonGroup")!.children)!
             {
                 ////print(c.description)
@@ -704,6 +732,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     break
                 }
             }
+*/
       
         }
         //button
@@ -957,15 +986,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
       
     
         if inited == 1{ // init
-            initControlLayer()
-            var sumhp :CGFloat = 0
-            for ch in character{
-                sumhp += ch.hp
-            }
-            var tplayer = Player(hp: sumhp)
-            self.player = tplayer
-            self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
-            self.addChild(infoLayer!)
+            lateInit()
         }
             inited++
         
@@ -973,8 +994,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     func moveWaves(){
         for var each in character{
-            guard each.waveUI !== dragging else{
-                continue
+            if each.waveUI === dragging
+            {
+                if timerStarted == true{
+                    continue
+                }
             }
             each.moveWave()
         }
@@ -984,6 +1008,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func startEnemyPhase (){
         self.currentStage = GameStage.enemy
         gameLayer!.enemyDoAction()
+        self.controlLayer!.stateLabel.text = "Enemy Moving ..."
         //print("start enemy phase")
         
     }
@@ -1003,6 +1028,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         if numRounds > 0{
             controlLayer!.showWaveButtons()
             controlLayer!.timerUI!.resetTimer()
+            controlLayer!.stateLabel.hidden = true
+            
         }
         numRounds += 1
     }
@@ -1044,13 +1071,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             if PlayerInfo.playerInfo!.passMission?.integerValue < mission!.missionId{
                 PlayerInfo.playerInfo!.passMission = mission!.missionId
             }
-            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
-            do{
-                try app.managedObjectContext!.save()
-                //print("saved")
-            }catch{
-                //print("fail")
-            }
+          
+            NSManagedObject.save()
+            controlLayer?.stateLabel.text = "Complete"
             gameLayer!.fadeOutAll({
                 () -> () in
                 
@@ -1072,6 +1095,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
            
         }
         currentStage = GameStage.Temp
+        controlLayer?.stateLabel.text = "Changing Scene ..."
+        
         
         //self.createMissionLabel(self.currentMission + 1)
         gameLayer!.fadeOutAll({
@@ -1083,6 +1108,23 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         })
         
     }
+    func playerDie(){
+         currentStage = GameStage.Complete
+        controlLayer?.stateLabel.text = "You Lose ..."
+        self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
+        self.resultUI!.title!.text = "Mission Failure"
+        self.addChild(self.resultUI!)
+        
+        //numRounds = 20
+        self.resultUI!.showLose({
+            () -> () in
+           
+        })
+
+    }
+    
+    
+    
     func createMissionLabel(current : Int){
 
         createFlashLabel("Mission \(current)/\(mission!.missions.count)")
@@ -1112,33 +1154,6 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     func BackToMenu(){
-        if (GameViewController.current == nil){
-            //print("nil current")
-        }
-        var storyBoard = GameViewController.current?.storyboard
-        if (storyBoard == nil){
-            //print("nil board")
-        }
-        //var main = GameViewController.current?.storyboard?.instantiateViewControllerWithIdentifier("MainMenu")
-        //  GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
-        /*if GameViewController.current!.navigationController == nil{
-        //print("nil nav")
-        }
-        GameViewController.current?.navigationController?.popToViewController(main!, animated: false)*/
-        //GameViewController.current!.seg`
-       // //print(GameViewController.current!.presentedViewController)
-        
-        //GameViewController.current!.dismissViewControllerAnimated(true, completion: nil)
-        
-        // GameViewController.current!.performSegueWithIdentifier("BackToMissions", sender: nil)
-        //GameViewController.current = nil
-        //GameViewController.current!.pop
-        //  GameViewController.current!.show
-        //GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
-        /*  GameViewController.current?.dismissViewControllerAnimated(true, completion: {
-        () -> () in
-        GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
-        })*/
         self.viewController!.sceneTransitionBackward()
     }
     

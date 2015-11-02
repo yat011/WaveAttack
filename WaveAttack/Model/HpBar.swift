@@ -55,7 +55,7 @@ class HpBar : SKShapeNode {
             }else if sender is Player{
                 let temp = sender as! Player
                 wBar!.updateCurrentHp(temp.hp)
-                var first = SKAction.moveByX(2, y: 0, duration: 0.2)
+                var first = SKAction.moveByX(0, y: -5, duration: 0.3)
                 var reverse = first.reversedAction()
                 var actions = [first,reverse]
                 
@@ -75,6 +75,7 @@ class HpBar : SKShapeNode {
         bar.hpBar!.zPosition = 102
         bar.label!.zPosition = 105
         bar.label!.alpha = 1
+        bar.label!.hidden = true
         bar.addChild(bar.label!)
         return bar
     }

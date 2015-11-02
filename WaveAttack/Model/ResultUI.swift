@@ -14,6 +14,7 @@ class ResultUI : SKShapeNode{
     
     var gradeLabel: SKLabelNode? = nil
     var numRoundsLabel : SKLabelNode? = nil
+    var title: SKLabelNode? = nil
     weak var gameScene :GameScene? = nil
     static let GRADE_STR = "Grade %@"
     static let NUM_ROUNDS_STR = "Rounds Used %d"
@@ -26,6 +27,7 @@ class ResultUI : SKShapeNode{
         var label =  SKLabelNode(text: "Mission Complete")
         label.fontName = "Helvetica"
         label.position = CGPoint(x: 0, y:  200)
+        res.title = label
         res.addChild(label)
         
         
@@ -92,6 +94,35 @@ class ResultUI : SKShapeNode{
        // finish()
     }
     
+    func showLose(finish : (()->())){
+        var current = 0
+        var target = gameScene!.numRounds
+        var grades = gameScene!.mission!.gradeDiv
+        var grade  = 0
+        var f :(()->())!
+        f = {() -> () in
+            if current == target{
+                finish()
+                self.numRoundsLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+                self.gradeLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+                self.gradeLabel!.text = String(format: ResultUI.GRADE_STR,  "F")
+                return
+            }else{
+                current += 1
+                self.numRoundsLabel!.text = String (format: ResultUI.NUM_ROUNDS_STR, current )
+                if grade < grades.count && current >= grades[grade] {
+                    grade += 1
+                    self.gradeLabel!.text = String(format: ResultUI.GRADE_STR,  self.gameScene!.grading[grade])
+                    
+                }
+                self.runAction(SKAction.waitForDuration(0.1), completion : f )
+            }
+            
+        }
+        
+        runAction(SKAction.waitForDuration(0.1), completion: f)
+        
+    }
     
     
     

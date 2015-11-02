@@ -61,13 +61,12 @@
 		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
 		549D82B21BDFD18500907150 /* DraggableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82B11BDFD18500907150 /* DraggableNode.swift */; };
 		549D82B41BE211ED00907150 /* MissionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82B31BE211ED00907150 /* MissionButton.swift */; };
-		549D82BA1BE2164F00907150 /* mission3.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B51BE2164F00907150 /* mission3.json */; };
-		549D82BB1BE2164F00907150 /* mission4.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B61BE2164F00907150 /* mission4.json */; };
-		549D82BC1BE2164F00907150 /* mission5.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B71BE2164F00907150 /* mission5.json */; };
-		549D82BD1BE2164F00907150 /* mission6.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B81BE2164F00907150 /* mission6.json */; };
-		549D82BE1BE2164F00907150 /* mission7.json in Resources */ = {isa = PBXBuildFile; fileRef = 549D82B91BE2164F00907150 /* mission7.json */; };
 		549D82C01BE33C3800907150 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82BF1BE33C3800907150 /* sky.png */; };
 		549D82C21BE33CA400907150 /* DaytimeSky.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82C11BE33CA400907150 /* DaytimeSky.png */; };
+		549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82C31BE74E1700907150 /* Burnt Coal Ashes Tiling.png */; };
+		549D82C61BE7532E00907150 /* YellowMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82C51BE7532E00907150 /* YellowMan.swift */; };
+		549D82C81BE7535E00907150 /* YellowMonster.png in Resources */ = {isa = PBXBuildFile; fileRef = 549D82C71BE7535E00907150 /* YellowMonster.png */; };
+		549D82CA1BE79C4500907150 /* HpLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82C91BE79C4500907150 /* HpLabel.swift */; };
 		54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAA1BBA97A70039D744 /* InfoLayer.swift */; };
 		54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAC1BBA9B1F0039D744 /* Player.swift */; };
 		54A55BAF1BBCFB9E0039D744 /* EnemyActable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */; };
@@ -81,12 +80,14 @@
 		54BBD9411BD7F9ED00BAFFA2 /* NotifyNextRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */; };
 		54BBD9431BD94DFB00BAFFA2 /* TimerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */; };
 		54D44C181BD765DD00B24EE6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C161BD765DD00B24EE6 /* Model.xcdatamodeld */; };
-		54D44C1B1BD765F700B24EE6 /* mission2.json in Resources */ = {isa = PBXBuildFile; fileRef = 54D44C191BD765F700B24EE6 /* mission2.json */; };
 		54D44C1C1BD765F700B24EE6 /* MissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1A1BD765F700B24EE6 /* MissionsController.swift */; };
 		54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */; };
 		54D44C201BD7660F00B24EE6 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1F1BD7660F00B24EE6 /* MainMenuController.swift */; };
 		54D44C231BD7661C00B24EE6 /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C211BD7661C00B24EE6 /* PlayerInfo.swift */; };
 		54D44C241BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C221BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift */; };
+		54D6A1FB1BE7B80100B23C65 /* UIBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A1FA1BE7B80100B23C65 /* UIBackground.png */; };
+		54D6A1FD1BE7BCD600B23C65 /* waveBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A1FC1BE7BCD600B23C65 /* waveBtn.png */; };
+		54D6A1FF1BE7D5E400B23C65 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A1FE1BE7D5E400B23C65 /* clock.png */; };
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
@@ -181,13 +182,12 @@
 		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
 		549D82B11BDFD18500907150 /* DraggableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableNode.swift; sourceTree = "<group>"; };
 		549D82B31BE211ED00907150 /* MissionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionButton.swift; sourceTree = "<group>"; };
-		549D82B51BE2164F00907150 /* mission3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission3.json; sourceTree = "<group>"; };
-		549D82B61BE2164F00907150 /* mission4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission4.json; sourceTree = "<group>"; };
-		549D82B71BE2164F00907150 /* mission5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission5.json; sourceTree = "<group>"; };
-		549D82B81BE2164F00907150 /* mission6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission6.json; sourceTree = "<group>"; };
-		549D82B91BE2164F00907150 /* mission7.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission7.json; sourceTree = "<group>"; };
 		549D82BF1BE33C3800907150 /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
 		549D82C11BE33CA400907150 /* DaytimeSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DaytimeSky.png; sourceTree = "<group>"; };
+		549D82C31BE74E1700907150 /* Burnt Coal Ashes Tiling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Burnt Coal Ashes Tiling.png"; sourceTree = "<group>"; };
+		549D82C51BE7532E00907150 /* YellowMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YellowMan.swift; sourceTree = "<group>"; };
+		549D82C71BE7535E00907150 /* YellowMonster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowMonster.png; sourceTree = "<group>"; };
+		549D82C91BE79C4500907150 /* HpLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HpLabel.swift; sourceTree = "<group>"; };
 		54A55BAA1BBA97A70039D744 /* InfoLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLayer.swift; sourceTree = "<group>"; };
 		54A55BAC1BBA9B1F0039D744 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnemyActable.swift; path = ../EnemyActable.swift; sourceTree = "<group>"; };
@@ -201,12 +201,14 @@
 		54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyNextRound.swift; sourceTree = "<group>"; };
 		54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerBar.swift; sourceTree = "<group>"; };
 		54D44C171BD765DD00B24EE6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		54D44C191BD765F700B24EE6 /* mission2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission2.json; sourceTree = "<group>"; };
 		54D44C1A1BD765F700B24EE6 /* MissionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionsController.swift; sourceTree = "<group>"; };
 		54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfirmWindow.swift; path = Model/ConfirmWindow.swift; sourceTree = "<group>"; };
 		54D44C1F1BD7660F00B24EE6 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuController.swift; path = Model/MainMenuController.swift; sourceTree = "<group>"; };
 		54D44C211BD7661C00B24EE6 /* PlayerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerInfo.swift; path = Model/PlayerInfo.swift; sourceTree = "<group>"; };
 		54D44C221BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PlayerInfo+CoreDataProperties.swift"; path = "Model/PlayerInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		54D6A1FA1BE7B80100B23C65 /* UIBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIBackground.png; sourceTree = "<group>"; };
+		54D6A1FC1BE7BCD600B23C65 /* waveBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waveBtn.png; sourceTree = "<group>"; };
+		54D6A1FE1BE7D5E400B23C65 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 			children = (
 				54A55BAE1BBCFB9E0039D744 /* EnemyActable.swift */,
 				5420A5DA1BBE7152000F2E14 /* Snail.swift */,
+				549D82C51BE7532E00907150 /* YellowMan.swift */,
 			);
 			name = Enemy;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
 				54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */,
+				549D82C91BE79C4500907150 /* HpLabel.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -397,6 +401,11 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54D6A1FE1BE7D5E400B23C65 /* clock.png */,
+				54D6A1FC1BE7BCD600B23C65 /* waveBtn.png */,
+				54D6A1FA1BE7B80100B23C65 /* UIBackground.png */,
+				549D82C71BE7535E00907150 /* YellowMonster.png */,
+				549D82C31BE74E1700907150 /* Burnt Coal Ashes Tiling.png */,
 				549D82C11BE33CA400907150 /* DaytimeSky.png */,
 				549D82BF1BE33C3800907150 /* sky.png */,
 				54BBD93E1BD7E0C700BAFFA2 /* ch01.png */,
@@ -448,12 +457,6 @@
 		54F8D8871BB03AAE009E9654 /* mission */ = {
 			isa = PBXGroup;
 			children = (
-				549D82B51BE2164F00907150 /* mission3.json */,
-				549D82B61BE2164F00907150 /* mission4.json */,
-				549D82B71BE2164F00907150 /* mission5.json */,
-				549D82B81BE2164F00907150 /* mission6.json */,
-				549D82B91BE2164F00907150 /* mission7.json */,
-				54D44C191BD765F700B24EE6 /* mission2.json */,
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
 			name = mission;
@@ -654,26 +657,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				549D82BC1BE2164F00907150 /* mission5.json in Resources */,
 				549D82C01BE33C3800907150 /* sky.png in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
-				549D82BA1BE2164F00907150 /* mission3.json in Resources */,
 				54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */,
+				549D82C81BE7535E00907150 /* YellowMonster.png in Resources */,
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
+				54D6A1FD1BE7BCD600B23C65 /* waveBtn.png in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
-				549D82BD1BE2164F00907150 /* mission6.json in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
+				549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
 				549D82C21BE33CA400907150 /* DaytimeSky.png in Resources */,
 				54F8D8901BB05444009E9654 /* mission1.json in Resources */,
 				5420A5E91BC04935000F2E14 /* Oval.png in Resources */,
-				549D82BB1BE2164F00907150 /* mission4.json in Resources */,
-				549D82BE1BE2164F00907150 /* mission7.json in Resources */,
+				54D6A1FB1BE7B80100B23C65 /* UIBackground.png in Resources */,
+				54D6A1FF1BE7D5E400B23C65 /* clock.png in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 				5420A60D1BC572E5000F2E14 /* crack.png in Resources */,
-				54D44C1B1BD765F700B24EE6 /* mission2.json in Resources */,
 				54F8D8981BB1D943009E9654 /* redbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -725,6 +727,8 @@
 				54BBD9431BD94DFB00BAFFA2 /* TimerBar.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
+				549D82C61BE7532E00907150 /* YellowMan.swift in Sources */,
+				549D82CA1BE79C4500907150 /* HpLabel.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
 				54BBD93C1BD7DF5200BAFFA2 /* OwnedCharacter+CoreDataProperties.swift in Sources */,
 				54BBD9291BD7CEB300BAFFA2 /* Team.swift in Sources */,

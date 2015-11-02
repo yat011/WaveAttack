@@ -185,6 +185,11 @@ class GameLayer : SKNode{
         }
     }
     func checkEnemyFinish(){
+        if gameScene!.player?.hp <= 0 {
+            gameScene!.playerDie()
+            return
+        }
+        
         if enermyActionCounter == 0{
             //complete
             gameScene!.startSuperpositionPhase()

@@ -5,73 +5,163 @@
          "terrain": "Air",
          "object": [
                     {
-                    "type": "Soil",
-                    "x": "300",
-                    "y": "-200",
-                    "width": "600",
-                    "height": "600",
+                    "gid":1,
+                    "height":60,
+                    "id":1,
+                    "name":"box",
+                    "properties":
+                    {
+                    "hp":"5000",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"SampleBox",
+                    "visible":true,
+                    "width":60,
+                    "x":48,
+                    "y":571
+                    },
+                    {
+                    "gid":1,
+                    "height":500,
+                    "id":4,
+                    "name":"Soil",
+                    "properties":
+                    {
                     
                     },
+                    "rotation":0,
+                    "type":"Soil",
+                    "visible":true,
+                    "width":921,
+                    "x":-289,
+                    "y":1074
+                    }
                     
-                    {
-                    "type": "Snail",
-                    "x": "150",
-                    "y": "500",
-                    "width": "200",
-                    "height": "100",
-                    "hp": "10000",
-                    "target": "true"
-                    }      ]
-                 },{
+                    ]
+                 },
+                 {
                  "terrain": "Air",
                  "object": [
                             {
-                            "type": "Soil",
-                            "x": "300",
-                            "y": "-200",
-                            "width": "600",
-                            "height": "600",
-                            
-                            },
-                            
+                            "gid":1,
+                            "height":60,
+                            "id":1,
+                            "name":"box",
+                            "properties":
                             {
-                            
-                            "type": "SampleBox",
-                            "x": "100",
-                            "y": "210",
-                            "width": "70",
-                            "height": "200",
-                            "hp": "10000",
+                            "hp":"5000",
+                            "target":"true"
                             },
-                            {
-                            
-                            "type": "SampleBox",
-                            "x": "280",
-                            "y": "210",
-                            "width": "70",
-                            "height": "200",
-                            "hp": "10000",
+                            "rotation":0,
+                            "type":"SampleBox",
+                            "visible":true,
+                            "width":60,
+                            "x":143,
+                            "y":507
                             },
                             {
-                            
-                            "type": "SampleBox",
-                            "x": "200",
-                            "y": "450",
-                            "width": "300",
-                            "height": "50",
-                            "hp": "10000",
-                            },
+                            "gid":1,
+                            "height":500,
+                            "id":4,
+                            "name":"Soil",
+                            "properties":
                             {
                             
-                            "type": "Snail",
-                            "x": "150",
-                            "y": "600",
-                            "width": "200",
-                            "height": "100",
-                            "hp": "10000",
-                            "target": "true"
-                            
-                            }      ]
+                            },
+                            "rotation":0,
+                            "type":"Soil",
+                            "visible":true,
+                            "width":921,
+                            "x":-289,
+                            "y":1074
+                            },
+                            {
+                            "gid":2,
+                            "height":100,
+                            "id":6,
+                            "name":"YellowMan",
+                            "properties":
+                            {
+                            "hp":"12000",
+                            "target":"true"
+                            },
+                            "rotation":0,
+                            "type":"YellowMan",
+                            "visible":true,
+                            "width":100,
+                            "x":122,
+                            "y":177
+                            },
+                            {
+                            "gid":1,
+                            "height":60,
+                            "id":11,
+                            "name":"box",
+                            "properties":
+                            {
+                            "hp":"5000",
+                            "target":"true"
+                            },
+                            "rotation":0,
+                            "type":"SampleBox",
+                            "visible":true,
+                            "width":60,
+                            "x":145,
+                            "y":570
+                            },
+                            {
+                            "gid":1,
+                            "height":60,
+                            "id":12,
+                            "name":"box",
+                            "properties":
+                            {
+                            "hp":"5000",
+                            "target":"true"
+                            },
+                            "rotation":0,
+                            "type":"SampleBox",
+                            "visible":true,
+                            "width":60,
+                            "x":143,
+                            "y":445
+                            },
+                            {
+                            "gid":1,
+                            "height":60,
+                            "id":13,
+                            "name":"box",
+                            "properties":
+                            {
+                            "hp":"5000",
+                            "target":"true"
+                            },
+                            "rotation":0,
+                            "type":"SampleBox",
+                            "visible":true,
+                            "width":60,
+                            "x":143,
+                            "y":383
+                            }, 
+                            {
+                            "gid":1,
+                            "height":139,
+                            "id":14,
+                            "name":"box",
+                            "properties":
+                            {
+                            "hp":"5000",
+                            "target":"true"
+                            },
+                            "rotation":0,
+                            "type":"SampleBox",
+                            "visible":true,
+                            "width":60,
+                            "x":142,
+                            "y":320
+                            }
+                            ]
                  }
                  
   ],

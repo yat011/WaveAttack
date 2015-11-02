@@ -40,6 +40,10 @@ class TransitableScene:SKScene{
             if (touches.count > 0){
                 if let touch = touches.first{
                     touching=true
+/*
+                    let touchPoint=touch.locationInNode(self)   //?
+                    prevPoint=touchPoint
+*/
                     for i in interactables{
                         if i.checkTouch(touch){
                             prevTouch=i
@@ -47,10 +51,18 @@ class TransitableScene:SKScene{
                             break
                         }
                     }
-                    if prevTouch==nil{//touch else
+                    if prevTouch == nil{
                         let touchPoint=touch.locationInNode(self)   //?
                         prevPoint=touchPoint
                     }
+/*
+                    for scroll in scrollable{
+                        if scroll.checkTouch(touch){
+                            prevScroll = scroll
+                            break
+                        }
+                    }
+*/
                     for drag in draggables{
                         if drag.checkTouch(touch){
                             dragNode = drag
@@ -65,19 +77,29 @@ class TransitableScene:SKScene{
         if touchable {
             if (touches.count > 0){
                 if let touch = touches.first{
-                    
                     if prevTouch != nil{
                         if !(prevTouch!.checkTouch(touch)){//moved out of button
                             holdTimer.removeAllActions()
                         }
+                        else{
+                            //onDrag(prevPoint!, p1: touchPoint)
+                        }
                     }
-                    if prevPoint != nil{
+                    else if prevPoint != nil{
                         let touchPoint=touch.locationInNode(self)
                         onDrag(prevPoint!, p1: touchPoint)
                         prevPoint = touchPoint
- 
                     }
-                   
+/*
+                    else if prevScroll != nil{
+                        if !(prevScroll!.checkTouch(touch)){//moved out of button
+                    
+                        }
+                        else{
+                            onScroll(prevPoint!, p1: touchPoint)
+                        }
+                    }
+*/
                 }
             }
         }
@@ -115,21 +137,30 @@ class TransitableScene:SKScene{
     }
 
     func onMove(p0:CGPoint, p1:CGPoint){
-        //prevTouch.onMove()
+        //prevTouch!.onMove()
         if (dragNode != nil){
             var diff:CGVector = p1 - p0
             dragNode!.scroll(diff.dx, dy: diff.dy)
         }
     }
     func onDrag(p0:CGPoint, p1:CGPoint){
-        //prevTouch.onDrag()
-        if (dragNode != nil){
-            var diff:CGVector = p1 - p0
-            dragNode!.scroll(diff.dx, dy: diff.dy)
+        if prevTouch != nil{
+            //prevTouch!.onDrag()
+            //drag component
+        }
+        else{
+            //drag scene
         }
     }
+    func onScroll(p0:CGPoint, p1:CGPoint){
+/*
+        if prevScroll != nil{
+            //prevScroll!.onDrag()
+        }
+*/
+    }
     func onHold(){
-        //prevTouch.onHold()
+        //prevTouch!.onHold()
     }
     
     

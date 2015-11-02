@@ -854,10 +854,18 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         
         gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
+        gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
         controlLayer!.scroll(0, y: newY-self.size.height/2)
 
     }
-    
+    func continueScroll(){
+        if ((dragVelocity != 0) && (touching == false))
+        {
+            scrollLayers(dragVelocity)
+            dragVelocity *= 0.9
+            if (abs(dragVelocity) < 5) {dragVelocity = 0}
+        }
+    }
    
     func setPendingSkill( character : Character){
         if pressedSkill != nil{
@@ -943,12 +951,6 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         
         //smooth scrolling
-        if ((dragVelocity != 0) && (touching == false))
-        {
-            scrollLayers(dragVelocity)
-            dragVelocity *= 0.9
-            if (abs(dragVelocity) < 5) {dragVelocity = 0}
-        }
 
       
     

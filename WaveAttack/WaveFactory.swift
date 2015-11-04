@@ -32,7 +32,7 @@ class WaveFactory {
         class var displace:CGFloat{return CGFloat(0)}
     }
     
-    class Flat:waveComponent{
+    class Line:waveComponent{
         override class var path:CGMutablePathRef{
             let path:CGMutablePathRef=CGPathCreateMutable()
             CGPathMoveToPoint(path, nil, 0, 0)
@@ -89,7 +89,7 @@ class WaveFactory {
         override class var path:CGMutablePathRef{
             let path:CGMutablePathRef=CGPathCreateMutable()
             CGPathMoveToPoint(path, nil, 0, 0)
-            CGPathAddLineToPoint(path, nil, 0, -1)
+            CGPathAddLineToPoint(path, nil, 1, 0)
             CGPathAddLineToPoint(path, nil, 1, -1)
             return path
         }
@@ -142,18 +142,19 @@ class WaveFactory {
     
     
     
-    static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat, directConnect:Bool){
+    static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat){
         
         let prefab:CGMutablePathRef?
-        
+        let verticalAppendFront=false
+        let verticalAppendBack=false
         prefab=stringToPath(waveType)
         
-        let localTransform:CGAffineTransform
+        var localTransform:CGAffineTransform
         let path2:CGMutablePathRef?
         if (prefab != nil)
         {
             localTransform=CGAffineTransformMakeScale(CGFloat(length), height)
-            path2=CGPathCreateMutableCopyByTransformingPath(prefab, PointerHelper.toPointer(&localTransform))!
+            path2=CGPathCreateMutableCopyByTransformingPath(prefab, PointerHelper.toPointer( &localTransform ))!
         }
         else {path2=nil}
         
@@ -178,6 +179,8 @@ class WaveFactory {
     static func typeToClass(waveType:WaveType)->waveComponent?{
         switch (waveType)
         {
+        case .line:
+            return Line()
         case .sine1:
             return Sine1()
         case .sine2:
@@ -197,6 +200,8 @@ class WaveFactory {
     static func typeToPath(waveType:WaveType)->CGMutablePathRef?{
         switch (waveType)
         {
+        case .line:
+            return Line.path
         case .sine1:
             return Sine1.path
         case .sine2:

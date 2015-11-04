@@ -82,6 +82,7 @@ class TeamScene: TransitableScene{
             else if state==states.selectedButton{   //button-slot
                 (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
                 (prevTouch! as! CharacterSlot).updateGraphics()
+                (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
                 state=states.none
             }
             else if state==states.selectedSlot{     //slot-slot

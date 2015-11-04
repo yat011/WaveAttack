@@ -75,7 +75,7 @@ class Wave{
             {
                 for c in componentList
                 {
-                    WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height, directConnect: true)
+                    WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height)
                 }
                 /*
                 WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 50, height: 10, directConnect: true)

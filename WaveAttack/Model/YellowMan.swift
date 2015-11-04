@@ -30,7 +30,7 @@ class YellowMan : DestructibleObject , EnemyActable{
         //TextureTools.getPixelColorAtLocationArray((UIImage(named: "YellowMonster")?.CGImage)!)
         action = DirectAttack()
         action!.initialize(self)
-        (action as! DirectAttack).damage = 600
+        (action as! DirectAttack).damage = 200
         moveRound = 2
         self.triggerEvent(GameEvent.RoundChanged.rawValue)
         sprite!.name = "YellowMan"
@@ -38,8 +38,9 @@ class YellowMan : DestructibleObject , EnemyActable{
         self.propagationSpeed = 1.5
         self.collisionAbsorption = 10
         self.absorptionRate = 0.08
-        print(physContactSprite.position)
-        print(getSprite()!.position)
+      //  print("mass \(self.getSprite()!.physicsBody!.mass)")
+        self.getSprite()!.physicsBody!.density = 0.7
+       // print("mass \(self.getSprite()!.physicsBody!.mass)")
         
     }
     

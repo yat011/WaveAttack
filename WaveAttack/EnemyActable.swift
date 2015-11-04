@@ -31,7 +31,7 @@ extension EnemyActable where Self : DestructibleObject{
             finish()
             return
         }
-        
+       
         currentRound = (currentRound + 1) % moveRound
         
         if currentRound == (moveRound - 1){

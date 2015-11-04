@@ -18,15 +18,18 @@ class HpBar : SKShapeNode {
     var label : SKLabelNode? = nil
     
     static func createHpBar(rect: CGRect, max : CGFloat , current : CGFloat, belongTo : GameObject) -> HpBar{
-        var bar = HpBar(rect: rect, cornerRadius: 2)
+        var bar = HpBar(rectOfSize:  rect.size, cornerRadius: 2)
+        bar.position = rect.origin
        // super.init(rectOfSize: size, cornerRadius: 2)
         print("hpbar rect : \(rect)")
         bar.strokeColor = SKColor.blackColor()
         bar.fillColor = SKColor.blackColor()
+    
         bar.max = max
         bar.current = current
        // bar.hpBar = SKSpriteNode(imageNamed: "redbar")
         bar.hpBar =  SKSpriteNode(color: SKColor.redColor(), size: CGSize())
+        
         var maxWidth = rect.width
         bar.maxWidth = maxWidth
     
@@ -36,8 +39,9 @@ class HpBar : SKShapeNode {
             bar.current = 0
         }
         bar.hpBar!.size = CGSize(width: tempCur / max * maxWidth, height: rect.height)
-        bar.hpBar!.anchorPoint = CGPoint(x: 0,y: 0)
-        bar.hpBar!.position = rect.origin
+        bar.hpBar!.anchorPoint = CGPoint(x: 0,y: 0.5)
+        bar.hpBar!.position = CGPoint(x: -maxWidth/2, y: 0)
+        //bar.hpBar!.position = rect.origin
         //print(bar.hpBar!.position)
         bar.addChild(bar.hpBar!)
         bar.zPosition = 101
@@ -66,11 +70,10 @@ class HpBar : SKShapeNode {
         bar.alpha = 0.6
         bar.label = SKLabelNode(text: String(format: "%.2f / %.2f", bar.current, max))
         bar.label!.fontSize = 11
-        bar.label!.position = CGPoint(x: rect.origin.x + maxWidth, y: rect.origin.y)
+       bar.label!.position = CGPoint(x:  maxWidth/2, y: 0)
         bar.label!.fontColor = SKColor.whiteColor()
-        print ("label \(bar.label!.position)")
         bar.label!.horizontalAlignmentMode = .Right
-        bar.label!.verticalAlignmentMode = .Bottom
+        bar.label!.verticalAlignmentMode = .Center
         bar.label!.fontName = "Helvetica"
         bar.hpBar!.zPosition = 102
         bar.label!.zPosition = 105

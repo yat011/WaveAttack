@@ -167,8 +167,16 @@ class DestructibleObject : Medium {
 //            print("destory")
             die()
         }
+       // SKAction.ap
+      //  packet.direction.normalize()
+       // print(packet.direction)
+        var dir = 0.07 * damage * packet.forceDir * CGVector(dx: packet.direction.dy, dy: -packet.direction.dx)
         
+    //    print(dir)
+        packet.forceDir = -packet.forceDir
+   //     print(damage)
         
+        getSprite()!.physicsBody!.applyImpulse(dir, atPoint: packet.getSprite()!.position)
         
        triggerEvent(GameEvent.HpChanged.rawValue)
         
@@ -236,7 +244,7 @@ class DestructibleObject : Medium {
     
     func shaking(){
         
-   
+   /*
         if (totDmg < 80){
             prevScale =  totDmg * 0.1 / 80
         }else{
@@ -256,7 +264,7 @@ class DestructibleObject : Medium {
             cropCrackUI?.maskNode!.runAction(prevCrackAction!)
         }
         scaled = true
-        
+        */
     }
     
     override func update() {
@@ -358,9 +366,13 @@ class DestructibleObject : Medium {
         var diff :CGVector = selfPos - self.originPoint!
         if self.target{
            
-            
-            
-            dest.hpBar!.position = dest.hpBar!.position + diff
+          //  print(self.getSprite()!.frame)
+            //print(self.getSprite()!.calculateAccumulatedFrame())
+             dest.hpBar!.position = CGPoint(x: selfPos.x, y: selfPos.y - self.getSprite()!.frame.height/2 - 10)
+            //print(dest.hpBar!.position)
+           //dest.hpBar!.position = dest.hpBar!.position + diff
+          //  print(dest.hpBar!.position)
+
             //print(barpos)
             //print(dest.hpBar!.position)
         }

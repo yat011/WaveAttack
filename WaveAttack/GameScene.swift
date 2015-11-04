@@ -540,59 +540,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     var waveData:[CGFloat]?
-    func spawnWave(waveData:[CGFloat]){
-        self.waveData=waveData
-        
-        for i in 0...waveData.count-1{
-            if (i % 6 != 0) {continue}
-           // let p1 = NormalEnergyPacket(abs(waveData[i])*40+1000, position: CGPoint(x: 37.5 + Double(i), y: 50), gameScene :self)
-            //p1.direction = CGVector(dx: 0, dy: 1)
-            //p1.gameLayer = gameLayer
-            //p1.pushBelongTo(gameLayer!.background!)
-            //gameLayer!.addGameObject(p1)
-            
-            
-            
-            //var tempx: CGFloat = (self.size.width - CGFloat(20)) / 20.0
-            //tempx = tempx * CGFloat(i) + 10
-            var sumAttack: CGFloat = 0
-            for ch in character{
-                sumAttack += ch.basicAttackPower
-            }
-            //print("sum \(sumAttack)")
-            let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 2.1, position: CGPoint(x: 37.5 + Double(i), y: 2), gameScene :self)
-            p1.direction = CGVector(dx: 0, dy: 1)
-            p1.gameLayer = gameLayer
-            p1.pushBelongTo(gameLayer!.background!)
-            for obj in gameLayer!.attackPhaseObjects{
-                if obj is Medium{
-                    var medium = obj as! Medium
-                    var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
-                    
-                    //print(mediumPt)
-                    
-                    if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
-                        p1.addBelong(medium)
-                    }
-                }
-            }
-            
-            gameLayer!.addGameObject(p1)
-        }
-        
- 
-        
-        //-----------
-        
-        
-        //-------------
-        startAttackPhase()
-        
-        
-        
-        
-
-    }
+    
     func generatePacket(waveData:[CGFloat],_ i:Int){
         if (i % 6 != 0) {return}
         var sumAttack : CGFloat = 0
@@ -601,6 +549,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         //print("sum \(sumAttack)")
         let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
+        if waveData[i] < 0{
+            p1.forceDir = -1
+        }
         p1.direction = CGVector(dx: 0, dy: 1)
         p1.gameLayer = gameLayer
         p1.pushBelongTo(gameLayer!.background!)

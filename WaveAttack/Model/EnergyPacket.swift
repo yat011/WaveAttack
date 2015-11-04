@@ -13,7 +13,7 @@ class EnergyPacket : GameObject{
 
     let radius : CGFloat = 4
     var physRadius :CGFloat = 2.5
-    var sprite : GameSKShapeNode? = nil
+    var sprite : GameSKSpriteNode? = nil
     var energy : CGFloat = 0
 
     var direction : CGVector = CGVector(dx: 0, dy: 1)
@@ -21,13 +21,16 @@ class EnergyPacket : GameObject{
     weak var gameLayer : GameLayer? = nil
     var deleted: Bool = false
     
-    
+    var forceDir:CGFloat = 1
     
     static let DELETED_EVENT = "deleted"
     static let energyThreshold: CGFloat = 2
     
     var belongTo : [Medium] = []
     var prevBelongTo : [Medium] = []
+    static var texture : SKTexture? = nil
+    
+    
     init(_ energy: CGFloat, position pos : CGPoint, gameScene sc : GameScene) {
        super.init()
        initialize(energy, position: pos, gameScene: sc)
@@ -36,13 +39,43 @@ class EnergyPacket : GameObject{
     
     func initialize(energy: CGFloat, position pos : CGPoint, gameScene sc : GameScene){
         self.energy = energy
-        
-        var rectNode = GameSKShapeNode(circleOfRadius: radius)
+      
+        var rectNode = GameSKSpriteNode(imageNamed: "packet")
+        rectNode.size = CGSize(width: radius * 2 , height: radius * 2)
+       // rectNode.fillColor = SKColor.whiteColor()
+        //rectNode.strokeColor=SKColor.clearColor()
+//        rectNode.lineWidth=0.0
+        rectNode.colorBlendFactor = 1
 
-        rectNode.strokeColor=SKColor.clearColor()
-        rectNode.lineWidth=0.0
+        /*
+        if texture == nil{
+            var rectNode = GameSKShapeNode(circleOfRadius: radius)
+            
+            rectNode.fillColor = SKColor.whiteColor()
+            rectNode.strokeColor=SKColor.clearColor()
+            rectNode.lineWidth=0.0
+            EnergyPacket.GameViewController.skView!.scene!
+                .addChild(rectNode)
+            
+            //temp.hidden = true
+            EnergyPacket.texture  = GameViewController.skView!.textureFromNode(rectNode)
+            
+            // temp.removeFromParent()
+            //texture?.filteringMode = SKTextureFilteringMode.Nearest
+            rectNode.removeFromParent()
+        }
+        var scale:CGFloat = 1
+        print("\(totLen) vs \(texture!.size().width)")
+        scale  = totLen / texture!.size().width
+        if (UIScreen.mainScreen().scale == 2 && scale < 0.6){
+            scale = 0.5
+        }
 
-        
+        //   print(texture)
+        var res = SKSpriteNode(texture: texture, size: CGSize(width: texture!.size().width * scale, height: texture!.size().height * scale))
+        res.anchorPoint = CGPoint(x:0, y:0.5)
+
+        */
         rectNode.name = GameObjectName.Packet.rawValue
         var tempRect = rectNode.frame
         
@@ -65,9 +98,10 @@ class EnergyPacket : GameObject{
         // self.prevDisplacement = CGVector (dx: 0, dy: 0)
         self.sprite!.zPosition = 1.0
         self.gameScene  = sc
-        rectNode.fillColor = getColor()
-        rectNode.strokeColor = getColor()
-        rectNode.antialiased = false
+        rectNode.color = getColor()
+        //rectNode.fillColor = getColor()
+        //rectNode.strokeColor = getColor()
+        //rectNode.antialiased = false
          rectNode.setGameObject(self)
         
         // event
@@ -150,7 +184,7 @@ class EnergyPacket : GameObject{
         if (getBelongTo()! is DestructibleObject){
             var des = getBelongTo()! as! DestructibleObject
             des.calculateDamage(self)
-            sprite!.fillColor = getColor()
+            sprite!.color = getColor()
         }
         
         
@@ -172,6 +206,7 @@ class EnergyPacket : GameObject{
        let speed: CGFloat = CGFloat((self.getBelongTo()?.propagationSpeed)!)
        
         self.direction.normalize()
+       // print(self.direction)
         return CGVector(dx: self.direction.dx * speed, dy: self.direction.dy * speed)
         
     }
@@ -311,7 +346,7 @@ class EnergyPacket : GameObject{
             let rePacket = reflect.doReflection(from: from, to: to, contact: contact)!
             rePacket.energy = rePacket.energy * reflectRatio
             self.gameLayer!.addGameObject(rePacket)
-            rePacket.sprite!.fillColor = rePacket.getColor()
+            rePacket.sprite!.color = rePacket.getColor()
             
             
         }
@@ -322,7 +357,7 @@ class EnergyPacket : GameObject{
         
         cosine = nil
         
-        self.sprite!.fillColor = getColor()
+        self.sprite!.color = getColor()
        
     }
     

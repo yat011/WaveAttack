@@ -19,12 +19,14 @@ class SampleBox : DestructibleObject {
 
         super.initialize(size, position: position, gameScene: gameScene)
         sprite!.name = "box"
-        self.propagationSpeed = 3.2
+        self.propagationSpeed = 1.5
         
         self.collisionAbsorption = 50
  
       
         
+//        sprite!.colorBlendFactor = 1
+  //      sprite!.color = SKColor.greenColor()
     }
     
     

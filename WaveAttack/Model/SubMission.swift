@@ -39,11 +39,30 @@ class SubMission{
             
             var width : CGFloat = CGFloat((dict["width"]! as! NSNumber).floatValue)
             var height : CGFloat = CGFloat((dict["height"]! as! NSNumber).floatValue)
+        
+            //---------------- rotation --- displace---- caculation
+            
+            var radius: CGFloat = 0
+            if let rotation  = dict["rotation"]{
+                radius = CGFloat((rotation as! NSNumber).floatValue) * MathHelper.PI / 180
+                // radius = -radius
+                
+            }
+            
+
             
             if medium.getSprite()! is SKSpriteNode{
                 let node = medium.getSprite() as! SKSpriteNode
-                x =  x + node.anchorPoint.x * width
-                y = y + node.anchorPoint.y * height
+              //  node.anchorPoint = CGPoint()
+                let oriY = 1/2*width
+                let oriX = 1/2*height
+                var deltaY = cos(radius) * oriX - sin(radius) *  oriY
+                var deltaX = sin(radius) * oriX + cos(radius) * oriY
+                
+                
+                x =  x + deltaX
+                y = y + deltaY
+                print(" x \(x) y\(y) ")
             }else if medium.getSprite()! is SKShapeNode{
                 let node = medium.getSprite() as! SKShapeNode
                 y = y + 0.5 * height
@@ -55,8 +74,8 @@ class SubMission{
             
            
     
-            
             medium.initialize(CGSize(width: width, height: height), position: CGPoint(x: x, y: y), gameScene: gameScene)
+            
           
             let properties = dict["properties"] as![String: AnyObject]
             
@@ -65,6 +84,7 @@ class SubMission{
             if let target = (properties["target"] ){
                 bTarget = (target as! NSString).boolValue
             }
+            
             if (medium is DestructibleObject){
                 let des = medium as! DestructibleObject
                 des.target = bTarget
@@ -72,11 +92,8 @@ class SubMission{
                     des.originHp = CGFloat((hpStr as! NSString).floatValue)
                 }
             }
+             medium.getSprite()!.runAction(SKAction.rotateByAngle(-radius, duration: 0))            
             
-            if let rotation  = dict["rotation"]{
-                medium.getSprite()!.runAction(SKAction.rotateByAngle(CGFloat((rotation as! NSNumber).floatValue), duration: 0))
-            }
-           
             medium.zIndex = zIndex
             sub.objects.append(medium)
             zIndex += 1

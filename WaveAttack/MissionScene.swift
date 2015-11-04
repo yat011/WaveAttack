@@ -37,7 +37,16 @@ class MissionScene: TransitableScene{
         for var i = numDisplay  ; i > 0 ; i-- {
             lowest = 200 - CGFloat(posIndex) * 100
             var missionBtn : MissionButton? = nil
-            missionBtn = MissionButton(rect: CGRect(origin: CGPoint(x: 0, y: lowest) , size: CGSize(width: 150, height: 50)), text: Mission.missionList[i]!, onClick: {
+            var btnText:String = ""
+            var missionData = PlayerInfo.getPassedMissionById(i)
+            if missionData == nil{
+                btnText = Mission.missionList[i]!
+            }else{
+                btnText = Mission.missionList[i]! + "  (\(missionData!.grade!))"
+            }
+            
+            
+            missionBtn = MissionButton(rect: CGRect(origin: CGPoint(x: 0, y: lowest) , size: CGSize(width: 150, height: 50)), text: btnText, onClick: {
                 ()->() in
                     GameViewController.currentMissionId = missionBtn!.missionId
                     self.changeScene(GameViewController.Scene.GameScene)

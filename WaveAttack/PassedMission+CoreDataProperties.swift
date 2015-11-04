@@ -1,8 +1,8 @@
 //
-//  PlayerInfo+CoreDataProperties.swift
+//  PassedMission+CoreDataProperties.swift
 //  WaveAttack
 //
-//  Created by yat on 16/10/2015.
+//  Created by yat on 5/11/2015.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,9 +12,10 @@
 import Foundation
 import CoreData
 
-extension PlayerInfo {
+extension PassedMission {
 
-    @NSManaged var passMission: NSNumber?
-    @NSManaged var teams:NSSet?
-    @NSManaged var passedMissions:NSSet?
+    @NSManaged var grade: String?
+    @NSManaged var roundUsed: NSNumber?
+    @NSManaged var missionId: NSNumber?
+
 }

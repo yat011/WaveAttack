@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import UIKit
 
 class PlayerInfo: NSManagedObject {
 
@@ -21,6 +21,25 @@ class PlayerInfo: NSManagedObject {
         }
     }
     
+    static func getPassedMissionById(id :Int) -> PassedMission?{
+        let fetchRequest = NSFetchRequest(entityName: "PassedMission")
+        fetchRequest.predicate = NSPredicate(format: "missionId = %i", id)
+        
+        do{
+            var app = (UIApplication.sharedApplication().delegate as! AppDelegate)
+            
+            
+            let fetchResults:[NSManagedObject] = try app.managedObjectContext!.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+            if (fetchResults.count > 0){
+                return fetchResults[0] as! PassedMission
+            }else{
+                return nil
+            }
+            
+        }catch {
+            return nil
+        }
+    }
     
     
 }

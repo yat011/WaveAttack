@@ -95,6 +95,11 @@
 		54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2051BE7E3D500B23C65 /* redSlime.png */; };
 		54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2061BE7E3D500B23C65 /* yellowSlime.png */; };
 		54E7D3241BEA05D300C6EA57 /* packet.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E7D3231BEA05D300C6EA57 /* packet.png */; };
+		54E7D3261BEA4B1F00C6EA57 /* Hit.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E7D3251BEA4B1F00C6EA57 /* Hit.png */; };
+		54E7D32A1BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E7D3281BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift */; };
+		54E7D32B1BEA65EE00C6EA57 /* PassedMission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E7D3291BEA65EE00C6EA57 /* PassedMission.swift */; };
+		54E7D32D1BEA665E00C6EA57 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E7D32C1BEA665E00C6EA57 /* CoreDataExtension.swift */; };
+		54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */ = {isa = PBXBuildFile; fileRef = 54E7D32E1BEA726C00C6EA57 /* mission2.json */; };
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
@@ -223,6 +228,11 @@
 		54D6A2051BE7E3D500B23C65 /* redSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redSlime.png; sourceTree = "<group>"; };
 		54D6A2061BE7E3D500B23C65 /* yellowSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowSlime.png; sourceTree = "<group>"; };
 		54E7D3231BEA05D300C6EA57 /* packet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = packet.png; sourceTree = "<group>"; };
+		54E7D3251BEA4B1F00C6EA57 /* Hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hit.png; sourceTree = "<group>"; };
+		54E7D3281BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PassedMission+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		54E7D3291BEA65EE00C6EA57 /* PassedMission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassedMission.swift; sourceTree = "<group>"; };
+		54E7D32C1BEA665E00C6EA57 /* CoreDataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
+		54E7D32E1BEA726C00C6EA57 /* mission2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission2.json; sourceTree = "<group>"; };
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
@@ -352,8 +362,7 @@
 		544F055F1BA305CD00AC1BBD /* WaveAttack */ = {
 			isa = PBXGroup;
 			children = (
-				54D44C211BD7661C00B24EE6 /* PlayerInfo.swift */,
-				54D44C221BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift */,
+				54E7D3271BEA65AC00C6EA57 /* CoreData */,
 				54D44C1F1BD7660F00B24EE6 /* MainMenuController.swift */,
 				54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */,
 				54D44C1A1BD765F700B24EE6 /* MissionsController.swift */,
@@ -415,6 +424,7 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54E7D3251BEA4B1F00C6EA57 /* Hit.png */,
 				54E7D3231BEA05D300C6EA57 /* packet.png */,
 				54D6A2001BE7E3D500B23C65 /* characters */,
 				54D6A1FE1BE7D5E400B23C65 /* clock.png */,
@@ -483,9 +493,22 @@
 			path = characters;
 			sourceTree = "<group>";
 		};
+		54E7D3271BEA65AC00C6EA57 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				54D44C211BD7661C00B24EE6 /* PlayerInfo.swift */,
+				54D44C221BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift */,
+				54E7D3281BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift */,
+				54E7D3291BEA65EE00C6EA57 /* PassedMission.swift */,
+				54E7D32C1BEA665E00C6EA57 /* CoreDataExtension.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		54F8D8871BB03AAE009E9654 /* mission */ = {
 			isa = PBXGroup;
 			children = (
+				54E7D32E1BEA726C00C6EA57 /* mission2.json */,
 				54F8D88F1BB05444009E9654 /* mission1.json */,
 			);
 			name = mission;
@@ -689,6 +712,7 @@
 				549D82C01BE33C3800907150 /* sky.png in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */,
+				54E7D3261BEA4B1F00C6EA57 /* Hit.png in Resources */,
 				54E7D3241BEA05D300C6EA57 /* packet.png in Resources */,
 				54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */,
 				549D82C81BE7535E00907150 /* YellowMonster.png in Resources */,
@@ -696,6 +720,7 @@
 				54D6A1FD1BE7BCD600B23C65 /* waveBtn.png in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
+				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */,
@@ -767,6 +792,7 @@
 				549D82CA1BE79C4500907150 /* HpLabel.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
 				54BBD93C1BD7DF5200BAFFA2 /* OwnedCharacter+CoreDataProperties.swift in Sources */,
+				54E7D32A1BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift in Sources */,
 				54BBD9291BD7CEB300BAFFA2 /* Team.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,
 				544B60F01BCA22710064B8AE /* Wave.swift in Sources */,
@@ -802,6 +828,7 @@
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
+				54E7D32B1BEA65EE00C6EA57 /* PassedMission.swift in Sources */,
 				544B60ED1BCA22710064B8AE /* UICharacterButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
@@ -809,6 +836,7 @@
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				5F411C181BD771C10003B89D /* CharacterSlot.swift in Sources */,
 				54A611941BA8212C009299A6 /* Cloneable.swift in Sources */,
+				54E7D32D1BEA665E00C6EA57 /* CoreDataExtension.swift in Sources */,
 				5420A6111BC6747E000F2E14 /* ButtonUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

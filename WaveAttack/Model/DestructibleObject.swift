@@ -60,8 +60,7 @@ class DestructibleObject : Medium {
     var crackUI :SKSpriteNode? = nil
     var cropCrackUI :SKCropNode? = nil
     var completeCrack :Bool = false
-    
-    
+    static var hitTexture: [SKTexture]? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         if getSprite() == nil {
             fatalError("sprite == nil")
@@ -185,7 +184,7 @@ class DestructibleObject : Medium {
     }
     
     
-    func impulseDamage(impulse : CGFloat){
+    func impulseDamage(impulse : CGFloat, contactPt: CGPoint){
         let threshold:CGFloat = 100
         guard impulse > threshold && getSprite() != nil && getSprite()!.physicsBody != nil else{
             return
@@ -194,6 +193,29 @@ class DestructibleObject : Medium {
         
         
         changeHpBy(-damage)
+        if DestructibleObject.hitTexture == nil{
+            var sheet = SKTexture(imageNamed: "Hit")
+            DestructibleObject.hitTexture = []
+            for var i in 0..<4{
+               DestructibleObject.hitTexture!.append(SKTexture(rect: CGRect(origin: CGPoint(x: CGFloat(i) * 0.25, y: 0), size: CGSize(width: 0.25, height: 1)), inTexture: sheet))
+               
+            }
+        }
+        var sheet = SKTexture(imageNamed: "Hit")
+        var animateNode = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: 30, height: 30))
+        //self.getSprite()!.parent!.addChild(animateNode)
+      //  animateNode.position = CGPoint(x: , y: <#T##CGFloat#>)
+        print(contactPt)
+        gameScene!.gameLayer!.addChild(animateNode)
+        animateNode.position = gameScene!.gameLayer!.convertPoint( contactPt, fromNode : gameScene!)
+        animateNode.zPosition = 10000
+        animateNode.size = CGSize(width: 32.5, height: 40)
+      
+        animateNode.runAction( SKAction.animateWithTextures(DestructibleObject.hitTexture!, timePerFrame: 0.1, resize: false, restore: false),completion:{
+            () -> ()in
+            animateNode.removeFromParent()
+        })
+        
         
     }
     

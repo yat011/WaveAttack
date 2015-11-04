@@ -229,12 +229,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         if mA is DestructibleObject{
             let dest = mA as! DestructibleObject
-            dest.impulseDamage(contact.collisionImpulse)
+            dest.impulseDamage(contact.collisionImpulse,contactPt: contact.contactPoint)
             
         }
         if mB is DestructibleObject{
             let dest = mB as! DestructibleObject
-            dest.impulseDamage(contact.collisionImpulse)
+            dest.impulseDamage(contact.collisionImpulse, contactPt: contact.contactPoint)
         }
         
     }
@@ -1022,7 +1022,24 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             if PlayerInfo.playerInfo!.passMission?.integerValue < mission!.missionId{
                 PlayerInfo.playerInfo!.passMission = mission!.missionId
             }
-          
+            var missionObj = PlayerInfo.getPassedMissionById(mission!.missionId)
+            if missionObj == nil{
+                missionObj = NSManagedObject.insertObject("PassedMission") as! PassedMission
+                var set = PlayerInfo.playerInfo!.passedMissions as! NSMutableSet?
+                if set == nil{
+                    set = NSMutableSet()
+                    PlayerInfo.playerInfo!.passedMissions = set
+                }
+                set!.addObject(missionObj!)
+            }
+            if missionObj!.roundUsed == nil || missionObj!.roundUsed!.integerValue < self.numRounds{
+                missionObj!.roundUsed = numRounds
+                missionObj!.grade = getGrade()
+                missionObj!.missionId = mission!.missionId
+            }
+            
+            
+            
             NSManagedObject.save()
             controlLayer?.stateLabel.text = "Complete"
             gameLayer!.fadeOutAll({
@@ -1059,6 +1076,22 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         })
         
     }
+    
+    func getGrade() -> String{
+        
+        var grades = mission!.gradeDiv
+     
+        for var i = 0 ; i < grades.count ; i++ {
+            print(grades[i])
+            if numRounds < grades[i]{
+                return grading[i]
+            }
+            
+            
+        }
+        return  "F"
+    }
+    
     func playerDie(){
          currentStage = GameStage.Complete
         controlLayer?.stateLabel.text = "You Lose ..."

@@ -28,25 +28,33 @@ class UINode: SKNode,Draggable{
         UIWaveButtonGroup.name="UIWaveButtonGroup"
         var temppos :[CGFloat] = [-415, -547,-562,-565,-569]
        
-        var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
-        //print(characters.count)
-        var chs : [Character] = []
+        var characters = PlayerInfo.team.characters?.allObjects
+        print(characters!.count)
+        var chs : [Character?] = []
         
         for i in 0...4 {
-            chs.append( CharacterManager.getCharacterByID(characters[i].characterId!.integerValue)!)
+            var current = PlayerInfo.getCharacterAt(i)
+            if (current == nil){
+                chs.append(nil)
+                continue
+            }
+            chs.append( CharacterManager.getCharacterByID(current!.characterId!.integerValue)!)
         }
          parent.character = chs
         for i in 0...4
         {
             //get team list
-            character0=chs[i]
+            if (chs[i] == nil){
+                continue
+            }
+            character0=chs[i]!
             UIWaveButton0 = UIWaveButton(size: CGSize(width: 300, height: 66), position: CGPoint(x: 0, y: 66 * Double(i) + 33), wave:character0.getWave())
             UIWaveButton0.zPosition=12
             UIWaveButton0.name="UIWaveButton"
             //UIWaveButton0.waveShapeNode!.position = CGPoint(x: temppos[i],y:0)
             waveButtons.append(UIWaveButton0)
             UIWaveButtonGroup.addChild(UIWaveButton0)
-            chs[i].waveUI = UIWaveButton0
+            chs[i]!.waveUI = UIWaveButton0
         }
         var tempCrop = SKCropNode()
         var maskNode = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: 300,height: 333.5))
@@ -66,6 +74,9 @@ class UINode: SKNode,Draggable{
       
         for i in 0...4
         {
+            if (chs[i] == nil){
+                return
+            }
             UICharacterButton0 = UICharacterButton(size: CGSize(width: 35, height: 35), position: CGPoint(x:-153-35/2 , y: 66 * Double(i) + 33), character: chs[i])
             UICharacterButton0.zPosition=999
             UICharacterButton0.name="UICharacterButton0"

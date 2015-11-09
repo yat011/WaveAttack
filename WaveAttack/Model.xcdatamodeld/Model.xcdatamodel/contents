@@ -2,6 +2,8 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9048" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
     <entity name="OwnedCharacter" representedClassName=".OwnedCharacter" syncable="YES">
         <attribute name="characterId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="teamPosition" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="belongTo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="characters" inverseEntity="Team" syncable="YES"/>
     </entity>
     <entity name="PassedMission" representedClassName=".PassedMission" syncable="YES">
         <attribute name="grade" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,12 +16,12 @@
         <relationship name="teams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Team" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName=".Team" syncable="YES">
-        <relationship name="characters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OwnedCharacter" syncable="YES"/>
+        <relationship name="characters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OwnedCharacter" inverseName="belongTo" inverseEntity="OwnedCharacter" syncable="YES"/>
     </entity>
     <elements>
-        <element name="OwnedCharacter" positionX="-252" positionY="27" width="128" height="58"/>
-        <element name="PlayerInfo" positionX="-56" positionY="41" width="128" height="90"/>
-        <element name="Team" positionX="-326" positionY="180" width="128" height="58"/>
+        <element name="OwnedCharacter" positionX="-252" positionY="27" width="128" height="88"/>
         <element name="PassedMission" positionX="-128" positionY="252" width="128" height="88"/>
+        <element name="PlayerInfo" positionX="-56" positionY="41" width="128" height="88"/>
+        <element name="Team" positionX="-326" positionY="180" width="128" height="58"/>
     </elements>
 </model>

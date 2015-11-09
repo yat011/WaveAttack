@@ -67,7 +67,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
     let grading = ["S","A","B","C","D","E","F"]
-    var character : [Character] = []
+    var character : [Character?] = []
     var inited : Int = 0 //for texture
 
 
@@ -148,7 +148,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         initControlLayer()
         var sumhp :CGFloat = 0
         for ch in character{
-            sumhp += ch.hp
+            guard ch != nil else{continue}
+            sumhp += ch!.hp
         }
         var tplayer = Player(hp: sumhp)
         self.player = tplayer
@@ -545,7 +546,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         if (i % 6 != 0) {return}
         var sumAttack : CGFloat = 0
         for ch in character{
-            sumAttack += ch.basicAttackPower
+            guard ch != nil else{continue}
+            sumAttack += ch!.basicAttackPower
         }
         //print("sum \(sumAttack)")
         let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
@@ -661,11 +663,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             touchType = TouchType.controlArea
             prevTouchPoint = touchDown
             for ch in character{
-                if (CGRectContainsPoint(ch.waveUI!.calculateAccumulatedFrame(), (touches.first?.locationInNode(ch.waveUI!.parent!))!))
+                guard ch != nil else{continue}
+                if (CGRectContainsPoint(ch!.waveUI!.calculateAccumulatedFrame(), (touches.first?.locationInNode(ch!.waveUI!.parent!))!))
                 {
                     //do action
                     touchType = TouchType.waveButton
-                    dragging=ch.waveUI
+                    dragging=ch!.waveUI
                     break
                 }
             }
@@ -947,13 +950,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     func moveWaves(){
         for var each in character{
-            if each.waveUI === dragging
+            guard each != nil else{continue}
+            if each!.waveUI === dragging
             {
                 if timerStarted == true{
                     continue
                 }
             }
-            each.moveWave()
+            each!.moveWave()
         }
     }
     
@@ -976,7 +980,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         self.currentStage = GameStage.Superposition
         //print("start superposition")
         for var each in self.character{
-            each.nextRound()
+            guard each != nil else{continue}
+            each!.nextRound()
         }
         if numRounds > 0{
             controlLayer!.showWaveButtons()

@@ -50,6 +50,7 @@ class CharacterManager{
                 var skill  = c["skill"]
                 if skill != nil{
                     character.skill = GameObjectFactory.getInstance().create(skill as! String) as! Skill
+                    
                     character.round = JSONHelper.getValue(c,key: "skillRound").integerValue
                 }
                 character.minSpeed = CGFloat(JSONHelper.getValue(c, key: "minSpeed").floatValue)

@@ -11,8 +11,10 @@ import SpriteKit
 
 class CharacterButton:SKSpriteNode,Interactable{
     var character:Character
-    init(x:Int, y:Int, character:Character) {
+    var ownedCharacter : OwnedCharacter? = nil
+    init(x:Int, y:Int, character:Character, owned:OwnedCharacter) {
         self.character=character
+        self.ownedCharacter = owned
         super.init(texture: nil, color: UIColor.cyanColor(), size: CGSize(width: 40, height: 40))
         updateGraphics()
         self.position=CGPoint(x: x, y: y)

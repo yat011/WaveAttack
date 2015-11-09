@@ -38,9 +38,13 @@ class TeamScene: TransitableScene{
         //centeredNode.addChild(clickNodes)
         self.addChild(timer)
         centeredNode.addChild(characterButtonGroup)
-        for c in CharacterManager.characters!{
+        
+        
+        var ownedCharacters = PlayerInfo.getAllOwnedCharacter()
+        for c in ownedCharacters{
             //make buttons
-            let cb=CharacterButton(x: buttonX,y: buttonY,character: c)
+            var character = CharacterManager.getCharacterByID(c.characterId!.integerValue)
+            let cb=CharacterButton(x: buttonX,y: buttonY,character: character!, owned: c)
             cb.name="CharacterButton"
             //cb.character=c
             characterButtonGroup.addChild(cb)
@@ -80,21 +84,43 @@ class TeamScene: TransitableScene{
                 state=states.selectedSlot
             }
             else if state==states.selectedButton{   //button-slot
-                (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
-                (prevTouch! as! CharacterSlot).updateGraphics()
-                (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
+                
+                let slot = (prevTouch! as! CharacterSlot)
+                let btn = (selected! as! CharacterButton)
+                if  PlayerInfo.checkInTeam(btn.ownedCharacter!) == false{
+                    PlayerInfo.changeTeamCharacter(slot.slot, character: btn.ownedCharacter!)
+                    
+                    (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
+                    (prevTouch! as! CharacterSlot).updateGraphics()
+                    (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
+                    
+                    
+                }else{
+                    print("using")
+                }
                 state=states.none
             }
             else if state==states.selectedSlot{     //slot-slot
                 if (selected! as! CharacterSlot) === (prevTouch! as! CharacterSlot) {       //cancel select
+                    let slot = (selected! as! CharacterSlot)
+                    PlayerInfo.changeTeamCharacter(slot.slot, character: nil)
                     (selected! as! CharacterSlot).character=nil
                     (selected! as! CharacterSlot).updateGraphics()
                     selected=nil
                 }
-                else{
-                    let tempChar = (prevTouch! as! CharacterSlot).character!
-                    (prevTouch! as! CharacterSlot).character = (selected! as! CharacterSlot).character!
+                else{ // swap
+                    let prevSlot = (prevTouch! as! CharacterSlot)
+                    let selectedSlot = (selected! as! CharacterSlot)
+                    
+                    let tempChar = (prevTouch! as! CharacterSlot).character
+                    (prevTouch! as! CharacterSlot).character = (selected! as! CharacterSlot).character
                     (selected! as! CharacterSlot).character = tempChar
+                    
+                    let prevOwned = PlayerInfo.getCharacterAt(prevSlot.slot)
+                    let currentOwned = PlayerInfo.getCharacterAt(selectedSlot.slot)
+                    PlayerInfo.changeTeamCharacter(prevSlot.slot, character: currentOwned)
+                    PlayerInfo.changeTeamCharacter(selectedSlot.slot, character: prevOwned)
+                    
                     (prevTouch! as! CharacterSlot).updateGraphics()
                     (selected! as! CharacterSlot).updateGraphics()
                 }
@@ -117,11 +143,24 @@ class TeamScene: TransitableScene{
                 }
             }
             else if state==states.selectedSlot{     //slot-button
-                (selected! as! CharacterSlot).character = (prevTouch! as! CharacterButton).character
-                (selected! as! CharacterSlot).updateGraphics()
+                let slot = (selected! as! CharacterSlot)
+                let btn = (prevTouch! as! CharacterButton)
+                if  PlayerInfo.checkInTeam(btn.ownedCharacter!) == false{
+                    PlayerInfo.changeTeamCharacter(slot.slot, character: btn.ownedCharacter!)
+                
+               //     (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
+                    (selected! as! CharacterSlot).character = (prevTouch! as! CharacterButton).character
+                    (selected! as! CharacterSlot).updateGraphics()
+                   // state=states.none
+
+                }else{
+                    print("using")
+                }
                 state=states.none
+                
             }
         }
+        PlayerInfo.save()
         prevTouch=nil
     }
     override func onDrag(p0:CGPoint, p1:CGPoint){

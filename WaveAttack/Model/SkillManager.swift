@@ -13,4 +13,9 @@ class SkillManager{
     static func getSkillByID(ID:Int)->Skill?{
         return nil
     }
+    
+    
+    static func initializeSkill(skill:Skill, dict :Dictionary<String, AnyObject>){
+        
+    }
 }

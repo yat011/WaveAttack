@@ -9,7 +9,7 @@
 import Foundation
 
 class Skill: GameObject{
-    func perform(){
+    func perform(gameScene:GameScene){
         
     }
     

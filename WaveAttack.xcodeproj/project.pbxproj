@@ -53,6 +53,7 @@
 		54553E3C1BA6FE9200A38B18 /* box.png in Resources */ = {isa = PBXBuildFile; fileRef = 54553E3B1BA6FE9200A38B18 /* box.png */; };
 		546F54131BA32DE400EB576B /* NormalEnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */; };
 		546F54151BA32E1F00EB576B /* Refractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F54141BA32E1F00EB576B /* Refractable.swift */; };
+		547322E41BF0962900FC2925 /* HealSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547322E31BF0962900FC2925 /* HealSkill.swift */; };
 		5474C5641BA321A30015C861 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5631BA321A30015C861 /* GameObject.swift */; };
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
@@ -186,6 +187,7 @@
 		54553E3B1BA6FE9200A38B18 /* box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box.png; sourceTree = "<group>"; };
 		546F54121BA32DE400EB576B /* NormalEnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalEnergyPacket.swift; sourceTree = "<group>"; };
 		546F54141BA32E1F00EB576B /* Refractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Refractable.swift; path = Model/Refractable.swift; sourceTree = "<group>"; };
+		547322E31BF0962900FC2925 /* HealSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealSkill.swift; sourceTree = "<group>"; };
 		5474C5631BA321A30015C861 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				5420A5EB1BC05206000F2E14 /* Skill.swift */,
 				5420A5ED1BC05915000F2E14 /* ConvexLenSkill.swift */,
 				5F01C9EB1BD4A8850003C711 /* SkillManager.swift */,
+				547322E31BF0962900FC2925 /* HealSkill.swift */,
 			);
 			name = Skill;
 			path = Model;
@@ -792,6 +795,7 @@
 				549D82CA1BE79C4500907150 /* HpLabel.swift in Sources */,
 				5420A6041BC38542000F2E14 /* ActRoundLabel.swift in Sources */,
 				54BBD93C1BD7DF5200BAFFA2 /* OwnedCharacter+CoreDataProperties.swift in Sources */,
+				547322E41BF0962900FC2925 /* HealSkill.swift in Sources */,
 				54E7D32A1BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift in Sources */,
 				54BBD9291BD7CEB300BAFFA2 /* Team.swift in Sources */,
 				5420A60F1BC589A8000F2E14 /* TextureTools.swift in Sources */,

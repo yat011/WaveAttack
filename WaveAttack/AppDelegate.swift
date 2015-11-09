@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PlayerInfo._playerInfo = fetchResults[0]
               // var team =  NSManagedObject.getObjects("Team") as! [Team]
               //  print(team[0].relationship!.count)
-                print(PlayerInfo._playerInfo?.teams!.count)
+                
             }else{
                 print("no existing data")
                 let newItem = NSEntityDescription.insertNewObjectForEntityForName("PlayerInfo", inManagedObjectContext: self.managedObjectContext!) as! PlayerInfo
@@ -39,14 +39,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 var team = NSManagedObject.insertObject("Team") as! Team
                 var charactes:[OwnedCharacter] = []
+               
                 for var i in 0...4{
                     var ch = NSManagedObject.insertObject("OwnedCharacter")
                     var ch2 = ch as! OwnedCharacter
-                   ch2.characterId = 0
-                    charactes.append(ch2)
+                    ch2.teamPosition = i
+                   ch2.characterId = i
+//                    charactes.append(ch2)
                 }
-                team.characters = NSSet(array: charactes)
-                PlayerInfo._playerInfo!.teams = NSSet(object: team)
+
+                team.characters = NSMutableSet(array: charactes)
+                PlayerInfo._playerInfo!.teams = NSMutableSet(object: team)
                 NSManagedObject.save()
             }
             Mission.initMissionList()

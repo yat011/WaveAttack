@@ -15,5 +15,8 @@ import CoreData
 extension OwnedCharacter {
 
     @NSManaged var characterId: NSNumber?
+    @NSManaged var teamPosition: NSNumber?
+    @NSManaged var belongTo: NSManagedObject?
 
+    
 }

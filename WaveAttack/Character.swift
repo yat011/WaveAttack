@@ -70,7 +70,7 @@ class Character : GameObject{
         
         
         if (skill! is SimpleSkill){
-            skill!.perform()
+            skill!.perform(GameScene.current!)
             resetRound()
         }else{
             GameScene.current!.setPendingSkill(self)

@@ -40,7 +40,7 @@ class VerticalDraggableNode: SKCropNode , Draggable{
 
     
     
-    
+    var velocity:CGFloat=0
     func scroll(dx: CGFloat, dy: CGFloat) {
         var newPos = CGPoint(x: content.position.x, y: content.position.y + dy)
         if (newPos.y < lowerBound){
@@ -49,11 +49,18 @@ class VerticalDraggableNode: SKCropNode , Draggable{
             newPos = CGPoint(x:content.position.x, y: upperBound)
 
         }
-        
-        
+        velocity=dy
         content.runAction(SKAction.moveTo(newPos, duration: 0))
+        content.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
         
-        
+    }
+    
+    func continueScroll(){
+        velocity *= 0.9
+        if abs(velocity) < 1{
+            velocity=0
+        }
+        else{scroll(0, dy:velocity)}
     }
     
     func checkTouch(touch: UITouch) -> Bool {

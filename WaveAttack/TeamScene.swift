@@ -52,11 +52,10 @@ class TeamScene: TransitableScene{
             }
             interactables.append(cb)
         }
-        var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
         for i in 0..<5{
             //make slots
             
-            let cs=CharacterSlot(x: -120+60*i,y: 600,character: CharacterManager.getCharacterByID(characters[i].characterId!.integerValue))
+            let cs=CharacterSlot(x: -120+60*i,y: 600, slot:i)
             cs.name="CharacterSlot"
             centeredNode.addChild(cs)
             interactables.append(cs)
@@ -83,6 +82,7 @@ class TeamScene: TransitableScene{
             else if state==states.selectedButton{   //button-slot
                 (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
                 (prevTouch! as! CharacterSlot).updateGraphics()
+                (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
                 state=states.none
             }
             else if state==states.selectedSlot{     //slot-slot
@@ -134,19 +134,13 @@ class TeamScene: TransitableScene{
         //prevTouch!.hold()
         if(prevTouch?.getClass()=="CharacterButton"){
             touchable=false
-
             prevTouch!.onHold()
-            //viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
-            //viewController.sceneTransitionSK(prevScene, c: (prevTouch! as! CharacterButton).character)
         }
         else if (prevTouch?.getClass()=="CharacterSlot"){
             if ((prevTouch! as! CharacterSlot).character != nil){
                 touchable=false
                 prevTouch!.onHold()
             }
-            //viewController.sceneTransitionSK(selfScene, nextScene:CharScene(size: self.size, viewController: viewController))
-
-            //viewController.showCharScene(prevScene, c: (prevTouch! as! CharacterSlot).character!)
         }
     }
     

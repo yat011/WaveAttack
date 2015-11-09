@@ -40,7 +40,7 @@ class CharacterManager{
                     
                     wave.componentList.append(Wave.waveComponent(type: JSONHelper.getValue(w, key: "type").description, length: JSONHelper.getValue(w, key: "length").integerValue, height: CGFloat(JSONHelper.getValue(w, key: "height").integerValue)))
                 }
-                
+                wave.fixVertical()
                 character.ID=JSONHelper.getValue(c, key: "characterID").integerValue
                 character.name=JSONHelper.getValue(c, key: "name").description
                 character.lore=JSONHelper.getValue(c, key: "lore").description

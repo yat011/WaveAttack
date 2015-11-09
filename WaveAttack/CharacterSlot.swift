@@ -11,8 +11,11 @@ import SpriteKit
 
 class CharacterSlot:SKSpriteNode,Interactable{
     var character:Character?
-    init(x:Int, y:Int, character:Character?) {
-        self.character=character
+    var slot:Int
+    init(x:Int, y:Int, slot:Int) {
+        var characters = (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team).characters!.allObjects as! [OwnedCharacter]
+        self.character=CharacterManager.getCharacterByID(characters[slot].characterId!.integerValue)
+        self.slot=slot
         super.init(texture: nil, color: UIColor.greenColor(), size: CGSize(width: 40, height: 40))
         updateGraphics()
         self.position=CGPoint(x: x, y: y)

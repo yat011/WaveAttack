@@ -25,7 +25,7 @@ class UIWaveButton : SKCropNode,Draggable {
         //let tileTexture = UIWaveButtonTexture(texture: SKTexture(imageNamed: "box"), color: UIColor.clearColor(), size: size)
         waveShapeNode=wave.getShape()
         waveShapeNode!.position.x=CGFloat(random()%wave.length)-CGFloat(wave.length*2)
-        print(waveShapeNode)
+        waveShapeNode!.zPosition = 100000
         let path:CGMutablePathRef=CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, 0, 0)
         CGPathAddLineToPoint(path, nil, 300, 0)

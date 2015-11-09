@@ -41,27 +41,65 @@ class Wave{
     
     init(){
         componentList=[waveComponent]()
-        ///*
         length=300
-        
-       // componentList.append(waveComponent(type: "sine1", length: 50, height: 10))
-       // componentList.append(waveComponent(type: "sine2", length: 100, height: 10))
-       // componentList.append(waveComponent(type: "sine1", length: 100, height: -10))
-        //componentList.append(waveComponent(type: "sine2", length: 50, height: -10))
-        //*/
-        /*
-        length=400
-        componentList.append(waveComponent(type: "sine1", length: 50, height: 5))
-        componentList.append(waveComponent(type: "sine2", length: 50, height: -5))
-        componentList.append(waveComponent(type: "sine1", length: 50, height: 5))
-        componentList.append(waveComponent(type: "sine2", length: 50, height: 5))
-        componentList.append(waveComponent(type: "sine1", length: 50, height: -5))
-        componentList.append(waveComponent(type: "sine2", length: 50, height: 5))
-        componentList.append(waveComponent(type: "sine1", length: 50, height: -5))
-        componentList.append(waveComponent(type: "sine2", length: 50, height: -5))
-        */
     }
     
+    func fixVertical(){
+        var count=componentList.count
+        var i=0
+        while i != count{
+            let c=componentList[i]
+            if c.type=="saw1"{
+                c.type="line"
+                if c.length>1{
+                    componentList.insert(waveComponent(type: "line", length: 1, height: c.height), atIndex: i)
+                    c.length--
+                    c.height = -(c.height)
+                    i++
+                    count++
+                }
+                else{
+                    c.height=0
+                }
+            }
+            else if c.type=="saw2"{
+                c.type="line"
+                if c.length>1{
+                    componentList.insert(waveComponent(type: "line", length: 1, height: -(c.height)), atIndex: i+1)
+                    c.length--
+                    i++
+                    count++
+                }
+                else{
+                    c.height=0
+                }
+            }
+            else if c.type=="square1"{
+                c.type="line"
+                if c.length>1{
+                    componentList.insert(waveComponent(type: "line", length: 1, height: c.height), atIndex: i)
+                    c.length--
+                    c.height=0
+                    i++
+                    count++
+                }
+            }
+            else if c.type=="square2"{
+                c.type="line"
+                if c.length>1{
+                    componentList.insert(waveComponent(type: "line", length: 1, height: -(c.height)), atIndex: i+1)
+                    c.length--
+                    c.height=0
+                    i++
+                    count++
+                }
+                else{
+                    c.height = -(c.height)
+                }
+            }
+            i++
+        }
+    }
     
     func genShape()->SKNode{
         let path:CGMutablePathRef=CGPathCreateMutable()
@@ -77,39 +115,19 @@ class Wave{
             {
                 for c in componentList
                 {
-                    WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height, directConnect: true)
+
+                    WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height)
                     totLen = totLen + CGFloat(c.length)
                 }
-                /*
-                WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 50, height: 10, directConnect: true)
-                WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 100, height: 10, directConnect: true)
-                WaveFactory.addPath(path, transform: &transform, waveType: "sine1", length: 100, height: -10, directConnect: true)
-                WaveFactory.addPath(path, transform: &transform, waveType: "sine2", length: 50, height: -10, directConnect: true)
-                */
             }
         }
-/*
-        var test=[CGFloat]()
-        for _ in 1...100{
-            test.append(CGFloat(random()%50))
-        }
-        //var test=getAmplitudes()
-        /*
-        for i in 0...test.count-1{
-            let j=random()%test.count
-            var temp=test[j]
-            test[j]=test[i]
-            test[i]=temp
-        }
-        */
-        CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(test))
-*/
         
         if texture == nil{
             
             var temp = SKShapeNode(path: path)
             temp.strokeColor = SKColor.cyanColor()
-            temp.lineWidth = 1.5
+            temp.lineWidth = 1.0
+            
             temp.zPosition = -1000
           //  temp.position = CGPoint(x: 0, y: 0)
            
@@ -129,7 +147,7 @@ class Wave{
         if (UIScreen.mainScreen().scale == 2 && scale < 0.6){
             scale = 0.5
         }
-     //   print(texture)
+       print(texture)
         var res = SKSpriteNode(texture: texture, size: CGSize(width: texture!.size().width * scale, height: texture!.size().height * scale))
         res.anchorPoint = CGPoint(x:0, y:0.5)
         

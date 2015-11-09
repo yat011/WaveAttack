@@ -12,7 +12,7 @@ class WaveFactory {
     
     enum WaveType:String{
         case custom = "custom"
-        case flat = "flat"
+        case line = "line"
         case sine1 = "sine1"
         case sine2 = "sine2"
         case square1 = "square1"
@@ -32,6 +32,19 @@ class WaveFactory {
         class var displace:CGFloat{return CGFloat(0)}
     }
     
+    class Line:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathMoveToPoint(path, nil, 1, 1)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return x
+        }
+        override class var start:CGFloat{return CGFloat(0)}
+        override class var displace:CGFloat{return CGFloat(1)}
+    }
     class Sine1:waveComponent{
         override class var path:CGMutablePathRef{
             let path:CGMutablePathRef=CGPathCreateMutable()
@@ -58,6 +71,62 @@ class WaveFactory {
         override class var start:CGFloat{return CGFloat(1)}
         override class var displace:CGFloat{return CGFloat(-1)}
     }
+    class Square1:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 0, 1)
+            CGPathAddLineToPoint(path, nil, 1, 1)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return 1
+        }
+        override class var start:CGFloat{return CGFloat(0)}
+        override class var displace:CGFloat{return CGFloat(1)}
+    }
+    class Square2:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 1, 0)
+            CGPathAddLineToPoint(path, nil, 1, -1)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return 1
+        }
+        override class var start:CGFloat{return CGFloat(1)}
+        override class var displace:CGFloat{return CGFloat(-1)}
+    }
+    class Saw1:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 1, 1)
+            CGPathAddLineToPoint(path, nil, 1, 0)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return x
+        }
+        override class var start:CGFloat{return CGFloat(0)}
+        override class var displace:CGFloat{return CGFloat(0)}
+    }
+    class Saw2:waveComponent{
+        override class var path:CGMutablePathRef{
+            let path:CGMutablePathRef=CGPathCreateMutable()
+            CGPathMoveToPoint(path, nil, 0, 0)
+            CGPathAddLineToPoint(path, nil, 0, 1)
+            CGPathAddLineToPoint(path, nil, 1, 0)
+            return path
+        }
+        override class func getAmp(x:CGFloat)->CGFloat{
+            return 1-x
+        }
+        override class var start:CGFloat{return CGFloat(0)}
+        override class var displace:CGFloat{return CGFloat(0)}
+    }
     
     static func customWave(data:[CGFloat])->CGMutablePathRef{
         let path:CGMutablePathRef=CGPathCreateMutable()
@@ -73,18 +142,19 @@ class WaveFactory {
     
     
     
-    static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat, directConnect:Bool){
+    static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat){
         
         let prefab:CGMutablePathRef?
-        
+        let verticalAppendFront=false
+        let verticalAppendBack=false
         prefab=stringToPath(waveType)
         
-        let localTransform:CGAffineTransform
+        var localTransform:CGAffineTransform
         let path2:CGMutablePathRef?
         if (prefab != nil)
         {
             localTransform=CGAffineTransformMakeScale(CGFloat(length), height)
-            path2=CGPathCreateMutableCopyByTransformingPath(prefab, PointerHelper.toPointer(&localTransform))!
+            path2=CGPathCreateMutableCopyByTransformingPath(prefab, PointerHelper.toPointer( &localTransform ))!
         }
         else {path2=nil}
         
@@ -109,10 +179,20 @@ class WaveFactory {
     static func typeToClass(waveType:WaveType)->waveComponent?{
         switch (waveType)
         {
+        case .line:
+            return Line()
         case .sine1:
             return Sine1()
         case .sine2:
             return Sine2()
+        case .square1:
+            return Square1()
+        case .square2:
+            return Square2()
+        case .saw1:
+            return Saw1()
+        case .saw2:
+            return Saw2()
         default:
             return nil
         }
@@ -120,10 +200,20 @@ class WaveFactory {
     static func typeToPath(waveType:WaveType)->CGMutablePathRef?{
         switch (waveType)
         {
+        case .line:
+            return Line.path
         case .sine1:
             return Sine1.path
         case .sine2:
             return Sine2.path
+        case .square1:
+            return Square1.path
+        case .square2:
+            return Square2.path
+        case .saw1:
+            return Saw1.path
+        case .saw2:
+            return Saw2.path
         default:
             return nil
         }

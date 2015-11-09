@@ -36,7 +36,7 @@ class WaveFactory {
         override class var path:CGMutablePathRef{
             let path:CGMutablePathRef=CGPathCreateMutable()
             CGPathMoveToPoint(path, nil, 0, 0)
-            CGPathMoveToPoint(path, nil, 1, 1)
+            CGPathAddLineToPoint(path, nil, 1, 1)
             return path
         }
         override class func getAmp(x:CGFloat)->CGFloat{
@@ -145,8 +145,6 @@ class WaveFactory {
     static func addPath(path1:CGMutablePathRef, inout transform:CGAffineTransform, waveType:String, length:Int, height:CGFloat){
         
         let prefab:CGMutablePathRef?
-        let verticalAppendFront=false
-        let verticalAppendBack=false
         prefab=stringToPath(waveType)
         
         var localTransform:CGAffineTransform

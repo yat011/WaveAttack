@@ -53,7 +53,8 @@ class PlayerInfo: NSManagedObject {
                     list.removeAtIndex(i)
                 }else{
                     character!.teamPosition = atPos
-                    list[i] = character!
+                    list[i].belongTo = nil
+                    character!.belongTo = team
                 }
                 
                

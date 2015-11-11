@@ -25,7 +25,7 @@ class GameViewController: UIViewController {
         case CharScene
     }
     
-    let fixedFps : Int = 30
+    static let fixedFps : Int = 30
 
     let screenSize:CGSize=CGSize(width: 375, height: 667)
 
@@ -43,7 +43,7 @@ class GameViewController: UIViewController {
            //skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
-            skView.frameInterval = 60 / fixedFps
+            skView.frameInterval = 60 / GameViewController.fixedFps
          //   let scene = GameScene(size: screenSize, missionId: GameViewController.currentMissionId, viewController: self)
         
         

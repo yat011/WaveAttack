@@ -70,7 +70,11 @@ class MissionScene: TransitableScene{
             draggNode.content.addChild(i)
             interactables.append(i)
         }
-        
+        var back = SKSpriteNode(imageNamed: "menuBack")
+        back.anchorPoint = CGPoint()
+        back.size = self.viewController!.screenSize
+        back.zPosition = -100
+        self.addChild(back)
         self.addChild(draggNode)
         self.draggables.append(draggNode)
         

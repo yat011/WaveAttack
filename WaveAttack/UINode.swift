@@ -17,6 +17,7 @@ class UINode: SKNode,Draggable{
     var cropNode : SKCropNode? = nil
     var stateLabel :SKLabelNode = SKLabelNode(fontNamed: "Helvetica")
     var waveButtonsGroup : SKNode? = nil
+    var waveUIGroup :SKNode? = nil
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -32,7 +33,7 @@ class UINode: SKNode,Draggable{
         print(characters!.count)
         var chs : [Character?] = []
         
-        for i in 0...4 {
+        for var i = 4; i >= 0 ; i-- {
             var current = PlayerInfo.getCharacterAt(i)
             if (current == nil){
                 chs.append(nil)
@@ -63,6 +64,7 @@ class UINode: SKNode,Draggable{
         tempCrop.maskNode = maskNode
         //self.addChild(UIWaveButtonGroup)
         tempCrop.addChild(UIWaveButtonGroup)
+        waveUIGroup = UIWaveButtonGroup
         tempCrop.zPosition = 12
         self.addChild(tempCrop)
         
@@ -125,6 +127,7 @@ class UINode: SKNode,Draggable{
         self.addChild(background)
         background .zPosition = -1
         self.timerUI = TimerUI.createInstance()
+        parent.addClickable(GameStage.Supering,self.timerUI!)
         self.addChild(self.timerUI!)
         
         
@@ -210,9 +213,27 @@ class UINode: SKNode,Draggable{
         self.cropNode!.addChild(self.resultantWaveShape!)
         return w
     }
+    var upperResultant : SKNode? = nil
+    var lowerResultant : SKNode? = nil
     
     func animateSuperposition(completion:(()->())){
         var i = 0
+        
+        animateFirstSuperposition(4, to: 3,completion : {
+            (resultNode: SKNode)->()in
+            self.upperResultant = resultNode
+            if (self.upperResultant != nil && self.lowerResultant != nil){
+                self.animateFinalSuperposition(completion)
+            }
+        })
+        animateFirstSuperposition(0, to: 1, completion : {
+            (resultNode: SKNode)->()in
+            self.lowerResultant = resultNode
+            if (self.upperResultant != nil && self.lowerResultant != nil){
+                self.animateFinalSuperposition(completion)
+            }
+        })
+        /*
         for btn in waveButtons{
             var action = [SKAction.moveToY(66 * CGFloat(2) + 33, duration: 0.5),SKAction.scaleYTo(4, duration: 0.5),SKAction.waitForDuration(1),SKAction.fadeOutWithDuration(0.5)]
             if i == 0 {
@@ -222,6 +243,41 @@ class UINode: SKNode,Draggable{
             }
             i++
         }
+*/
+    }
+    func animateFirstSuperposition(from :Int , to:Int, completion : ((SKNode)->())) {
+        var destY = (self.waveButtons[from].position.y + self.waveButtons[to].position.y)/2
+        var actions = [ SKAction.moveToY(destY, duration: 0.5)]
+        waveButtons[to].boundary?.hidden = true
+        waveButtons[from].boundary?.hidden = true
+        waveButtons[to].runAction(SKAction.moveToY(destY, duration: 0.5))
+        waveButtons[from].runAction( SKAction.moveToY(destY, duration: 0.5),  completion:{
+            ()->() in
+            var x4 = -self.waveButtons[from].waveShapeNode!.position.x + 750
+            var x3 = -self.waveButtons[to].waveShapeNode!.position.x + 750
+            var result: SKNode? = Wave.superposition(self.waveButtons[from].wave,d1: Int(x4), w2: self.waveButtons[to].wave, d2: Int(x3)).getShape()
+            result!.position = CGPoint(x: -150, y: destY)
+            result!.alpha = 0
+            result!.zPosition = 200000000
+            self.waveUIGroup?.addChild(result!)
+            result!.runAction(SKAction.fadeInWithDuration(0.4))
+            self.waveButtons[from].runAction(SKAction.fadeOutWithDuration(0.4))
+            self.waveButtons[to].runAction(SKAction.fadeOutWithDuration(0.4))
+          //  self.waveButtons[from].hidden=true
+           // self.waveButtons[to].hidden=true
+            completion(result!)
+        })
+    }
+    
+    
+    func animateFinalSuperposition (completion: (()->())){
+        var action = [SKAction.moveToY(66 * CGFloat(2) + 33, duration: 1),SKAction.waitForDuration(1),SKAction.fadeOutWithDuration(0.5)]
+        self.waveButtons[2].boundary?.hidden = true
+        self.waveButtons[2].runAction(SKAction.sequence([SKAction.waitForDuration(2),SKAction.fadeOutWithDuration(0.5)]))
+        self.upperResultant!.runAction(SKAction.sequence(action), completion: completion)
+        self.lowerResultant!.runAction(SKAction.sequence(action))
+        
+        
     }
     func animateGeneration(wave : Wave, completion:(()->())){
        var amp = wave.getAmplitudes()
@@ -234,6 +290,7 @@ class UINode: SKNode,Draggable{
             for var i = 0 ; i < amp.count ; i++ {
  
                 if (generated[i] == false && amp[i] + self.resultantWaveShape!.position.y > 333.5) {
+                    print(amp[i])
                     self.gameScene!.generatePacket(amp, i)
                     generated[i] = true
                     done = false
@@ -263,6 +320,7 @@ class UINode: SKNode,Draggable{
         for btn in waveButtons{
             var actions = [SKAction.moveToY(66 * CGFloat(i) + 33, duration: 0),SKAction.scaleYTo(1, duration: 0), SKAction.fadeInWithDuration(0.5)]
             btn.runAction(SKAction.sequence(actions))
+            btn.boundary?.hidden = false
             btn.scroll(CGFloat(rand()) % 300, dy: 0)
             i++
         }
@@ -288,4 +346,16 @@ class UINode: SKNode,Draggable{
     func scroll(x:CGFloat, y:CGFloat){
         self.runAction(SKAction.moveToY(y, duration: 0))
     }
+    
+    
+    static func createDottedLine(width : CGFloat)-> SKNode{
+        let path:CGMutablePathRef=CGPathCreateMutable()
+        CGPathMoveToPoint(path, nil, 0, 0)
+        CGPathAddLineToPoint(path, nil, width, 0)
+        var dottedLine = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [5,5], 2)!)
+        dottedLine.alpha = 0.5
+        dottedLine.position = CGPoint(x: 0, y: 0)
+        return dottedLine
+    }
+    
 }

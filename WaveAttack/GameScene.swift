@@ -69,7 +69,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     let grading = ["S","A","B","C","D","E","F"]
     var character : [Character?] = []
     var inited : Int = 0 //for texture
-
+    var generalUpdateList = Set<GameObject>()
 
     
     
@@ -516,21 +516,38 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
     
-    
+    var superingTimer : FrameTimer? = nil
     func timeOut(){
         //print("timeOut")
         currentStage = .SuperpositionAnimating
+       self.generalUpdateList.remove(self.superingTimer!)
+        self.superingTimer?.stopTimer()
         self.clearTouch()
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
             self.controlLayer!.animateGeneration(resultWave, completion: {
                 () -> () in
+                // do sth animation
+                    //timeBonus
+                var timeBonus = self.superingTimer!.progress * (self.player!.timeBonus - 1) + 1
+                for packet in self.gameLayer!.energyPackets{
+                    packet.energy = packet.energy * timeBonus
+                    packet.sprite!.color = packet.getColor()
+                }
+                
+                //
                 self.startAttackPhase()
+                self.superingTimer = nil
+
                 self.timerStarted = false
                 self.controlLayer!.stateLabel.hidden = false
                 self.controlLayer!.stateLabel.text = "Attacking ..."
                 self.controlLayer!.stateLabel.removeAllActions()
+                self.controlLayer!.upperResultant?.removeFromParent()
+                self.controlLayer!.lowerResultant?.removeFromParent()
+                self.controlLayer!.lowerResultant = nil
+                self.controlLayer!.upperResultant = nil
                 var fade = SKAction.fadeAlphaTo(0.5, duration: 1)
                 var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
                 self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
@@ -741,12 +758,26 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             if(!timerStarted){
                // let timer = NSTimer(timeInterval: 5.0, target: self, selector: "timeOut", userInfo: nil, repeats: false)
                 //NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
-                var timelimit:Double = 5
+                var timelimit: CGFloat = 5
+                var frameTimer = FrameTimer(duration: 5)
+                self.generalUpdateList.insert(frameTimer)
+                frameTimer.startTimer(self.timeOut)
+                self.controlLayer!.timerUI!.startTimer(timelimit)
+                frameTimer.updateFunc = {
+                    () -> () in
+                    self.controlLayer!.timerUI!.updateTimer()
+                    self.controlLayer!.timerUI!.updateBonusLabel( frameTimer.progress * (self.player!.timeBonus - 1) + 1)
+                    
+                    
+                }
+                self.superingTimer = frameTimer
+               /*
                 var timerNode = SKNode()
-                
+            
                 self.addChild(timerNode)
                 timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(timelimit), SKAction.removeFromParent()]),completion: self.timeOut)
-                self.controlLayer!.timerUI!.startTimer(timelimit)
+*/
+                //self.controlLayer!.timerUI!.startTimer(timelimit)
                 self.currentStage = .Supering
                 //print("start timer")
                 timerStarted=true
@@ -930,6 +961,10 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             break
         default:
             break
+        }
+        
+        for each in generalUpdateList{
+            each.update()
         }
         
       

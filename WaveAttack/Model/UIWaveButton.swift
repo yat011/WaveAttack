@@ -13,6 +13,7 @@ class UIWaveButton : SKCropNode,Draggable {
     var wave:Wave
     let pet:String = ""
     var waveShapeNode:SKNode?=nil
+    var boundary:SKNode?  = nil
     //let WaveData
 
     init(size : CGSize , position : CGPoint, wave:Wave){
@@ -33,6 +34,7 @@ class UIWaveButton : SKCropNode,Draggable {
         
         var boundary = SKShapeNode(rectOfSize: CGSize(width: 300, height: size.height))
         boundary.strokeColor = SKColor.blackColor()
+        self.boundary = boundary
        // boundary.position = CGPoint(x: -150, y:0)
         self.addChild(boundary)
         var dottedLine = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [5,5], 2)!)

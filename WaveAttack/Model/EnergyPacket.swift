@@ -11,7 +11,7 @@ import SpriteKit
 
 class EnergyPacket : GameObject{
 
-    let radius : CGFloat = 4
+    let radius : CGFloat = 8
     var physRadius :CGFloat = 2.5
     var sprite : GameSKSpriteNode? = nil
     var energy : CGFloat = 0
@@ -121,8 +121,11 @@ class EnergyPacket : GameObject{
         print("\(r) \(g) \(b)")*/
         var brigthness : CGFloat = 1
         var hue = self.energy
+        var newRadius = self.physRadius + hue/1000 * (self.radius - self.physRadius)
+        
         if (hue > 1000) {
             brigthness = hue - 1000
+            
             if (brigthness < 1000){
                 brigthness = cos( brigthness * 1 / 1000 * 3.1415926 / 2 )
             }else{
@@ -134,6 +137,9 @@ class EnergyPacket : GameObject{
             hue = hue/1000
         }
         hue = hue * 0.85
+        //change Size
+        self.sprite!.size = CGSize(width: 2*newRadius, height: 2*newRadius)
+        
         
         return SKColor(hue: hue, saturation: 1, brightness: brigthness, alpha: 1)
         //return SKColor (red: r, green: g, blue: b, alpha: 1)

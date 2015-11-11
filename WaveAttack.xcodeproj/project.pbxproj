@@ -79,7 +79,7 @@
 		54BBD93D1BD7DF5200BAFFA2 /* OwnedCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD93B1BD7DF5200BAFFA2 /* OwnedCharacter.swift */; };
 		54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BBD93E1BD7E0C700BAFFA2 /* ch01.png */; };
 		54BBD9411BD7F9ED00BAFFA2 /* NotifyNextRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */; };
-		54BBD9431BD94DFB00BAFFA2 /* TimerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */; };
+		54BBD9431BD94DFB00BAFFA2 /* TimerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */; };
 		54D44C181BD765DD00B24EE6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C161BD765DD00B24EE6 /* Model.xcdatamodeld */; };
 		54D44C1C1BD765F700B24EE6 /* MissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1A1BD765F700B24EE6 /* MissionsController.swift */; };
 		54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */; };
@@ -95,6 +95,9 @@
 		54D6A20A1BE7E3D500B23C65 /* purpleSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2041BE7E3D500B23C65 /* purpleSlime.png */; };
 		54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2051BE7E3D500B23C65 /* redSlime.png */; };
 		54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2061BE7E3D500B23C65 /* yellowSlime.png */; };
+		54E090701BF259610055D5F9 /* mainBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E0906F1BF259610055D5F9 /* mainBack.png */; };
+		54E090721BF25C590055D5F9 /* menuBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E090711BF25C590055D5F9 /* menuBack.png */; };
+		54E090741BF270740055D5F9 /* FrameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E090731BF270740055D5F9 /* FrameTimer.swift */; };
 		54E7D3241BEA05D300C6EA57 /* packet.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E7D3231BEA05D300C6EA57 /* packet.png */; };
 		54E7D3261BEA4B1F00C6EA57 /* Hit.png in Resources */ = {isa = PBXBuildFile; fileRef = 54E7D3251BEA4B1F00C6EA57 /* Hit.png */; };
 		54E7D32A1BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E7D3281BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift */; };
@@ -213,7 +216,7 @@
 		54BBD93B1BD7DF5200BAFFA2 /* OwnedCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnedCharacter.swift; sourceTree = "<group>"; };
 		54BBD93E1BD7E0C700BAFFA2 /* ch01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch01.png; sourceTree = "<group>"; };
 		54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyNextRound.swift; sourceTree = "<group>"; };
-		54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerBar.swift; sourceTree = "<group>"; };
+		54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerUI.swift; sourceTree = "<group>"; };
 		54D44C171BD765DD00B24EE6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		54D44C1A1BD765F700B24EE6 /* MissionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionsController.swift; sourceTree = "<group>"; };
 		54D44C1D1BD7660300B24EE6 /* ConfirmWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfirmWindow.swift; path = Model/ConfirmWindow.swift; sourceTree = "<group>"; };
@@ -229,6 +232,9 @@
 		54D6A2041BE7E3D500B23C65 /* purpleSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purpleSlime.png; sourceTree = "<group>"; };
 		54D6A2051BE7E3D500B23C65 /* redSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redSlime.png; sourceTree = "<group>"; };
 		54D6A2061BE7E3D500B23C65 /* yellowSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowSlime.png; sourceTree = "<group>"; };
+		54E0906F1BF259610055D5F9 /* mainBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainBack.png; sourceTree = "<group>"; };
+		54E090711BF25C590055D5F9 /* menuBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuBack.png; sourceTree = "<group>"; };
+		54E090731BF270740055D5F9 /* FrameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameTimer.swift; sourceTree = "<group>"; };
 		54E7D3231BEA05D300C6EA57 /* packet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = packet.png; sourceTree = "<group>"; };
 		54E7D3251BEA4B1F00C6EA57 /* Hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hit.png; sourceTree = "<group>"; };
 		54E7D3281BEA65EE00C6EA57 /* PassedMission+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PassedMission+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -325,7 +331,7 @@
 				54F8D8951BB1D29B009E9654 /* HpBar.swift */,
 				5420A6031BC38542000F2E14 /* ActRoundLabel.swift */,
 				5420A6051BC404E0000F2E14 /* ResultUI.swift */,
-				54BBD9421BD94DFB00BAFFA2 /* TimerBar.swift */,
+				54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */,
 				549D82C91BE79C4500907150 /* HpLabel.swift */,
 			);
 			name = UI;
@@ -427,6 +433,8 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54E090711BF25C590055D5F9 /* menuBack.png */,
+				54E0906F1BF259610055D5F9 /* mainBack.png */,
 				54E7D3251BEA4B1F00C6EA57 /* Hit.png */,
 				54E7D3231BEA05D300C6EA57 /* packet.png */,
 				54D6A2001BE7E3D500B23C65 /* characters */,
@@ -465,6 +473,7 @@
 				54A55BAC1BBA9B1F0039D744 /* Player.swift */,
 				5420A5E11BBEF1AB000F2E14 /* Event.swift */,
 				544F05641BA305CD00AC1BBD /* GameScene.swift */,
+				54E090731BF270740055D5F9 /* FrameTimer.swift */,
 			);
 			name = GameScene;
 			path = Model;
@@ -714,6 +723,7 @@
 			files = (
 				549D82C01BE33C3800907150 /* sky.png in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
+				54E090721BF25C590055D5F9 /* menuBack.png in Resources */,
 				54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */,
 				54E7D3261BEA4B1F00C6EA57 /* Hit.png in Resources */,
 				54E7D3241BEA05D300C6EA57 /* packet.png in Resources */,
@@ -723,6 +733,7 @@
 				54D6A1FD1BE7BCD600B23C65 /* waveBtn.png in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
+				54E090701BF259610055D5F9 /* mainBack.png in Resources */,
 				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
@@ -788,7 +799,7 @@
 				5F71B6AA1BDCAB3D002F49B5 /* TransitableScene.swift in Sources */,
 				549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */,
 				54F8D8961BB1D29B009E9654 /* HpBar.swift in Sources */,
-				54BBD9431BD94DFB00BAFFA2 /* TimerBar.swift in Sources */,
+				54BBD9431BD94DFB00BAFFA2 /* TimerUI.swift in Sources */,
 				5474C5641BA321A30015C861 /* GameObject.swift in Sources */,
 				5420A5E21BBEF1AB000F2E14 /* Event.swift in Sources */,
 				549D82C61BE7532E00907150 /* YellowMan.swift in Sources */,
@@ -832,6 +843,7 @@
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
+				54E090741BF270740055D5F9 /* FrameTimer.swift in Sources */,
 				54E7D32B1BEA65EE00C6EA57 /* PassedMission.swift in Sources */,
 				544B60ED1BCA22710064B8AE /* UICharacterButton.swift in Sources */,
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,

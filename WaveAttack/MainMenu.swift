@@ -38,9 +38,12 @@ class MainMenu : TransitableScene{
             
             }, gameScene: nil)
         
-    
+        var back = SKSpriteNode(imageNamed: "mainBack")
+        back.anchorPoint = CGPoint()
+        back.size = self.viewController!.screenSize
+        back.zPosition = -100
         
-        
+        self.addChild(back)
        // self.addChild(exit)
         self.addChild(teamBtns)
         self.addChild(missionBtn)

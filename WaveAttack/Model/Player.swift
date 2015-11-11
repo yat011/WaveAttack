@@ -13,6 +13,7 @@ class Player : GameObject{
     var hp: CGFloat { get{return  _hp}}
     var _hp: CGFloat = 100
     var oriHp : CGFloat = 100
+    var timeBonus:CGFloat = 2
     init( hp: CGFloat){
         oriHp = hp
         _hp = hp

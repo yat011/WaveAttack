@@ -106,6 +106,7 @@ class Wave{
         var transform:CGAffineTransform=CGAffineTransformIdentity
         CGPathMoveToPoint(path, nil, 0, 0)
         var totLen: CGFloat = 0
+     
         if (waveData != nil){
             CGPathAddPath(path, PointerHelper.toPointer(&transform), WaveFactory.customWave(getAmplitudes()))
             totLen = CGFloat(getAmplitudes().count - 1)
@@ -117,6 +118,7 @@ class Wave{
                 {
 
                     WaveFactory.addPath(path, transform: &transform, waveType: c.type, length: c.length, height: c.height)
+                   
                     totLen = totLen + CGFloat(c.length)
                 }
             }
@@ -127,27 +129,38 @@ class Wave{
             var temp = SKShapeNode(path: path)
             temp.strokeColor = SKColor.cyanColor()
             temp.lineWidth = 1.0
-            
+           // print(temp.frame)
+           // return temp
+            var maxy:CGFloat = 0
+           
+            var lowY = temp.frame.origin.y
+            var highY = temp.frame.size.height + temp.frame.origin.y
+            if abs(highY) > abs(lowY){
+                maxy = abs(highY)
+            }else{
+                maxy = abs(lowY)
+            }
             temp.zPosition = -1000
           //  temp.position = CGPoint(x: 0, y: 0)
            
             GameViewController.skView!.scene!
                 .addChild(temp)
-                
+     //       componentList
             //temp.hidden = true
-            texture  = GameViewController.skView!.textureFromNode(temp)
-            
-           // temp.removeFromParent()
+            var cropRect = CGRect(x: 0, y: -maxy, width: 900, height: 2*maxy)
+            //print (cropRect)
+            texture  = GameViewController.skView!.textureFromNode(temp, crop: cropRect)
+            // temp.removeFromParent()
             //texture?.filteringMode = SKTextureFilteringMode.Nearest
             temp.removeFromParent()
         }
         var scale:CGFloat = 1
-        print("\(totLen) vs \(texture!.size().width)")
+        //print("\(totLen) vs \(texture!.size().width)")
         scale  = totLen / texture!.size().width
         if (UIScreen.mainScreen().scale == 2 && scale < 0.6){
             scale = 0.5
         }
-       print(texture)
+       //print(texture)
         var res = SKSpriteNode(texture: texture, size: CGSize(width: texture!.size().width * scale, height: texture!.size().height * scale))
         res.anchorPoint = CGPoint(x:0, y:0.5)
         
@@ -168,9 +181,12 @@ class Wave{
             for i in 0...c.length-1{
                 //print((c1.dynamicType.getAmp(CGFloat(i)/CGFloat(c.length))-c1.dynamicType.start)*c.height+displace)
                 waveData?.append((c1.dynamicType.getAmp(CGFloat(i)/CGFloat(c.length))-c1.dynamicType.start)*c.height+displace)
+           
             }
             displace=displace+c1.dynamicType.displace*c.height
+            
         }
+    
     }
     func getAmplitudes()->[CGFloat]{
         if (waveData == nil){

@@ -29,7 +29,7 @@ class GameObjectFactory{
   
     
     func create(name: String) -> GameObject?{
-        print(name)
+       // print(name)
       
         let classobj : AnyClass = NSClassFromString("WaveAttack.\(name)")!
         var gameObj = classobj as! NSObject.Type

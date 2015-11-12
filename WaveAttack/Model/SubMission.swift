@@ -31,6 +31,8 @@ class SubMission{
         for dictObj in objects{
             var dict = dictObj as! [String : AnyObject]
            // print (dict["type"])
+            var visible =  dict["visible"] as! Bool
+            guard visible == true else {continue}
 
             var medium: Medium = GameObjectFactory.getInstance().create(dict["type"]! as! String) as! Medium
             var x : CGFloat = CGFloat((dict["x"]! as! NSNumber).floatValue)

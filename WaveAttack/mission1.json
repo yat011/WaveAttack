@@ -5,37 +5,71 @@
          "terrain": "Air",
          "object": [
                     {
-                    "gid":1,
-                    "height":500,
-                    "id":4,
-                    "name":"Soil",
+                    "gid":2,
+                    "height":100,
+                    "id":6,
+                    "name":"YellowMan",
                     "properties":
                     {
-                    
+                    "hp":"12000",
+                    "target":"true"
                     },
                     "rotation":0,
-                    "type":"Soil",
-                    "visible":true,
-                    "width":921,
-                    "x":-289,
-                    "y":1074
+                    "type":"YellowMan",
+                    "visible":false,
+                    "width":100,
+                    "x":126.587,
+                    "y":243.177
                     },
                     {
                     "gid":1,
-                    "height":183,
-                    "id":11,
+                    "height":332.198,
+                    "id":14,
+                    "name":"box",
+                    "properties":
+                    {
+                    "hp":"5000",
+                    "target":"false"
+                    },
+                    "rotation":0,
+                    "type":"SampleBox",
+                    "visible":false,
+                    "width":30.1402,
+                    "x":188.704,
+                    "y":577.906
+                    },
+                    {
+                    "gid":1,
+                    "height":84.2236566888639,
+                    "id":15,
                     "name":"box",
                     "properties":
                     {
                     "hp":"5000",
                     "target":"true"
                     },
-                    "rotation":45,
+                    "rotation":0,
                     "type":"SampleBox",
                     "visible":true,
-                    "width":60,
-                    "x":183,
-                    "y":530
+                    "width":86.4219188369487,
+                    "x":90.2774943627612,
+                    "y":576.740304674623
+                    },
+                    {
+                    "gid":3,
+                    "height":180.228342749529,
+                    "id":16,
+                    "name":"",
+                    "properties":
+                    {
+                    
+                    },
+                    "rotation":0,
+                    "type":"Ground",
+                    "visible":true,
+                    "width":390,
+                    "x":-6.67735042735043,
+                    "y":759.822359843546
                     }
                     
                     ]

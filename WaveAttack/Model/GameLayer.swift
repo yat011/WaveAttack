@@ -16,10 +16,12 @@ class GameLayer : SKNode{
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
     var energyPackets = Set<EnergyPacket>()
+    var ground  : Ground? = nil
    // var gameArea = CGRect()
     weak var subMission: SubMission? = nil
     var totalTarget: Int = 0
     var maxZIndex = 0
+    var completed = false
     
     weak var gameScene: GameScene? = nil
     init(subMission : SubMission, gameScene : GameScene) {
@@ -42,6 +44,7 @@ class GameLayer : SKNode{
                 var des = obj as! DestructibleObject
                 if des.target{
                     self.totalTarget -= 1
+                    self.checkResult()
   
                 }
             }
@@ -60,8 +63,13 @@ class GameLayer : SKNode{
                     self.addChild(des.roundLabel!)
                 }
                 des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
+                
             }
             addGameObject(medium)
+            medium.afterAddToScene()
+            if (medium is Ground){
+                ground = medium as! Ground
+            }
         }
 
         initBoundary()
@@ -147,20 +155,19 @@ class GameLayer : SKNode{
 //----------------------------------------------------
     
     func fadeOutAll(finish :(() -> ())){
-        var temp : SKNode? = nil
+        var temp : SKNode = SKNode()
         for obj in self.children{
             if obj === self.background!.getSprite()!{
                 continue
             }
             obj.runAction(SKAction.fadeOutWithDuration(1))
             
-            temp = obj
         }
-        if temp == nil{
-            finish()
-        }else{
-            temp!.runAction(SKAction.waitForDuration(1.5), completion : finish)
-        }
+        
+        self.addChild(temp)
+        temp.runAction(SKAction.waitForDuration(1.2),completion: finish)
+       
+       
         
     }
     
@@ -203,8 +210,11 @@ class GameLayer : SKNode{
     }
     
     func checkResult() -> Bool{
+        if completed == true{
+            return true
+        }
         if self.totalTarget == 0{
-            
+            completed = true
             self.completeMission()
             return true
         }

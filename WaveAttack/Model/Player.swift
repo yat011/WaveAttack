@@ -14,6 +14,8 @@ class Player : GameObject{
     var _hp: CGFloat = 100
     var oriHp : CGFloat = 100
     var timeBonus:CGFloat = 2
+    var peroid: CGFloat = 1.5
+    var numOfOscillation = 3
     init( hp: CGFloat){
         oriHp = hp
         _hp = hp

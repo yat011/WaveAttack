@@ -14,6 +14,7 @@ enum CollisionLayer : UInt32 {
     case Packet = 0x2
     case Medium = 0x4
     case Objects = 0x8
+    case Ground = 16
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -212,12 +213,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
             return
         }else{
-            print("impluse \(contact.collisionImpulse)")
-            print(contact.bodyA.node!.name)
-            print(contact.bodyB.node!.name)
+           // print("impluse \(contact.collisionImpulse)")
+           // print(contact.bodyA.node!.name)
+            //print(contact.bodyB.node!.name)
             guard contact.bodyA.node is GameSKSpriteNode && contact.bodyA.node is GameSKSpriteNode else{
                 return
             }
+         
             collisionDamage((contact.bodyA.node! as! GameSKSpriteNode).gameObject as! Medium, mB: (contact.bodyB.node! as! GameSKSpriteNode).gameObject! as! Medium, contact: contact)
             
         }
@@ -526,6 +528,23 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
+           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: CGPoint(x: 37.5 , y: 0), completion: {
+                () -> () in
+                //print("completeion")
+            self.superingTimer = nil
+            
+            self.timerStarted = false
+            self.controlLayer!.stateLabel.hidden = false
+            self.controlLayer!.lowerResultant = nil
+            self.controlLayer!.upperResultant = nil
+                if self.gameLayer!.checkResult() {
+                    return
+                }
+                self.startEnemyPhase()
+            
+            
+            })
+            /*
             self.controlLayer!.animateGeneration(resultWave, completion: {
                 () -> () in
                 // do sth animation
@@ -552,6 +571,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
                 self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
             })
+*/
          //   self.spawnWave(resultWave.getAmplitudes())
         
         })
@@ -1001,6 +1021,10 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         self.currentStage = GameStage.enemy
         gameLayer!.enemyDoAction()
         self.controlLayer!.stateLabel.text = "Enemy Moving ..."
+        self.controlLayer!.stateLabel.removeAllActions()
+        var fade = SKAction.fadeAlphaTo(0.5, duration: 1)
+        var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
+        self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
         //print("start enemy phase")
         
     }

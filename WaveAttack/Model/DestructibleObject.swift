@@ -127,10 +127,10 @@ class DestructibleObject : Medium {
         //var shape = SKShapeNode(path: _path!)
         //var texture = GameViewController.skView!.textureFromNode(shape)
         phys = SKPhysicsBody(texture: temp.texture!, size: temp.size)
-        phys.categoryBitMask = CollisionLayer.Objects.rawValue
+        phys.categoryBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
         phys.affectedByGravity = true
-        phys.collisionBitMask = CollisionLayer.Objects.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue
+        phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
         phys.dynamic = true
       //  phys.usesPreciseCollisionDetection = true
         getSprite()!.physicsBody = phys
@@ -185,7 +185,7 @@ class DestructibleObject : Medium {
     
     
     func impulseDamage(impulse : CGFloat, contactPt: CGPoint){
-        let threshold:CGFloat = 100
+        let threshold:CGFloat = 5
         guard impulse > threshold && getSprite() != nil && getSprite()!.physicsBody != nil else{
             return
         }

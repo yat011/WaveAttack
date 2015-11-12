@@ -42,6 +42,9 @@ class Medium : GameObject {
     func initialize(size : CGSize , position : CGPoint, gameScene :GameScene){
         fatalError("not implement")
     }
+    func afterAddToScene (){
+        
+    }
     
     func getEdgePhysicsBody() -> SKPhysicsBody?{
         fatalError("not implement")

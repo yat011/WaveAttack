@@ -66,7 +66,6 @@ class GameLayer : SKNode{
                 
             }
             addGameObject(medium)
-            medium.afterAddToScene()
             if (medium is Ground){
                 ground = medium as! Ground
             }
@@ -80,13 +79,24 @@ class GameLayer : SKNode{
     func initBoundary (){
         var boundary = SKSpriteNode()
         let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size:  gameScene!.gameArea!.size))
-        phys.collisionBitMask = CollisionLayer.Objects.rawValue
-        phys.categoryBitMask = CollisionLayer.Objects.rawValue
+        phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
+        phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.FrontObjects.rawValue
         phys.contactTestBitMask = 0
+        phys.usesPreciseCollisionDetection = true
         boundary.physicsBody = phys
         boundary.name = "boundary"
         
         self.addChild(boundary)
+        
+    }
+    
+    func afterAddToScene(){
+        for each in attackPhaseObjects{
+            if each is Medium{
+                let medium = each as! Medium
+                medium.afterAddToScene()
+            }
+        }
         
     }
     
@@ -128,11 +138,11 @@ class GameLayer : SKNode{
     }
 //--------------------- update   --------------
     func update(currentTime: CFTimeInterval){
-        if (self.energyPackets.count == 0){
-            gameScene!.startCheckResult()
-           // gameScene!.startEnemyPhase()
-            return
-        }
+     //   if (self.energyPackets.count == 0){
+     //       gameScene!.startCheckResult()
+     //      // gameScene!.startEnemyPhase()
+     //       return
+     //   }
         
         
         for obj in  attackPhaseObjects{
@@ -210,6 +220,7 @@ class GameLayer : SKNode{
     }
     
     func checkResult() -> Bool{
+        return false
         if completed == true{
             return true
         }

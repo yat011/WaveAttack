@@ -15,12 +15,12 @@ class YellowMan : DestructibleObject , EnemyActable{
     
     var action : EnemyAction? = nil
     var Action : EnemyAction { get { return action!}}
-    var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "YellowMonster")
+    var _sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "YellowMonster")
     override var xDivMax :CGFloat { get{ return 400}}
     override var yDivMax :CGFloat { get{ return 400}}
     
     override func getSprite() -> SKNode? {
-        return sprite
+        return _sprite
     }
     
     
@@ -33,8 +33,8 @@ class YellowMan : DestructibleObject , EnemyActable{
         (action as! DirectAttack).damage = 200
         moveRound = 2
         self.triggerEvent(GameEvent.RoundChanged.rawValue)
-        sprite!.name = "YellowMan"
-        sprite!.gameObject = self
+        _sprite!.name = "YellowMan"
+        _sprite!.gameObject = self
         self.propagationSpeed = 1.5
         self.collisionAbsorption = 10
         self.absorptionRate = 0.08

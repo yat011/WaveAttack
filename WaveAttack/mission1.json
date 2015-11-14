@@ -50,14 +50,14 @@
                     },
                     "rotation":0,
                     "type":"SampleBox",
-                    "visible":true,
+                    "visible":false,
                     "width":86.4219188369487,
                     "x":90.2774943627612,
-                    "y":576.740304674623
+                    "y":585.945864832958
                     },
                     {
                     "gid":3,
-                    "height":180.228342749529,
+                    "height":240.732980802001,
                     "id":16,
                     "name":"",
                     "properties":
@@ -67,11 +67,44 @@
                     "rotation":0,
                     "type":"Ground",
                     "visible":true,
-                    "width":390,
-                    "x":-6.67735042735043,
-                    "y":759.822359843546
+                    "width":390.202594005738,
+                    "x":-8.28300232201967,
+                    "y":827.259739419654
+                    },
+                    {
+                    "gid":4,
+                    "height":142.433866044348,
+                    "id":17,
+                    "name":"",
+                    "properties":
+                    {
+                    "hp":"5000",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"Building",
+                    "visible":true,
+                    "width":45.0747451102364,
+                    "x":209.009735678915,
+                    "y":584.817305679021
+                    },
+                    {
+                    "gid":5,
+                    "height":18.8944905826703,
+                    "id":18,
+                    "name":"",
+                    "properties":
+                    {
+                    "hp":"100",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":12.3067038654973,
+                    "x":149.655791679138,
+                    "y":590.36860013071
                     }
-                    
                     ]
                  }
                  

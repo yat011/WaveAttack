@@ -11,7 +11,7 @@ import SpriteKit
 class ConvexLen: DestructibleObject{
     override var xDivMax :CGFloat { get{ return 1285}}
     override var yDivMax :CGFloat { get{ return 742}}
-    var sprite = GameSKSpriteNode(imageNamed: "Oval")
+    var _sprite = GameSKSpriteNode(imageNamed: "Oval")
     
     override func getSprite() -> SKNode? {
         return sprite
@@ -19,9 +19,9 @@ class ConvexLen: DestructibleObject{
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         
         super.initialize(size, position: position, gameScene: gameScene)
-        self.sprite.physicsBody!.dynamic = false
-        self.sprite.physicsBody!.categoryBitMask = 0
-        self.sprite.physicsBody!.collisionBitMask = 0
+        self._sprite.physicsBody!.dynamic = false
+        self._sprite.physicsBody!.categoryBitMask = 0
+        self._sprite.physicsBody!.collisionBitMask = 0
         self.propagationSpeed = 2.5
         
         self.collisionAbsorption = 50

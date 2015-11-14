@@ -15,7 +15,7 @@ class Snail : DestructibleObject , EnemyActable{
  
     var action : EnemyAction? = nil
     var Action : EnemyAction { get { return action!}}
-    var sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "Snail")
+    var _sprite : GameSKSpriteNode? = GameSKSpriteNode(imageNamed: "Snail")
     override var xDivMax :CGFloat { get{ return 239}}
     override var yDivMax :CGFloat { get{ return 273}}
     
@@ -30,8 +30,8 @@ class Snail : DestructibleObject , EnemyActable{
         action = DirectAttack()
         action!.initialize(self)
         moveRound = 3
-        sprite!.name = "Snail"
-        sprite!.gameObject = self
+        _sprite!.name = "Snail"
+        _sprite!.gameObject = self
         self.propagationSpeed = 2.5
         
         self.collisionAbsorption = 10

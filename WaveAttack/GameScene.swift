@@ -15,6 +15,8 @@ enum CollisionLayer : UInt32 {
     case Medium = 0x4
     case Objects = 0x8
     case Ground = 16
+    case FrontGround = 0x20
+    case FrontObjects = 0x40
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -180,7 +182,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
         }
         self.addChild(gameLayer!)
-        
+       gameLayer?.afterAddToScene()
         //var newY = gameLayer!.position.y + movement
         let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
@@ -189,7 +191,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
        // //print (gameArea!.origin.y)
        // //print(lowerBound)
         self.currentStage = GameStage.Temp
-        gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 2.5), completion: {
+        gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 0), completion: {
             () -> () in
                 self.createMissionLabel(self.currentMission + 1)
                 self.startSuperpositionPhase()
@@ -213,14 +215,17 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
             return
         }else{
-           // print("impluse \(contact.collisionImpulse)")
-           // print(contact.bodyA.node!.name)
-            //print(contact.bodyB.node!.name)
-            guard contact.bodyA.node is GameSKSpriteNode && contact.bodyA.node is GameSKSpriteNode else{
+            print("impluse \(contact.collisionImpulse)")
+            print(contact.bodyA.node!.name)
+            print(contact.bodyB.node!.name)
+            guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
                 return
             }
+            var nodeA = contact.bodyA.node! as! GameSKSpriteNode
+            var nodeB = contact.bodyB.node! as! GameSKSpriteNode
+            
          
-            collisionDamage((contact.bodyA.node! as! GameSKSpriteNode).gameObject as! Medium, mB: (contact.bodyB.node! as! GameSKSpriteNode).gameObject! as! Medium, contact: contact)
+            collisionDamage(nodeA.gameObject as! Medium?, mB: nodeB.gameObject as! Medium?, contact: contact)
             
         }
         
@@ -228,14 +233,15 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     
-    func collisionDamage(mA : Medium, mB:Medium, contact : SKPhysicsContact){
+    
+    func collisionDamage(mA : Medium?, mB:Medium?, contact : SKPhysicsContact){
         
-        if mA is DestructibleObject{
+        if mA != nil && mA! is DestructibleObject{
             let dest = mA as! DestructibleObject
             dest.impulseDamage(contact.collisionImpulse,contactPt: contact.contactPoint)
             
         }
-        if mB is DestructibleObject{
+        if mB != nil && mB! is DestructibleObject{
             let dest = mB as! DestructibleObject
             dest.impulseDamage(contact.collisionImpulse, contactPt: contact.contactPoint)
         }
@@ -442,6 +448,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func overTap() {
         isTap = false
     }
+    
     
     
     
@@ -687,9 +694,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                     if gameObject is DestructibleObject{
                         var medium = gameObject as! DestructibleObject
                         var mediumPt = medium.getSprite()!.convertPoint(touchDown, fromNode: self)
-                        if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
-                            pressedDestObject = medium
-                        }
+                       // if (CGPathContainsPoint(medium.path!, nil, mediumPt, true)){
+                        //    pressedDestObject = medium
+                        //}
                     }
                 }
                 
@@ -982,7 +989,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         default:
             break
         }
-        
+       attackPhaseUpdate(currentTime)
         for each in generalUpdateList{
             each.update()
         }
@@ -1080,7 +1087,6 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     //
     func completeSubMission(){
         currentMission += 1
-        
         if (currentMission >= mission?.missions.count){ // complete Mission
             currentStage = GameStage.Complete
             //print("complete Mission")

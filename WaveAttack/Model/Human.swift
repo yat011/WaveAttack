@@ -10,13 +10,13 @@ import Foundation
 import SpriteKit
 class Human  : DestructibleObject{
     
-     var _textures = [SKTexture(imageNamed: "human_0005_body"),SKTexture(imageNamed: "human_0004_legs"),SKTexture(imageNamed: "human_0003_head"), SKTexture(imageNamed: "human_0001_left"), SKTexture(imageNamed: "human_0000_right")]
+     var _textures = [SKTexture(imageNamed: "human_up"),SKTexture(imageNamed: "human_down")]
     override var textures:[SKTexture]? {get{
        return _textures
         
         }
     }
-    override var breakThreshold : [CGFloat]? {get{return [0.5,0.5,0.3]}}
+    override var breakThreshold : [CGFloat]? {get{return [0.8]}}
     override var restitution : CGFloat {get{return 0.5}}
     override var density :CGFloat? {get{return 1}}
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
@@ -52,7 +52,7 @@ class Human  : DestructibleObject{
     }
     */
     override func createPhysicsBody(texture: SKTexture ,size: CGSize) -> SKPhysicsBody {
-        var phys = SKPhysicsBody (texture: texture, size: size)
+        var phys = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width/2, height: size.height/2))
         phys.categoryBitMask = CollisionLayer.FrontObjects.rawValue
         phys.affectedByGravity = true
         phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue  | CollisionLayer.GameBoundary.rawValue
@@ -60,6 +60,17 @@ class Human  : DestructibleObject{
         phys.dynamic = true
         phys.usesPreciseCollisionDetection = true
         return phys
+    }
+    override func createNoCollisionPhysicsBody(texture: SKTexture, size: CGSize) -> SKPhysicsBody {
+        var phys = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width/2, height: size.height/2))
+        phys.categoryBitMask = 0
+        phys.affectedByGravity = true
+        phys.collisionBitMask = 0
+        phys.contactTestBitMask = 0
+        phys.dynamic = true
+        phys.usesPreciseCollisionDetection = true
+        return phys
+
     }
     override func changeToFront(phys: SKPhysicsBody) {
         

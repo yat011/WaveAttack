@@ -210,24 +210,25 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
        //     //////print (contact.contactPoint)
      ////////print(contact.contactNormal)
         
-        if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
+       /* if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
             return
         }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
             return
         }else{
-            print("impluse \(contact.collisionImpulse)")
-            print(contact.bodyA.node!.name)
-            print(contact.bodyB.node!.name)
-            guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
-                return
-            }
-            var nodeA = contact.bodyA.node! as! GameSKSpriteNode
-            var nodeB = contact.bodyB.node! as! GameSKSpriteNode
+*/
+        print("impluse \(contact.collisionImpulse)")
+        print(contact.bodyA.node!.name)
+        print(contact.bodyB.node!.name)
+        guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
+             return
+         }
+         var nodeA = contact.bodyA.node! as! GameSKSpriteNode
+         var nodeB = contact.bodyB.node! as! GameSKSpriteNode
             
          
-            collisionDamage(nodeA.gameObject as! Medium?, mB: nodeB.gameObject as! Medium?, contact: contact)
+         collisionDamage(nodeA.gameObject as! Medium?, mB: nodeB.gameObject as! Medium?, contact: contact)
             
-        }
+        
         
         
         
@@ -972,12 +973,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var countFrame :Int = 0
     var counter:Int=0
     override func update(currentTime: CFTimeInterval) {
-        
+       
         switch (currentStage){
         case .Attack:
             
-            handleContact()
-            attackPhaseUpdate(currentTime)
+      //      handleContact()
+       //     attackPhaseUpdate(currentTime)
            
             break
         case .Superposition:

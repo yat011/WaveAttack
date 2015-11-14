@@ -83,10 +83,10 @@
                     },
                     "rotation":0,
                     "type":"Building",
-                    "visible":true,
+                    "visible":false,
                     "width":45.0747451102364,
-                    "x":209.009735678915,
-                    "y":584.817305679021
+                    "x":210.206982012348,
+                    "y":581.225566678722
                     },
                     {
                     "gid":5,
@@ -103,7 +103,58 @@
                     "visible":true,
                     "width":12.3067038654973,
                     "x":149.655791679138,
-                    "y":590.36860013071
+                    "y":584.593383129812
+                    },
+                    {
+                    "gid":5,
+                    "height":18.8945,
+                    "id":19,
+                    "name":"",
+                    "properties":
+                    {
+                    "hp":"100",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":12.3067,
+                    "x":86.6332408410656,
+                    "y":585.584177716253
+                    },
+                    {
+                    "gid":5,
+                    "height":18.8945,
+                    "id":20,
+                    "name":"",
+                    "properties":
+                    {
+                    "hp":"100",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":12.3067,
+                    "x":120.156138177192,
+                    "y":584.386931382819
+                    },
+                    {
+                    "gid":5,
+                    "height":18.8945,
+                    "id":21,
+                    "name":"",
+                    "properties":
+                    {
+                    "hp":"100",
+                    "target":"true"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":12.3067,
+                    "x":52.5117203382221,
+                    "y":583.788308216103
                     }
                     ]
                  }

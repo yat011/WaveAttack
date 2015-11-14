@@ -153,7 +153,7 @@ class DestructibleObject : Medium {
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
         phys.affectedByGravity = true
         phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue 
         phys.dynamic = true
         phys.usesPreciseCollisionDetection = true
         phys.density = self.density!
@@ -165,7 +165,7 @@ class DestructibleObject : Medium {
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
         phys.affectedByGravity = true
         phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
         phys.dynamic = true
         phys.usesPreciseCollisionDetection = true
         phys.density = self.density!
@@ -177,7 +177,7 @@ class DestructibleObject : Medium {
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
         phys.affectedByGravity = true
         phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
+        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
         phys.dynamic = true
         phys.usesPreciseCollisionDetection = true
         phys.density = self.density!
@@ -259,7 +259,7 @@ class DestructibleObject : Medium {
         guard breakIndex! >= 0 else { return }
         if hp/self.originHp < breakThreshold![breakIndex!]{
             if unionNode.physicsBody!.resting == false{
-           //     return
+                return
             }
             breakIndex!--
             var  node = sprites[--attachedIndex]
@@ -292,7 +292,7 @@ class DestructibleObject : Medium {
         isFront[phys.node!] = true
         phys.categoryBitMask = CollisionLayer.FrontObjects.rawValue
         phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue | CollisionLayer.GameBoundary.rawValue
-        phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue | CollisionLayer.GameBoundary.rawValue
+        phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
     }
     
    /*
@@ -531,6 +531,7 @@ class DestructibleObject : Medium {
     }
 //-------misc-------
     func createHpBar(){
+        return
         if hpBar != nil{
             hpBar!.removeFromParent()
             hpBar = nil
@@ -584,6 +585,7 @@ class DestructibleObject : Medium {
     
     override func syncPos() {
         super.syncPos()
+        return
         var dest = self
          var selfPos = getSprite()!.position
         //print(selfPos)

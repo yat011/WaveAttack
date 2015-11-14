@@ -8,7 +8,7 @@
 
 import Foundation
 import SpriteKit
-class TimerUI : SKShapeNode , Clickable{
+class TimerUI : SKSpriteNode , Clickable{
     
     
     
@@ -23,12 +23,13 @@ class TimerUI : SKShapeNode , Clickable{
     static func createInstance( ) -> TimerUI{
         var rect = CGRect(origin: CGPoint(x: 170,y: 150), size: CGSize(width: 30, height: 300))
         
-        var bar = TimerUI(rectOfSize: rect.size, cornerRadius: 1)
+        var bar = TimerUI()
+       bar.size = rect.size
         bar.zPosition = 1000000
         bar.position = rect.origin
         // super.init(rectOfSize: size, cornerRadius: 2)
        // print("hpbar rect : \(rect)")
-        bar.strokeColor = SKColor.blueColor()
+       // bar.strokeColor = SKColor.blueColor()
        // bar.fillColor = SKColor.blueColor()
        // bar.max = timelimit
         //bar.current = timelimit

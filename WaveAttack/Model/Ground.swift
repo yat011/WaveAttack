@@ -51,7 +51,7 @@ class Ground: Medium{
             phys!.density = 100
             phys!.allowsRotation = false
             //phys!.linearDamping = 08
-            phys!.usesPreciseCollisionDetection = true
+            phys!.usesPreciseCollisionDetection = false
             phys!.dynamic = true
             tempSprite.physicsBody = phys
              tempSprite.position = tempPos
@@ -65,7 +65,7 @@ class Ground: Medium{
             frontPhys.contactTestBitMask = 0
             frontPhys.density = 100
             frontPhys.allowsRotation = false
-            frontPhys.usesPreciseCollisionDetection = true
+            frontPhys.usesPreciseCollisionDetection = false
             //frontPhys.linearDamping = 0
             frontPhys.dynamic = true
             //frontPhys.mass = 0

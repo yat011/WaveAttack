@@ -23,8 +23,9 @@ class Human  : DestructibleObject{
         super.initialize(size, position: position, gameScene: gameScene)
         for each in sprites{
             each.name = "human"
+            changeToFront(each.physicsBody!)
         }
-       changeToFront(unionNode.physicsBody!)
+     //  changeToFront(unionNode.physicsBody!)
     }
     
 
@@ -91,11 +92,11 @@ class Human  : DestructibleObject{
     override func update() {
         super.update()
       //  print(sprites[0].zRotation)
-        if (abs(sprites[0].zRotation) > MathHelper.PI/180*30 && unionNode.hasActions() == false){
+       // if (abs(sprites[0].zRotation) > MathHelper.PI/180*30 && unionNode.hasActions() == false){
             
             //unionNode.physicsBody!.ap
             //unionNode.physicsBody!.applyImpulse(CGVector(dx: 0, dy: 2))
-        }
+       // }
     }
     
 }

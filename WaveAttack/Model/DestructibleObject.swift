@@ -72,10 +72,13 @@ class DestructibleObject : Medium {
     var breakIndex  : Int? = nil
     var density : CGFloat? { get{return nil}}
     var mass : CGFloat  = 0
-    var unionNode : GameSKSpriteNode = GameSKSpriteNode()
-    var unionJoint : SKPhysicsJoint? = nil
+    //var unionNode : GameSKSpriteNode = GameSKSpriteNode()
+    //var unionJoint : SKPhysicsJoint? = nil
     var isFront = [SKNode:Bool]()
     var allPhysicsBody = [SKPhysicsBody]()
+    var nodeJoints = [SKNode : [SKPhysicsJoint]]()
+    
+   
     static var hitTexture: [SKTexture]? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         /*if getSprite() == nil {
@@ -119,7 +122,7 @@ class DestructibleObject : Medium {
             print(sprite.frame)
             print(sprite.size)
             sprite.position = CGPoint()
-            sprite.physicsBody = createNoCollisionPhysicsBody(sprite.texture!, size: size)
+            sprite.physicsBody = createPhysicsBody(sprite.texture!, size: size)
             //sprite.physicsBody = createNoCollisionPhysicsBody(texture, size: size)
             allPhysicsBody.append(sprite.physicsBody!)
             isFront[sprite] = false
@@ -129,10 +132,10 @@ class DestructibleObject : Medium {
             
         }
         var phys =  createPhysicsBody(bodies: allPhysicsBody)
-        unionNode.physicsBody = phys
-        unionNode.gameObject = self
-        isFront[unionNode] = false
-        sprite.addChild(unionNode)
+        //unionNode.physicsBody = phys
+        //unionNode.gameObject = self
+       // isFront[unionNode] = false
+       // sprite.addChild(unionNode)
     
         sprite.position = position
         var frame = sprite.calculateAccumulatedFrame()
@@ -212,14 +215,25 @@ class DestructibleObject : Medium {
         
         var keyPart = sprites[0]
        
+        for var i = 0 ; i < sprites.count - 1; i++ {
+            
+            for var j = i + 1 ; j < sprites.count   ; j++ {
+                var joint = createPhysicsJointFixed(sprites[i], bodyB: sprites[j], anchor: CGPoint())
+                addJointToDict(sprites[i], joint: joint)
+                addJointToDict(sprites[j],joint:joint)
+                joints.append(joint)
+            }
+        }
+        /*
         for part in  sprites{
             if part === keyPart{
                 continue
             }
             joints.append(createPhysicsJointFixed(keyPart, bodyB: part, anchor: CGPoint()))
         }
-        unionJoint = (createPhysicsJointFixed(keyPart, bodyB: unionNode, anchor: CGPoint()))
-        GameScene.current!.physicsWorld.addJoint(unionJoint!)
+*/
+    //    unionJoint = (createPhysicsJointFixed(keyPart, bodyB: unionNode, anchor: CGPoint()))
+     //   GameScene.current!.physicsWorld.addJoint(unionJoint!)
         fixedOnGround()
         
         for joint in joints{
@@ -227,6 +241,10 @@ class DestructibleObject : Medium {
         }
 
         
+    }
+    func addJointToDict(node :SKNode, joint: SKPhysicsJoint){
+        if nodeJoints[node] == nil { nodeJoints[node] = []}
+        nodeJoints[node]!.append(joint)
     }
     
     func fixedOnGround(){
@@ -258,18 +276,25 @@ class DestructibleObject : Medium {
         }
         guard breakIndex! >= 0 else { return }
         if hp/self.originHp < breakThreshold![breakIndex!]{
-            if unionNode.physicsBody!.resting == false{
+          //  if unionNode.physicsBody!.resting == false{
            //     return
-            }
+          //  }
             breakIndex!--
             var  node = sprites[--attachedIndex]
             mass -= node.physicsBody!.mass
            node.gameObject = nil
-            GameScene.current!.physicsWorld.removeJoint(joints.removeLast())
-            node.physicsBody! = createNoCollisionPhysicsBody(node.texture!, size: originSize!)
+            
+           var joints = nodeJoints[node]!
+            
+            for var i = 0 ; i < joints.count; i++ {
+                var joint = joints[i]
+                GameScene.current!.physicsWorld.removeJoint(joint)
+            }
+           // GameScene.current!.physicsWorld.removeJoint(joints.removeLast())
+            //node.physicsBody! = createNoCollisionPhysicsBody(node.texture!, size: originSize!)
             changeToFront(node.physicsBody!)
-            allPhysicsBody.removeLast()
-           updateUnionNode()
+            //allPhysicsBody.removeLast()
+           // updateUnionNode()
             
         }
         
@@ -279,13 +304,16 @@ class DestructibleObject : Medium {
     }
     
     func updateUnionNode(){
+        /*
         unionNode.physicsBody = createPhysicsBody(bodies: allPhysicsBody)
+        
         if isFront[unionNode]! == true {
             changeToFront(unionNode.physicsBody!)
         }
         GameScene.current!.physicsWorld.removeJoint(unionJoint!)
         unionJoint = createPhysicsJointFixed(sprites[0], bodyB:unionNode , anchor: CGPoint())
         GameScene.current!.physicsWorld.addJoint(unionJoint!)
+*/
     }
     
     func changeToFront(phys :SKPhysicsBody){

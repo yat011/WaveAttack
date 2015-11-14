@@ -81,8 +81,8 @@ class Building: DestructibleObject{
                 GameScene.current!.physicsWorld.removeJoint(j)
             }
             groundJoints.removeAll()
-            //changeToFront(base.physicsBody!)
-            changeToFront(unionNode.physicsBody!)
+            changeToFront(base.physicsBody!)
+          //  changeToFront(unionNode.physicsBody!)
            // for j in joints{
                // changeToFront(j.bodyB)
            // }

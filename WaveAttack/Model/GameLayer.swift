@@ -57,10 +57,10 @@ class GameLayer : SKNode{
                 var des = medium as! DestructibleObject
                 if des.target {
                     totalTarget += 1
-                    self.addChild(des.hpBar!)
+                   // self.addChild(des.hpBar!)
                 }
                 if des is EnemyActable{
-                    self.addChild(des.roundLabel!)
+                    //self.addChild(des.roundLabel!)
                 }
                 des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
                 

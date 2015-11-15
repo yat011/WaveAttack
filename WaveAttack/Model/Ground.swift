@@ -14,7 +14,7 @@ class Ground: Medium{
     var sprites = [GameSKSpriteNode]()
     var frontSprites = [GameSKSpriteNode]()
     var equilibrium = [SKSpriteNode]()
-    var interval : CGFloat =  3
+    var interval : CGFloat = 4
     var texture = SKTexture(imageNamed: "ground")
     var oriSize : CGSize? = nil
     var joints = [SKPhysicsJointSpring]()
@@ -51,7 +51,7 @@ class Ground: Medium{
             phys!.density = 100
             phys!.allowsRotation = false
             //phys!.linearDamping = 08
-            phys!.usesPreciseCollisionDetection = true
+            phys!.usesPreciseCollisionDetection = false
             phys!.dynamic = true
             tempSprite.physicsBody = phys
              tempSprite.position = tempPos
@@ -65,7 +65,7 @@ class Ground: Medium{
             frontPhys.contactTestBitMask = 0
             frontPhys.density = 100
             frontPhys.allowsRotation = false
-            frontPhys.usesPreciseCollisionDetection = true
+            frontPhys.usesPreciseCollisionDetection = false
             //frontPhys.linearDamping = 0
             frontPhys.dynamic = true
             //frontPhys.mass = 0
@@ -137,40 +137,39 @@ class Ground: Medium{
     func startVibrate(data:[CGFloat], globalStartPoint : CGPoint , completion : (()->())){
         var localPt = sprite.convertPoint(globalStartPoint, fromNode: GameScene.current!)
        var player = GameScene.current!.player!
-        print(data.count)
-        vibrateCompletion = completion
+       // print(data.count)
+        //vibrateCompletion = completion
         var i = 0
-        for each in sprites{
-            
-            var index = mapLocalXToDataIndex(each.position.x, startX: localPt.x, count: data.count)
-            
-            each.physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[index]*10))
-            
-            frontSprites[i].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[index]*10))
-            /*
-            var actions = [SKAction]();
-            actions.append( SKAction.moveToY(data[index], duration: Double(player.peroid/4) ))
-            actions[0].timingMode = .EaseOut
-            actions.append(SKAction.moveToY(0,duration: Double(player.peroid/4)))
-            actions[1].timingMode = .EaseIn
-            actions.append( SKAction.moveToY(-data[index], duration: Double(player.peroid/4) ))
-            actions[2].timingMode = .EaseOut
-            actions.append(SKAction.moveToY(0,duration: Double(player.peroid/4)))
-            actions[3].timingMode = .EaseIn
-            // actions[]
-            // SKPhysicsJointSpring.j
-            for var k in 1..<player.numOfOscillation{
-                actions.appendContentsOf(actions)
+        var  timer = FrameTimer(duration: player.peroid)
+        GameScene.current!.generalUpdateList.insert(timer)
+        var time = 0
+        
+        var f : (()->())? = nil
+        f = {
+            () -> () in
+            i = 0
+            for each in self.sprites{
+                
+                var index = self.mapLocalXToDataIndex(each.position.x, startX: localPt.x, count: data.count)
+                
+                each.physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[index]*20))
+                
+                self.frontSprites[i].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[index]*20))
+              
+                i++
             }
-            
-            if i==0 {
-                each.runAction(SKAction.sequence(actions), completion: completion)
+            time++
+            if time < player.numOfOscillation{
+                timer.current = 0
+                timer.startTimer(f!)
             }else{
-                each.runAction(SKAction.sequence(actions))
+                GameScene.current!.generalUpdateList.remove(timer)
+                self.vibrateCompletion = completion
             }
-*/
-            i++
         }
+        
+       f!()
+     
         
       /*
         for var i=0 ; i < data.count ; i++ {

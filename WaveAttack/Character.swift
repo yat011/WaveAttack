@@ -22,8 +22,24 @@ class Character : GameObject{
     var ID:Int
     
     var lore:String
-    var minSpeed: CGFloat = 0
-    var maxSpeed :CGFloat = 2
+    var minSpeed: CGFloat {
+        get{return _minSpeed}
+        set(v) {
+           _minSpeed = v
+            randSpeed()
+        }
+    }
+    
+    var _minSpeed :CGFloat = 0
+    var _maxSpeed :CGFloat = 2
+    var maxSpeed :CGFloat{
+        get{return _maxSpeed}
+        set(v) {
+            _maxSpeed = v
+            randSpeed()
+        }
+        
+    }
     var direction: WaveDirection = .Right
     var currentSpeed: CGFloat = 1
     var _round: Int = 0
@@ -89,7 +105,8 @@ class Character : GameObject{
     
     func nextRound(){
         print("nextRound")
-        currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
+        randSpeed()
+       // currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
         guard round > 0 else{
             return
         }
@@ -98,7 +115,11 @@ class Character : GameObject{
             self.triggerEvent(GameEvent.SkillReady.rawValue)
         }
     }
+    func randSpeed(){
+       currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
+    }
     func canelSkill(){
+        
         pending = false
         self.triggerEvent(GameEvent.SkillReady.rawValue)
 

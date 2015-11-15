@@ -10,12 +10,18 @@ import Foundation
 import SpriteKit
 class Building: DestructibleObject{
     var originPos :CGPoint? = nil
-   var _textures = [SKTexture(imageNamed: "building_0001_1"),SKTexture(imageNamed: "building_0000_2")]
-    override var textures:[SKTexture]? {get {return _textures}}
+   static let _textures = [SKTexture(imageNamed: "building_0001_1"),SKTexture(imageNamed: "building_0000_2")]
+   class override var textures:[SKTexture]? {get {return _textures}}
+    static let _oriTexture =  SKTexture(imageNamed: "building")
+    static let _breakRect = [CGRect(x: 0, y: 0, width: 1, height: 0.4), CGRect(x: 0, y: 0.4, width: 1, height: 0.6)]
+    override class var breakRect: [CGRect]? { get{return _breakRect}}
+    override class var oriTexture : SKTexture? {get{return _oriTexture}}
+    static var _breakTexture :[SKTexture]? = nil
+    override class var breakTexture: [SKTexture]? {get {return _breakTexture} set(v){ _breakTexture = v}}
     
-    override var breakThreshold : [CGFloat]? {get{return [0.7]}}
+    override class var breakThreshold : [CGFloat]? {get{return [0.7]}}
     
-    override var density :CGFloat? {get{return 10}}
+    override class var density :CGFloat? {get{return 10}}
     var groundJoints = [SKPhysicsJoint]()
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         originPos = position

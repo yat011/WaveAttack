@@ -80,7 +80,9 @@ class DestructibleObject : Medium {
     var isFront = [SKNode:Bool]()
     var allPhysicsBody = [SKPhysicsBody]()
     var nodeJoints = [SKNode : [SKPhysicsJoint]]()
-    
+    var gameLayer:GameLayer {
+        get{return GameScene.current!.gameLayer!}
+    }
    
     static var hitTexture: [SKTexture]? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
@@ -123,10 +125,11 @@ class DestructibleObject : Medium {
             var tempSize = CGSize(width:  size.width * clipRect.width, height: size.height * clipRect.height)
             sprite.physicsBody = createPhysicsBody( tempSize)
             sprite.size = tempSize
-            var tX = clipRect.origin.x * size.width + tempSize.width/2
-            var tY = clipRect.origin.y * size.height + tempSize.height/2
+            var tX = clipRect.origin.x * size.width + tempSize.width/2 - originSize!.width/2
+            var tY = clipRect.origin.y * size.height + tempSize.height/2 - originSize!.height/2
             sprite.position = CGPoint(x: tX , y: tY)
             //sprite.physicsBody = createNoCollisionPhysicsBody(texture, size: size)
+            
             allPhysicsBody.append(sprite.physicsBody!)
             isFront[sprite] = false
             attachedIndex++
@@ -187,7 +190,7 @@ class DestructibleObject : Medium {
         }
     }
     
-    
+  /*
     func createPhysicsBody(texture: SKTexture ,size: CGSize) -> SKPhysicsBody {
         var phys = SKPhysicsBody (texture: texture, size: size)
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
@@ -200,6 +203,7 @@ class DestructibleObject : Medium {
         phys.restitution = self.restitution
         return phys
     }
+*/
     func createPhysicsBody(size: CGSize) -> SKPhysicsBody {
         var phys =  SKPhysicsBody(rectangleOfSize: size)
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
@@ -212,6 +216,7 @@ class DestructibleObject : Medium {
         phys.restitution = self.restitution
         return phys
     }
+    /*
     func createPhysicsBody(bodies physicsBodies: [SKPhysicsBody])  -> SKPhysicsBody {
         var phys = SKPhysicsBody (bodies: physicsBodies)
         phys.categoryBitMask = CollisionLayer.Objects.rawValue
@@ -224,18 +229,7 @@ class DestructibleObject : Medium {
         phys.restitution = self.restitution
         return phys
     }
-    func createNoCollisionPhysicsBody(texture: SKTexture ,size: CGSize) -> SKPhysicsBody {
-        var phys = SKPhysicsBody (texture: texture, size: size)
-        phys.categoryBitMask = 0
-        phys.affectedByGravity = true
-        phys.collisionBitMask = 0
-        phys.contactTestBitMask = 0
-        phys.dynamic = true
-        phys.usesPreciseCollisionDetection = true
-         phys.density = self.dynamicType.density!
-        phys.restitution = self.restitution
-        return phys
-    }
+   
     func createNoCollisionPhysicsBody(size: CGSize) -> SKPhysicsBody {
         var phys =  SKPhysicsBody(rectangleOfSize: size)
         phys.categoryBitMask = 0
@@ -248,6 +242,7 @@ class DestructibleObject : Medium {
         phys.restitution = self.restitution
         return phys
     }
+*/
     override func afterAddToScene() {
         
         var keyPart = sprites[0]
@@ -288,6 +283,20 @@ class DestructibleObject : Medium {
         
     }
     
+    func checkOutOfArea(){
+        for var i = sprites.count - 1 ; i >= 0 ; i-- {
+            var each = sprites[i]
+            let rect = CGRect(origin:  sprite.position  + each.frame.origin, size: each.frame.size)
+            if (CGRectContainsRect(gameLayer.validArea!, rect) == false){
+                each.removeFromParent()
+                nodeJoints[each]?.removeAll()
+                sprites.removeAtIndex(i)
+            }
+        }
+        if sprites.count == 0{
+           gameLayer.removeGameObject(self)
+        }
+    }
     override func update() {
         
     //    if (totDmg != 0 && animating == false){

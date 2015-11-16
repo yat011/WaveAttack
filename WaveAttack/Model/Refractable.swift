@@ -14,7 +14,7 @@ protocol Refractable{
 }
 
 extension Refractable where Self: EnergyPacket{
-    func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo? ) -> CGFloat
+    func doRefraction(from from : Medium? , to : Medium?, contact: ContactInfo? ) -> CGFloat
     {
         //print(self.sprite.physicsBody!.allContactedBodies())
         
@@ -22,7 +22,7 @@ extension Refractable where Self: EnergyPacket{
         var normal = contact!.contactNormal
         normal.normalize()
         self.direction.normalize()
-        var oriDir = self.direction
+        let oriDir = self.direction
         let cosine = self.cosine!
         let sine = sqrt( 1 - pow(cosine, 2))
         
@@ -35,7 +35,7 @@ extension Refractable where Self: EnergyPacket{
                     
                 }*/
                 //self.deleteSelf()
-                var packet = self as EnergyPacket
+                let packet = self as EnergyPacket
                 packet.deleteSelf()
                 return 0
             }else{ //
@@ -62,7 +62,7 @@ extension Refractable where Self: EnergyPacket{
         }
     
         
-        var cosine2 = -1 * self.direction.dot(normal)
+        let cosine2 = -1 * self.direction.dot(normal)
         
         return getTranmissionRatio(cosine, cosine2,ax: oriDir.dx)
 

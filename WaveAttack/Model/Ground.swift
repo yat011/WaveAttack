@@ -14,10 +14,21 @@ class Ground: Medium{
     var sprites = [GameSKSpriteNode]()
     var frontSprites = [GameSKSpriteNode]()
     var equilibrium = [SKSpriteNode]()
-    var interval : CGFloat = 4
+    var interval : CGFloat = 5
     var texture = SKTexture(imageNamed: "ground")
     var oriSize : CGSize? = nil
     var joints = [SKPhysicsJointSpring]()
+    static var frontDepth : CGFloat{get{return 20}}
+    var frontY : CGFloat {
+        get{
+            return sprite.position.y + oriSize!.height/2 - Ground.frontDepth
+        }
+    }
+    var backY : CGFloat {
+        get{
+            return sprite.position.y + oriSize!.height/2
+        }
+    }
     override func getSprite() -> SKNode? {
         return sprite
     }
@@ -27,15 +38,16 @@ class Ground: Medium{
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
        // var textures = [SKTexture]()
         oriSize = size
-        var numInterval  = Int(Float(size.width / interval))
+        let numInterval  = Int(Float(size.width / interval))
         for var i=0 ; i < numInterval ; i++ {
-            var rect = CGRect(x: (CGFloat(i) * self.interval)/size.width, y: 0, width: 1 / CGFloat(numInterval), height: 1)
-            var tempTexture = (SKTexture(rect: rect, inTexture: texture))
+            let rect = CGRect(x: (CGFloat(i) * self.interval)/size.width, y: 0, width: 1 / CGFloat(numInterval), height: 1)
+            let tempTexture = (SKTexture(rect: rect, inTexture: texture))
            
-            var tempSprite = GameSKSpriteNode(texture: tempTexture)
-            var tempSize = CGSize(width: size.width / CGFloat(numInterval), height: size.height)
-            var tempX :CGFloat =  -size.width/2  + tempSize.width/2 + CGFloat(i) * tempSize.width
-            var tempPos = CGPoint(x: tempX, y: 0)
+            let tempSprite = GameSKSpriteNode(texture: tempTexture)
+            tempSprite.name="Ground"
+            let tempSize = CGSize(width: size.width / CGFloat(numInterval), height: size.height)
+            let tempX :CGFloat =  -size.width/2  + tempSize.width/2 + CGFloat(i) * tempSize.width
+            let tempPos = CGPoint(x: tempX, y: 0)
            
             tempSprite.gameObject = self
             tempSprite.size = tempSize
@@ -51,34 +63,35 @@ class Ground: Medium{
             phys!.density = 100
             phys!.allowsRotation = false
             //phys!.linearDamping = 08
-            phys!.usesPreciseCollisionDetection = false
+            phys!.usesPreciseCollisionDetection = true
             phys!.dynamic = true
             tempSprite.physicsBody = phys
              tempSprite.position = tempPos
             // front
-            var frontSprite = GameSKSpriteNode()
+            let frontSprite = GameSKSpriteNode()
             frontSprite.gameObject = self
-            var frontPhys = SKPhysicsBody(rectangleOfSize: tempSize)
+            frontSprite.name="frontGround"
+            let frontPhys = SKPhysicsBody(rectangleOfSize: tempSize)
             frontPhys.categoryBitMask = CollisionLayer.FrontGround.rawValue
             frontPhys.affectedByGravity = false
             frontPhys.collisionBitMask =   0
             frontPhys.contactTestBitMask = 0
             frontPhys.density = 100
             frontPhys.allowsRotation = false
-            frontPhys.usesPreciseCollisionDetection = false
+            frontPhys.usesPreciseCollisionDetection = true
             //frontPhys.linearDamping = 0
             frontPhys.dynamic = true
             //frontPhys.mass = 0
             frontSprite.physicsBody = frontPhys
-            frontSprite.position = tempPos - CGPoint(x: 0, y: 20)
+            frontSprite.position = tempPos - CGPoint(x: 0, y: Ground.frontDepth)
         
            
             
             //---- equil
-            var equilSprite = SKSpriteNode()
+            let equilSprite = SKSpriteNode()
         
             equilSprite.zPosition = 10000
-            var equilPhys = SKPhysicsBody(circleOfRadius: 1)
+            let equilPhys = SKPhysicsBody(circleOfRadius: 1)
             equilPhys.affectedByGravity = false
             equilPhys.dynamic = false
             equilPhys.categoryBitMask = 0
@@ -135,6 +148,7 @@ class Ground: Medium{
     var vibrateCompletion : (()->())? = nil
     
     func startVibrate(data:[CGFloat], globalStartPoint : CGPoint , completion : (()->())){
+        print(globalStartPoint)
         var localPt = sprite.convertPoint(globalStartPoint, fromNode: GameScene.current!)
        var player = GameScene.current!.player!
        // print(data.count)
@@ -143,11 +157,22 @@ class Ground: Medium{
         var  timer = FrameTimer(duration: player.peroid)
         GameScene.current!.generalUpdateList.insert(timer)
         var time = 0
-        
+        self.triggerEvent(GameEvent.EarthquakeStart.rawValue)
         var f : (()->())? = nil
         f = {
             () -> () in
             i = 0
+            for var k = 0 ; k < data.count ; k++ {
+               var index = self.mapLocalXToSpriteIndex(localPt.x + CGFloat(k))
+                print(index)
+                print(self.sprites.count)
+                
+               self.sprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
+                
+               self.frontSprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
+
+            }
+           /*
             for each in self.sprites{
                 
                 var index = self.mapLocalXToDataIndex(each.position.x, startX: localPt.x, count: data.count)
@@ -158,12 +183,14 @@ class Ground: Medium{
               
                 i++
             }
+*/
             time++
             if time < player.numOfOscillation{
                 timer.current = 0
                 timer.startTimer(f!)
             }else{
                 GameScene.current!.generalUpdateList.remove(timer)
+                self.triggerEvent(GameEvent.EarthquakeEnd.rawValue)
                 self.vibrateCompletion = completion
             }
         }
@@ -233,12 +260,11 @@ class Ground: Medium{
     }
     
     func mapLocalXToSpriteIndex (x:CGFloat) -> Int{
-        print(x)
         return Int((x + oriSize!.width/2)/interval)
     }
     
     func mapLocalXToDataIndex( localX:CGFloat, startX: CGFloat, count: Int)->Int{
-        var dx = Int(localX - startX  )
+        let dx = Int(localX - startX  )
         if (dx < 0){
             print(dx%count)
             return  dx%count + count

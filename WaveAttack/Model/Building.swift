@@ -19,7 +19,7 @@ class Building: DestructibleObject{
     static var _breakTexture :[SKTexture]? = nil
     override class var breakTexture: [SKTexture]? {get {return _breakTexture} set(v){ _breakTexture = v}}
     
-    override class var breakThreshold : [CGFloat]? {get{return [0.7]}}
+    override class var breakThreshold : [CGFloat]? {get{return [0]}}
     
     override class var density :CGFloat? {get{return 10}}
     var groundJoints = [SKPhysicsJoint]()
@@ -94,6 +94,10 @@ class Building: DestructibleObject{
            // }
         }
         
+    }
+    override func afterAddToScene() {
+        super.afterAddToScene()
+        sprite.position = CGPoint(x: sprite.position.x, y: gameLayer.ground!.backY + originSize!.height/2 + 1)
     }
    
     

@@ -93,6 +93,16 @@ extension Dictionary {
     }
     
 }
+extension Array{
+    mutating func removeObject(obj :AnyObject) -> Element?{
+        for var i = 0 ; i < self.count ; i++ {
+            if obj === (self[i] as! AnyObject){
+               return self.removeAtIndex(i)
+            }
+        }
+        return nil
+    }
+}
 
 
 

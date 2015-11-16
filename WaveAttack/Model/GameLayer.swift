@@ -20,15 +20,23 @@ class GameLayer : SKNode{
    // var gameArea = CGRect()
     weak var subMission: SubMission? = nil
     var totalTarget: Int = 0
-    var maxZIndex = 0
     var completed = false
-    
+    static let ZFRONT :CGFloat = 10, ZNORMAL :CGFloat = 9, ZBACK :CGFloat = 0
+    var validArea : CGRect? = nil
     weak var gameScene: GameScene? = nil
+    var enterables = [Enterable]()
+    var spawnPoints = [SpawnPoint]()
+    var validTimer = FrameTimer(duration: 0.5)
+    
     init(subMission : SubMission, gameScene : GameScene) {
-        
+       
        self.subMission = subMission
         self.gameScene = gameScene
         super.init()
+        validArea  = CGRect(x: -50, y: -50, width: gameScene.gameArea!.width + 100, height: gameScene.gameArea!.height + 100)
+    
+        
+        
          //gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         background = subMission.terrain
        // print(background!.getSprite()!)
@@ -57,7 +65,7 @@ class GameLayer : SKNode{
                 var des = medium as! DestructibleObject
                 if des.target {
                     totalTarget += 1
-                   // self.addChild(des.hpBar!)
+                  // self.addChild(des.hpBar!)
                 }
                 if des is EnemyActable{
                     //self.addChild(des.roundLabel!)
@@ -70,9 +78,16 @@ class GameLayer : SKNode{
                 ground = medium as! Ground
             }
         }
+        spawnPoints = subMission.spawnPoints
+        
 
         initBoundary()
-       
+        let left = EndPoint()
+        left.pos = CGPoint(x: -100, y: ground!.frontY)
+        let right = EndPoint()
+        right.pos = CGPoint(x: validArea!.width + (validArea?.origin.x)! + 50, y: ground!.frontY)
+        enterables.append(left)
+        enterables.append(right)
         
     }
 
@@ -97,7 +112,22 @@ class GameLayer : SKNode{
                 medium.afterAddToScene()
             }
         }
-        
+        for each in spawnPoints{
+            each.afterAddToScene()
+        }
+        var f :(()->())? = nil
+        f = {
+            ()->() in
+            for each in self.attackPhaseObjects{
+                if (each is DestructibleObject){
+                    (each as! DestructibleObject).checkOutOfArea()
+                }
+            }
+            self.validTimer.reset()
+            self.validTimer.startTimer(f!)
+        }
+        validTimer.startTimer(f!)
+        gameScene!.generalUpdateList.insert(validTimer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -108,10 +138,7 @@ class GameLayer : SKNode{
         attackPhaseObjects.insert(obj)
         if (obj is Medium){
             let temp  = obj as! Medium
-            if temp.zIndex > maxZIndex {
-                maxZIndex = temp.zIndex
-            }
-            //self.addChild(temp.physContactSprite)
+           //self.addChild(temp.physContactSprite)
         }
         
         if (obj is EnergyPacket){
@@ -146,6 +173,9 @@ class GameLayer : SKNode{
         
         
         for obj in  attackPhaseObjects{
+            obj.update()
+        }
+        for obj in spawnPoints{
             obj.update()
         }
     }

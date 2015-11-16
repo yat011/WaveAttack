@@ -41,7 +41,9 @@ class GameObject : NSObject {
         }
     }
     
-    
+    func initialize(size : CGSize , position : CGPoint, gameScene :GameScene){
+        fatalError("not implement")
+    }
     
     func getSprite() -> SKNode?{
         return nil;

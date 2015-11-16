@@ -57,22 +57,6 @@
                     },
                     {
                     "gid":3,
-                    "height":240.732980802001,
-                    "id":16,
-                    "name":"",
-                    "properties":
-                    {
-                    
-                    },
-                    "rotation":0,
-                    "type":"Ground",
-                    "visible":true,
-                    "width":390.202594005738,
-                    "x":-8.28300232201967,
-                    "y":827.259739419654
-                    },
-                    {
-                    "gid":4,
                     "height":142.433866044348,
                     "id":17,
                     "name":"",
@@ -85,76 +69,124 @@
                     "type":"Building",
                     "visible":true,
                     "width":45.0747451102364,
-                    "x":210.206982012348,
-                    "y":581.225566678722
+                    "x":248.367742508747,
+                    "y":534.099305925446
                     },
                     {
                     "gid":5,
-                    "height":18.8944905826703,
-                    "id":18,
+                    "height":384.569233574759,
+                    "id":22,
+                    "name":"ground",
+                    "properties":
+                    {
+                    
+                    },
+                    "rotation":0,
+                    "type":"Ground",
+                    "visible":true,
+                    "width":1200,
+                    "x":-33.5432349886408,
+                    "y":920.245272582805
+                    },
+                    {
+                    "height":28.0846283467516,
+                    "id":25,
+                    "name":"spawnPt",
+                    "properties":
+                    {
+                    "groundType":"Front",
+                    "spawnType":"Human"
+                    },
+                    "rotation":0,
+                    "type":"SpawnPoint",
+                    "visible":true,
+                    "width":20.5953941209511,
+                    "x":50.8552787445355,
+                    "y":510.320049743044
+                    },
+                    {
+                    "height":28.0846,
+                    "id":30,
+                    "name":"spawnPt",
+                    "properties":
+                    {
+                    "groundType":"Front",
+                    "spawnType":"Human"
+                    },
+                    "rotation":0,
+                    "type":"SpawnPoint",
+                    "visible":true,
+                    "width":20.5954,
+                    "x":1121.9872213691,
+                    "y":507.696830434783
+                    },
+                    {
+                    "gid":3,
+                    "height":111.737442532379,
+                    "id":31,
                     "name":"",
                     "properties":
                     {
-                    "hp":"100",
+                    "hp":"5000",
                     "target":"true"
                     },
                     "rotation":0,
-                    "type":"Human",
+                    "type":"Building",
                     "visible":true,
-                    "width":12.3067038654973,
-                    "x":149.655791679138,
-                    "y":584.593383129812
+                    "width":74.1631085363645,
+                    "x":430.320181020741,
+                    "y":533.80066144371
                     },
                     {
-                    "gid":5,
-                    "height":18.8945,
-                    "id":19,
+                    "gid":3,
+                    "height":111.737,
+                    "id":32,
                     "name":"",
                     "properties":
                     {
-                    "hp":"100",
+                    "hp":"5000",
                     "target":"true"
                     },
                     "rotation":0,
-                    "type":"Human",
+                    "type":"Building",
                     "visible":true,
-                    "width":12.3067,
-                    "x":86.6332408410656,
-                    "y":585.584177716253
+                    "width":74.1631,
+                    "x":132.287166601757,
+                    "y":531.940575264922
                     },
                     {
-                    "gid":5,
-                    "height":18.8945,
-                    "id":20,
+                    "gid":3,
+                    "height":111.737,
+                    "id":33,
                     "name":"",
                     "properties":
                     {
-                    "hp":"100",
+                    "hp":"5000",
                     "target":"true"
                     },
                     "rotation":0,
-                    "type":"Human",
+                    "type":"Building",
                     "visible":true,
-                    "width":12.3067,
-                    "x":120.156138177192,
-                    "y":584.386931382819
+                    "width":74.1631,
+                    "x":621.411510951048,
+                    "y":536.045382299282
                     },
                     {
-                    "gid":5,
-                    "height":18.8945,
-                    "id":21,
+                    "gid":3,
+                    "height":111.737,
+                    "id":34,
                     "name":"",
                     "properties":
                     {
-                    "hp":"100",
+                    "hp":"5000",
                     "target":"true"
                     },
                     "rotation":0,
-                    "type":"Human",
+                    "type":"Building",
                     "visible":true,
-                    "width":12.3067,
-                    "x":52.5117203382221,
-                    "y":583.788308216103
+                    "width":74.1631,
+                    "x":826.732459419782,
+                    "y":530.362585279086
                     }
                     ]
                  }

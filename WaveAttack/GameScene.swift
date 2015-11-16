@@ -17,6 +17,7 @@ enum CollisionLayer : UInt32 {
     case Ground = 16
     case FrontGround = 0x20
     case FrontObjects = 0x40
+    case SmallObjects = 0x80
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -86,7 +87,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         GameScene.current = self
 
         // load mission
-        self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: size.height))
+        self.gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width * 3, height: size.height))
         self.packetArea = CGRect(origin: CGPoint(x: -100,y: -100), size: CGSize(width: size.width + 200, height: size.height + 200))
         
         mission =  Mission.loadMission(missionId,gameScene: self)
@@ -483,7 +484,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
 
-    var dragVelocity : CGFloat = 0
+    var dragVelocity : CGVector = CGVector()
     var dragging : SKNode?=nil
     var timerStarted=false
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -536,7 +537,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: CGPoint(x: 37.5 , y: 0), completion: {
+           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: CGPoint(x:  37.5 , y: 0), completion: {
                 () -> () in
                 //print("completeion")
             self.superingTimer = nil
@@ -654,12 +655,12 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 
                 
             }
-             let diff :CGVector =  prevTouchPoint! - touchDown
-            var moveY = diff.dy * 2
-            moveY = (prevMoveY + moveY) / 2
-            prevMoveY = moveY
-            scrollLayers(-moveY)
-            dragVelocity = (-moveY)
+            let diff :CGVector =  prevTouchPoint! - touchDown
+            // //print(diff)
+            var move = 2 * diff
+            move = 0.5 * (prevMove + move)
+            prevMove = move
+            dragVelocity = (-1 * move)
             prevTouchPoint = touchDown
             
         }
@@ -751,7 +752,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
      
     }
-    var prevMoveY: CGFloat = 0
+    var prevMove: CGVector  = CGVector()
     
     func checkPressing(touchDown :CGPoint,touches: Set<UITouch>){
         if (prevTouchPoint == nil){
@@ -759,9 +760,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         let diff :CGVector =  prevTouchPoint! - touchDown
        // //print(diff)
-        var moveY = diff.dy * 2
-        moveY = (prevMoveY + moveY) / 2
-        prevMoveY = moveY
+        var move = 2 * diff
+        move = 0.5 * (prevMove + move)
+        prevMove = move
         if (touchType! == TouchType.gameArea){ //
             
             prevTouchPoint  = touchDown
@@ -769,8 +770,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 return
             }
             if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering || self.currentStage == GameStage.SuperpositionAnimating){
-                scrollLayers(-moveY)
-                dragVelocity = (-moveY)
+                scrollLayers(-1*move)
+                dragVelocity = (-1 * move)
             }
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
@@ -855,12 +856,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func touchesBeganSkill(touchDown :CGPoint,touches: Set<UITouch>){
         if (pressedSkill is PlacableSkill){
-            let temp =  pressedSkill as! PlacableSkill
+          /*  let temp =  pressedSkill as! PlacableSkill
             var gameObj = temp.createGameObj(gameLayer!.maxZIndex, gameScene: self)
             gameObj.getSprite()!.runAction(SKAction.fadeAlphaTo(0.3, duration: 0))
             gameObj.getSprite()!.position = touchDown
             gameLayer?.addGameObject(gameObj)
             dragSkillObj = gameObj
+*/
         }else if (pressedSkill is TargetSkill){
             
         }
@@ -902,35 +904,44 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         return false
     }
     
-    
-    func scrollLayers(movement : CGFloat){
+   
+    func scrollLayers(movement: CGVector){
         ////print(gameArea)
         
-        var newY = gameLayer!.position.y + movement
+        var newY = gameLayer!.position.y + movement.dy
+        var newX = gameLayer!.position.x + movement.dx
+        print(gameLayer!.position.x)
         let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
-
+        let lowestBoundX = -gameArea!.width + self.viewController!.screenSize.width
+        
         
         if newY < lowerBound{
             newY = lowerBound
         }else if newY > playRect!.origin.y {
             newY = playRect!.origin.y
         }
-        //gameLayer.position.y = newY
         
+        if newX < lowestBoundX{
+            newX = lowestBoundX
+        }else if newX > 0 {
+            newX = 0
+        }
         
+       let moveTo = CGPoint(x: newX, y: newY)
         
-        gameLayer!.runAction(SKAction.moveToY(newY, duration: 0))
-        gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
+        gameLayer!.runAction(SKAction.moveTo(moveTo,duration: 0))
+       // gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
         controlLayer!.scroll(0, y: newY-self.size.height/2)
-
+        
     }
     func continueScroll(){
-        if ((dragVelocity != 0) && (touching == false))
+        if ((dragVelocity.length != 0) && (touching == false))
         {
             scrollLayers(dragVelocity)
-            dragVelocity *= 0.9
-            if (abs(dragVelocity) < 5) {dragVelocity = 0}
+            dragVelocity = 0.9 * dragVelocity
+            if (abs(dragVelocity.dy) < 5) {dragVelocity.dy = 0}
+            if (abs(dragVelocity.dx) < 5) {dragVelocity.dx = 0}
         }
     }
    
@@ -963,7 +974,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         destHpBar?.removeFromParent()
         destHpBar = nil
         prevTouchPoint = nil
-        prevMoveY = 0
+        prevMove = CGVector()
         dragging = nil
     }
     
@@ -1189,16 +1200,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     }
     func createFlashLabel(text : String){
-        var label = SKLabelNode(text: text)
+        let label = SKLabelNode(text: text)
         label.position = CGPoint(x: self.size.width / 2, y: 500)
         label.zPosition = 10000
         label.fontName = "Helvetica"
         label.verticalAlignmentMode = .Center
-        var back = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 200, height: 80))
+        let back = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 200, height: 80))
         back.alpha = 0.7
         back.zPosition = -1
         label.addChild(back)
-        var seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
+        let seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
         
         self.addChild(label)
         label.runAction(SKAction.sequence(seq), completion :

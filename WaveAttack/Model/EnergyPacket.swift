@@ -33,10 +33,10 @@ class EnergyPacket : GameObject{
     
     init(_ energy: CGFloat, position pos : CGPoint, gameScene sc : GameScene) {
        super.init()
-       initialize(energy, position: pos, gameScene: sc)
+     //  initialize(energy, position: pos, gameScene: sc)
         
     }
-    
+  /*
     func initialize(energy: CGFloat, position pos : CGPoint, gameScene sc : GameScene){
         self.energy = energy
       
@@ -110,7 +110,7 @@ class EnergyPacket : GameObject{
 
     }
     
-    
+    */
     
     
     

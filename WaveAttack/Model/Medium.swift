@@ -39,9 +39,7 @@ class Medium : GameObject {
         initialize(size, position: position, gameScene: gameScene)
       
     }
-    func initialize(size : CGSize , position : CGPoint, gameScene :GameScene){
-        fatalError("not implement")
-    }
+    
     func afterAddToScene (){
         
     }

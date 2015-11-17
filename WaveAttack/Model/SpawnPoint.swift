@@ -31,13 +31,13 @@ class SpawnPoint :GameObject{
     var interval:CGFloat = 10
     var currentNum = 0
     var maxNum = 10
-    var afterFirstAttack = false
-    
     var timer : FrameTimer? = nil
+    var workingStage : UInt32 = 1
+    var limited = false
+    var limitCount = 10
     
     
     func afterAddToScene(){
-        if afterFirstAttack == false{
             timer = FrameTimer(duration: afterTime)
             GameScene.current!.generalUpdateList.insert(timer!)
             var f : (()->())? = nil
@@ -50,10 +50,12 @@ class SpawnPoint :GameObject{
             }
             timer?.startTimer(f!)
             
-        }
     }
     
     func spawnObjectAndAdd() {
+        if self.workingStage & gameLayer.stage  == 0 {
+           return
+        }
        var obj = GameObjectFactory.getInstance().create(type)
         if obj is Spawnable{
             let sp = obj as! Spawnable

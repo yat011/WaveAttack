@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import SceneKit
 class DestructibleObject : Medium {
   
     private var _originHp : CGFloat = 1000
@@ -66,6 +67,8 @@ class DestructibleObject : Medium {
     class var breakTexture: [SKTexture]? {get {return nil} set(v){}}
     class var breakRect: [CGRect]? { get{return nil}}
     class var oriTexture : SKTexture? {get{return nil}}
+    class var score: [CGFloat] { get {return [10]}}
+    var scoredIndex: Int = 0
     var sprites = [GameSKSpriteNode]()
     var attachedIndex = 0
     var sprite = SKSpriteNode()
@@ -80,10 +83,11 @@ class DestructibleObject : Medium {
     var isFront = [SKNode:Bool]()
     var allPhysicsBody = [SKPhysicsBody]()
     var nodeJoints = [SKNode : [SKPhysicsJoint]]()
-    var gameLayer:GameLayer {
-        get{return GameScene.current!.gameLayer!}
-    }
-   
+  
+    
+    static let GROUNED_LEN: CGFloat = 2
+    
+    
     static var hitTexture: [SKTexture]? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         /*if getSprite() == nil {
@@ -189,7 +193,7 @@ class DestructibleObject : Medium {
            self.dynamicType.breakTexture?.append(SKTexture(rect: each, inTexture: self.dynamicType.oriTexture!))
         }
     }
-    
+   
   /*
     func createPhysicsBody(texture: SKTexture ,size: CGSize) -> SKPhysicsBody {
         var phys = SKPhysicsBody (texture: texture, size: size)
@@ -216,33 +220,7 @@ class DestructibleObject : Medium {
         phys.restitution = self.restitution
         return phys
     }
-    /*
-    func createPhysicsBody(bodies physicsBodies: [SKPhysicsBody])  -> SKPhysicsBody {
-        var phys = SKPhysicsBody (bodies: physicsBodies)
-        phys.categoryBitMask = CollisionLayer.Objects.rawValue
-        phys.affectedByGravity = true
-        phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue | CollisionLayer.GameBoundary.rawValue
-        phys.contactTestBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.Ground.rawValue
-        phys.dynamic = true
-        phys.usesPreciseCollisionDetection = true
-        phys.density = self.dynamicType.density!
-        phys.restitution = self.restitution
-        return phys
-    }
-   
-    func createNoCollisionPhysicsBody(size: CGSize) -> SKPhysicsBody {
-        var phys =  SKPhysicsBody(rectangleOfSize: size)
-        phys.categoryBitMask = 0
-        phys.affectedByGravity = true
-        phys.collisionBitMask = 0
-        phys.contactTestBitMask = 0
-        phys.dynamic = true
-        phys.usesPreciseCollisionDetection = true
-        phys.density = self.dynamicType.density!
-        phys.restitution = self.restitution
-        return phys
-    }
-*/
+
     override func afterAddToScene() {
         
         var keyPart = sprites[0]
@@ -283,6 +261,42 @@ class DestructibleObject : Medium {
         
     }
     
+    func isGrounded() -> Bool{
+        let startPt = gameScene!.convertPoint(sprites[0].position, fromNode: sprite) + CGPoint(x: 0, y:  -sprites[0].size.height/2 + 0.5)
+        let endPt = startPt + CGPoint(x: 0, y: -DestructibleObject.GROUNED_LEN)
+        var phys = gameScene!.physicsWorld.bodyAlongRayStart(startPt, end: endPt)
+        guard phys != nil else { return false}
+      //  print(phys!.node!.name)
+        if phys!.node!.name ==  Ground.Name{
+            return true
+        }else{
+            return false
+        }
+        
+    }
+    func checkIfObjectAtFront(x : CGFloat)-> Bool{
+        var dis  :CGFloat = 0
+        var len :CGFloat = 0
+        if x > 0 {
+            dis = originSize!.width/2   - 0.5
+            len = DestructibleObject.GROUNED_LEN
+        }else{
+            dis = -originSize!.width/2  + 0.5
+            len = -DestructibleObject.GROUNED_LEN
+            
+        }
+        let startPt = gameScene!.convertPoint(sprites[0].position, fromNode: sprite) + CGPoint(x:dis , y: 0)
+        
+        let endPt = startPt + CGPoint(x: len , y: 0)
+        var phys = gameScene!.physicsWorld.bodyAlongRayStart(startPt, end: endPt)
+        guard phys != nil else { return false}
+        //print(phys!.node!.name)
+        if sprites[0].physicsBody!.collisionBitMask & phys!.categoryBitMask  > 0{
+           return true
+        }
+        return false
+    }
+    
     func checkOutOfArea(){
         for var i = sprites.count - 1 ; i >= 0 ; i-- {
             var each = sprites[i]
@@ -297,6 +311,7 @@ class DestructibleObject : Medium {
            gameLayer.removeGameObject(self)
         }
     }
+
     override func update() {
         
     //    if (totDmg != 0 && animating == false){
@@ -340,15 +355,19 @@ class DestructibleObject : Medium {
            // GameScene.current!.physicsWorld.removeJoint(joints.removeLast())
             //node.physicsBody! = createNoCollisionPhysicsBody(node.texture!, size: originSize!)
             changeToFront(node.physicsBody!)
-            //allPhysicsBody.removeLast()
-           // updateUnionNode()
-            
+           // SKEmitterNode(fileNamed: "Smoke.sks")
+           jointBroken(node)
         }
         
         
         
         
     }
+    
+    func jointBroken (node : SKSpriteNode){
+        
+    }
+    
     
     func updateUnionNode(){
         /*
@@ -368,6 +387,7 @@ class DestructibleObject : Medium {
         phys.categoryBitMask = CollisionLayer.FrontObjects.rawValue
         phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue | CollisionLayer.GameBoundary.rawValue
         phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+        phys.node!.zPosition = GameLayer.ZFRONT
     }
     
    /*
@@ -496,7 +516,7 @@ class DestructibleObject : Medium {
         //self.getSprite()!.parent!.addChild(animateNode)
         //  animateNode.position = CGPoint(x: , y: )
         print(contactPt)
-        self.gameScene = GameScene.current!
+      //  self.gameScene = GameScene.current!
         GameScene.current!.gameLayer!.addChild(animateNode)
         animateNode.position = gameScene!.gameLayer!.convertPoint( contactPt, fromNode : gameScene!)
         animateNode.zPosition = 10000
@@ -622,6 +642,7 @@ class DestructibleObject : Medium {
     func die (){
         dead =  true
     
+        /*
         var crop = SKCropNode()
         var temp = SKSpriteNode()
         temp.texture = (getSprite()! as! SKSpriteNode).texture
@@ -653,6 +674,9 @@ class DestructibleObject : Medium {
         crop.addChild(crackUI)
         crop.zPosition = getSprite()!.zPosition + 1
         self.getSprite()!.addChild(crop)
+*/
+        scoredIndex = 0
+        triggerEvent(GameEvent.Scored.rawValue)
         triggerEvent(GameEvent.Dead.rawValue)
         
     }

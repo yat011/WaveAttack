@@ -74,7 +74,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var character : [Character?] = []
     var inited : Int = 0 //for texture
     var generalUpdateList = Set<GameObject>()
-
+    var totalScore :CGFloat = 0
     
     
     init(size: CGSize, missionId: Int,viewController:GameViewController) {
@@ -217,9 +217,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             return
         }else{
 */
-        print("impluse \(contact.collisionImpulse)")
-        print(contact.bodyA.node!.name)
-        print(contact.bodyB.node!.name)
+      //  print("impluse \(contact.collisionImpulse)")
+       // print(contact.bodyA.node!.name)
+        //print(contact.bodyB.node!.name)
         guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
              return
          }
@@ -412,7 +412,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
 //---------------------------------------
     
-    func removeGameObjectFromList (var ls: [GameObject], obj :GameObject) ->(){
+   /* func removeGameObjectFromList (var ls: [GameObject], obj :GameObject) ->(){
         for i in 0...(ls.count - 1){
             if (ls[i] === obj){
                 ls.removeAtIndex(i)
@@ -429,6 +429,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
         }
     }
+*/
     
 //----------------------touching --------------------------
     var touchType : TouchType? = nil
@@ -601,7 +602,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             p1.forceDir = -1
         }
         p1.direction = CGVector(dx: 0, dy: 1)
-        p1.gameLayer = gameLayer
+       // p1.gameLayer = gameLayer
         p1.pushBelongTo(gameLayer!.background!)
         for obj in gameLayer!.attackPhaseObjects{
             if obj is Medium{
@@ -910,7 +911,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         var newY = gameLayer!.position.y + movement.dy
         var newX = gameLayer!.position.x + movement.dx
-        print(gameLayer!.position.x)
+       // print(gameLayer!.position.x)
         let diff = gameArea!.height - playRect!.size.height
         let lowerBound = playRect!.origin.y - diff
         let lowestBoundX = -gameArea!.width + self.viewController!.screenSize.width
@@ -931,7 +932,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
        let moveTo = CGPoint(x: newX, y: newY)
         
         gameLayer!.runAction(SKAction.moveTo(moveTo,duration: 0))
-       // gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
+        gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
         controlLayer!.scroll(0, y: newY-self.size.height/2)
         
     }

@@ -27,6 +27,9 @@ class GameLayer : SKNode{
     var enterables = [Enterable]()
     var spawnPoints = [SpawnPoint]()
     var validTimer = FrameTimer(duration: 0.5)
+    var totalTimer = FrameTimer(duration: 1e6)
+    var attackStarted = false
+    var stage: UInt32  = 1
     
     init(subMission : SubMission, gameScene : GameScene) {
        
@@ -65,7 +68,7 @@ class GameLayer : SKNode{
                 var des = medium as! DestructibleObject
                 if des.target {
                     totalTarget += 1
-                  // self.addChild(des.hpBar!)
+                   self.addChild(des.hpBar!)
                 }
                 if des is EnemyActable{
                     //self.addChild(des.roundLabel!)
@@ -76,6 +79,9 @@ class GameLayer : SKNode{
             addGameObject(medium)
             if (medium is Ground){
                 ground = medium as! Ground
+                ground!.subscribeEvent(GameEvent.EarthquakeStart.rawValue, call: {
+                    (obj : GameObject) -> () in
+                })
             }
         }
         spawnPoints = subMission.spawnPoints
@@ -128,19 +134,31 @@ class GameLayer : SKNode{
         }
         validTimer.startTimer(f!)
         gameScene!.generalUpdateList.insert(validTimer)
+        totalTimer.startTimer(nil)
+        gameScene!.generalUpdateList.insert(totalTimer)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func scored (obj : GameObject){
+        guard obj is DestructibleObject else{return }
+        let destObj = obj as! DestructibleObject
+        var score = destObj.dynamicType.score[destObj.scoredIndex]
+        gameScene!.totalScore += score
+        gameScene!.infoLayer!.scoreLabel!.setScore(gameScene!.totalScore)
+        self.addChild(ScoreFlashMsg(score,destObj))
+    }
     func addGameObject(obj : GameObject){
         attackPhaseObjects.insert(obj)
         if (obj is Medium){
             let temp  = obj as! Medium
            //self.addChild(temp.physContactSprite)
         }
-        
+        if (obj is DestructibleObject){
+            obj.subscribeEvent(GameEvent.Scored.rawValue, call: self.scored)
+        }
         if (obj is EnergyPacket){
             energyPackets.insert(obj as! EnergyPacket)
         }

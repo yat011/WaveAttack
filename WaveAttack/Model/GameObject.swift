@@ -13,11 +13,15 @@ class GameObject : NSObject {
     typealias CallBack = (GameObject)->()
     
     override var hashValue: Int { return unsafeAddressOf(self).hashValue }
-    weak var gameScene : GameScene? = nil
+    var gameScene : GameScene? {
+        get{return GameScene.current}
+    }
     
     var eventFunc = [String : [CallBack]]()
     var name : String = ""
-    
+    var gameLayer:GameLayer {
+        get{return GameScene.current!.gameLayer!}
+    }
     
     func subscribeEvent ( event :String , call: CallBack){
         if eventFunc[event] == nil{
@@ -58,7 +62,7 @@ class GameObject : NSObject {
     }
     
     init(_ gameScene :GameScene){
-        self.gameScene = gameScene
+       // self.gameScene = gameScene
     }
     
     func deleteSelf(){ //to be overrided

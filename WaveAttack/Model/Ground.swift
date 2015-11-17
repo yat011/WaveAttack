@@ -13,12 +13,14 @@ class Ground: Medium{
     var sprite  = SKSpriteNode()
     var sprites = [GameSKSpriteNode]()
     var frontSprites = [GameSKSpriteNode]()
+    var bottomFence = [GameSKSpriteNode]()
     var equilibrium = [SKSpriteNode]()
     var interval : CGFloat = 5
     var texture = SKTexture(imageNamed: "ground")
     var oriSize : CGSize? = nil
     var joints = [SKPhysicsJointSpring]()
     static var frontDepth : CGFloat{get{return 20}}
+    static let Name = "ground"
     var frontY : CGFloat {
         get{
             return sprite.position.y + oriSize!.height/2 - Ground.frontDepth
@@ -44,7 +46,7 @@ class Ground: Medium{
             let tempTexture = (SKTexture(rect: rect, inTexture: texture))
            
             let tempSprite = GameSKSpriteNode(texture: tempTexture)
-            tempSprite.name="Ground"
+            tempSprite.name=Ground.Name
             let tempSize = CGSize(width: size.width / CGFloat(numInterval), height: size.height)
             let tempX :CGFloat =  -size.width/2  + tempSize.width/2 + CGFloat(i) * tempSize.width
             let tempPos = CGPoint(x: tempX, y: 0)
@@ -55,6 +57,7 @@ class Ground: Medium{
           
             
             //phys = SKPhysicsBody(texture: tempSprite.texture!, size: tempSize)
+            
             phys = SKPhysicsBody(rectangleOfSize: tempSize)
             phys!.categoryBitMask = CollisionLayer.Ground.rawValue
             phys!.affectedByGravity = false
@@ -70,7 +73,7 @@ class Ground: Medium{
             // front
             let frontSprite = GameSKSpriteNode()
             frontSprite.gameObject = self
-            frontSprite.name="frontGround"
+            frontSprite.name=Ground.Name
             let frontPhys = SKPhysicsBody(rectangleOfSize: tempSize)
             frontPhys.categoryBitMask = CollisionLayer.FrontGround.rawValue
             frontPhys.affectedByGravity = false
@@ -84,8 +87,23 @@ class Ground: Medium{
             //frontPhys.mass = 0
             frontSprite.physicsBody = frontPhys
             frontSprite.position = tempPos - CGPoint(x: 0, y: Ground.frontDepth)
-        
-           
+            //
+            let bottomSprite = GameSKSpriteNode()
+            bottomSprite.gameObject = self
+            bottomSprite.name=Ground.Name
+            let bottomPhys = SKPhysicsBody(rectangleOfSize: tempSize)
+            bottomPhys.categoryBitMask = CollisionLayer.FrontGround.rawValue
+            bottomPhys.affectedByGravity = false
+            bottomPhys.collisionBitMask =   0
+            bottomPhys.contactTestBitMask = 0
+            bottomPhys.density = 100
+            bottomPhys.allowsRotation = false
+            bottomPhys.usesPreciseCollisionDetection = true
+            //bottomPhys.linearDamping = 0
+            bottomPhys.dynamic = false
+            //bottomPhys.mass = 0
+            bottomSprite.physicsBody = bottomPhys
+            bottomSprite.position = tempPos - CGPoint(x: 0, y: Ground.frontDepth - 10)
             
             //---- equil
             let equilSprite = SKSpriteNode()
@@ -104,10 +122,12 @@ class Ground: Medium{
             equilibrium.append(equilSprite)
         
             frontSprites.append(frontSprite)
+            bottomFence.append(bottomSprite)
             sprites.append(tempSprite)
             sprite.addChild(tempSprite)
             sprite.addChild(equilSprite)
             sprite.addChild(frontSprite)
+            sprite.addChild(bottomSprite)
             
         
         }
@@ -127,7 +147,7 @@ class Ground: Medium{
             joint.frequency = 1.0
            var frontjoint =  SKPhysicsJointSpring.jointWithBodyA(frontSprites[i].physicsBody!, bodyB: equilibrium[i].physicsBody!, anchorA: eqPt, anchorB: eqPt)
             frontjoint.damping = 0.3
-            frontjoint.frequency = 1.0
+           frontjoint.frequency = 1.0
             joints.append(joint)
             GameScene.current!.physicsWorld.addJoint(joint)
             GameScene.current!.physicsWorld.addJoint(frontjoint)
@@ -158,6 +178,7 @@ class Ground: Medium{
         GameScene.current!.generalUpdateList.insert(timer)
         var time = 0
         self.triggerEvent(GameEvent.EarthquakeStart.rawValue)
+        
         var f : (()->())? = nil
         f = {
             () -> () in
@@ -169,7 +190,7 @@ class Ground: Medium{
                 
                self.sprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
                 
-               self.frontSprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
+              self.frontSprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
 
             }
            /*
@@ -197,8 +218,8 @@ class Ground: Medium{
         
        f!()
      
-        
       /*
+      
         for var i=0 ; i < data.count ; i++ {
             var index = mapLocalXToSpriteIndex(localPt.x + CGFloat(i))
             print(index)
@@ -206,13 +227,14 @@ class Ground: Medium{
                 continue
             }
             var actions = [SKAction]();
-            actions.append( SKAction.moveToY(data[i], duration: Double(player.peroid/4) ))
+            SKAction.moveByX(0, y: data[i], duration: Double(player.peroid/4) )
+            actions.append(  SKAction.moveByX(0, y: data[i], duration: Double(player.peroid/4) ))
             actions[0].timingMode = .EaseOut
-            actions.append(SKAction.moveToY(0,duration: Double(player.peroid/4)))
+            actions.append( SKAction.moveByX(0, y: -data[i], duration: Double(player.peroid/4) ))
             actions[1].timingMode = .EaseIn
-            actions.append( SKAction.moveToY(-data[i], duration: Double(player.peroid/4) ))
+            actions.append(  SKAction.moveByX(0, y: -data[i], duration: Double(player.peroid/4)) )
             actions[2].timingMode = .EaseOut
-            actions.append(SKAction.moveToY(0,duration: Double(player.peroid/4)))
+            actions.append( SKAction.moveByX(0, y: data[i], duration: Double(player.peroid/4) ))
             actions[3].timingMode = .EaseIn
            // actions[]
            // SKPhysicsJointSpring.j
@@ -225,9 +247,11 @@ class Ground: Medium{
             }else{
                 sprites[index].runAction(SKAction.sequence(actions))
             }
+            frontSprites[index].runAction(SKAction.sequence(actions))
+            bottomFence[index].runAction(SKAction.sequence(actions))
         }
-        */
         
+        */
         
     }
     override func update() {
@@ -236,7 +260,9 @@ class Ground: Medium{
             each.physicsBody!.velocity = CGVector(dx: 0, dy: each.physicsBody!.velocity.dy)
             frontSprites[i].physicsBody!.velocity = CGVector(dx: 0, dy: each.physicsBody!.velocity.dy)
             frontSprites[i].runAction(SKAction.rotateToAngle(0, duration: 0))
-            each.runAction(SKAction.rotateToAngle(0, duration: 0))
+         //   frontSprites[i].runAction(SKAction.moveToY(each.position.y - Ground.frontDepth, duration: 0))
+            bottomFence[i].runAction(SKAction.moveToY(each.position.y - Ground.frontDepth -  15, duration: 0))
+          //  each.runAction(SKAction.rotateToAngle(0, duration: 0))
            // if each.physicsBody!.velocity.dy < 0.1 && abs(each.position.y) < 5{
                // each.position = CGPoint(x: each.position.x, y:0)
             // each.physicsBody!.velocity = CGVector()

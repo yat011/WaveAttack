@@ -45,7 +45,7 @@ extension Reflectable where Self: EnergyPacket{
         let packet =   self.newInstance() as! EnergyPacket
         packet.belongTo.appendContentsOf(self.prevBelongTo)
         packet.getBelongTo()!.addPacketRef(packet)
-        packet.gameLayer = self.gameLayer
+       // packet.gameLayer = self.gameLayer
         packet.direction = self.direction
       //  packet.sprite = self.sprite.copy() as! GameSKShapeNode
         packet.sprite!.gameObject = packet

@@ -17,6 +17,7 @@ class InfoLayer : SKNode , Clickable{
     var menu : ButtonUI? = nil
     weak var gameScene :GameScene? = nil
     var confirmWindow : ConfirmWindow? = nil
+    var scoreLabel : ScoreLabel? = nil
     init(position : CGPoint, player: Player, gameScene: GameScene){
         self.player = player
         super.init()
@@ -72,6 +73,10 @@ class InfoLayer : SKNode , Clickable{
         self.gameScene = gameScene
         self.gameScene?.addClickable(GameStage.Superposition, self.menu!)
         self.addChild(menu!)
+        
+       self.scoreLabel = ScoreLabel(position: CGPoint(x: 305, y: 5))
+        self.addChild(self.scoreLabel!)
+        
     }
     
 

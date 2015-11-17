@@ -18,7 +18,7 @@ class EnergyPacket : GameObject{
 
     var direction : CGVector = CGVector(dx: 0, dy: 1)
       // var speed : CGFloat = 10
-    weak var gameLayer : GameLayer? = nil
+   // weak var gameLayer : GameLayer? = nil
     var deleted: Bool = false
     
     var forceDir:CGFloat = 1
@@ -351,7 +351,7 @@ class EnergyPacket : GameObject{
             let reflect = self as! Reflectable
             let rePacket = reflect.doReflection(from: from, to: to, contact: contact)!
             rePacket.energy = rePacket.energy * reflectRatio
-            self.gameLayer!.addGameObject(rePacket)
+            self.gameLayer.addGameObject(rePacket)
             rePacket.sprite!.color = rePacket.getColor()
             
             
@@ -426,7 +426,7 @@ class EnergyPacket : GameObject{
     }
     
     func removeSelf(){
-        gameLayer!.removeGameObject(self)
+        gameLayer.removeGameObject(self)
     }
     
     override func deleteSelf () {

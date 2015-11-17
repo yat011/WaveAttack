@@ -14,10 +14,12 @@ enum CollisionLayer : UInt32 {
     case Packet = 0x2
     case Medium = 0x4
     case Objects = 0x8
-    case Ground = 16
+    case Ground = 0x10
     case FrontGround = 0x20
     case FrontObjects = 0x40
     case SmallObjects = 0x80
+    case EnemyAttacks = 0x100
+    case PlayerHpArea = 0x200
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -218,8 +220,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }else{
 */
       //  print("impluse \(contact.collisionImpulse)")
-       // print(contact.bodyA.node!.name)
-        //print(contact.bodyB.node!.name)
+        print(contact.bodyA.node!.name)
+        print(contact.bodyB.node!.name)
         guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
              return
          }
@@ -250,186 +252,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
 
-    
-    
-    func validateIncidence (packet : EnergyPacket, _ medium : Medium,_ contact: ContactInfo, exit: Bool) -> Bool{
-        if (packet.deleted){
-            return false
-        }
-        //////print(medium.path)
-        //////print(CGPathContainsPoint(medium.path, nil,CGPoint(x: 0, y: 0) , true))
-        //print (contact.contactNormal)
-        var conPos = medium.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
-        // ////print(CGPathContainsPoint(medium.path, nil,temp , true))
-        var toward: CGVector = contact.contactPoint - (packet.sprite!.position + gameLayer!.position)
-        toward.normalize()
-        var contactPt = medium.getSprite()!.convertPoint(contact.contactPoint, fromNode: self)
-        
-      
-       
-        if (exit){
-            if (CGPathContainsPoint(medium.path, nil, conPos, true)==false){ //some fix
-                contact.contactNormal = -1 * contact.contactNormal
-            }
-        }else{
-            if (CGPathContainsPoint(medium.path, nil, conPos, true)==true){ //some fix
-                contact.contactNormal = -1 * contact.contactNormal
-            }
-        }
-        var product = contact.contactNormal.dot(packet.direction)
-        if (product >= -1e-4 ){
-            return false
-        }else{
-            return true
-        }
-       
-        
-      
-        return false
-    }
-    
-    var contactMap: [EnergyPacket: ContactContainer] = Dictionary<EnergyPacket, ContactContainer>()
-    
-    func tryFindEnergyPacket(sk : SKNode?, other other : SKNode?, contact nativeContact :SKPhysicsContact) -> Bool {
-        var contact = ContactInfo(nativeContact)
-        var packet: EnergyPacket? = nil
-        if (sk is HasGameObject){
-            let has = sk as! HasGameObject?
-            //////print ("gameObject : \(has?.gameObject)")
-            if ( has?.gameObject is EnergyPacket){
-                packet = has!.gameObject as! EnergyPacket
-        
-                
-                
-                if (other!.name == GameObjectName.GameBoundary.rawValue){ // out of area
-                    //out of bound
-                    if (contactMap[packet!] != nil){
-                        contactMap[packet!]!.outOfArea = true
-                    }else{
-                         let temp2 = ContactContainer()
-                        temp2.outOfArea = true
-                        contactMap[packet!] = temp2
-                        
-                    }
-                    return true
-                    
-                }
-                if (other is HasGameObject){
-                    let has2 =  (other as! HasGameObject)
-                    if ( has2.gameObject is Medium){
-                        let medium = has2.gameObject as! Medium
-                        if (contactMap[packet!] != nil){
-                            
-                            if (contactMap[packet!]!.mediumContacted.contains(medium)){
-                                return true
-                            }
-                            
-                            if (packet?.containsMedium(medium) == true){ //exit
-                                if validateIncidence(packet!, medium, contact, exit: true){
-                                    contactMap[packet!]!.mediumContacted.insert(medium)
-                                    contactMap[packet!]!.exit.append((medium,contact))
-                                                                    }
-                            }else{
-                                if validateIncidence(packet!, medium, contact, exit: false){
-                                    contactMap[packet!]!.mediumContacted.insert(medium)
-                                    contactMap[packet!]!.enter.append((medium,contact))
-                                }
-                            }
-                        }else{
-                            let temp2 = ContactContainer()
-                            if (packet?.containsMedium(medium) == true){ //exit
-                                if (validateIncidence(packet!, medium, contact, exit: true)){
-                                    temp2.mediumContacted.insert(medium)
-                                    temp2 .exit.append((medium,contact))
-                                    
-                                }
-                            }else{
-                                if (validateIncidence(packet!, medium, contact, exit: false)){
-                                    temp2.mediumContacted.insert(medium)
-                                    temp2.enter.append((medium,contact))
-                                }
-                                
-                            }
-                           // temp2.enter.append((other!,contact))
-                            contactMap[packet!] = temp2
-                            
-                        }
-                        return true
-                    }
-                }
-            }
-        }
+  
 
-        return false
-    }
-    
-    
-    
-    func didEndContact(contact: SKPhysicsContact) {
-   
-    }
-    
-    
-    
-    
-    func handleContact(){
-        
-        for (packet, wrapper) in contactMap{
-            
-            
-            if (wrapper.outOfArea == true){
-                
-                packet.deleteSelf()
-                continue
-            }
-            
-           
-            var froms = Set<Medium>()
-            var tos = Set<Medium>()
-            var contacts = [Medium : ContactInfo]()
-           
-            
-            
-            
-            
-            for (from , contact) in wrapper.exit {
-                froms.insert(from)
-                contacts[from] = contact
-            }
-            for (to, contact) in wrapper.enter{
-                tos.insert(to)
-               // var conPos = to.getSprite()!.convertPoint(packet.sprite!.position, fromNode: gameLayer!)
-                ////print("pos:\(CGPathContainsPoint(to.path, nil, conPos, true))  normal: \(contact.contactNormal) " )
-                contacts[to] = contact
-            }
-            
-            packet.changeMedium(from: froms, to: tos, contact: contacts)
-
-        }
-        contactMap.removeAll()
-     
-    }
-    
-//---------------------------------------
-    
-   /* func removeGameObjectFromList (var ls: [GameObject], obj :GameObject) ->(){
-        for i in 0...(ls.count - 1){
-            if (ls[i] === obj){
-                ls.removeAtIndex(i)
-                return
-            }
-        }
-    }
-    
-    
-    func addObjectsToNode (parent : SKNode, _ children : [GameObject])->(){
-        for obj in children{
-            if let temp = obj.getSprite(){
-                parent.addChild(temp)
-            }
-        }
-    }
-*/
     
 //----------------------touching --------------------------
     var touchType : TouchType? = nil
@@ -588,37 +412,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     var waveData:[CGFloat]?
-    
-    func generatePacket(waveData:[CGFloat],_ i:Int){
-        if (i % 6 != 0) {return}
-        var sumAttack : CGFloat = 0
-        for ch in character{
-            guard ch != nil else{continue}
-            sumAttack += ch!.basicAttackPower
-        }
-        //print("sum \(sumAttack)")
-        let p1 = NormalEnergyPacket(abs(waveData[i]) * sumAttack + 10, position: CGPoint(x: 37.5 + Double(i), y: 0), gameScene :self)
-        if waveData[i] < 0{
-            p1.forceDir = -1
-        }
-        p1.direction = CGVector(dx: 0, dy: 1)
-       // p1.gameLayer = gameLayer
-        p1.pushBelongTo(gameLayer!.background!)
-        for obj in gameLayer!.attackPhaseObjects{
-            if obj is Medium{
-                var medium = obj as! Medium
-                var mediumPt = medium.getSprite()!.convertPoint(p1.getSprite()!.position, fromNode: gameLayer!)
-                
-                //print(mediumPt)
-                
-                if (CGPathContainsPoint(medium.path!, nil,mediumPt, true)){
-                    p1.addBelong(medium)
-                }
-            }
-        }
-        
-        gameLayer!.addGameObject(p1)
-    }
+   
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
@@ -776,11 +570,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
             if pressedDestObject != nil { //long pressed object
                 var mediumPt = pressedDestObject!.getSprite()!.convertPoint(touchDown, fromNode: self)
-                if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
+               /* if (CGPathContainsPoint(pressedDestObject!.path!, nil, mediumPt, true) != true){
                     pressedDestObject = nil
                     destHpBar?.removeFromParent()
                     destHpBar = nil
-                }
+                }*/
                 
             }
             
@@ -1038,8 +832,10 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
 //----------- phase change -----------------------------
     func startEnemyPhase (){
-        self.currentStage = GameStage.enemy
-        gameLayer!.enemyDoAction()
+        startSuperpositionPhase()
+        return
+            
+       // gameLayer!.enemyDoAction()
         self.controlLayer!.stateLabel.text = "Enemy Moving ..."
         self.controlLayer!.stateLabel.removeAllActions()
         var fade = SKAction.fadeAlphaTo(0.5, duration: 1)

@@ -291,7 +291,7 @@ class UINode: SKNode,Draggable{
  
                 if (generated[i] == false && amp[i] + self.resultantWaveShape!.position.y > 333.5) {
                     print(amp[i])
-                    self.gameScene!.generatePacket(amp, i)
+                   // self.gameScene!.generatePacket(amp, i)
                     generated[i] = true
                     done = false
                 }else if generated[i] == false {

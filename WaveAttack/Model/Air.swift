@@ -17,7 +17,7 @@ class Air: Medium {
     
     
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
-        propagationSpeed = 3.5
+     //   propagationSpeed = 3.5
         
         
         self.sprite?.size = size
@@ -28,9 +28,9 @@ class Air: Medium {
         sprite!.name = "air"
         //sprite?.fillColor = SKColor.blueColor()
         
-        self.sprite!.runAction(SKAction.scaleXTo(2, duration: 0))
+        //self.sprite!.runAction(SKAction.scaleXTo(2, duration: 0))
         
-        sprite!.addChild(self.physContactSprite)
+      //  sprite!.addChild(self.physContactSprite)
     }
     
     

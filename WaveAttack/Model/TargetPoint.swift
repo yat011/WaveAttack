@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class EndPoint : Enterable{
+class TargetPoint : Enterable{
     var pos =  CGPoint()
     func enter( obj :GameObject){
         

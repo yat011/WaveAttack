@@ -17,10 +17,14 @@ class ScoreFlashMsg : SKLabelNode{
         self.fontColor = SKColor.blackColor()
         self.horizontalAlignmentMode = .Center
         self.zPosition = 10000000
+        if obj.sprites.count == 0{
+            self.runAction(SKAction.removeFromParent())
+        }else{
         var pos = GameScene.current!.gameLayer!.convertPoint(obj.sprites[0].position, fromNode: obj.sprites[0].parent!)
         pos = pos + CGPoint(x: 0, y: obj.originSize!.height/2 )
         self.position = pos
         let actions = [ SKAction.moveByX(0, y: 50, duration: 1.5), SKAction.fadeOutWithDuration(1.5)]
         self.runAction(SKAction.sequence([SKAction.group(actions),SKAction.removeFromParent()]))
+        }
     }
 }

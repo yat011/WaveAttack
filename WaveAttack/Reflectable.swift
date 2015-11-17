@@ -8,7 +8,7 @@
 
 import Foundation
 import SpriteKit
-
+/*
 protocol Reflectable : Cloneable {
     func doReflection(from from : Medium? , to : Medium?, contact: ContactInfo?) -> EnergyPacket?
 }
@@ -53,3 +53,4 @@ extension Reflectable where Self: EnergyPacket{
     }
 }
 
+*/

@@ -13,7 +13,7 @@ class SubMission{
     
     var terrain: Medium? = nil
     var objects: [Medium] = []
-    var spawnPoints :[SpawnPoint] = []
+    var spawnPoints = [Int : [SpawnPoint]] ()
     
     static func parseJsonObj( obj : [String:AnyObject] , gameScene : GameScene) -> SubMission?{
         var terrainStr = (obj["terrain"] as! String)
@@ -34,7 +34,12 @@ class SubMission{
                 if sp == nil{
                     continue
                 }
-                sub.spawnPoints.append(sp!)
+                if sub.spawnPoints[sp!.workingStage] == nil{
+                    sub.spawnPoints[sp!.workingStage] = []
+                }
+                sub.spawnPoints[sp!.workingStage]!.append(sp!)
+                
+                
             }else{
                 var medium = parseMedium(dict)
                 if medium == nil {
@@ -127,13 +132,23 @@ class SubMission{
         }
         return medium
     }
+
     static func parseSpawnPoint(dict : [String : AnyObject]) -> SpawnPoint?{
         var spawnPoint: SpawnPoint = GameObjectFactory.getInstance().create(dict["type"]! as! String) as! SpawnPoint
         var x : CGFloat = CGFloat((dict["x"]! as! NSNumber).floatValue)
         spawnPoint.x = x
         let properties = dict["properties"] as![String: AnyObject]
         var spawnType = properties["spawnType"] as! String
+        spawnPoint.workingStage = (properties["stage"] as! NSString).integerValue
         spawnPoint.type = spawnType
+        if properties["realY"] != nil{
+            spawnPoint.y = CGFloat((dict["y"]! as! NSNumber).floatValue)
+        }
+        if properties["limitNum"] != nil{
+            var limitNum = (properties["limitNum"]! as! NSString).integerValue
+            spawnPoint.limitCount = limitNum
+            spawnPoint.limited = true
+        }
         return spawnPoint
     }
     

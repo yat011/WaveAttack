@@ -9,6 +9,7 @@
 import Foundation
 import SpriteKit
 
+/*
 class EnergyPacket : GameObject{
 
     let radius : CGFloat = 8
@@ -446,6 +447,6 @@ class EnergyPacket : GameObject{
 }
 
 
-
+*/
 
 

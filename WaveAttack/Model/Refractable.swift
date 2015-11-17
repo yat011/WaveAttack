@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+/*
 protocol Refractable{
     func doRefraction(from from : Medium? , to to : Medium?, contact: ContactInfo?) -> CGFloat
     
@@ -78,3 +79,4 @@ extension Refractable where Self: EnergyPacket{
     }
     
 }
+*/

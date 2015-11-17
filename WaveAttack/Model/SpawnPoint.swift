@@ -12,10 +12,14 @@ import SpriteKit
 class SpawnPoint :GameObject{
     
     var x : CGFloat = 0
+    var y : CGFloat? = nil
     var type :String = ""
     var yLayer  = GameLayer.ZFRONT
     var spawnPt : CGPoint{
         get{
+            if self.y != nil{
+                return CGPoint(x: x,y: self.y!)
+            }
             var y : CGFloat = 0
             if yLayer == GameLayer.ZFRONT{
                 y = (GameScene.current!.gameLayer?.ground?.frontY)!
@@ -32,7 +36,7 @@ class SpawnPoint :GameObject{
     var currentNum = 0
     var maxNum = 10
     var timer : FrameTimer? = nil
-    var workingStage : UInt32 = 1
+    var workingStage : Int = 1
     var limited = false
     var limitCount = 10
     
@@ -43,6 +47,15 @@ class SpawnPoint :GameObject{
             var f : (()->())? = nil
             f = {
                 ()->() in
+                if self.workingStage != self.gameLayer.stage {
+                    return
+                }
+                if self.limited {
+                    if self.limitCount == 0{
+                        return
+                    }
+                    self.limitCount--
+                }
                 self.spawnObjectAndAdd()
                 self.timer!.reset()
                 self.timer!.setTargetTime(self.interval)
@@ -53,10 +66,8 @@ class SpawnPoint :GameObject{
     }
     
     func spawnObjectAndAdd() {
-        if self.workingStage & gameLayer.stage  == 0 {
-           return
-        }
-       var obj = GameObjectFactory.getInstance().create(type)
+       
+        var obj = GameObjectFactory.getInstance().create(type)
         if obj is Spawnable{
             let sp = obj as! Spawnable
             sp.spawnInit(spawnPt)

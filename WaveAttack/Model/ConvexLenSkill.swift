@@ -11,14 +11,16 @@ import SpriteKit
 
 class ConvexLenSkill : PlacableSkill{
     
-    
+
     
     override func createGameObj(zIndex: Int, gameScene: GameScene) -> GameObject {
-        var temp = ConvexLen()
+    /*    var temp = ConvexLen()
         temp.initialize(CGSize(width: 100,height: 30), position: CGPoint(x:0,y:0), gameScene: gameScene)
         temp.target = false
         temp.zIndex = zIndex + 1
-        return temp
+        return temp*/
+        return GameObject()
     }
+
     
 }

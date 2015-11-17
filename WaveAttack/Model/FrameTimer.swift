@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 class FrameTimer : GameObject{
    typealias callBack = (()->())
+    var isRepeat = false
     var running = false
     var target:Int  = 0
     var current : Int = 0
@@ -33,6 +34,7 @@ class FrameTimer : GameObject{
     func reset(){
         current = 0
         running = false
+        isRepeat = false
     }
     func setTargetTime(duration: CGFloat){
         target = Int( duration * CGFloat(GameViewController.fixedFps))
@@ -44,14 +46,25 @@ class FrameTimer : GameObject{
             current++
             updateFunc?()
             if current >= target{
-                running = false
-                completion?()
+                if isRepeat{
+                    
+                    completion?()
+                    current = 0
+                }else{
+                    running = false
+                    completion?()
+                }
             }
         }
     }
     func startTimer (completion : (()->())?){
         running = true
         self.completion = completion
+    }
+    func repeatTimer (completion : (()->())?){
+        running = true
+        self.completion = completion
+        isRepeat = true
     }
     func stopTimer(){
         running = false

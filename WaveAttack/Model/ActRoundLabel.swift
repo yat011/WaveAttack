@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class ActRoundLabel : SKShapeNode {
-    
+   /*
     
     static func createActRoundLabel(rect : CGRect , enemy :EnemyActable ) -> ActRoundLabel{
         var res = ActRoundLabel(rect: rect, cornerRadius: 0.5)
@@ -47,7 +47,7 @@ class ActRoundLabel : SKShapeNode {
         res.addChild(label)
         return res
     }
-    
+   */ 
     
     
     

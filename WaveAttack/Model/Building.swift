@@ -10,8 +10,6 @@ import Foundation
 import SpriteKit
 class Building: DestructibleObject{
     var originPos :CGPoint? = nil
-   static let _textures = [SKTexture(imageNamed: "building_0001_1"),SKTexture(imageNamed: "building_0000_2")]
-   class override var textures:[SKTexture]? {get {return _textures}}
     static let _oriTexture =  SKTexture(imageNamed: "building")
     static let _breakRect = [CGRect(x: 0, y: 0, width: 1, height: 0.6), CGRect(x: 0.2, y: 0.6, width: 0.8, height: 0.4), CGRect(x: 0, y: 0.6, width: 0.2, height: 0.4)]
     override class var breakRect: [CGRect]? { get{return _breakRect}}

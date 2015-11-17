@@ -40,7 +40,7 @@
                     },
                     {
                     "gid":1,
-                    "height":84.2236566888639,
+                    "height":84.2237,
                     "id":15,
                     "name":"box",
                     "properties":
@@ -51,13 +51,13 @@
                     "rotation":0,
                     "type":"SampleBox",
                     "visible":false,
-                    "width":86.4219188369487,
-                    "x":90.2774943627612,
-                    "y":585.945864832958
+                    "width":86.4219,
+                    "x":90.2775,
+                    "y":585.946
                     },
                     {
                     "gid":3,
-                    "height":142.433866044348,
+                    "height":142.434,
                     "id":17,
                     "name":"",
                     "properties":
@@ -68,13 +68,13 @@
                     "rotation":0,
                     "type":"Building",
                     "visible":true,
-                    "width":45.0747451102364,
-                    "x":248.367742508747,
-                    "y":534.099305925446
+                    "width":45.0747,
+                    "x":248.368,
+                    "y":534.099
                     },
                     {
                     "gid":5,
-                    "height":384.569233574759,
+                    "height":384.569,
                     "id":22,
                     "name":"ground",
                     "properties":
@@ -84,25 +84,26 @@
                     "rotation":0,
                     "type":"Ground",
                     "visible":true,
-                    "width":1200,
-                    "x":-33.5432349886408,
-                    "y":920.245272582805
+                    "width":1244.45430346051,
+                    "x":-53.2386867790594,
+                    "y":920.245
                     },
                     {
-                    "height":28.0846283467516,
+                    "height":28.0846,
                     "id":25,
                     "name":"spawnPt",
                     "properties":
                     {
                     "groundType":"Front",
-                    "spawnType":"Human"
+                    "spawnType":"Human",
+                    "stage":"1"
                     },
                     "rotation":0,
                     "type":"SpawnPoint",
                     "visible":true,
-                    "width":20.5953941209511,
-                    "x":50.8552787445355,
-                    "y":510.320049743044
+                    "width":20.5954,
+                    "x":-26.784451552795,
+                    "y":503.665164152618
                     },
                     {
                     "height":28.0846,
@@ -111,18 +112,19 @@
                     "properties":
                     {
                     "groundType":"Front",
-                    "spawnType":"Human"
+                    "spawnType":"Human",
+                    "stage":"1"
                     },
                     "rotation":0,
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":1121.9872213691,
-                    "y":507.696830434783
+                    "x":1128.64483584738,
+                    "y":505.478721384206
                     },
                     {
                     "gid":3,
-                    "height":111.737442532379,
+                    "height":111.737,
                     "id":31,
                     "name":"",
                     "properties":
@@ -133,9 +135,9 @@
                     "rotation":0,
                     "type":"Building",
                     "visible":true,
-                    "width":74.1631085363645,
-                    "x":430.320181020741,
-                    "y":533.80066144371
+                    "width":74.1631,
+                    "x":430.32,
+                    "y":533.801
                     },
                     {
                     "gid":3,
@@ -151,8 +153,8 @@
                     "type":"Building",
                     "visible":true,
                     "width":74.1631,
-                    "x":132.287166601757,
-                    "y":531.940575264922
+                    "x":158.346,
+                    "y":529.769
                     },
                     {
                     "gid":3,
@@ -168,8 +170,8 @@
                     "type":"Building",
                     "visible":true,
                     "width":74.1631,
-                    "x":621.411510951048,
-                    "y":536.045382299282
+                    "x":621.412,
+                    "y":536.045
                     },
                     {
                     "gid":3,
@@ -185,8 +187,44 @@
                     "type":"Building",
                     "visible":true,
                     "width":74.1631,
-                    "x":826.732459419782,
-                    "y":530.362585279086
+                    "x":826.732,
+                    "y":530.363
+                    },
+                    {
+                    "height":28.0846,
+                    "id":36,
+                    "name":"spawnPt",
+                    "properties":
+                    {
+                    "groundType":"Front",
+                    "limitNum":"10",
+                    "spawnType":"EyeBallMan",
+                    "stage":"2"
+                    },
+                    "rotation":0,
+                    "type":"SpawnPoint",
+                    "visible":true,
+                    "width":20.5954,
+                    "x":763.894818907531,
+                    "y":343.260987461168
+                    },
+                    {
+                    "height":28.0846,
+                    "id":37,
+                    "name":"spawnPt",
+                    "properties":
+                    {
+                    "groundType":"Front",
+                    "limitNum":"10",
+                    "spawnType":"EyeBallMan",
+                    "stage":"2"
+                    },
+                    "rotation":0,
+                    "type":"SpawnPoint",
+                    "visible":true,
+                    "width":20.5954,
+                    "x":371.300592355584,
+                    "y":351.373480855973
                     }
                     ]
                  }

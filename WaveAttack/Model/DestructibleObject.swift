@@ -25,8 +25,8 @@ class DestructibleObject : Medium {
     }
     var hp : CGFloat { get {return _hp} }
     private var _hp : CGFloat = 1000
-    var absorptionRate :CGFloat = 0.05
-    var damageReduction :CGFloat = 0
+   // var absorptionRate :CGFloat = 0.05
+   // var damageReduction :CGFloat = 0
     var scaleX: CGFloat  = 1
     var scaleY : CGFloat = 1
     var totDmg: CGFloat = 0
@@ -44,16 +44,16 @@ class DestructibleObject : Medium {
     var scaled : Bool = false
     var prevScale : CGFloat = 1
     
-    override var path: CGPath? { get{ return _path}}
-    var xDivMax: CGFloat  {get { fatalError(); return 1}} // for edge path
-    var yDivMax: CGFloat {get {fatalError() ; return 1}}
-    var _path : CGPath? = nil
-    var moveRound : Int = 3
-    var currentRound : Int = 0
+ //   override var path: CGPath? { get{ return _path}}
+ //   var xDivMax: CGFloat  {get { fatalError(); return 1}} // for edge path
+ //   var yDivMax: CGFloat {get {fatalError() ; return 1}}
+ //   var _path : CGPath? = nil
+ //   var moveRound : Int = 3
+ //   var currentRound : Int = 0
     var hpBar : HpBar? = nil
     var hpBarRect :CGRect? = nil
-    var roundLabel : ActRoundLabel? = nil
-    var roundRect : CGRect? = nil
+//    var roundLabel : ActRoundLabel? = nil
+//    var roundRect : CGRect? = nil
     var dead : Bool = false
     var originSize :CGSize? = nil
     var originPoint :CGPoint? = nil
@@ -63,8 +63,7 @@ class DestructibleObject : Medium {
     var completeCrack :Bool = false
     var restitution : CGFloat  {get{return 0.1}}
 //-----new
-    class var textures:[SKTexture]? {get{return nil}}
-    class var breakTexture: [SKTexture]? {get {return nil} set(v){}}
+    class var breakTexture: [SKTexture]? {get {return nil} set(v){}} 
     class var breakRect: [CGRect]? { get{return nil}}
     class var oriTexture : SKTexture? {get{return nil}}
     class var score: [CGFloat] { get {return [10]}}
@@ -73,7 +72,7 @@ class DestructibleObject : Medium {
     var attachedIndex = 0
     var sprite = SKSpriteNode()
     var joints = [SKPhysicsJoint]()
-    class var stopFunctioning : CGFloat { return 0.4}
+    //class var stopFunctioning : CGFloat { return 0.4}
     class var breakThreshold : [CGFloat]? {get{return nil}}
     var breakIndex  : Int? = nil
     class var density : CGFloat? { get{return nil}}
@@ -83,7 +82,11 @@ class DestructibleObject : Medium {
     var isFront = [SKNode:Bool]()
     var allPhysicsBody = [SKPhysicsBody]()
     var nodeJoints = [SKNode : [SKPhysicsJoint]]()
-  
+    var currentPos : CGPoint{
+        get{
+            return gameLayer.convertPoint(sprites[0].position, fromNode: sprites[0].parent!)
+        }
+    }
     
     static let GROUNED_LEN: CGFloat = 2
     
@@ -308,6 +311,9 @@ class DestructibleObject : Medium {
             }
         }
         if sprites.count == 0{
+            if self.dead == false{
+                self.die()
+            }
            gameLayer.removeGameObject(self)
         }
     }
@@ -455,36 +461,7 @@ class DestructibleObject : Medium {
     
    
     
-   
-    func calculateDamage(packet : EnergyPacket){
-        var damage: CGFloat = packet.energy * absorptionRate
-        packet.energy = packet.energy - damage
-        damage = damage - damageReduction
-        if (damage < 0){
-            damage = 0
-        }
-        _hp = hp - damage
-        totDmg = totDmg + damage
-        if (hp < 0 && dead == false){
-//            print("destory")
-            die()
-        }
-       // SKAction.ap
-      //  packet.direction.normalize()
-       // print(packet.direction)
-        var dir = 0.07 * damage * packet.forceDir * CGVector(dx: packet.direction.dy, dy: -packet.direction.dx)
-        
-    //    print(dir)
-        packet.forceDir = -packet.forceDir
-   //     print(damage)
-        
-        getSprite()!.physicsBody!.applyImpulse(dir, atPoint: packet.getSprite()!.position)
-        
-       triggerEvent(GameEvent.HpChanged.rawValue)
-        
-        
-        return
-    }
+  
 
     
     func impulseDamage(impulse : CGFloat, contactPt: CGPoint){
@@ -539,25 +516,7 @@ class DestructibleObject : Medium {
     }
     
     
-    
-    func PathAddLineToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
-        let tempx = x * scaleX
-        let tempy: CGFloat = y * scaleY
-        var sprite = self.getSprite()! as! SKSpriteNode
-        let offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
-        let offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
-        CGPathAddLineToPoint(path, nil, CGFloat(tempx) - offsetX , CGFloat(tempy) - offsetY);
-    }
-    
-    func PathMoveToPoint( path: CGMutablePath, _ nth: UnsafePointer<CGAffineTransform>,_ x : CGFloat,_ y: CGFloat) -> (){
-        let tempx = x * scaleX
-        let tempy: CGFloat = y * scaleY
-        var sprite = self.getSprite()! as! SKSpriteNode
-        let offsetX = sprite.frame.size.width * sprite.anchorPoint.x;
-        let offsetY = sprite.frame.size.height * sprite.anchorPoint.y;
-        CGPathMoveToPoint(path, nil, CGFloat(tempx) - offsetX , CGFloat(tempy) - offsetY)
-        
-    }
+   
     
    var prevAction :SKAction? = nil
     var animating : Bool = false
@@ -603,22 +562,14 @@ class DestructibleObject : Medium {
     
     func destorySelf(){
         super.deleteSelf()
-        for obj in self.packets{
-            if (obj.deleted == false){
-                obj.deleteSelf()
-            }
-        }
-        self.packets.removeAll()
+     
         self.getSprite()!.removeAllChildren()
         self.gameScene!.gameLayer!.removeGameObject(self)
         if hpBar != nil{
             hpBar!.removeFromParent()
             hpBar = nil
         }
-        if roundLabel != nil{
-            roundLabel!.removeFromParent()
-            roundLabel = nil
-        }
+       
         
         
         
@@ -683,28 +634,7 @@ class DestructibleObject : Medium {
     
     override func syncPos() {
         super.syncPos()
-        return
-        var dest = self
-         var selfPos = getSprite()!.position
-        //print(selfPos)
-        if self.target{
-           
-          //  print(self.getSprite()!.frame)
-            //print(self.getSprite()!.calculateAccumulatedFrame())
-             dest.hpBar!.position = CGPoint(x: selfPos.x, y: selfPos.y - self.getSprite()!.frame.height/2 - 10)
-            //print(dest.hpBar!.position)
-           //dest.hpBar!.position = dest.hpBar!.position + diff
-          //  print(dest.hpBar!.position)
-
-            //print(barpos)
-            //print(dest.hpBar!.position)
-        }
-        if (self is EnemyActable){
-            
-            var diff :CGVector = selfPos - self.originPoint!
-            dest.roundLabel!.position = dest.roundLabel!.position + diff
-        }
-        self.originPoint = selfPos
+       
     }
     
     func createPhysicsJointPin(bodyA: SKNode,bodyB : SKNode, anchor:CGPoint) -> SKPhysicsJointPin{

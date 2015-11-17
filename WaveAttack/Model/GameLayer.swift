@@ -15,7 +15,7 @@ class GameLayer : SKNode{
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
     var attackPhaseObjects = Set<GameObject>()
-    var energyPackets = Set<EnergyPacket>()
+  //  var energyPackets = Set<EnergyPacket>()
     var ground  : Ground? = nil
    // var gameArea = CGRect()
     weak var subMission: SubMission? = nil
@@ -25,11 +25,11 @@ class GameLayer : SKNode{
     var validArea : CGRect? = nil
     weak var gameScene: GameScene? = nil
     var enterables = [Enterable]()
-    var spawnPoints = [SpawnPoint]()
+    var spawnPoints = [Int:[SpawnPoint]]()
     var validTimer = FrameTimer(duration: 0.5)
     var totalTimer = FrameTimer(duration: 1e6)
     var attackStarted = false
-    var stage: UInt32  = 1
+    var stage: Int  = 1
     
     init(subMission : SubMission, gameScene : GameScene) {
        
@@ -70,9 +70,6 @@ class GameLayer : SKNode{
                     totalTarget += 1
                    self.addChild(des.hpBar!)
                 }
-                if des is EnemyActable{
-                    //self.addChild(des.roundLabel!)
-                }
                 des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
                 
             }
@@ -81,6 +78,13 @@ class GameLayer : SKNode{
                 ground = medium as! Ground
                 ground!.subscribeEvent(GameEvent.EarthquakeStart.rawValue, call: {
                     (obj : GameObject) -> () in
+                    if self.stage == 1{
+                        //show some notice
+                        self.stage++
+                        for each in self.spawnPoints[self.stage]!{
+                            each.afterAddToScene()
+                        }
+                    }
                 })
             }
         }
@@ -88,9 +92,9 @@ class GameLayer : SKNode{
         
 
         initBoundary()
-        let left = EndPoint()
+        let left = TargetPoint()
         left.pos = CGPoint(x: -100, y: ground!.frontY)
-        let right = EndPoint()
+        let right = TargetPoint()
         right.pos = CGPoint(x: validArea!.width + (validArea?.origin.x)! + 50, y: ground!.frontY)
         enterables.append(left)
         enterables.append(right)
@@ -118,7 +122,7 @@ class GameLayer : SKNode{
                 medium.afterAddToScene()
             }
         }
-        for each in spawnPoints{
+        for each in spawnPoints[stage]!{
             each.afterAddToScene()
         }
         var f :(()->())? = nil
@@ -137,7 +141,7 @@ class GameLayer : SKNode{
         totalTimer.startTimer(nil)
         gameScene!.generalUpdateList.insert(totalTimer)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -159,9 +163,6 @@ class GameLayer : SKNode{
         if (obj is DestructibleObject){
             obj.subscribeEvent(GameEvent.Scored.rawValue, call: self.scored)
         }
-        if (obj is EnergyPacket){
-            energyPackets.insert(obj as! EnergyPacket)
-        }
         if (obj.getSprite() != nil){
             self.addChild(obj.getSprite()!)
         }
@@ -170,9 +171,6 @@ class GameLayer : SKNode{
     func removeGameObject (obj : GameObject){
         attackPhaseObjects.remove(obj)
        obj.deleteSelf()
-        if  (obj is EnergyPacket){
-            energyPackets.remove(obj as! EnergyPacket)
-        }
     
         
         if (obj.getSprite() != nil){
@@ -193,10 +191,11 @@ class GameLayer : SKNode{
         for obj in  attackPhaseObjects{
             obj.update()
         }
-        for obj in spawnPoints{
+        for obj in spawnPoints[self.stage]!{
             obj.update()
         }
     }
+    /*
     func enemyDoAction(){
         enermyActionCounter = 0
         waitForActionComplete = false
@@ -210,6 +209,7 @@ class GameLayer : SKNode{
         waitForActionComplete = true
         checkEnemyFinish()
     }
+*/
 //----------------------------------------------------
     
     func fadeOutAll(finish :(() -> ())){

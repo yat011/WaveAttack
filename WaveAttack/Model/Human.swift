@@ -41,9 +41,23 @@ class Human  : SmallMovableObject, Spawnable{
         bloodHead!.position.y =  -sprites[1].size.height/2
         bloodBody!.position.y =  sprites[0].size.height/2
         bloodHead!.zRotation = -MathHelper.PI
+        bloodBody!.runAction(SKAction.sequence([SKAction.waitForDuration(5), SKAction.removeFromParent()]))
+        bloodHead!.runAction(SKAction.sequence([SKAction.waitForDuration(5), SKAction.removeFromParent()]))
         sprites[0].addChild(bloodBody!)
         sprites[1].addChild(bloodHead!)
     }
- 
+    override func changeToFront(phys :SKPhysicsBody){
+        isFront[phys.node!] = true
+        phys.categoryBitMask = CollisionLayer.SmallObjects.rawValue
+        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+        phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+    }
+    override func createPhysicsBody(size: CGSize) -> SKPhysicsBody {
+        var phys = super.createPhysicsBody(size)
+        phys.categoryBitMask = CollisionLayer.SmallObjects.rawValue
+        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue 
+        phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+        return phys
+    }
     
 }

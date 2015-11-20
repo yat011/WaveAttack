@@ -105,7 +105,26 @@ extension Array{
 }
 
 
+class Weak<T: AnyObject> : Hashable, Equatable {
+    public var hashValue: Int { get {
+        if (value != nil){
+           return unsafeAddressOf(value!).hashValue
+        }
+        return unsafeAddressOf(self).hashValue
+        
+        } }
+    weak var value : T?
+    init (_ value: T) {
+        self.value = value
+    }
+  
+}
 
-
-
+func ==<T:AnyObject>(lhs: Weak<T>, rhs: Weak<T>) -> Bool {
+    guard lhs.value != nil && rhs.value != nil else {return false}
+    if lhs.value! === rhs.value!{
+        return true
+    }
+    return false
+}
 

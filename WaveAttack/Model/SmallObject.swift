@@ -21,13 +21,13 @@ class SmallObject: DestructibleObject{
     override func changeToFront(phys :SKPhysicsBody){
         isFront[phys.node!] = true
         phys.categoryBitMask = CollisionLayer.SmallObjects.rawValue
-        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue | CollisionLayer.GameBoundary.rawValue
         phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
     }
     override func createPhysicsBody(size: CGSize) -> SKPhysicsBody {
        var phys = super.createPhysicsBody(size)
         phys.categoryBitMask = CollisionLayer.SmallObjects.rawValue
-        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
+        phys.collisionBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue | CollisionLayer.GameBoundary.rawValue
         phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
         return phys
     }

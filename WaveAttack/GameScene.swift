@@ -75,7 +75,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     let grading = ["S","A","B","C","D","E","F"]
     var character : [Character?] = []
     var inited : Int = 0 //for texture
-    var generalUpdateList = Set<GameObject>()
+    var generalUpdateList = Set<Weak<GameObject>>()
     var totalScore :CGFloat = 0
     
     
@@ -220,8 +220,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }else{
 */
       //  print("impluse \(contact.collisionImpulse)")
+    
         print(contact.bodyA.node!.name)
         print(contact.bodyB.node!.name)
+        if (checkHitPlayer(contact.bodyA, mB: contact.bodyB)){
+                return 
+        }
+        
+            
         guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
              return
          }
@@ -236,7 +242,21 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         
     }
-    
+    func checkHitPlayer (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
+            if (mB.categoryBitMask == CollisionLayer.PlayerHpArea.rawValue){
+               var atk = (mA.node! as! GameSKSpriteNode).gameObject as! DirectAttack
+                player?.changeHpBy(-atk.damage)
+                mA.node?.removeFromParent()
+                return true
+            }
+            return false
+            
+        }else if mB.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
+            return checkHitPlayer(mB, mB: mA)
+        }
+        return false
+    }
     
     func collisionDamage(mA : Medium?, mB:Medium?, contact : SKPhysicsContact){
         
@@ -353,16 +373,17 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     var superingTimer : FrameTimer? = nil
+    var playerAttackArea = CGRect(x: 37.5, y: 0, width: 300, height: 50)
     func timeOut(){
         //print("timeOut")
         currentStage = .SuperpositionAnimating
-       self.generalUpdateList.remove(self.superingTimer!)
+       self.generalUpdateList.remove(Weak(self.superingTimer!))
         self.superingTimer?.stopTimer()
         self.clearTouch()
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: CGPoint(x:  37.5 , y: 0), completion: {
+           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: self.playerAttackArea.origin, completion: {
                 () -> () in
                 //print("completeion")
             self.superingTimer = nil
@@ -584,7 +605,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 //NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
                 var timelimit: CGFloat = 5
                 var frameTimer = FrameTimer(duration: 5)
-                self.generalUpdateList.insert(frameTimer)
+                self.generalUpdateList.insert(Weak(frameTimer))
                 frameTimer.startTimer(self.timeOut)
                 self.controlLayer!.timerUI!.startTimer(timelimit)
                 frameTimer.updateFunc = {
@@ -727,6 +748,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         gameLayer!.runAction(SKAction.moveTo(moveTo,duration: 0))
         gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
+        gameLayer!.playerHpArea!.runAction(SKAction.moveToX(playerAttackArea.size.width/2 + playerAttackArea.origin.x - moveTo.x, duration: 0))
         controlLayer!.scroll(0, y: newY-self.size.height/2)
         
     }
@@ -798,7 +820,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
        attackPhaseUpdate(currentTime)
         for each in generalUpdateList{
-            each.update()
+            each.value?.update()
         }
         
       

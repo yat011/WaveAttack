@@ -1,17 +1,11 @@
-//
-//  EyeBallMan.swift
-//  WaveAttack
-//
-//  Created by yat on 18/11/2015.
-//
-//
+
 
 import Foundation
 import SpriteKit
 
-class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
+class BadyDragon: SmallMovableObject, Spawnable,Enemy{
     
-    static let _oriTexture =  SKTexture(imageNamed: "strangeEybal")
+    static let _oriTexture =  SKTexture(imageNamed: "Baby_Dragon")
     static let _breakRect = [CGRect(x: 0, y: 0, width: 1, height: 0.4), CGRect(x: 0, y: 0.4, width: 1, height: 0.6)]
     override class var breakRect: [CGRect]? { get{return _breakRect}}
     override class var oriTexture : SKTexture? {get{return _oriTexture}}
@@ -26,14 +20,14 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         super.initialize(size, position: position, gameScene: gameScene)
         for each in sprites{
-            each.name = "eyeBall"
+            each.name = "bady_dragon"
         }
-        attack = DirectAttack(enemy: self, cd: 5)
-    
+        //attack = DirectAttack(enemy: self, cd: 5)
+        
     }
-   
+    
     override func findTarget() {
-       
+        
         var positionX = CGFloat(random()%Int(gameScene!.gameArea!.width))
         var target = TargetPoint()
         target.pos.x = positionX
@@ -48,8 +42,8 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
     }
     
     func spawnInit(position:CGPoint) {
-        self.originHp = 100
-        initialize(CGSize(width: 30, height: 39), position: position, gameScene: GameScene.current!)
+        self.originHp = 20000
+        initialize(CGSize(width: 120, height: 100), position: position, gameScene: GameScene.current!)
         findTarget()
         self.sprite.zPosition = GameLayer.ZFRONT
     }
@@ -66,6 +60,6 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
         sprites[0].addChild(bloodBody!)
         sprites[1].addChild(bloodHead!)
     }
-  
+    
     
 }

@@ -175,7 +175,7 @@ class Ground: Medium{
         //vibrateCompletion = completion
         var i = 0
         var  timer = FrameTimer(duration: player.peroid)
-        GameScene.current!.generalUpdateList.insert(timer)
+        GameScene.current!.generalUpdateList.insert(Weak(timer))
         var time = 0
         self.triggerEvent(GameEvent.EarthquakeStart.rawValue)
         
@@ -210,7 +210,7 @@ class Ground: Medium{
                 timer.current = 0
                 timer.startTimer(f!)
             }else{
-                GameScene.current!.generalUpdateList.remove(timer)
+                GameScene.current!.generalUpdateList.remove(Weak(timer))
                 self.triggerEvent(GameEvent.EarthquakeEnd.rawValue)
                 self.vibrateCompletion = completion
             }

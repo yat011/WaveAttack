@@ -30,6 +30,7 @@ class GameLayer : SKNode{
     var totalTimer = FrameTimer(duration: 1e6)
     var attackStarted = false
     var stage: Int  = 1
+    var playerHpArea : SKSpriteNode? = nil
     
     init(subMission : SubMission, gameScene : GameScene) {
        
@@ -80,18 +81,15 @@ class GameLayer : SKNode{
                     (obj : GameObject) -> () in
                     if self.stage == 1{
                         //show some notice
-                        self.stage++
-                        for each in self.spawnPoints[self.stage]!{
-                            each.afterAddToScene()
-                        }
+                        self.changeSpawnState()
                     }
                 })
             }
         }
         spawnPoints = subMission.spawnPoints
-        
 
         initBoundary()
+        initPlayerDamageArea()
         let left = TargetPoint()
         left.pos = CGPoint(x: -100, y: ground!.frontY)
         let right = TargetPoint()
@@ -114,6 +112,20 @@ class GameLayer : SKNode{
         self.addChild(boundary)
         
     }
+    func initPlayerDamageArea(){
+        var playerArea = SKSpriteNode(color: SKColor.greenColor(), size: gameScene!.playerAttackArea.size)
+        let phys = SKPhysicsBody(rectangleOfSize: gameScene!.playerAttackArea.size)
+        phys.dynamic = false
+        phys.categoryBitMask = CollisionLayer.PlayerHpArea.rawValue
+        phys.collisionBitMask = 0
+        phys.contactTestBitMask = 0
+        playerArea.physicsBody=phys
+        playerArea.zPosition = 100000
+        playerArea.position = CGPoint(x: gameScene!.playerAttackArea.origin.x + gameScene!.playerAttackArea.size.width/2, y: 0 )
+       // gameScene!.addChild(playerArea)
+        playerHpArea = playerArea
+        self.addChild(playerArea)
+    }
     
     func afterAddToScene(){
         for each in attackPhaseObjects{
@@ -125,22 +137,45 @@ class GameLayer : SKNode{
         for each in spawnPoints[stage]!{
             each.afterAddToScene()
         }
-        var f :(()->())? = nil
-        f = {
-            ()->() in
+   
+        validTimer.repeatTimer({
+            () -> () in
             for each in self.attackPhaseObjects{
                 if (each is DestructibleObject){
                     (each as! DestructibleObject).checkOutOfArea()
                 }
             }
-            self.validTimer.reset()
-            self.validTimer.startTimer(f!)
-        }
-        validTimer.startTimer(f!)
-        gameScene!.generalUpdateList.insert(validTimer)
+
+        })
+        gameScene!.generalUpdateList.insert(Weak(validTimer))
         totalTimer.startTimer(nil)
-        gameScene!.generalUpdateList.insert(totalTimer)
+        gameScene!.generalUpdateList.insert(Weak(totalTimer))
     }
+//--------------- Spawn stage-----------------
+    var targetSpawnCount = 0
+    func changeSpawnState(){
+        self.stage++
+        targetSpawnCount = 0
+        if spawnPoints[self.stage] == nil{
+            //or do sth 
+            return
+        }
+        for each in self.spawnPoints[self.stage]!{
+            if each.limited {
+                targetSpawnCount++
+                each.subscribeEvent(GameEvent.EnemyDefeat.rawValue, call: {
+                    (obj:GameObject) -> () in
+                    self.targetSpawnCount--
+                    if self.targetSpawnCount == 0 {
+                        self.changeSpawnState()
+                    }
+                })
+            }
+            each.afterAddToScene()
+        }
+    }
+    
+    
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -191,8 +226,10 @@ class GameLayer : SKNode{
         for obj in  attackPhaseObjects{
             obj.update()
         }
-        for obj in spawnPoints[self.stage]!{
-            obj.update()
+        if spawnPoints[self.stage] != nil{
+            for obj in spawnPoints[self.stage]!{
+                obj.update()
+            }
         }
     }
     /*

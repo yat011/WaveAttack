@@ -18,6 +18,7 @@ enum GameEvent : String{
     PlayerDead = "playerdead",
     EarthquakeStart = "earthquakestart",
     EarthquakeEnd = "earthquakeend",
-    Scored = "scored"
+    Scored = "scored",
+    EnemyDefeat = "EnemyDefeat"
     
 }

@@ -149,6 +149,14 @@ class SubMission{
             spawnPoint.limitCount = limitNum
             spawnPoint.limited = true
         }
+        if properties["interval"] != nil{
+            var interval = CGFloat((properties["interval"]! as! NSString).floatValue)
+            spawnPoint.interval = interval
+        }
+        if properties["afterTime"] != nil{
+            var after = CGFloat((properties["afterTime"]! as! NSString).floatValue)
+            spawnPoint.afterTime = after
+        }
         return spawnPoint
     }
     

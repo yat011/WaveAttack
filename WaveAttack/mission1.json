@@ -196,8 +196,11 @@
                     "name":"spawnPt",
                     "properties":
                     {
+                    "afterTime":"10",
                     "groundType":"Front",
-                    "limitNum":"10",
+                    "interval":"2",
+                    "limitNum":"2",
+                    "realY":"true",
                     "spawnType":"EyeBallMan",
                     "stage":"2"
                     },
@@ -214,8 +217,11 @@
                     "name":"spawnPt",
                     "properties":
                     {
+                    "afterTime":"10",
                     "groundType":"Front",
-                    "limitNum":"10",
+                    "interval":"2",
+                    "limitNum":"2",
+                    "realY":"true",
                     "spawnType":"EyeBallMan",
                     "stage":"2"
                     },
@@ -225,6 +231,27 @@
                     "width":20.5954,
                     "x":371.300592355584,
                     "y":351.373480855973
+                    },
+                    {
+                    "height":28.0846,
+                    "id":38,
+                    "name":"Dragon",
+                    "properties":
+                    {
+                    "afterTime":"10",
+                    "groundType":"Front",
+                    "interval":"1",
+                    "limitNum":"1",
+                    "realY":"true",
+                    "spawnType":"BadyDragon",
+                    "stage":"3"
+                    },
+                    "rotation":0,
+                    "type":"SpawnPoint",
+                    "visible":true,
+                    "width":20.5954,
+                    "x":568.592000511322,
+                    "y":194.1388541271
                     }
                     ]
                  }

@@ -11,7 +11,7 @@ import SpriteKit
 class Building: DestructibleObject{
     var originPos :CGPoint? = nil
     static let _oriTexture =  SKTexture(imageNamed: "building")
-    static let _breakRect = [CGRect(x: 0, y: 0, width: 1, height: 0.6), CGRect(x: 0.2, y: 0.6, width: 0.8, height: 0.4), CGRect(x: 0, y: 0.6, width: 0.2, height: 0.4)]
+    static let _breakRect = [CGRect(x: 0, y: 0, width: 1, height: 0.6), CGRect(x: 0.3, y: 0.6, width: 0.7, height: 0.4), CGRect(x: 0, y: 0.6, width: 0.3, height: 0.4)]
     override class var breakRect: [CGRect]? { get{return _breakRect}}
     override class var oriTexture : SKTexture? {get{return _oriTexture}}
     static var _breakTexture :[SKTexture]? = nil
@@ -95,7 +95,9 @@ class Building: DestructibleObject{
         
     }
     override func jointBroken(node: SKSpriteNode) {
-        guard fireNode == nil else{ return }
+        if breakIndex != -1 {
+           return
+        }
        let smoke =   SKEmitterNode(fileNamed: "Smoke.sks")
         let fire = SKEmitterNode(fileNamed: "Fire.sks")
         fireNode=SKSpriteNode()
@@ -103,10 +105,12 @@ class Building: DestructibleObject{
         fireNode!.addChild(fire!)
         fireNode!.zPosition = GameLayer.ZFRONT + 1
         fire!.zPosition = 1
-        var actions = [ SKAction.waitForDuration(10), SKAction.removeFromParent()]
+        var actions = [ SKAction.waitForDuration(10),SKAction.fadeAlphaTo(0, duration: 2), SKAction.removeFromParent()]
+        sprites[0].colorBlendFactor = 0.2
+        sprites[0].color = SKColor.blackColor()
         
-        //smoke?.runAction(SKAction.sequence(actions))
-        //fire?.runAction(SKAction.sequence(actions))
+        smoke?.runAction(SKAction.sequence(actions))
+        fire?.runAction(SKAction.sequence(actions))
        sprite.addChild(fireNode!)
         
     }

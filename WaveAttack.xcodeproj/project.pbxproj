@@ -24,9 +24,6 @@
 		5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A6121BC6F322000F2E14 /* Clickable.swift */; };
 		5433C31B1BF4F1E300C87116 /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5433C31A1BF4F1E300C87116 /* Human.swift */; };
 		5433C32A1BF4FEBD00C87116 /* building.png in Resources */ = {isa = PBXBuildFile; fileRef = 5433C3281BF4FEBD00C87116 /* building.png */; };
-		5433C32B1BF4FEBD00C87116 /* male_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 5433C3291BF4FEBD00C87116 /* male_full.png */; };
-		5433C32E1BF5076100C87116 /* male_body_legs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5433C32C1BF5076100C87116 /* male_body_legs.png */; };
-		5433C32F1BF5076100C87116 /* male_hands.png in Resources */ = {isa = PBXBuildFile; fileRef = 5433C32D1BF5076100C87116 /* male_hands.png */; };
 		544B60E71BCA22710064B8AE /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DC1BCA22710064B8AE /* Character.swift */; };
 		544B60E81BCA22710064B8AE /* CharacterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B60DD1BCA22710064B8AE /* CharacterManager.swift */; };
 		544B60E91BCA22710064B8AE /* characters.json in Resources */ = {isa = PBXBuildFile; fileRef = 544B60DE1BCA22710064B8AE /* characters.json */; };
@@ -83,9 +80,6 @@
 		54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BBD93E1BD7E0C700BAFFA2 /* ch01.png */; };
 		54BBD9411BD7F9ED00BAFFA2 /* NotifyNextRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */; };
 		54BBD9431BD94DFB00BAFFA2 /* TimerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */; };
-		54BEFB991BF5DAAB00DAFA05 /* male_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFB961BF5DAAB00DAFA05 /* male_body.png */; };
-		54BEFB9A1BF5DAAB00DAFA05 /* male_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFB971BF5DAAB00DAFA05 /* male_head.png */; };
-		54BEFB9B1BF5DAAB00DAFA05 /* male_leg.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFB981BF5DAAB00DAFA05 /* male_leg.png */; };
 		54BEFB9D1BF5E42A00DAFA05 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEFB9C1BF5E42A00DAFA05 /* Building.swift */; };
 		54BEFBB31BF63B0100DAFA05 /* building_0000_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFBB11BF63B0100DAFA05 /* building_0000_2.png */; };
 		54BEFBB41BF63B0100DAFA05 /* building_0001_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFBB21BF63B0100DAFA05 /* building_0001_1.png */; };
@@ -128,6 +122,8 @@
 		54EDF1C31BFBB12E00671C07 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C21BFBB12E00671C07 /* Enemy.swift */; };
 		54EDF1C51BFBB25F00671C07 /* EyeBallMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C41BFBB25F00671C07 /* EyeBallMan.swift */; };
 		54EDF1C71BFBB44200671C07 /* SmallMovableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C61BFBB44200671C07 /* SmallMovableObject.swift */; };
+		54EDF1C91BFF5FE400671C07 /* BadyDragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C81BFF5FE400671C07 /* BadyDragon.swift */; };
+		54EDF1CB1BFF607700671C07 /* Baby_Dragon.png in Resources */ = {isa = PBXBuildFile; fileRef = 54EDF1CA1BFF607700671C07 /* Baby_Dragon.png */; };
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
@@ -179,9 +175,6 @@
 		5420A6121BC6F322000F2E14 /* Clickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clickable.swift; sourceTree = "<group>"; };
 		5433C31A1BF4F1E300C87116 /* Human.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Human.swift; sourceTree = "<group>"; };
 		5433C3281BF4FEBD00C87116 /* building.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building.png; sourceTree = "<group>"; };
-		5433C3291BF4FEBD00C87116 /* male_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_full.png; sourceTree = "<group>"; };
-		5433C32C1BF5076100C87116 /* male_body_legs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_body_legs.png; sourceTree = "<group>"; };
-		5433C32D1BF5076100C87116 /* male_hands.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_hands.png; sourceTree = "<group>"; };
 		544B60DC1BCA22710064B8AE /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		544B60DD1BCA22710064B8AE /* CharacterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterManager.swift; sourceTree = "<group>"; };
 		544B60DE1BCA22710064B8AE /* characters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = characters.json; sourceTree = "<group>"; };
@@ -244,9 +237,6 @@
 		54BBD93E1BD7E0C700BAFFA2 /* ch01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch01.png; sourceTree = "<group>"; };
 		54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyNextRound.swift; sourceTree = "<group>"; };
 		54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerUI.swift; sourceTree = "<group>"; };
-		54BEFB961BF5DAAB00DAFA05 /* male_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_body.png; sourceTree = "<group>"; };
-		54BEFB971BF5DAAB00DAFA05 /* male_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_head.png; sourceTree = "<group>"; };
-		54BEFB981BF5DAAB00DAFA05 /* male_leg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male_leg.png; sourceTree = "<group>"; };
 		54BEFB9C1BF5E42A00DAFA05 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
 		54BEFBB11BF63B0100DAFA05 /* building_0000_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building_0000_2.png; sourceTree = "<group>"; };
 		54BEFBB21BF63B0100DAFA05 /* building_0001_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building_0001_1.png; sourceTree = "<group>"; };
@@ -289,6 +279,8 @@
 		54EDF1C21BFBB12E00671C07 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		54EDF1C41BFBB25F00671C07 /* EyeBallMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeBallMan.swift; sourceTree = "<group>"; };
 		54EDF1C61BFBB44200671C07 /* SmallMovableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallMovableObject.swift; sourceTree = "<group>"; };
+		54EDF1C81BFF5FE400671C07 /* BadyDragon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadyDragon.swift; sourceTree = "<group>"; };
+		54EDF1CA1BFF607700671C07 /* Baby_Dragon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Baby_Dragon.png; sourceTree = "<group>"; };
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
@@ -335,6 +327,7 @@
 			children = (
 				54EDF1C21BFBB12E00671C07 /* Enemy.swift */,
 				54EDF1C41BFBB25F00671C07 /* EyeBallMan.swift */,
+				54EDF1C81BFF5FE400671C07 /* BadyDragon.swift */,
 			);
 			name = Enemy;
 			sourceTree = "<group>";
@@ -392,20 +385,15 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		5433C31C1BF4FE7000C87116 /* objects */ = {
+		5433C31C1BF4FE7000C87116 /* dest */ = {
 			isa = PBXGroup;
 			children = (
+				54EDF1CA1BFF607700671C07 /* Baby_Dragon.png */,
 				54EDF1C01BFBAEB700671C07 /* strangeEybal.png */,
 				54BEFBB51BF673CF00DAFA05 /* human */,
 				54BEFB9E1BF5E5D900DAFA05 /* building */,
-				54BEFB961BF5DAAB00DAFA05 /* male_body.png */,
-				54BEFB971BF5DAAB00DAFA05 /* male_head.png */,
-				54BEFB981BF5DAAB00DAFA05 /* male_leg.png */,
-				5433C32C1BF5076100C87116 /* male_body_legs.png */,
-				5433C32D1BF5076100C87116 /* male_hands.png */,
-				5433C3291BF4FEBD00C87116 /* male_full.png */,
 			);
-			name = objects;
+			name = dest;
 			sourceTree = "<group>";
 		};
 		544B60F21BCA22800064B8AE /* WaveUI */ = {
@@ -505,7 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				54BEFBC81BF9DA5A00DAFA05 /* ground.png */,
-				5433C31C1BF4FE7000C87116 /* objects */,
+				5433C31C1BF4FE7000C87116 /* dest */,
 				54E090711BF25C590055D5F9 /* menuBack.png */,
 				54E0906F1BF259610055D5F9 /* mainBack.png */,
 				54E7D3251BEA4B1F00C6EA57 /* Hit.png */,
@@ -827,12 +815,10 @@
 				54E7D3241BEA05D300C6EA57 /* packet.png in Resources */,
 				54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */,
 				54EDF1C11BFBAEB700671C07 /* strangeEybal.png in Resources */,
-				5433C32E1BF5076100C87116 /* male_body_legs.png in Resources */,
 				549D82C81BE7535E00907150 /* YellowMonster.png in Resources */,
 				541285501BA548E700EB4A05 /* GameScene.sks in Resources */,
 				54D6A1FD1BE7BCD600B23C65 /* waveBtn.png in Resources */,
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
-				54BEFB9B1BF5DAAB00DAFA05 /* male_leg.png in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
 				54E090701BF259610055D5F9 /* mainBack.png in Resources */,
 				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
@@ -841,7 +827,7 @@
 				549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */,
 				54D6A20A1BE7E3D500B23C65 /* purpleSlime.png in Resources */,
 				544F056A1BA305CD00AC1BBD /* Main.storyboard in Resources */,
-				54BEFB991BF5DAAB00DAFA05 /* male_body.png in Resources */,
+				54EDF1CB1BFF607700671C07 /* Baby_Dragon.png in Resources */,
 				54EDF1BE1BFB72E100671C07 /* Blood.sks in Resources */,
 				549189211BFB623C004764E4 /* Fire.sks in Resources */,
 				549D82C21BE33CA400907150 /* DaytimeSky.png in Resources */,
@@ -855,15 +841,12 @@
 				54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */,
 				54BEFBC71BF77CCA00DAFA05 /* human_full.png in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
-				5433C32B1BF4FEBD00C87116 /* male_full.png in Resources */,
-				54BEFB9A1BF5DAAB00DAFA05 /* male_head.png in Resources */,
 				5491891F1BFB6218004764E4 /* spark.png in Resources */,
 				54BEFBC41BF7581F00DAFA05 /* human_down.png in Resources */,
 				54D6A2091BE7E3D500B23C65 /* Icon in Resources */,
 				54BEFBC51BF7581F00DAFA05 /* human_up.png in Resources */,
 				54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */,
 				54BEFBB31BF63B0100DAFA05 /* building_0000_2.png in Resources */,
-				5433C32F1BF5076100C87116 /* male_hands.png in Resources */,
 				5420A60D1BC572E5000F2E14 /* crack.png in Resources */,
 				54F8D8981BB1D943009E9654 /* redbar.png in Resources */,
 			);
@@ -943,6 +926,7 @@
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
 				54BEFBCD1BFA122E00DAFA05 /* Spawnable.swift in Sources */,
+				54EDF1C91BFF5FE400671C07 /* BadyDragon.swift in Sources */,
 				54D44C241BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift in Sources */,
 				5420A6131BC6F322000F2E14 /* Clickable.swift in Sources */,
 				54EDF1C31BFBB12E00671C07 /* Enemy.swift in Sources */,

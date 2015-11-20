@@ -9,7 +9,7 @@
 import Foundation
 
 import SpriteKit
-class EnemyAction {
+class EnemyAction{
     var timer : FrameTimer
     weak var enemy : DestructibleObject? = nil
     init(enemy : DestructibleObject, cd : CGFloat){
@@ -19,12 +19,12 @@ class EnemyAction {
             ()->() in
             if self.enemy == nil || self.enemy!.dead{
                 self.timer.stopTimer()
-                GameScene.current!.generalUpdateList.remove(self.timer)
+                GameScene.current!.generalUpdateList.remove(Weak(self.timer))
                 return
             }
             self.runAction()
         })
-        GameScene.current!.generalUpdateList.insert(timer)
+        GameScene.current!.generalUpdateList.insert(Weak(timer))
     }
     
     func runAction(){}

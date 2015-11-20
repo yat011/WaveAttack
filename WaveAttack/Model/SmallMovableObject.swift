@@ -11,7 +11,7 @@ import SpriteKit
 class SmallMovableObject:SmallObject{
    
     var walkTarget : Enterable? = nil
-    var walkSpeed : CGFloat = 2
+    var walkSpeed : CGFloat = 15
     var _balance = true
     var isBalance :Bool {
         get{return _balance }
@@ -64,7 +64,7 @@ class SmallMovableObject:SmallObject{
                 return false
             }
             for each in sprites{
-                each.runAction(SKAction.moveByX(walkSpeed, y: 0, duration: 0))
+                each.physicsBody!.velocity = CGVector(dx: walkSpeed, dy: 0)
                 each.zRotation = 0
             }
         }else{
@@ -73,8 +73,9 @@ class SmallMovableObject:SmallObject{
                 return false
             }
             for each in sprites{
-                each.runAction(SKAction.moveByX(-walkSpeed, y: 0, duration: 0))
+               each.physicsBody!.velocity = CGVector(dx: -walkSpeed, dy: 0)
                 each.zRotation = 0
+                
             }
         }
         return false

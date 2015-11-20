@@ -43,7 +43,7 @@ class SpawnPoint :GameObject{
     
     func afterAddToScene(){
             timer = FrameTimer(duration: afterTime)
-            GameScene.current!.generalUpdateList.insert(timer!)
+            GameScene.current!.generalUpdateList.insert(Weak(timer!))
             var f : (()->())? = nil
             f = {
                 ()->() in
@@ -77,7 +77,10 @@ class SpawnPoint :GameObject{
         currentNum++
         obj?.subscribeEvent(GameEvent.Dead.rawValue, call: {
             (obj:GameObject)->() in
-           currentNum--
+           self.currentNum--
+            if (self.limitCount == 0  && self.currentNum == 0){
+                self.triggerEvent(GameEvent.EnemyDefeat.rawValue)
+            }
         })
         GameScene.current!.gameLayer!.addGameObject(obj!)
         (obj as! DestructibleObject).afterAddToScene()

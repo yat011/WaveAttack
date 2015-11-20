@@ -69,6 +69,9 @@ class FrameTimer : GameObject{
     func stopTimer(){
         running = false
     }
+    func resumeTimer(){
+        running = true
+    }
     
     func subscribeWhen (time : CGFloat , call:(()->())){
        

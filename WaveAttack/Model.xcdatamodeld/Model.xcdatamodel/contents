@@ -9,6 +9,7 @@
         <attribute name="grade" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="missionId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="roundUsed" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="score" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <entity name="PlayerInfo" representedClassName=".PlayerInfo" syncable="YES">
         <attribute name="passMission" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -20,7 +21,7 @@
     </entity>
     <elements>
         <element name="OwnedCharacter" positionX="-252" positionY="27" width="128" height="88"/>
-        <element name="PassedMission" positionX="-128" positionY="252" width="128" height="88"/>
+        <element name="PassedMission" positionX="-128" positionY="252" width="128" height="105"/>
         <element name="PlayerInfo" positionX="-56" positionY="41" width="128" height="88"/>
         <element name="Team" positionX="-326" positionY="180" width="128" height="58"/>
     </elements>

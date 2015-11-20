@@ -124,6 +124,7 @@
 		54EDF1C71BFBB44200671C07 /* SmallMovableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C61BFBB44200671C07 /* SmallMovableObject.swift */; };
 		54EDF1C91BFF5FE400671C07 /* BadyDragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1C81BFF5FE400671C07 /* BadyDragon.swift */; };
 		54EDF1CB1BFF607700671C07 /* Baby_Dragon.png in Resources */ = {isa = PBXBuildFile; fileRef = 54EDF1CA1BFF607700671C07 /* Baby_Dragon.png */; };
+		54EDF1CD1BFF77FC00671C07 /* AnimateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EDF1CC1BFF77FC00671C07 /* AnimateHelper.swift */; };
 		54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8881BB04271009E9654 /* GameObjectFactory.swift */; };
 		54F8D8901BB05444009E9654 /* mission1.json in Resources */ = {isa = PBXBuildFile; fileRef = 54F8D88F1BB05444009E9654 /* mission1.json */; };
 		54F8D8921BB05719009E9654 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F8D8911BB05719009E9654 /* Mission.swift */; };
@@ -281,6 +282,7 @@
 		54EDF1C61BFBB44200671C07 /* SmallMovableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallMovableObject.swift; sourceTree = "<group>"; };
 		54EDF1C81BFF5FE400671C07 /* BadyDragon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadyDragon.swift; sourceTree = "<group>"; };
 		54EDF1CA1BFF607700671C07 /* Baby_Dragon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Baby_Dragon.png; sourceTree = "<group>"; };
+		54EDF1CC1BFF77FC00671C07 /* AnimateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateHelper.swift; sourceTree = "<group>"; };
 		54F8D8881BB04271009E9654 /* GameObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectFactory.swift; sourceTree = "<group>"; };
 		54F8D88F1BB05444009E9654 /* mission1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mission1.json; sourceTree = "<group>"; };
 		54F8D8911BB05719009E9654 /* Mission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				5F71B6A91BDCAB3D002F49B5 /* TransitableScene.swift */,
 				5F71B6AB1BDCEEBA002F49B5 /* BackButton.swift */,
 				549D82B11BDFD18500907150 /* DraggableNode.swift */,
+				54EDF1CC1BFF77FC00671C07 /* AnimateHelper.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -944,6 +947,7 @@
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
 				54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */,
 				54E090761BF3976E0055D5F9 /* Ground.swift in Sources */,
+				54EDF1CD1BFF77FC00671C07 /* AnimateHelper.swift in Sources */,
 				5420A5E01BBE75C0000F2E14 /* EnemyAction.swift in Sources */,
 				54E090741BF270740055D5F9 /* FrameTimer.swift in Sources */,
 				54E7D32B1BEA65EE00C6EA57 /* PassedMission.swift in Sources */,

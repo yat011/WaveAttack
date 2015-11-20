@@ -150,6 +150,7 @@ class GameLayer : SKNode{
         gameScene!.generalUpdateList.insert(Weak(validTimer))
         totalTimer.startTimer(nil)
         gameScene!.generalUpdateList.insert(Weak(totalTimer))
+        //completeMission()
     }
 //--------------- Spawn stage-----------------
     var targetSpawnCount = 0
@@ -158,6 +159,10 @@ class GameLayer : SKNode{
         targetSpawnCount = 0
         if spawnPoints[self.stage] == nil{
             //or do sth 
+            
+            
+            // show win
+            self.completeMission()
             return
         }
         for each in self.spawnPoints[self.stage]!{

@@ -208,6 +208,9 @@ class DestructibleObject : Medium {
             self.gameScene!.generalUpdateList.remove(Weak(self.invulnerableTimer!))
             self.invulnerableTimer = nil
         })
+        for each in sprites{
+            AnimateHelper.animateFlashEffect(each, duration: self.dynamicType.invulnerableTime, completion: nil)
+        }
         gameScene!.generalUpdateList.insert(Weak(self.invulnerableTimer!))
         
     }

@@ -38,11 +38,13 @@ class MissionScene: TransitableScene{
             lowest = 200 - CGFloat(posIndex) * 100
             var missionBtn : MissionButton? = nil
             var btnText:String = ""
+        
             var missionData = PlayerInfo.getPassedMissionById(i)
             if missionData == nil{
                 btnText = Mission.missionList[i]!
             }else{
-                btnText = Mission.missionList[i]! + "  (\(missionData!.grade!))"
+                btnText = String(format: "%@ (%.0f)", Mission.missionList[i]!, missionData!.score!.floatValue)
+                
             }
             
             

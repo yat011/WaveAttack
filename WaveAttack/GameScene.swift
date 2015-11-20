@@ -51,6 +51,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var _currentStage : GameStage = GameStage.Superposition
     var currentStage : GameStage {get {return _currentStage}
         set(c){
+            if (_currentStage == GameStage.Complete){
+                return 
+            }
             _prevStage = _currentStage
             _currentStage = c
         }
@@ -77,7 +80,11 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var inited : Int = 0 //for texture
     var generalUpdateList = Set<Weak<GameObject>>()
     var totalScore :CGFloat = 0
-    
+    var bonus : Float {
+        get{
+            return 4 * exp(-Float(gameLayer!.totalTimer.currentTime)/60) + 1
+        }
+    }
     
     init(size: CGSize, missionId: Int,viewController:GameViewController) {
         
@@ -386,48 +393,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
            self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: self.playerAttackArea.origin, completion: {
                 () -> () in
                 //print("completeion")
-            self.superingTimer = nil
-            
-            self.timerStarted = false
-            self.controlLayer!.stateLabel.hidden = false
-            self.controlLayer!.lowerResultant = nil
-            self.controlLayer!.upperResultant = nil
-                if self.gameLayer!.checkResult() {
-                    return
-                }
-                self.startEnemyPhase()
-            
-            
-            })
-            /*
-            self.controlLayer!.animateGeneration(resultWave, completion: {
-                () -> () in
-                // do sth animation
-                    //timeBonus
-                var timeBonus = self.superingTimer!.progress * (self.player!.timeBonus - 1) + 1
-                for packet in self.gameLayer!.energyPackets{
-                    packet.energy = packet.energy * timeBonus
-                    packet.sprite!.color = packet.getColor()
-                }
-                
-                //
-                self.startAttackPhase()
                 self.superingTimer = nil
-
+                
                 self.timerStarted = false
                 self.controlLayer!.stateLabel.hidden = false
-                self.controlLayer!.stateLabel.text = "Attacking ..."
-                self.controlLayer!.stateLabel.removeAllActions()
-                self.controlLayer!.upperResultant?.removeFromParent()
-                self.controlLayer!.lowerResultant?.removeFromParent()
                 self.controlLayer!.lowerResultant = nil
                 self.controlLayer!.upperResultant = nil
-                var fade = SKAction.fadeAlphaTo(0.5, duration: 1)
-                var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
-                self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
+                self.startSuperpositionPhase()
+            
             })
-*/
-         //   self.spawnWave(resultWave.getAmplitudes())
+         
         
         })
         
@@ -853,24 +828,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
 //----------- phase change -----------------------------
-    func startEnemyPhase (){
-        startSuperpositionPhase()
-        return
-            
-       // gameLayer!.enemyDoAction()
-        self.controlLayer!.stateLabel.text = "Enemy Moving ..."
-        self.controlLayer!.stateLabel.removeAllActions()
-        var fade = SKAction.fadeAlphaTo(0.5, duration: 1)
-        var actions = [fade, SKAction.fadeAlphaTo(1, duration: 1)]
-        self.controlLayer!.stateLabel.runAction(SKAction.repeatActionForever(SKAction.sequence(actions)))
-        //print("start enemy phase")
-        
-    }
+   
     func startCheckResult(){
         self.currentStage = GameStage.Checking
-        if gameLayer!.checkResult() == false {
-            startEnemyPhase()
-        }
+       // if gameLayer!.checkResult() == false {
+            
+        //}
+        startSuperpositionPhase()
     }
     
     func startSuperpositionPhase(){
@@ -935,34 +899,33 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 }
                 set!.addObject(missionObj!)
             }
-            if missionObj!.roundUsed == nil || missionObj!.roundUsed!.integerValue < self.numRounds{
-                missionObj!.roundUsed = numRounds
-                missionObj!.grade = getGrade()
+            var finalScore = Float(totalScore) * bonus
+            print(missionObj!.score)
+            if missionObj!.score == nil || missionObj!.score!.floatValue <= finalScore{
+                //missionObj!.roundUsed = numRounds
+                //missionObj!.grade = getGrade()
                 missionObj!.missionId = mission!.missionId
+                missionObj!.score = finalScore
+                
             }
             
             
             
             NSManagedObject.save()
             controlLayer?.stateLabel.text = "Complete"
-            gameLayer!.fadeOutAll({
-                () -> () in
-                
-                self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
-                self.addChild(self.resultUI!)
-                
-                //numRounds = 20
-                self.resultUI!.showResult({
-                    () -> () in
-                    //print("finished")
-                })
+         
+            self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
+            self.addChild(self.resultUI!)
             
-                return
-
-                
+            //numRounds = 20
+            self.resultUI!.showResult({
+                () -> () in
+                //print("finished")
             })
             
             return
+            
+ 
            
         }
         currentStage = GameStage.Temp

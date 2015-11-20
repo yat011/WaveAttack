@@ -23,6 +23,8 @@ class PlayerInfo: NSManagedObject {
     }
     
     static func getPassedMissionById(id :Int) -> PassedMission?{
+        var test = NSManagedObject.getObjects("PassedMission") as! [PassedMission]
+        print(test.count)
         let fetchRequest = NSFetchRequest(entityName: "PassedMission")
         fetchRequest.predicate = NSPredicate(format: "missionId = %i", id)
         

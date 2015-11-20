@@ -14,16 +14,21 @@ class ResultUI : SKShapeNode{
     
     var gradeLabel: SKLabelNode? = nil
     var numRoundsLabel : SKLabelNode? = nil
+    var scoreLabel : SKLabelNode? = nil
+    var timeLabel: SKLabelNode? = nil
     var title: SKLabelNode? = nil
     weak var gameScene :GameScene? = nil
     static let GRADE_STR = "Grade %@"
     static let NUM_ROUNDS_STR = "Rounds Used %d"
+    static let TIME_STR = "Time: %.1f"
+    static let SCORE_TIME_STR = "Score: %.1f * %.1f"
+    static let SCORE_STR = "Score: %.1f"
     static func createResultUI(rect: CGRect, gameScene: GameScene ) -> ResultUI{
         var res = ResultUI (rectOfSize: rect.size, cornerRadius: 2)
         res.position = rect.origin
         res.fillColor = SKColor.blackColor()
         res.strokeColor = SKColor.brownColor()
-        res.alpha = 0.7
+        res.alpha = 0.8
         var label =  SKLabelNode(text: "Mission Complete")
         label.fontName = "Helvetica"
         label.position = CGPoint(x: 0, y:  200)
@@ -44,6 +49,17 @@ class ResultUI : SKShapeNode{
         res.numRoundsLabel!.position = CGPoint(x: -120, y: -50)
         res.gameScene = gameScene
         
+        res.scoreLabel = SKLabelNode(fontNamed: "Helvetica")
+        res.scoreLabel!.text = ""
+        res.scoreLabel!.fontSize = 18
+        res.scoreLabel!.horizontalAlignmentMode = .Left
+        res.scoreLabel!.position = CGPoint(x: -120, y: -50)
+        
+        res.timeLabel = SKLabelNode(fontNamed: "Helvetica")
+        res.timeLabel!.text = ""
+        res.timeLabel!.fontSize = 18
+        res.timeLabel!.horizontalAlignmentMode = .Left
+        res.timeLabel!.position = CGPoint(x: -120, y: 0)
         
         var menuButton = ButtonUI.createButton(CGRect(x:0, y: -150, width:150, height: 30), text: "Back to Main Menu", onClick: {
             () -> () in
@@ -54,8 +70,10 @@ class ResultUI : SKShapeNode{
         gameScene.addClickable(GameStage.Complete, menuButton)
         res.addChild(menuButton)
         
-        res.addChild(res.gradeLabel!)
-        res.addChild(res.numRoundsLabel!)
+       // res.addChild(res.gradeLabel!)
+       // res.addChild(res.numRoundsLabel!)
+        res.addChild(res.scoreLabel!)
+        res.addChild(res.timeLabel!)
         res.zPosition = 1000000
         
         return res
@@ -65,10 +83,12 @@ class ResultUI : SKShapeNode{
     
     
     func showResult (finish : (()->())){
-        var current = 0
-        var target = gameScene!.numRounds
-        var grades = gameScene!.mission!.gradeDiv
-        var grade  = 0
+      
+        var current:CGFloat = 0
+        
+        var time = gameScene!.gameLayer!.totalTimer.currentTime
+        var score =  gameScene!.totalScore
+        /*
         var f :(()->())!
         f = {() -> () in
             if current == target{
@@ -90,6 +110,19 @@ class ResultUI : SKShapeNode{
         }
         
         runAction(SKAction.waitForDuration(0.1), completion: f)
+*/
+        timeLabel!.text  = String(format: ResultUI.TIME_STR,time)
+        self.timeLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+        var bonus =  gameScene!.bonus
+        scoreLabel!.text = String(format:ResultUI.SCORE_TIME_STR , score , bonus )
+        AnimateHelper.animateFlashEffect(scoreLabel!, duration: 2, completion: {
+            () -> () in
+           self.scoreLabel!.text = String(format: ResultUI.SCORE_STR, Float(score) * bonus)
+            self.scoreLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+        })
+        
+        
+        
         
        // finish()
     }

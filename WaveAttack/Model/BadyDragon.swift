@@ -42,7 +42,7 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
     }
     
     func spawnInit(position:CGPoint) {
-        self.originHp = 20000
+        self.originHp = 2000
         initialize(CGSize(width: 120, height: 100), position: position, gameScene: GameScene.current!)
         findTarget()
         self.sprite.zPosition = GameLayer.ZFRONT

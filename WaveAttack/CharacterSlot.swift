@@ -18,7 +18,7 @@ class CharacterSlot:SKSpriteNode,Interactable{
             self.character=CharacterManager.getCharacterByID(character!.characterId!.integerValue)
         }
         self.slot=slot
-        super.init(texture: nil, color: UIColor.greenColor(), size: CGSize(width: 40, height: 40))
+        super.init(texture: nil, color: UIColor.grayColor(), size: CGSize(width: 40, height: 40))
         updateGraphics()
         self.position=CGPoint(x: x, y: y)
     }

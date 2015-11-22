@@ -7,8 +7,8 @@
                       "strength":"0",
                       "skillID":"0",
                       "image": "blueSlime",
-                      "skill" : "ConvexLenSkill",
-                      "skillRound" : "2",
+                      "skill" : "SpeedChargingSkill",
+                      "cdTime" : "30",
                   "attackPow": "2",
                   "hp" : "100",
                       "wave":[
@@ -37,7 +37,7 @@
                         "attackPow": "1",
                         "hp" : "200",
                   "skill" : "HealSkill",
-                  "skillRound" : "3",
+                  "cdTime" : "20",
                       "wave":[
                               {
                               "type":     "sine1",
@@ -73,7 +73,7 @@
                   "attackPow": "1",
                   "hp" : "200",
                   "skill" : "HealSkill",
-                  "skillRound" : "3",
+                  "cdTime" : "20",
                   "wave":[
                           {
                           "type":     "sine1",
@@ -108,8 +108,8 @@
                   "image": "purpleSlime",
                   "attackPow": "1",
                   "hp" : "200",
-                  "skill" : "HealSkill",
-                  "skillRound" : "3",
+                  "skill" : "DoubleAttackSkill",
+                  "cdTime" : "30",
                   "wave":[
                           {
                           "type":     "sine1",
@@ -145,7 +145,7 @@
                   "attackPow": "1",
                   "hp" : "200",
                   "skill" : "HealSkill",
-                  "skillRound" : "3",
+                  "cdTime" : "20",
                   "wave":[
                           {
                           "type":     "sine1",

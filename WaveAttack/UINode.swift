@@ -21,6 +21,7 @@ class UINode: SKNode,Draggable{
     var waveUIGroup :SKNode? = nil
     var generatorUI : WaveGeneratorUI? = nil
     var atkBtn : ButtonUI? = nil
+    var eventHandler = GameObject()
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -318,6 +319,7 @@ class UINode: SKNode,Draggable{
                 
                 
                 if attackTime == 0 && finish == totalCount{
+                    self.eventHandler.triggerEvent(GameEvent.AttackDone.rawValue)
                     completion()
                 }
                 self.generatorUI!.shoot()

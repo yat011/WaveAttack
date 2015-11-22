@@ -165,6 +165,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         for ch in character{
             guard ch != nil else{continue}
             sumhp += ch!.hp
+            ch!.afterAddToScene()
         }
         var tplayer = Player(hp: sumhp)
         self.player = tplayer
@@ -483,16 +484,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     func startSupering(){
-        var timelimit: CGFloat = 5
-        var frameTimer = FrameTimer(duration: 5)
+        var timelimit: CGFloat = player!.chargingTime
+        var frameTimer = FrameTimer(duration: timelimit)
         self.superingTimer = frameTimer
         self.generalUpdateList.insert(Weak(frameTimer))
         frameTimer.startTimer(self.timeOut)
         self.controlLayer!.timerUI!.startTimer(timelimit)
         controlLayer!.generatorUI?.open()
-        controlLayer!.generatorUI?.animateStoringPower(player!.numOfOscillation, maxTime: 5)
+        controlLayer!.generatorUI?.animateStoringPower(player!.numOfOscillation, maxTime: timelimit)
         controlLayer!.atkBtn!.hidden=false
-        AnimateHelper.animateFlashEffect(controlLayer!.atkBtn!, duration: 5, completion: nil)
+        AnimateHelper.animateFlashEffect(controlLayer!.atkBtn!, duration: timelimit, completion: nil)
         frameTimer.updateFunc = {
             () -> () in
             self.controlLayer!.timerUI!.updateTimer()
@@ -752,7 +753,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
              if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
                 dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
                 dragSkillObj?.getSprite()!.runAction(SKAction.fadeAlphaTo(1, duration: 0))
-                pendingCharacter!.resetRound()
+               // pendingCharacter!.resetRound()
                 pendingCharacter = nil
                 dragSkillObj = nil
                 pressedSkill = nil
@@ -914,10 +915,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
         //print("start superposition")
+        /*
         for var each in self.character{
+            
             guard each != nil else{continue}
             each!.nextRound()
         }
+*/
         if numRounds > 0{
             controlLayer!.showWaveButtons()
             controlLayer!.timerUI!.resetTimer()

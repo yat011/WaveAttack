@@ -17,7 +17,8 @@ class HealSkill :SimpleSkill{
         self.healAmount = healAmount
         self.player = player
     }
-    override func perform(gameScene: GameScene) {
+    override func perform(gameScene: GameScene, character: Character) {
         gameScene.player?.changeHpBy(healAmount)
+        character.cdSkill()
     }
 }

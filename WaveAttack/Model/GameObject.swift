@@ -32,6 +32,14 @@ class GameObject : NSObject {
             eventFunc[event]!.append(call)
         }
     }
+    
+    func removeEventCall ( event :String , call: CallBack){
+        if eventFunc[event] == nil{
+            return
+        }else{
+            eventFunc[event]!.removeObject(call as! AnyObject)
+        }
+    }
     func triggerEvent( event: String){
         var subs = eventFunc[event]
         if subs == nil{

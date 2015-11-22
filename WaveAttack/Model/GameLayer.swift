@@ -109,10 +109,12 @@ class GameLayer : SKNode{
         var boundary = SKSpriteNode()
         let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size: CGSize(width: gameScene!.gameArea!.width, height: 2 * gameScene!.gameArea!.height)))
         phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
-        phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.FrontObjects.rawValue
+        phys.collisionBitMask = 0
         phys.contactTestBitMask = 0
         phys.usesPreciseCollisionDetection = true
+        phys.dynamic = false
         boundary.physicsBody = phys
+        
         boundary.name = "boundary"
         
         self.addChild(boundary)

@@ -16,6 +16,10 @@ class Player : GameObject{
     var timeBonus:CGFloat = 2
     var peroid: CGFloat = 1
     var numOfOscillation = 4 //max.
+    let originNumOscillation = 4
+    let originchargingTime = 5.f
+    var chargingTime = 5.f
+    
     
     init( hp: CGFloat){
         oriHp = hp

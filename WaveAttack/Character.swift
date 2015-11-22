@@ -52,6 +52,9 @@ class Character : GameObject{
         oriRound = _round
         }}
     var oriRound :Int = 0
+    var cdTime : CGFloat = 10
+    var cdTimer = FrameTimer(duration: 10)
+    var skillReady: Bool = true
     override init(){
         //.
         //.
@@ -67,6 +70,16 @@ class Character : GameObject{
         super.init()
          name=""
     }
+    func afterAddToScene(){
+       cdTimer.addToGeneralUpdateList()
+        cdTimer.setTargetTime(cdTime)
+        self.triggerEvent(GameEvent.SkillReady.rawValue)
+        gameScene!.controlLayer!.eventHandler.subscribeEvent(GameEvent.AttackDone.rawValue, call: {
+            Void in
+            self.currentSpeed = 0
+            
+        })
+    }
     
     func useSkill(){
         //prevPressObj ??
@@ -74,7 +87,7 @@ class Character : GameObject{
         // find skill
         
         //temp ------
-        guard skill != nil && round == 0 else{
+        guard skill != nil && skillReady else{
             return
         }
         guard pending == false else{
@@ -86,8 +99,9 @@ class Character : GameObject{
         
         
         if (skill! is SimpleSkill){
-            skill!.perform(GameScene.current!)
-            resetRound()
+            skillReady = false
+           triggerEvent(GameEvent.SKillUsed.rawValue)
+            skill!.perform(GameScene.current!,character: self)
         }else{
             GameScene.current!.setPendingSkill(self)
             pending = true
@@ -96,25 +110,18 @@ class Character : GameObject{
         
         
     }
-    func resetRound(){
-        print("reset Round")
-        _round = oriRound
-        pending = false
+    func cdSkill(){
         self.triggerEvent(GameEvent.SKillUsed.rawValue)
+        skillReady = false
+        cdTimer.reset()
+        cdTimer.startTimer({
+           Void in
+            self.skillReady = true
+            self.triggerEvent(GameEvent.SkillReady.rawValue)
+        })
     }
     
-    func nextRound(){
-        print("nextRound")
-        currentSpeed = 0
-       // currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
-        guard round > 0 else{
-            return
-        }
-        _round--
-        if round == 0 {
-            self.triggerEvent(GameEvent.SkillReady.rawValue)
-        }
-    }
+  
     func randSpeed(){
        currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
     }

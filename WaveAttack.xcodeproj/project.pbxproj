@@ -72,6 +72,8 @@
 		54934F461C01BD5F00797C8C /* increaseHp.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F441C01BD5F00797C8C /* increaseHp.png */; };
 		54934F4A1C01E65800797C8C /* announcement.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F491C01E65800797C8C /* announcement.png */; };
 		54934F4C1C01E6AB00797C8C /* AnnouncementUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */; };
+		54934F4E1C0218FA00797C8C /* DoubleAttackSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */; };
+		54934F501C02265600797C8C /* SpeedChargingSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
 		549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AD1BDF76A500907150 /* MainMenu.swift */; };
 		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
@@ -244,6 +246,8 @@
 		54934F441C01BD5F00797C8C /* increaseHp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = increaseHp.png; sourceTree = "<group>"; };
 		54934F491C01E65800797C8C /* announcement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = announcement.png; sourceTree = "<group>"; };
 		54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementUI.swift; sourceTree = "<group>"; };
+		54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleAttackSkill.swift; sourceTree = "<group>"; };
+		54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedChargingSkill.swift; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
 		549D82AD1BDF76A500907150 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
@@ -392,6 +396,8 @@
 				5420A5ED1BC05915000F2E14 /* ConvexLenSkill.swift */,
 				5F01C9EB1BD4A8850003C711 /* SkillManager.swift */,
 				547322E31BF0962900FC2925 /* HealSkill.swift */,
+				54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */,
+				54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */,
 			);
 			name = Skill;
 			path = Model;
@@ -989,6 +995,7 @@
 				54F8D8941BB05879009E9654 /* SubMission.swift in Sources */,
 				544F05651BA305CD00AC1BBD /* GameScene.swift in Sources */,
 				54553E371BA6FCD400A38B18 /* DestructibleObject.swift in Sources */,
+				54934F4E1C0218FA00797C8C /* DoubleAttackSkill.swift in Sources */,
 				54BEFBCD1BFA122E00DAFA05 /* Spawnable.swift in Sources */,
 				54EDF1C91BFF5FE400671C07 /* BadyDragon.swift in Sources */,
 				54D44C241BD7661C00B24EE6 /* PlayerInfo+CoreDataProperties.swift in Sources */,
@@ -997,6 +1004,7 @@
 				54BEFBD31BFA26DF00DAFA05 /* TargetPoint.swift in Sources */,
 				549D82B21BDFD18500907150 /* DraggableNode.swift in Sources */,
 				54553E2E1BA5BEC100A38B18 /* Medium.swift in Sources */,
+				54934F501C02265600797C8C /* SpeedChargingSkill.swift in Sources */,
 				549D82B41BE211ED00907150 /* MissionButton.swift in Sources */,
 				5F71B6A81BDA2429002F49B5 /* CharScene.swift in Sources */,
 				54EDF1C71BFBB44200671C07 /* SmallMovableObject.swift in Sources */,

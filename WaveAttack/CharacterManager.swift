@@ -51,7 +51,7 @@ class CharacterManager{
                 if skill != nil{
                     character.skill = GameObjectFactory.getInstance().create(skill as! String) as! Skill
                     
-                    character.round = JSONHelper.getValue(c,key: "skillRound").integerValue
+                    character.cdTime = JSONHelper.getValue(c,key: "cdTime").floatValue.f
                 }
                 character.minSpeed = CGFloat(JSONHelper.getValue(c, key: "minSpeed").floatValue)
                 character.maxSpeed = CGFloat(JSONHelper.getValue(c, key: "maxSpeed").floatValue)
@@ -86,6 +86,7 @@ class CharacterManager{
         ch.maxSpeed = sample.maxSpeed
         ch.basicAttackPower = sample.basicAttackPower
         ch.hp = sample.hp
+        ch.cdTime = sample.cdTime
         return ch
     }
     

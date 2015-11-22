@@ -39,6 +39,9 @@ class FrameTimer : GameObject{
     func setTargetTime(duration: CGFloat){
         target = Int( duration * CGFloat(GameViewController.fixedFps))
     }
+    static func getFramesfromDuration(duration:CGFloat)-> Int{
+        return Int(duration * CGFloat(GameViewController.fixedFps))
+    }
   
     
     override func update() {
@@ -58,6 +61,7 @@ class FrameTimer : GameObject{
         }
     }
     func startTimer (completion : (()->())?){
+        reset()
         running = true
         self.completion = completion
     }
@@ -65,6 +69,12 @@ class FrameTimer : GameObject{
         running = true
         self.completion = completion
         isRepeat = true
+    }
+    func addToGeneralUpdateList(){
+        GameScene.current!.generalUpdateList.insert(Weak(self))
+    }
+    func removeFromGeneralUpdateList(){
+        GameScene.current!.generalUpdateList.remove(Weak(self))
     }
     func stopTimer(){
         running = false

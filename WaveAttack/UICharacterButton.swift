@@ -46,15 +46,15 @@ class UICharacterButton : SKSpriteNode,Clickable {
         
         character!.subscribeEvent(GameEvent.SKillPending.rawValue, call: self.selected)
     }
-    func selected(obj:GameObject){
+    func selected(obj:GameObject,nth:AnyObject?){
         self.stoke!.hidden = false
         self.mask!.hidden = false
     }
-    func notReady(obj:GameObject){
+    func notReady(obj:GameObject,nth:AnyObject?){
         self.stoke!.hidden = true
         self.mask!.hidden = true
     }
-    func ready(obj:GameObject){
+    func ready(obj:GameObject,nth:AnyObject?){
         self.stoke!.hidden = false
         self.mask!.hidden = true
     }

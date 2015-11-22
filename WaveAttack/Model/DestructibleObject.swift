@@ -92,7 +92,6 @@ class DestructibleObject : Medium {
         }
     }
     
-    static let GROUNED_LEN: CGFloat = 2
     
     
     static var hitTexture: [SKTexture]? = nil
@@ -222,59 +221,74 @@ class DestructibleObject : Medium {
     func fixedOnGround(){
         
     }
-    
-    func isGrounded() -> Bool{
-        let startPt = gameScene!.convertPoint(sprites[0].position, fromNode: sprite) + CGPoint(x: 0, y:  -sprites[0].size.height/2 + 0.5)
-        let endPt = startPt + CGPoint(x: 0, y: -DestructibleObject.GROUNED_LEN)
-        var phys = gameScene!.physicsWorld.bodyAlongRayStart(startPt, end: endPt)
-        guard phys != nil else { return false}
-      //  print(phys!.node!.name)
-        if phys!.categoryBitMask & self.sprites[0].physicsBody!.collisionBitMask > 0 {
-            return true
+    func getMaxLen() -> CGFloat{
+        if (originSize!.width > originSize!.height){
+            return originSize!.width
         }else{
-            return false
+            return originSize!.height
         }
+    }
+    func isGrounded() -> Bool{
+        /*
+        let startPt = gameScene!.convertPoint(sprites[0].position , fromNode: sprite)
+        let endPt = startPt + CGPoint(x: 0, y: -getMaxLen()/2 - DestructibleObject.GROUNED_LEN)
+        var phys :SKPhysicsBody? = nil
+        gameScene!.physicsWorld.enumerateBodiesAlongRayStart(startPt, end: endPt, usingBlock: {
+            body, point , normal, stop in
+            if body.categoryBitMask & self.sprites[0].physicsBody!.collisionBitMask > 0 {
+                phys = body
+                stop.memory = true
+                
+            }
+            
+        })
+        if phys != nil{
+            return true
+        }
+*/
+        if (sprites[0].physicsBody!.allContactedBodies().count > 0){
+            return true
+        }
+       return false
+      //  print(phys!.node!.name)
         
     }
     func checkIfObjectAtFront(x : CGFloat)-> Bool{
+        
         var dis  :CGFloat = 0
         var len :CGFloat = 0
         if x > 0 {
             dis = originSize!.width/2   - 0.5
-            len = DestructibleObject.GROUNED_LEN
+            len = originSize!.width/3
         }else{
             dis = -originSize!.width/2  + 0.5
-            len = -DestructibleObject.GROUNED_LEN
+            len = -originSize!.width/3
             
         }
         let startPt = gameScene!.convertPoint(sprites[0].position, fromNode: sprite) + CGPoint(x:dis , y: 0)
         
         let endPt = startPt + CGPoint(x: len , y: 0)
-        var phys = gameScene!.physicsWorld.bodyAlongRayStart(startPt, end: endPt)
-        guard phys != nil else { return false}
+        var phys :SKPhysicsBody? = nil
         //print(phys!.node!.name)
-        if sprites[0].physicsBody!.collisionBitMask & phys!.categoryBitMask  > 0{
-           return true
-        }
-        return false
+      
+        gameScene!.physicsWorld.enumerateBodiesAlongRayStart(startPt, end: endPt, usingBlock: {
+            body,pt, normal, stop in
+            
+            if body.categoryBitMask &  self.sprites[0].physicsBody!.collisionBitMask > 0 {
+                phys = body
+                stop.memory = true
+                
+            }
+        })
+        return (phys != nil)
     }
-    
-    func checkOutOfArea(){
-        for var i = sprites.count - 1 ; i >= 0 ; i-- {
-            var each = sprites[i]
-            let rect = CGRect(origin:  sprite.position  + each.frame.origin, size: each.frame.size)
-            if (CGRectContainsRect(gameLayer.validArea!, rect) == false){
-                each.removeFromParent()
-                nodeJoints[each]?.removeAll()
-                sprites.removeAtIndex(i)
-            }
-        }
-        if sprites.count == 0{
-            if self.dead == false{
-                self.die()
-            }
+
+    func garbageCollected(){
+        if self.dead == false{
+            self.die()
            gameLayer.removeGameObject(self)
         }
+        
     }
 
     override func update() {
@@ -348,14 +362,14 @@ class DestructibleObject : Medium {
 
     
     func impulseDamage(impulse : CGFloat, contactPt: CGPoint){
-        let threshold:CGFloat = 10 *  mass
+        let threshold:CGFloat = 50 *  mass
         
         guard impulse > threshold  else{
             return
         }
         
         var damage = (impulse - threshold)  * (1 - restitution) * self.dynamicType.damageFactor
-        
+        print("damage \(damage)")
         
         changeHpBy(-damage)
         
@@ -450,8 +464,8 @@ class DestructibleObject : Medium {
     func destorySelf(){
         super.deleteSelf()
      
-        self.getSprite()!.removeAllChildren()
-        self.gameScene!.gameLayer!.removeGameObject(self)
+      //  self.getSprite()!.removeAllChildren()
+       // self.gameScene!.gameLayer!.removeGameObject(self)
         if hpBar != nil{
             hpBar!.removeFromParent()
             hpBar = nil

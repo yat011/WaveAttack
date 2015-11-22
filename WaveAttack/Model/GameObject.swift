@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class GameObject : NSObject {
-    typealias CallBack = (GameObject)->()
+    typealias CallBack = (GameObject, AnyObject?)->()
     
     override var hashValue: Int { return unsafeAddressOf(self).hashValue }
     var gameScene : GameScene? {
@@ -41,7 +41,19 @@ class GameObject : NSObject {
         
         for f in subs!{
         
-            f(self)
+            f(self,nil)
+        }
+    }
+    func triggerEvent( event: String, obj:AnyObject){
+        var subs = eventFunc[event]
+        if subs == nil{
+            return
+        }
+        // print("events \(event) \(subs!.count)")
+        
+        for f in subs!{
+            
+            f(self,obj)
         }
     }
     

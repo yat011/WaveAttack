@@ -36,7 +36,7 @@ class Character : GameObject{
         get{return _maxSpeed}
         set(v) {
             _maxSpeed = v
-            randSpeed()
+            currentSpeed = 0
         }
         
     }
@@ -105,7 +105,7 @@ class Character : GameObject{
     
     func nextRound(){
         print("nextRound")
-        randSpeed()
+        currentSpeed = 0
        // currentSpeed = CGFloat(rand()) / CGFloat(RAND_MAX) * (maxSpeed - minSpeed) + minSpeed
         guard round > 0 else{
             return
@@ -131,6 +131,9 @@ class Character : GameObject{
         waveUI?.scroll(currentSpeed, dy: 0)
     }
     
+    func changeWaveSpeed(progress: CGFloat){ // [0-1]
+       currentSpeed = progress * maxSpeed
+    }
     
     func getWave()->Wave{
         return wave!

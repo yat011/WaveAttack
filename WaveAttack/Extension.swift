@@ -59,7 +59,21 @@ public func - (lhs: CGPoint, rhs: CGPoint) -> CGVector{
 public func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint{
     return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
 }
+extension Int {
+    var f: CGFloat { return CGFloat(self) }
+}
 
+extension Float {
+    var f: CGFloat { return CGFloat(self) }
+}
+
+extension Double {
+    var f: CGFloat { return CGFloat(self) }
+}
+
+extension CGFloat {
+    var swf: Float { return Float(self) }
+}
 
 
 extension Dictionary {

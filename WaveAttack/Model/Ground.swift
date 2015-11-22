@@ -143,11 +143,11 @@ class Ground: Medium{
             var fixJoint =  SKPhysicsJointFixed.jointWithBodyA(sprites[i].physicsBody!, bodyB: frontSprites[i].physicsBody!, anchor: eqPt)
           //  print(equil.physicsBody!)
             //joint.
-            joint.damping = 0.3
-            joint.frequency = 1.0
+            joint.damping = 0.1
+            joint.frequency = 1
            var frontjoint =  SKPhysicsJointSpring.jointWithBodyA(frontSprites[i].physicsBody!, bodyB: equilibrium[i].physicsBody!, anchorA: eqPt, anchorB: eqPt)
-            frontjoint.damping = 0.3
-           frontjoint.frequency = 1.0
+            frontjoint.damping = 0.1
+           frontjoint.frequency = 1
             joints.append(joint)
             GameScene.current!.physicsWorld.addJoint(joint)
             GameScene.current!.physicsWorld.addJoint(frontjoint)
@@ -167,18 +167,29 @@ class Ground: Medium{
     }
     var vibrateCompletion : (()->())? = nil
     
-    func startVibrate(data:[CGFloat], globalStartPoint : CGPoint , completion : (()->())){
+    func startVibrate(data:[CGFloat], globalStartPoint : CGPoint){
         print(globalStartPoint)
         var localPt = sprite.convertPoint(globalStartPoint, fromNode: GameScene.current!)
        var player = GameScene.current!.player!
        // print(data.count)
         //vibrateCompletion = completion
         var i = 0
-        var  timer = FrameTimer(duration: player.peroid)
-        GameScene.current!.generalUpdateList.insert(Weak(timer))
+       // var  timer = FrameTimer(duration: player.peroid)
+       // GameScene.current!.generalUpdateList.insert(Weak(timer))
         var time = 0
         self.triggerEvent(GameEvent.EarthquakeStart.rawValue)
-        
+        for var k = 0 ; k < data.count ; k++ {
+            var index = self.mapLocalXToSpriteIndex(localPt.x + CGFloat(k))
+            print(index)
+            print(self.sprites.count)
+            
+            self.sprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
+            
+            self.frontSprites[index].physicsBody!.applyImpulse(CGVector(dx: 0, dy: data[k]*20))
+            
+        }
+ 
+       /*
         var f : (()->())? = nil
         f = {
             () -> () in
@@ -215,8 +226,9 @@ class Ground: Medium{
                 self.vibrateCompletion = completion
             }
         }
-        
+
        f!()
+*/
      
       /*
       
@@ -256,7 +268,7 @@ class Ground: Medium{
     }
     override func update() {
         var i = 0;
-        for each in sprites{
+        for each in sprites{ // sync
             each.physicsBody!.velocity = CGVector(dx: 0, dy: each.physicsBody!.velocity.dy)
             frontSprites[i].physicsBody!.velocity = CGVector(dx: 0, dy: each.physicsBody!.velocity.dy)
             frontSprites[i].runAction(SKAction.rotateToAngle(0, duration: 0))
@@ -270,18 +282,18 @@ class Ground: Medium{
             i++
         }
         
-        
+       /*
         if vibrateCompletion != nil{
             for each in sprites{
                 if each.physicsBody!.velocity.dy > 0.1 {
+                    self.triggerEvent(GameEvent.EarthquakeEnd.rawValue)
                     return
                 }
                 
             }
             
-            vibrateCompletion!()
-            vibrateCompletion = nil
         }
+*/
         
     }
     

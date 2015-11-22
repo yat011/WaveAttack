@@ -12,10 +12,19 @@ class DirectAttack : EnemyAction{
     
     var damage: CGFloat = 100
     
-    var speed :CGFloat = 20
+    var speed :CGFloat = 50
     override func runAction(){
         //enemy.gameScene!.player!.
+        var bullet = createBullet()
+        var targetPt = GameScene.current!.convertPoint(CGPoint(x: GameScene.current!.size.width/2 , y: 0 ),toNode : GameScene.current!.gameLayer!)
+        targetPt.y = 0
+        bullet.position = (enemy!.currentPos)
+        moveTowards(enemy!.currentPos, target: targetPt, spriteNode: bullet)
+        enemy!.gameScene!.gameLayer!.addChild(bullet)
         
+        
+    }
+    func createBullet() -> GameSKSpriteNode{
         var bullet = GameSKSpriteNode(imageNamed: "beams")
         bullet.gameObject = self
         bullet.size = CGSize (width: 10, height: 20)
@@ -26,10 +35,21 @@ class DirectAttack : EnemyAction{
         phys.collisionBitMask = 0
         phys.contactTestBitMask =  CollisionLayer.PlayerHpArea.rawValue
         phys.affectedByGravity = false
-        phys.velocity = CGVector(dx: 0, dy: -speed)
-        bullet.position = (enemy!.currentPos)
-        enemy!.gameScene!.gameLayer!.addChild(bullet)
-        
+        bullet.zPosition = GameLayer.ZFRONT + 1
+        return bullet
+    }
+    
+    
+    func moveTowards (oriPt : CGPoint , target :CGPoint, spriteNode : SKSpriteNode ){
+        var dir: CGVector = target - oriPt
+        dir.normalize()
+        var speedV:CGVector = speed * dir
+        var angle = acos(Float(dir.dot(CGVector(dx:0,dy:-1))))
+        if (target.x - oriPt.x < 0 ){
+            angle = -angle
+        }
+        spriteNode.physicsBody!.velocity = speedV
+        spriteNode.runAction(SKAction.rotateByAngle(CGFloat(angle), duration: 0))
         
     }
     

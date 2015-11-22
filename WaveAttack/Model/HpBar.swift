@@ -47,7 +47,7 @@ class HpBar : SKShapeNode {
         bar.zPosition = 101
         weak var wBar : HpBar? = bar
       
-        belongTo.subscribeEvent(GameEvent.HpChanged.rawValue, call: { (sender : GameObject) -> () in
+        belongTo.subscribeEvent(GameEvent.HpChanged.rawValue, call: { (sender : GameObject, nth) -> () in
             if wBar == nil {
                 return
             }

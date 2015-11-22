@@ -11,6 +11,7 @@ import SpriteKit
 
 class UINode: SKNode,Draggable{
     var resultantWaveShape: SKNode? = nil
+    var resultantWave : Wave? = nil
     var timerUI : TimerUI? = nil
     var waveButtons :[UIWaveButton] = []
     weak var gameScene: GameScene? = nil
@@ -18,6 +19,8 @@ class UINode: SKNode,Draggable{
     var stateLabel :SKLabelNode = SKLabelNode(fontNamed: "Helvetica")
     var waveButtonsGroup : SKNode? = nil
     var waveUIGroup :SKNode? = nil
+    var generatorUI : WaveGeneratorUI? = nil
+    var atkBtn : ButtonUI? = nil
     init(position : CGPoint, parent:GameScene){
         super.init()
         self.position = position
@@ -129,7 +132,10 @@ class UINode: SKNode,Draggable{
         self.timerUI = TimerUI.createInstance()
         parent.addClickable(GameStage.Supering,self.timerUI!)
         self.addChild(self.timerUI!)
-        
+       
+        self.generatorUI = WaveGeneratorUI()
+        self.generatorUI!.position = CGPoint(x: 0, y: parent.size.height/2 + 10)
+        self.addChild(self.generatorUI!)
         
         gameScene = parent
         
@@ -154,9 +160,18 @@ class UINode: SKNode,Draggable{
         self.addChild(stateLabel)
         
        // self.zPosition = 1000000
+        atkBtn = ButtonUI.createButton(CGRect(origin: CGPoint(x: 120, y: 400), size: CGSize(width: 100, height: 40)), text: "", onClick: self.atkBtnClicked, gameScene: parent)
+       atkBtn!.texture =  SKTexture(imageNamed: "atkBtn")
+        atkBtn!.hidden=true
+        self.addChild(atkBtn!)
+        parent.addClickable(GameStage.Supering, atkBtn!)
         
         
     }
+    func atkBtnClicked (){
+        timerUI!.click()
+    }
+    
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -195,7 +210,8 @@ class UINode: SKNode,Draggable{
         //wave displacement check
         //w=Wave.superposition(w0.wave,d1: Int(d0),w2: w0.wave,d2: Int(d0))
         w.normalize()
-        let n=w.getShape()
+        resultantWave = w
+      /*  let n=w.getShape()
         n.position=CGPoint(x:-150, y:166.5)
         if (self.resultantWaveShape != nil){
             self.resultantWaveShape!.removeFromParent()
@@ -209,8 +225,9 @@ class UINode: SKNode,Draggable{
             n.addChild(dottedLine)
         
         }
-        self.resultantWaveShape = n
-        self.cropNode!.addChild(self.resultantWaveShape!)
+*/
+       // self.resultantWaveShape = n
+       // self.cropNode!.addChild(self.resultantWaveShape!)
         return w
     }
     var upperResultant : SKNode? = nil
@@ -279,11 +296,58 @@ class UINode: SKNode,Draggable{
         
         
     }
-    func animateGeneration(wave : Wave, completion:(()->())){
+    var generateTimer = FrameTimer(duration: 1)
+    func animateGeneration(wave : Wave, progress : CGFloat ,completion:(()->())){
        var amp = wave.getAmplitudes()
         var generated: [Bool] = [Bool](count:amp.count, repeatedValue: false)
         let speed: CGFloat = 15
+       let totalCount = Int((gameScene!.player!.numOfOscillation.f) * progress + 1e-2)
+        var attackTime = totalCount
+        var finish = 0
+        var interval = gameScene!.player!.peroid
+        generateTimer.reset()
+        generateTimer.setTargetTime(interval)
+        generateTimer.addToGeneralUpdateList()
+        var f:(() -> ()) = {
+            Void in
+            var shape=self.generateWaveShape(wave)
+            AnimateHelper.moveToTargetY(shape, speed: 10, targetY: 0.75 * self.gameScene!.size.height, completion: {
+                Void in
+                finish++
+                //apply force to ground
+                
+                
+                if attackTime == 0 && finish == totalCount{
+                    completion()
+                }
+                self.generatorUI!.shoot()
+                self.gameScene!.gameLayer!.ground!.startVibrate(amp, globalStartPoint: self.gameScene!.playerAttackArea.origin)
+                
+            })
+            attackTime--
+            if attackTime == 0{
+                self.generateTimer.stopTimer()
+                self.generateTimer.removeFromGeneralUpdateList()
+            }
+            
+        }
+        if totalCount > 0{
+            f()
+            generateTimer.repeatTimer(f)
+        }else{
+            self.generateTimer.stopTimer()
+            self.generateTimer.removeFromGeneralUpdateList()
+            completion()
+ 
+        }
+        
+        
+        
+        
+        
+        /*
         var callBack :(()->())? = nil
+        
         callBack = {
             () -> () in
             var done = true
@@ -306,7 +370,16 @@ class UINode: SKNode,Draggable{
         }
         
         resultantWaveShape?.runAction(SKAction.moveByX(0, y: speed, duration: 0.1), completion: callBack!)
+*/
         
+        
+    }
+    func generateWaveShape(wave:Wave) -> SKNode{
+      var shape =  wave.genShape()
+        shape.addChild(UINode.createDottedLine(300))
+        shape.position = CGPoint(x:-150, y:166.5)
+        self.cropNode!.addChild(shape)
+        return shape
         
     }
     

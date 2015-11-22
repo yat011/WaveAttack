@@ -134,6 +134,7 @@ class SubMission{
     }
 
     static func parseSpawnPoint(dict : [String : AnyObject]) -> SpawnPoint?{
+        let gameScene = GameScene.current!
         var spawnPoint: SpawnPoint = GameObjectFactory.getInstance().create(dict["type"]! as! String) as! SpawnPoint
         var x : CGFloat = CGFloat((dict["x"]! as! NSNumber).floatValue)
         spawnPoint.x = x
@@ -142,7 +143,9 @@ class SubMission{
         spawnPoint.workingStage = (properties["stage"] as! NSString).integerValue
         spawnPoint.type = spawnType
         if properties["realY"] != nil{
-            spawnPoint.y = CGFloat((dict["y"]! as! NSNumber).floatValue)
+            var y = CGFloat((dict["y"]! as! NSNumber).floatValue)
+             y = gameScene.gameArea!.size.height -  y
+            spawnPoint.y = y
         }
         if properties["limitNum"] != nil{
             var limitNum = (properties["limitNum"]! as! NSString).integerValue

@@ -18,7 +18,7 @@ class Building: DestructibleObject{
     override class var breakTexture: [SKTexture]? {get {return _breakTexture} set(v){ _breakTexture = v}}
     override class var score :[CGFloat] { get {return [200, 100] }}
     override class var breakThreshold : [CGFloat]? { get{return [0, 0.5]}}
-    
+    override class var  damageFactor :CGFloat{ get {return 0.1}}
     override class var density :CGFloat? {get{return 10}}
     var groundJoints = [SKPhysicsJoint]()
     var fireNode : SKSpriteNode?  = nil
@@ -44,7 +44,7 @@ class Building: DestructibleObject{
             
             
             var jointA = SKPhysicsJointSpring.jointWithBodyA(firstSprite.physicsBody!, bodyB: base.physicsBody!, anchorA: AGlobalPos, anchorB: selfGlobalA)
-            jointA.damping = 10
+            jointA.damping = 5
             jointA.frequency = 10
             groundJoints.append(jointA)
         }
@@ -86,11 +86,9 @@ class Building: DestructibleObject{
                 GameScene.current!.physicsWorld.removeJoint(j)
             }
             groundJoints.removeAll()
-            changeToFront(base.physicsBody!)
-          //  changeToFront(unionNode.physicsBody!)
-           // for j in joints{
-               // changeToFront(j.bodyB)
-           // }
+            for each in sprites{
+                changeToFront(each.physicsBody!)
+            }
         }
         
     }

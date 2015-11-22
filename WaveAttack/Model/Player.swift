@@ -14,8 +14,9 @@ class Player : GameObject{
     var _hp: CGFloat = 100
     var oriHp : CGFloat = 100
     var timeBonus:CGFloat = 2
-    var peroid: CGFloat = 1.5
-    var numOfOscillation = 3
+    var peroid: CGFloat = 1
+    var numOfOscillation = 4 //max.
+    
     init( hp: CGFloat){
         oriHp = hp
         _hp = hp
@@ -34,7 +35,7 @@ class Player : GameObject{
         }else{
             _hp = newHp
         }
-        triggerEvent(GameEvent.HpChanged.rawValue)
+        triggerEvent(GameEvent.HpChanged.rawValue, obj: delta)
         
     }
     

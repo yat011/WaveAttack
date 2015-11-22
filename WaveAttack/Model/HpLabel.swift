@@ -30,7 +30,7 @@ class HpLabel : SKLabelNode{
         self.position = rect.origin
         weak var wtemp = self
         belongTo.subscribeEvent(GameEvent.HpChanged.rawValue, call: {
-            (sender : GameObject) -> () in
+            (sender : GameObject,any) -> () in
          
             
             guard wtemp != nil else {

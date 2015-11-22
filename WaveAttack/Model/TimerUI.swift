@@ -96,12 +96,15 @@ class TimerUI : SKSpriteNode , Clickable{
         aniTimer = FrameTimer(duration: timelimit)
         aniTimer?.startTimer(nil)
         updateBonusLabel(1)
-        bonusLabel.hidden = false
+        
+        //bonusLabel.hidden = false
         aniTimer?.updateFunc = {
             () -> () in
             self.timeBar!.runAction( SKAction.resizeToHeight( (1 - (self.aniTimer?.progress)!) * CGFloat(self.maxheight), duration:0))
             self.timerIcon!.runAction(SKAction.rotateToAngle(-MathHelper.PI * 2 * (self.aniTimer?.progress)!,duration: 0))
-            
+            for ch in  GameScene.current!.character{
+                ch!.changeWaveSpeed(self.aniTimer!.progress)
+            }
             
         }
      //   timeBar!.runAction( SKAction.resizeToHeight(0, duration: timelimit))
@@ -123,6 +126,7 @@ class TimerUI : SKSpriteNode , Clickable{
         timeBar!.runAction(SKAction.resizeToHeight(maxheight, duration: 0))
         bonusLabel.hidden = true
     }
+    
   
     func getRect () -> CGRect{
         var globalPos = GameScene.current!.convertPoint(self.frame.origin, fromNode: self.parent!)

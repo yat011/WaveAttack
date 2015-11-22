@@ -20,6 +20,8 @@ enum CollisionLayer : UInt32 {
     case SmallObjects = 0x80
     case EnemyAttacks = 0x100
     case PlayerHpArea = 0x200
+    case GarbageArea = 0x400
+    case UndergroundArea = 0x800
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -166,8 +168,16 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         var tplayer = Player(hp: sumhp)
         self.player = tplayer
+        self.player!.subscribeEvent(GameEvent.HpChanged.rawValue, call: {
+            sender, hp in
+            let change = hp as! CGFloat
+            if change > 0 {
+               self.increaseHpEffect()
+            }else{
+               self.decreaseHpEffect()
+            }
+        })
         self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
-       // player?.subscribeEvent(GameEvent.PlayerDead, call: <#T##CallBack##CallBack##(GameObject) -> ()#>)
         self.addChild(infoLayer!)
     }
     
@@ -181,6 +191,24 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         self.addChild(UIN)
 
     }
+// -------hp change effect ----- 
+    func increaseHpEffect(){
+       let hp = SKSpriteNode (imageNamed: "increaseHp")
+        hp.size = self.size
+        hp.anchorPoint = CGPoint()
+        hp.zPosition = controlLayer!.zPosition + 100
+        hp.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5),SKAction.removeFromParent()]))
+        self.addChild(hp)
+    }
+    func decreaseHpEffect(){
+        let hp = SKSpriteNode (imageNamed: "decreaseHp")
+        hp.size = self.size
+        hp.anchorPoint = CGPoint()
+        hp.zPosition = controlLayer!.zPosition + 100
+        hp.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5),SKAction.removeFromParent()]))
+        self.addChild(hp)
+    }
+    
 //-------------------- start Sub-Mission --------------------
     func startSubMission(subMission : SubMission){
         if gameLayer != nil{
@@ -226,15 +254,17 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             return
         }else{
 */
-      //  print("impluse \(contact.collisionImpulse)")
+       // print("impluse \(contact.collisionImpulse)")
     
-        print(contact.bodyA.node!.name)
-        print(contact.bodyB.node!.name)
+        //print(contact.bodyA.node!.name)
+        //print(contact.bodyB.node!.name)
         if (checkHitPlayer(contact.bodyA, mB: contact.bodyB)){
                 return 
         }
+        if (checkGarbage(contact.bodyA, mB: contact.bodyB)){
+            return
+        }
         
-            
         guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
              return
          }
@@ -252,6 +282,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     func checkHitPlayer (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
         if mA.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
             if (mB.categoryBitMask == CollisionLayer.PlayerHpArea.rawValue){
+                if mA.node == nil {
+                    return true
+                }
                var atk = (mA.node! as! GameSKSpriteNode).gameObject as! DirectAttack
                 player?.changeHpBy(-atk.damage)
                 mA.node?.removeFromParent()
@@ -264,7 +297,30 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
         return false
     }
-    
+    func checkGarbage (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask == CollisionLayer.GarbageArea.rawValue{
+            if mB.node == nil {
+                return  true
+            }
+            if (mB.node! is GameSKSpriteNode){
+                let gnode = mB.node as! GameSKSpriteNode
+                if gnode.gameObject != nil{
+                    if gnode.gameObject! is DestructibleObject{
+                       (gnode.gameObject as! DestructibleObject).garbageCollected()
+                    }
+                }
+            }
+            mB.node?.removeFromParent()
+                
+            
+            
+            return true
+            
+        }else if mB.categoryBitMask == CollisionLayer.GarbageArea.rawValue {
+            return checkGarbage(mB, mB: mA)
+        }
+        return false
+    }
     func collisionDamage(mA : Medium?, mB:Medium?, contact : SKPhysicsContact){
         
         if mA != nil && mA! is DestructibleObject{
@@ -380,17 +436,31 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     var superingTimer : FrameTimer? = nil
-    var playerAttackArea = CGRect(x: 37.5, y: 0, width: 300, height: 50)
+    var playerAttackArea = CGRect(x: 37.5, y: 0, width: 300, height: 20)
     func timeOut(){
         //print("timeOut")
         currentStage = .SuperpositionAnimating
        self.generalUpdateList.remove(Weak(self.superingTimer!))
         self.superingTimer?.stopTimer()
+        self.controlLayer!.generatorUI!.stopAnimateStoringPower()
         self.clearTouch()
+        controlLayer!.atkBtn!.hidden=true
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-           self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: self.playerAttackArea.origin, completion: {
+            self.controlLayer!.animateGeneration(resultWave, progress: self.superingTimer!.progress ,completion: {
+                Void in
+                self.controlLayer?.generatorUI?.close()
+                self.superingTimer = nil
+                
+                self.timerStarted = false
+                self.controlLayer!.stateLabel.hidden = false
+                self.controlLayer!.lowerResultant = nil
+                self.controlLayer!.upperResultant = nil
+                self.startSuperpositionPhase()
+            })
+            
+           /*self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: self.playerAttackArea.origin, completion: {
                 () -> () in
                 //print("completeion")
                 self.superingTimer = nil
@@ -402,10 +472,33 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 self.startSuperpositionPhase()
             
             })
+*/
          
         
         })
         
+    }
+    func startSupering(){
+        var timelimit: CGFloat = 5
+        var frameTimer = FrameTimer(duration: 5)
+        self.superingTimer = frameTimer
+        self.generalUpdateList.insert(Weak(frameTimer))
+        frameTimer.startTimer(self.timeOut)
+        self.controlLayer!.timerUI!.startTimer(timelimit)
+        controlLayer!.generatorUI?.open()
+        controlLayer!.generatorUI?.animateStoringPower(player!.numOfOscillation, maxTime: 5)
+        controlLayer!.atkBtn!.hidden=false
+        AnimateHelper.animateFlashEffect(controlLayer!.atkBtn!, duration: 5, completion: nil)
+        frameTimer.updateFunc = {
+            () -> () in
+            self.controlLayer!.timerUI!.updateTimer()
+            self.controlLayer!.timerUI!.updateBonusLabel( frameTimer.progress * (self.player!.timeBonus - 1) + 1)
+            
+            
+        }
+        
+        self.currentStage = .Supering
+        timerStarted=true
     }
     var waveData:[CGFloat]?
    
@@ -576,31 +669,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
         }else if(touchType! == TouchType.waveButton){ //
             if(!timerStarted){
-               // let timer = NSTimer(timeInterval: 5.0, target: self, selector: "timeOut", userInfo: nil, repeats: false)
-                //NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
-                var timelimit: CGFloat = 5
-                var frameTimer = FrameTimer(duration: 5)
-                self.generalUpdateList.insert(Weak(frameTimer))
-                frameTimer.startTimer(self.timeOut)
-                self.controlLayer!.timerUI!.startTimer(timelimit)
-                frameTimer.updateFunc = {
-                    () -> () in
-                    self.controlLayer!.timerUI!.updateTimer()
-                    self.controlLayer!.timerUI!.updateBonusLabel( frameTimer.progress * (self.player!.timeBonus - 1) + 1)
-                    
-                    
-                }
-                self.superingTimer = frameTimer
-               /*
-                var timerNode = SKNode()
-            
-                self.addChild(timerNode)
-                timerNode.runAction(SKAction.sequence([SKAction.waitForDuration(timelimit), SKAction.removeFromParent()]),completion: self.timeOut)
-*/
-                //self.controlLayer!.timerUI!.startTimer(timelimit)
-                self.currentStage = .Supering
-                //print("start timer")
-                timerStarted=true
+              startSupering()
             }
             prevTouchPoint  = touchDown
            // //print(diff.dx)
@@ -713,6 +782,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             newY = playRect!.origin.y
         }
         
+        newY = playRect!.origin.y
         if newX < lowestBoundX{
             newX = lowestBoundX
         }else if newX > 0 {
@@ -723,7 +793,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
         gameLayer!.runAction(SKAction.moveTo(moveTo,duration: 0))
         gameLayer!.runAction(SKAction.waitForDuration(1/30), completion: continueScroll)
-        gameLayer!.playerHpArea!.runAction(SKAction.moveToX(playerAttackArea.size.width/2 + playerAttackArea.origin.x - moveTo.x, duration: 0))
+        //gameLayer!.playerHpArea!.runAction(SKAction.moveToX(playerAttackArea.size.width/2 + playerAttackArea.origin.x - moveTo.x, duration: 0))
         controlLayer!.scroll(0, y: newY-self.size.height/2)
         
     }

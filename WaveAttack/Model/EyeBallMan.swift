@@ -21,6 +21,9 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
     override class var breakThreshold : [CGFloat]? {get{return [0.0]}}
     override var restitution : CGFloat {get{return 0.2}}
     override class var density :CGFloat? {get{return 1}}
+     override class var  damageFactor :CGFloat{ get {return 0.2}}
+    override class var score :[CGFloat] { get {return [300] }}
+    override class var walkSpeed : CGFloat { get{return 40 }}
     
     var attack : EnemyAction? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
@@ -28,7 +31,8 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
         for each in sprites{
             each.name = "eyeBall"
         }
-        attack = DirectAttack(enemy: self, cd: 5)
+        attack = DirectAttack(enemy: self, cd: 10)
+        attack!.startAction()
     
     }
    
@@ -56,7 +60,9 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
     override func jointBroken(node: SKSpriteNode) {
         let bloodBody = SKEmitterNode(fileNamed: "Blood.sks")
         let bloodHead = SKEmitterNode(fileNamed: "Blood.sks")
+        bloodBody!.particleColorSequence = nil
         bloodBody!.particleColor = SKColor.greenColor()
+        bloodHead!.particleColorSequence = nil
         bloodHead!.particleColor = SKColor.greenColor()
         bloodHead!.position.y =  -sprites[1].size.height/2
         bloodBody!.position.y =  sprites[0].size.height/2

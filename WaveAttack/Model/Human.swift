@@ -59,5 +59,13 @@ class Human  : SmallMovableObject, Spawnable{
         phys.contactTestBitMask = CollisionLayer.FrontObjects.rawValue | CollisionLayer.FrontGround.rawValue
         return phys
     }
-    
+    override func garbageCollected(){
+        if self.dead == false{
+            dead =  true
+            triggerEvent(GameEvent.Dead.rawValue)
+            gameLayer.removeGameObject(self)
+        }
+        
+    }
+ 
 }

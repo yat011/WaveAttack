@@ -15,6 +15,11 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
     override class var breakThreshold : [CGFloat]? {get{return [0.0]}}
     override var restitution : CGFloat {get{return 0.2}}
     override class var density :CGFloat? {get{return 1}}
+     override class var  damageFactor :CGFloat{ get {return 0.2}}
+    override class var score :[CGFloat] { get {return [2000] }}
+    override class var walkSpeed : CGFloat { get{return 100 }}
+    override class var jumpSpeed: CGVector  {get { return CGVector(dx: 200, dy: 700)}}
+    override class var jumpDetectAngle : CGFloat {get {return 1.3}}
     
     var attack : EnemyAction? = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
@@ -22,7 +27,8 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
         for each in sprites{
             each.name = "bady_dragon"
         }
-        //attack = DirectAttack(enemy: self, cd: 5)
+        attack = TripleBulletAttack(enemy: self, cd: 8)
+        attack!.startAction()
         
     }
     
@@ -42,7 +48,7 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
     }
     
     func spawnInit(position:CGPoint) {
-        self.originHp = 2000
+        self.originHp = 10000
         initialize(CGSize(width: 120, height: 100), position: position, gameScene: GameScene.current!)
         findTarget()
         self.sprite.zPosition = GameLayer.ZFRONT

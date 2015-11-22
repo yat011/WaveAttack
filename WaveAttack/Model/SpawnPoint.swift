@@ -76,7 +76,7 @@ class SpawnPoint :GameObject{
         }
         currentNum++
         obj?.subscribeEvent(GameEvent.Dead.rawValue, call: {
-            (obj:GameObject)->() in
+            (obj:GameObject,nth)->() in
            self.currentNum--
             if (self.limitCount == 0  && self.currentNum == 0){
                 self.triggerEvent(GameEvent.EnemyDefeat.rawValue)

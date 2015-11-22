@@ -31,7 +31,7 @@ class GameLayer : SKNode{
     var attackStarted = false
     var stage: Int  = 1
     var playerHpArea : SKSpriteNode? = nil
-    
+    var earthquaking :Bool = false
     init(subMission : SubMission, gameScene : GameScene) {
        
        self.subMission = subMission
@@ -51,7 +51,7 @@ class GameLayer : SKNode{
    
         var deadCallBack =  {
             
-            (obj : GameObject)-> () in
+            (obj : GameObject, arg:AnyObject?)-> () in
             if (obj is DestructibleObject){
                 var des = obj as! DestructibleObject
                 if des.target{
@@ -69,7 +69,7 @@ class GameLayer : SKNode{
                 var des = medium as! DestructibleObject
                 if des.target {
                     totalTarget += 1
-                   self.addChild(des.hpBar!)
+                 //  self.addChild(des.hpBar!)
                 }
                 des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
                 
@@ -78,18 +78,24 @@ class GameLayer : SKNode{
             if (medium is Ground){
                 ground = medium as! Ground
                 ground!.subscribeEvent(GameEvent.EarthquakeStart.rawValue, call: {
-                    (obj : GameObject) -> () in
+                    (obj : GameObject, any) -> () in
                     if self.stage == 1{
                         //show some notice
                         self.changeSpawnState()
+                        self.earthquaking = true
                     }
+                })
+                ground!.subscribeEvent(GameEvent.EarthquakeEnd.rawValue, call: {
+                    obj in
+                    self.earthquaking = false
+                    
                 })
             }
         }
         spawnPoints = subMission.spawnPoints
 
         initBoundary()
-        initPlayerDamageArea()
+        initGarbageArea()
         let left = TargetPoint()
         left.pos = CGPoint(x: -100, y: ground!.frontY)
         let right = TargetPoint()
@@ -101,7 +107,7 @@ class GameLayer : SKNode{
 
     func initBoundary (){
         var boundary = SKSpriteNode()
-        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size:  gameScene!.gameArea!.size))
+        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size: CGSize(width: gameScene!.gameArea!.width, height: 2 * gameScene!.gameArea!.height)))
         phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
         phys.collisionBitMask = CollisionLayer.Objects.rawValue | CollisionLayer.FrontObjects.rawValue
         phys.contactTestBitMask = 0
@@ -121,10 +127,24 @@ class GameLayer : SKNode{
         phys.contactTestBitMask = 0
         playerArea.physicsBody=phys
         playerArea.zPosition = 100000
-        playerArea.position = CGPoint(x: gameScene!.playerAttackArea.origin.x + gameScene!.playerAttackArea.size.width/2, y: 0 )
+        playerArea.position = CGPoint(x: gameScene!.playerAttackArea.origin.x + gameScene!.playerAttackArea.size.width/2, y: 10 )
        // gameScene!.addChild(playerArea)
         playerHpArea = playerArea
         self.addChild(playerArea)
+    }
+    func initGarbageArea(){
+        var tempSize  = CGSize(width: gameScene!.gameArea!.width + 1000, height: 100)
+        var area = SKSpriteNode()
+        let phys = SKPhysicsBody(rectangleOfSize: tempSize)
+        phys.dynamic = false
+        phys.categoryBitMask = CollisionLayer.GarbageArea.rawValue
+        phys.collisionBitMask = 0
+        phys.contactTestBitMask = CollisionLayer.EnemyAttacks.rawValue | CollisionLayer.FrontObjects.rawValue | CollisionLayer.Objects.rawValue | CollisionLayer.SmallObjects.rawValue
+        area.physicsBody=phys
+        area.zPosition = 100000
+        area.position = CGPoint(x: gameScene!.gameArea!.size.width/2, y: -300 )
+        // gameScene!.addChild(playerArea)
+        self.addChild(area)
     }
     
     func afterAddToScene(){
@@ -138,6 +158,7 @@ class GameLayer : SKNode{
             each.afterAddToScene()
         }
    
+        /*
         validTimer.repeatTimer({
             () -> () in
             for each in self.attackPhaseObjects{
@@ -147,6 +168,7 @@ class GameLayer : SKNode{
             }
 
         })
+*/
         gameScene!.generalUpdateList.insert(Weak(validTimer))
         totalTimer.startTimer(nil)
         gameScene!.generalUpdateList.insert(Weak(totalTimer))
@@ -169,7 +191,7 @@ class GameLayer : SKNode{
             if each.limited {
                 targetSpawnCount++
                 each.subscribeEvent(GameEvent.EnemyDefeat.rawValue, call: {
-                    (obj:GameObject) -> () in
+                    (obj:GameObject, nth) -> () in
                     self.targetSpawnCount--
                     if self.targetSpawnCount == 0 {
                         self.changeSpawnState()
@@ -186,7 +208,7 @@ class GameLayer : SKNode{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func scored (obj : GameObject){
+    func scored (obj : GameObject , score:AnyObject?){
         guard obj is DestructibleObject else{return }
         let destObj = obj as! DestructibleObject
         var score = destObj.dynamicType.score[destObj.scoredIndex]
@@ -212,10 +234,11 @@ class GameLayer : SKNode{
         attackPhaseObjects.remove(obj)
        obj.deleteSelf()
     
-        
+       /*
         if (obj.getSprite() != nil){
             obj.getSprite()!.removeFromParent()
         }
+*/
        
         
     }

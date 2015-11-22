@@ -285,6 +285,10 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 if mA.node == nil {
                     return true
                 }
+                if currentStage == GameStage.Complete{
+                    return true
+                }
+                
                var atk = (mA.node! as! GameSKSpriteNode).gameObject as! DirectAttack
                 player?.changeHpBy(-atk.damage)
                 mA.node?.removeFromParent()
@@ -653,7 +657,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             if (pressedSkill != nil && touchesMovedSkill(touchDown, touches: touches) == false){
                 return
             }
-            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering || self.currentStage == GameStage.SuperpositionAnimating){
+            if (self.currentStage == GameStage.Superposition || self.currentStage == GameStage.Attack || self.currentStage == GameStage.enemy || self.currentStage == GameStage.Supering || self.currentStage == GameStage.SuperpositionAnimating || self.currentStage == GameStage.Complete){
                 scrollLayers(-1*move)
                 dragVelocity = (-1 * move)
             }

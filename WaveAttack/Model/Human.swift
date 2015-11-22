@@ -30,6 +30,7 @@ class Human  : SmallMovableObject, Spawnable{
    
     func spawnInit(position:CGPoint) {
        var newPt = CGPoint(x: position.x, y: gameLayer.ground!.frontY + 10)
+        
         self.originHp = 10
        initialize(CGSize(width: 12, height: 19), position: newPt, gameScene: GameScene.current!)
         findTarget()

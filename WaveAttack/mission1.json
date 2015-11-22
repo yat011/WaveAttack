@@ -62,7 +62,7 @@
                     "name":"",
                     "properties":
                     {
-                    "hp":"5000",
+                    "hp":"20000",
                     "target":"true"
                     },
                     "rotation":0,
@@ -84,8 +84,8 @@
                     "rotation":0,
                     "type":"Ground",
                     "visible":true,
-                    "width":1244.45430346051,
-                    "x":-53.2386867790594,
+                    "width":1244.45,
+                    "x":-53.2387,
                     "y":920.245
                     },
                     {
@@ -95,6 +95,7 @@
                     "properties":
                     {
                     "groundType":"Front",
+                    "interval":"3",
                     "spawnType":"Human",
                     "stage":"1"
                     },
@@ -102,8 +103,8 @@
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":-26.784451552795,
-                    "y":503.665164152618
+                    "x":-26.7845,
+                    "y":503.665
                     },
                     {
                     "height":28.0846,
@@ -112,6 +113,7 @@
                     "properties":
                     {
                     "groundType":"Front",
+                    "interval":"3",
                     "spawnType":"Human",
                     "stage":"1"
                     },
@@ -119,8 +121,8 @@
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":1128.64483584738,
-                    "y":505.478721384206
+                    "x":1128.64,
+                    "y":505.479
                     },
                     {
                     "gid":3,
@@ -129,7 +131,7 @@
                     "name":"",
                     "properties":
                     {
-                    "hp":"5000",
+                    "hp":"20000",
                     "target":"true"
                     },
                     "rotation":0,
@@ -146,7 +148,7 @@
                     "name":"",
                     "properties":
                     {
-                    "hp":"5000",
+                    "hp":"20000",
                     "target":"true"
                     },
                     "rotation":0,
@@ -163,7 +165,7 @@
                     "name":"",
                     "properties":
                     {
-                    "hp":"5000",
+                    "hp":"20000",
                     "target":"true"
                     },
                     "rotation":0,
@@ -180,7 +182,7 @@
                     "name":"",
                     "properties":
                     {
-                    "hp":"5000",
+                    "hp":"20000",
                     "target":"true"
                     },
                     "rotation":0,
@@ -198,8 +200,8 @@
                     {
                     "afterTime":"10",
                     "groundType":"Front",
-                    "interval":"2",
-                    "limitNum":"2",
+                    "interval":"8",
+                    "limitNum":"3",
                     "realY":"true",
                     "spawnType":"EyeBallMan",
                     "stage":"2"
@@ -208,8 +210,8 @@
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":763.894818907531,
-                    "y":343.260987461168
+                    "x":763.895,
+                    "y":343.261
                     },
                     {
                     "height":28.0846,
@@ -219,8 +221,8 @@
                     {
                     "afterTime":"10",
                     "groundType":"Front",
-                    "interval":"2",
-                    "limitNum":"2",
+                    "interval":"8",
+                    "limitNum":"3",
                     "realY":"true",
                     "spawnType":"EyeBallMan",
                     "stage":"2"
@@ -229,8 +231,8 @@
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":371.300592355584,
-                    "y":351.373480855973
+                    "x":371.301,
+                    "y":351.373
                     },
                     {
                     "height":28.0846,
@@ -250,14 +252,114 @@
                     "type":"SpawnPoint",
                     "visible":true,
                     "width":20.5954,
-                    "x":568.592000511322,
-                    "y":194.1388541271
+                    "x":568.592,
+                    "y":168.573
+                    },
+                    {
+                    "gid":4,
+                    "height":63.6420745069393,
+                    "id":40,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.953981008035,
+                    "x":352.447041636231,
+                    "y":540.267348429511
+                    },
+                    {
+                    "gid":4,
+                    "height":63.6421,
+                    "id":41,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.954,
+                    "x":729.766243243243,
+                    "y":530.63329623813
+                    },
+                    {
+                    "gid":4,
+                    "height":63.6421,
+                    "id":42,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.954,
+                    "x":958.035052593134,
+                    "y":521.502543864134
+                    },
+                    {
+                    "gid":4,
+                    "height":63.6421,
+                    "id":43,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.954,
+                    "x":114.353533235939,
+                    "y":528.807145763331
+                    },
+                    {
+                    "gid":4,
+                    "height":63.6421,
+                    "id":44,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.954,
+                    "x":552.629647187728,
+                    "y":525.154844813733
+                    }, 
+                    {
+                    "gid":4,
+                    "height":63.6421,
+                    "id":45,
+                    "name":"Human",
+                    "properties":
+                    {
+                    "hp":"10"
+                    },
+                    "rotation":0,
+                    "type":"Human",
+                    "visible":true,
+                    "width":26.954,
+                    "x":448.539070124178,
+                    "y":514.197941964938
                     }
                     ]
                  }
                  
                  
   ],
+    "announcements" :[
+        "We are being Attacked! Our Guardians were sent to eliminate enemy!",
+        "Our Patron saint is coming!!!!"
+    ],
     "grade": [ 6, 9, 12 ,15 ,19, 25],
     "name": "First Mission"
 }

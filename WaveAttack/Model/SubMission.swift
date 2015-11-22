@@ -130,6 +130,7 @@ class SubMission{
         else{
             medium.getSprite()!.zPosition = GameLayer.ZNORMAL
         }
+       
         return medium
     }
 

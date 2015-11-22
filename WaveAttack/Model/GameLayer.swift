@@ -32,6 +32,7 @@ class GameLayer : SKNode{
     var stage: Int  = 1
     var playerHpArea : SKSpriteNode? = nil
     var earthquaking :Bool = false
+    var tempHumans = [Human]()
     init(subMission : SubMission, gameScene : GameScene) {
        
        self.subMission = subMission
@@ -48,7 +49,7 @@ class GameLayer : SKNode{
        // print ("upper screen size \(gameArea))")
        // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         
-   
+  /*
         var deadCallBack =  {
             
             (obj : GameObject, arg:AnyObject?)-> () in
@@ -63,17 +64,14 @@ class GameLayer : SKNode{
             
             
         }
-    
+    */
+        var humans = [Human]()
         for medium in subMission.objects{
-            if (medium is DestructibleObject){
-                var des = medium as! DestructibleObject
-                if des.target {
-                    totalTarget += 1
-                 //  self.addChild(des.hpBar!)
-                }
-                des.subscribeEvent(GameEvent.Dead.rawValue, call: deadCallBack)
-                
+            if medium is Human{
+                tempHumans.append(medium as! Human)
+                continue
             }
+            
             addGameObject(medium)
             if (medium is Ground){
                 ground = medium as! Ground
@@ -92,6 +90,8 @@ class GameLayer : SKNode{
                 })
             }
         }
+        
+        
         spawnPoints = subMission.spawnPoints
 
         initBoundary()
@@ -148,6 +148,12 @@ class GameLayer : SKNode{
     }
     
     func afterAddToScene(){
+        for each in tempHumans{
+            var rep = Human()
+            rep.spawnInit(each.sprite.position)
+            addGameObject(rep)
+        }
+        tempHumans.removeAll()
         for each in attackPhaseObjects{
             if each is Medium{
                 let medium = each as! Medium
@@ -181,12 +187,11 @@ class GameLayer : SKNode{
         targetSpawnCount = 0
         if spawnPoints[self.stage] == nil{
             //or do sth 
-            
-            
             // show win
             self.completeMission()
             return
         }
+        self.gameScene!.infoLayer!.announcement.showTextLabel(gameScene!.mission!.announcements[self.stage-2])
         for each in self.spawnPoints[self.stage]!{
             if each.limited {
                 targetSpawnCount++

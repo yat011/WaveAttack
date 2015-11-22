@@ -70,6 +70,8 @@
 		54934F3E1C01AFC700797C8C /* atkBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F3D1C01AFC700797C8C /* atkBtn.png */; };
 		54934F451C01BD5F00797C8C /* decreaseHp.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F431C01BD5F00797C8C /* decreaseHp.png */; };
 		54934F461C01BD5F00797C8C /* increaseHp.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F441C01BD5F00797C8C /* increaseHp.png */; };
+		54934F4A1C01E65800797C8C /* announcement.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F491C01E65800797C8C /* announcement.png */; };
+		54934F4C1C01E6AB00797C8C /* AnnouncementUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
 		549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AD1BDF76A500907150 /* MainMenu.swift */; };
 		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
@@ -240,6 +242,8 @@
 		54934F3D1C01AFC700797C8C /* atkBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atkBtn.png; sourceTree = "<group>"; };
 		54934F431C01BD5F00797C8C /* decreaseHp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = decreaseHp.png; sourceTree = "<group>"; };
 		54934F441C01BD5F00797C8C /* increaseHp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = increaseHp.png; sourceTree = "<group>"; };
+		54934F491C01E65800797C8C /* announcement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = announcement.png; sourceTree = "<group>"; };
+		54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementUI.swift; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
 		549D82AD1BDF76A500907150 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
@@ -412,6 +416,7 @@
 				54934F371C012C5100797C8C /* StoringPowerBallUI.swift */,
 				54934F391C01A22000797C8C /* EnergyFire.sks */,
 				54934F3B1C01A2A200797C8C /* Spark.sks */,
+				54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54934F491C01E65800797C8C /* announcement.png */,
 				54934F2A1C00EAB700797C8C /* playerArea */,
 				54BEFBC81BF9DA5A00DAFA05 /* ground.png */,
 				5433C31C1BF4FE7000C87116 /* dest */,
@@ -872,6 +878,7 @@
 				544F056F1BA305CD00AC1BBD /* LaunchScreen.storyboard in Resources */,
 				544B60E91BCA22710064B8AE /* characters.json in Resources */,
 				54934F2F1C00EC7300797C8C /* door.png in Resources */,
+				54934F4A1C01E65800797C8C /* announcement.png in Resources */,
 				54E090701BF259610055D5F9 /* mainBack.png in Resources */,
 				54934F461C01BD5F00797C8C /* increaseHp.png in Resources */,
 				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
@@ -1011,6 +1018,7 @@
 				5420A5EE1BC05915000F2E14 /* ConvexLenSkill.swift in Sources */,
 				54BEFB9D1BF5E42A00DAFA05 /* Building.swift in Sources */,
 				544F05671BA305CD00AC1BBD /* GameViewController.swift in Sources */,
+				54934F4C1C01E6AB00797C8C /* AnnouncementUI.swift in Sources */,
 				54D44C231BD7661C00B24EE6 /* PlayerInfo.swift in Sources */,
 				544F05611BA305CD00AC1BBD /* AppDelegate.swift in Sources */,
 				5491890B1BFB3C9E004764E4 /* ScoreFlashMsg.swift in Sources */,

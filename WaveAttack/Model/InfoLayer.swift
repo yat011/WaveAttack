@@ -18,6 +18,7 @@ class InfoLayer : SKNode , Clickable{
     weak var gameScene :GameScene? = nil
     var confirmWindow : ConfirmWindow? = nil
     var scoreLabel : ScoreLabel? = nil
+    var announcement =  AnnouncementUI()
     init(position : CGPoint, player: Player, gameScene: GameScene){
         self.player = player
         super.init()
@@ -76,6 +77,9 @@ class InfoLayer : SKNode , Clickable{
         
        self.scoreLabel = ScoreLabel(position: CGPoint(x: 305, y: 5))
         self.addChild(self.scoreLabel!)
+        announcement.position = CGPoint(x: GameScene.current!.size.width/2, y: -20)
+       // announcement.showTextLabel("hifdasfdafasfdsfsafsffdafds")
+        self.addChild(announcement)
         
     }
     

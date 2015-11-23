@@ -12,7 +12,7 @@ class DirectAttack : EnemyAction{
     
     var damage: CGFloat = 100
     
-    var speed :CGFloat = 50
+    var speed :CGFloat = 100
     override func runAction(){
         //enemy.gameScene!.player!.
         var bullet = createBullet()

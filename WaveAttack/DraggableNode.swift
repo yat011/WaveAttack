@@ -25,7 +25,8 @@ class VerticalDraggableNode: SKCropNode , Draggable{
     
         res.content.size = size
         res.touchframe = res.content.frame
-        res.background  = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: size.width, height: size.height + upperBound))
+        res.background  = SKSpriteNode(imageNamed: "border")
+        res.background!.size =  CGSize(width: size.width, height: size.height + upperBound)
         res.background!.anchorPoint = CGPoint(x: 0.5, y: 1)
         res.background!.position = CGPoint(x: 0, y: size.height/2)
         res.content.addChild(res.background!)

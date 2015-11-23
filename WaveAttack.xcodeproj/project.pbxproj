@@ -74,6 +74,11 @@
 		54934F4C1C01E6AB00797C8C /* AnnouncementUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */; };
 		54934F4E1C0218FA00797C8C /* DoubleAttackSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */; };
 		54934F501C02265600797C8C /* SpeedChargingSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */; };
+		54934F541C03829E00797C8C /* border.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F531C03829E00797C8C /* border.png */; };
+		54934F561C0388F500797C8C /* BarrierSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F551C0388F500797C8C /* BarrierSkill.swift */; };
+		54934F5A1C038AB200797C8C /* ContactListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F591C038AB200797C8C /* ContactListener.swift */; };
+		54934F5C1C038EA700797C8C /* Barrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F5B1C038EA700797C8C /* Barrier.swift */; };
+		54934F5E1C0398BF00797C8C /* barrier.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F5D1C0398BF00797C8C /* barrier.png */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
 		549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AD1BDF76A500907150 /* MainMenu.swift */; };
 		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
@@ -248,6 +253,11 @@
 		54934F4B1C01E6AB00797C8C /* AnnouncementUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementUI.swift; sourceTree = "<group>"; };
 		54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleAttackSkill.swift; sourceTree = "<group>"; };
 		54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedChargingSkill.swift; sourceTree = "<group>"; };
+		54934F531C03829E00797C8C /* border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = border.png; sourceTree = "<group>"; };
+		54934F551C0388F500797C8C /* BarrierSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarrierSkill.swift; sourceTree = "<group>"; };
+		54934F591C038AB200797C8C /* ContactListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactListener.swift; sourceTree = "<group>"; };
+		54934F5B1C038EA700797C8C /* Barrier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Barrier.swift; sourceTree = "<group>"; };
+		54934F5D1C0398BF00797C8C /* barrier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barrier.png; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
 		549D82AD1BDF76A500907150 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
@@ -398,6 +408,8 @@
 				547322E31BF0962900FC2925 /* HealSkill.swift */,
 				54934F4D1C0218FA00797C8C /* DoubleAttackSkill.swift */,
 				54934F4F1C02265600797C8C /* SpeedChargingSkill.swift */,
+				54934F551C0388F500797C8C /* BarrierSkill.swift */,
+				54934F5B1C038EA700797C8C /* Barrier.swift */,
 			);
 			name = Skill;
 			path = Model;
@@ -535,6 +547,8 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54934F5D1C0398BF00797C8C /* barrier.png */,
+				54934F531C03829E00797C8C /* border.png */,
 				54934F491C01E65800797C8C /* announcement.png */,
 				54934F2A1C00EAB700797C8C /* playerArea */,
 				54BEFBC81BF9DA5A00DAFA05 /* ground.png */,
@@ -612,6 +626,7 @@
 				5420A6121BC6F322000F2E14 /* Clickable.swift */,
 				5F71B6A41BDA0144002F49B5 /* Interactable.swift */,
 				54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */,
+				54934F591C038AB200797C8C /* ContactListener.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -869,6 +884,7 @@
 				54934F3C1C01A2A200797C8C /* Spark.sks in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				54E090721BF25C590055D5F9 /* menuBack.png in Resources */,
+				54934F5E1C0398BF00797C8C /* barrier.png in Resources */,
 				54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */,
 				5491891E1BFB6218004764E4 /* Smoke.sks in Resources */,
 				54934F361C01297A00797C8C /* attack.png in Resources */,
@@ -908,6 +924,7 @@
 				54D6A1FF1BE7D5E400B23C65 /* clock.png in Resources */,
 				54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */,
 				54BEFBC71BF77CCA00DAFA05 /* human_full.png in Resources */,
+				54934F541C03829E00797C8C /* border.png in Resources */,
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 				5491891F1BFB6218004764E4 /* spark.png in Resources */,
 				54BEFBC41BF7581F00DAFA05 /* human_down.png in Resources */,
@@ -943,6 +960,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				549D82AA1BDA3F5D00907150 /* Air.swift in Sources */,
+				54934F5C1C038EA700797C8C /* Barrier.swift in Sources */,
 				54BEFBD11BFA259700DAFA05 /* Enterable.swift in Sources */,
 				544B60E81BCA22710064B8AE /* CharacterManager.swift in Sources */,
 				54A55BAD1BBA9B1F0039D744 /* Player.swift in Sources */,
@@ -982,6 +1000,7 @@
 				5F01C9F41BD4AE8D0003C711 /* TeamScene.swift in Sources */,
 				544B60F41BCA4A8E0064B8AE /* UIWaveButton.swift in Sources */,
 				544B60EE1BCA22710064B8AE /* UINode.swift in Sources */,
+				54934F5A1C038AB200797C8C /* ContactListener.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
 				5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */,
@@ -1015,6 +1034,7 @@
 				54BBD93D1BD7DF5200BAFFA2 /* OwnedCharacter.swift in Sources */,
 				54A55BAB1BBA97A70039D744 /* InfoLayer.swift in Sources */,
 				54F8D8891BB04271009E9654 /* GameObjectFactory.swift in Sources */,
+				54934F561C0388F500797C8C /* BarrierSkill.swift in Sources */,
 				54EDF1CF1C00783A00671C07 /* TripleBulletAttack.swift in Sources */,
 				54D44C1E1BD7660300B24EE6 /* ConfirmWindow.swift in Sources */,
 				54E090761BF3976E0055D5F9 /* Ground.swift in Sources */,

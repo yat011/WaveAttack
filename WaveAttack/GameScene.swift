@@ -22,6 +22,7 @@ enum CollisionLayer : UInt32 {
     case PlayerHpArea = 0x200
     case GarbageArea = 0x400
     case UndergroundArea = 0x800
+    case Custom = 0x1000
 }
 enum GameObjectName : String{
     case Packet = "Packet"
@@ -178,6 +179,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                self.decreaseHpEffect()
             }
         })
+        self.player!.subscribeEvent(GameEvent.PlayerDead.rawValue, call: self.playerDie)
         self.infoLayer = InfoLayer(position: CGPoint(x: 0,y: 640), player: tplayer, gameScene: self)
         self.addChild(infoLayer!)
     }
@@ -265,6 +267,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         if (checkGarbage(contact.bodyA, mB: contact.bodyB)){
             return
         }
+        if (checkCustom(contact.bodyA, mB: contact.bodyB)){
+            return
+        }
         
         guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
              return
@@ -299,6 +304,21 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
         }else if mB.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
             return checkHitPlayer(mB, mB: mA)
+        }
+        return false
+    }
+    func checkCustom (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask == CollisionLayer.Custom.rawValue {
+            if mA.node != nil{
+                let obj = mA.node as! GameSKSpriteNode
+                guard obj.contactListener != nil else{ return true}
+                
+                obj.contactListener!.contactWith(mA, other: mB)
+            }
+            return true
+            
+        }else if mB.categoryBitMask == CollisionLayer.Custom.rawValue {
+            return checkCustom(mB, mB: mA)
         }
         return false
     }
@@ -1036,13 +1056,21 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         return  "F"
     }
     
-    func playerDie(){
+    func playerDie(obj :GameObject, nth : AnyObject?){
          currentStage = GameStage.Complete
         controlLayer?.stateLabel.text = "You Lose ..."
         self.resultUI = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
         self.resultUI!.title!.text = "Mission Failure"
         self.addChild(self.resultUI!)
+        let smoke =   SKEmitterNode(fileNamed: "Smoke.sks")
+        let fire = SKEmitterNode(fileNamed: "Fire.sks")
+        var fireNode=SKSpriteNode()
+        fireNode.addChild(smoke!)
+        fireNode.addChild(fire!)
+        fireNode.zPosition = GameLayer.ZFRONT + 1
+        fire!.zPosition = 1
         
+        controlLayer?.generatorUI!.addChild(fireNode)
         //numRounds = 20
         self.resultUI!.showLose({
             () -> () in

@@ -26,6 +26,7 @@ class GameSKSpriteNode: SKSpriteNode, HasGameObject{
         get{ return _gameObject}
         set(value) { _gameObject = value}
     }
+    var contactListener : ContactListener? = nil
     
     
 }

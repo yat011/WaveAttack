@@ -107,7 +107,7 @@ class GameLayer : SKNode{
 
     func initBoundary (){
         var boundary = SKSpriteNode()
-        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(), size: CGSize(width: gameScene!.gameArea!.width, height: 2 * gameScene!.gameArea!.height)))
+        let phys = SKPhysicsBody(edgeLoopFromRect: CGRect(origin: CGPoint(x:0, y: -gameScene!.gameArea!.height), size: CGSize(width: gameScene!.gameArea!.width, height: 3 * gameScene!.gameArea!.height)))
         phys.categoryBitMask = CollisionLayer.GameBoundary.rawValue
         phys.collisionBitMask = 0
         phys.contactTestBitMask = 0
@@ -312,26 +312,7 @@ class GameLayer : SKNode{
         background = nil
         
     }
-    
-    var enermyActionCounter : Int = 0
-    var waitForActionComplete:Bool = false
-    func actionFinish(){
-        enermyActionCounter -= 1
-        if waitForActionComplete {
-            checkEnemyFinish()
-        }
-    }
-    func checkEnemyFinish(){
-        if gameScene!.player?.hp <= 0 {
-            gameScene!.playerDie()
-            return
-        }
-        
-        if enermyActionCounter == 0{
-            //complete
-            gameScene!.startSuperpositionPhase()
-        }
-    }
+  
     
  
     func completeMission(){

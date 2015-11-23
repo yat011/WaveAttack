@@ -52,7 +52,7 @@ class WaveGeneratorUI : SKSpriteNode{
         cropNode.maskNode = cropMaskNode
         gunNode.texture = SKTexture(imageNamed: "gun")
         gunNode.size = CGSize(width: gameScene.playerAttackArea.width, height: 200)
-        gunNode.position = CGPoint(x: 0, y: -90)
+        gunNode.position = CGPoint(x: 0, y: -80)
         cropNode.addChild(gunNode)
         self.addChild(cropNode)
         var temp = SKSpriteNode(color: SKColor.redColor(), size: CGSize(width: 0, height: 300))

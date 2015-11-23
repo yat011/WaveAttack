@@ -128,33 +128,19 @@ class ResultUI : SKShapeNode{
     }
     
     func showLose(finish : (()->())){
-        var current = 0
-        var target = gameScene!.numRounds
-        var grades = gameScene!.mission!.gradeDiv
-        var grade  = 0
-        var f :(()->())!
-        f = {() -> () in
-            if current == target{
-                finish()
-                self.numRoundsLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
-                self.gradeLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
-                self.gradeLabel!.text = String(format: ResultUI.GRADE_STR,  "F")
-                return
-            }else{
-                current += 1
-                self.numRoundsLabel!.text = String (format: ResultUI.NUM_ROUNDS_STR, current )
-                if grade < grades.count && current >= grades[grade] {
-                    grade += 1
-                    self.gradeLabel!.text = String(format: ResultUI.GRADE_STR,  self.gameScene!.grading[grade])
-                    
-                }
-                self.runAction(SKAction.waitForDuration(0.1), completion : f )
-            }
-            
-        }
         
-        runAction(SKAction.waitForDuration(0.1), completion: f)
-        
+        var time = gameScene!.gameLayer!.totalTimer.currentTime
+        var score = 0
+
+        timeLabel!.text  = String(format: ResultUI.TIME_STR,time)
+        self.timeLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+        var bonus =  gameScene!.bonus
+        scoreLabel!.text = String(format:ResultUI.SCORE_TIME_STR , score , bonus )
+        AnimateHelper.animateFlashEffect(scoreLabel!, duration: 2, completion: {
+            () -> () in
+            self.scoreLabel!.text = String(format: ResultUI.SCORE_STR, Float(score) * bonus)
+            self.scoreLabel!.runAction(SKAction.scaleBy(1.2, duration: 0.5))
+        })
     }
     
     

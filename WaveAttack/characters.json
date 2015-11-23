@@ -61,7 +61,7 @@
                               }
                               ],
                       "minSpeed": "3",
-                      "maxSpeed": "4"
+                      "maxSpeed": "6"
                   },
                   {
                   "characterID":"2",
@@ -72,7 +72,7 @@
                   "image": "greenSlime",
                   "attackPow": "1",
                   "hp" : "200",
-                  "skill" : "HealSkill",
+                  "skill" : "BarrierSkill",
                   "cdTime" : "20",
                   "wave":[
                           {
@@ -133,7 +133,7 @@
                           }
                           ],
                   "minSpeed": "3",
-                  "maxSpeed": "4"
+                  "maxSpeed": "8"
                   },
                   {
                   "characterID":"4",

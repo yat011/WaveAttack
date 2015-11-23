@@ -18,13 +18,14 @@ class Building: DestructibleObject{
     override class var breakTexture: [SKTexture]? {get {return _breakTexture} set(v){ _breakTexture = v}}
     override class var score :[CGFloat] { get {return [200, 100] }}
     override class var breakThreshold : [CGFloat]? { get{return [0, 0.5]}}
-    override class var  damageFactor :CGFloat{ get {return 0.1}}
+    override class var  damageFactor :CGFloat{ get {return 0.2}}
     override class var density :CGFloat? {get{return 10}}
     var groundJoints = [SKPhysicsJoint]()
     var fireNode : SKSpriteNode?  = nil
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         originPos = position
         super.initialize(size, position: position, gameScene: gameScene)
+        originHp = 10000
     }
     
     override func fixedOnGround() {

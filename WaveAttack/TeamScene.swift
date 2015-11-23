@@ -29,6 +29,8 @@ class TeamScene: TransitableScene{
         characterButtonGroupRect=CGRect(origin: CGPoint(x: -375/2, y: viewController.screenSize.height-200), size: CGSize(width: 375, height: 500))
         characterButtonGroup.position=CGPoint(x:0, y:500)
         
+        frameNode=SKShapeNode(rect: CGRect(origin: CGPoint(x: -20,y: -20), size: CGSize(width: 40,height: 40)), cornerRadius: 5)
+        
         super.init(size: size, viewController: viewController)
         selfScene=GameViewController.Scene.TeamScene
         
@@ -64,21 +66,35 @@ class TeamScene: TransitableScene{
             centeredNode.addChild(cs)
             interactables.append(cs)
         }
-        self.backgroundColor=UIColor.blueColor()
+        self.backgroundColor=UIColor.darkGrayColor()
         let backButton=BackButton(texture: nil, size: CGSize(width: 60, height: 30))
         backButton.position=CGPoint(x:30, y:viewController.screenSize.height-20)
         backButton.color=UIColor.redColor()
         interactables.append(backButton)
         self.addChild(backButton)
+        // team border
+        let teamBorder = SKSpriteNode(imageNamed: "teamBorder")
+        teamBorder.size = CGSize(width: 310, height: 50)
+        teamBorder.position = CGPoint(x: 30, y: 600)
+        teamBorder.anchorPoint = CGPoint(x: 0, y: 0.5)
+        
+        self.addChild(teamBorder)
+        
+        
     }
     
     var selected:Interactable?=nil
+    var frameNode:SKShapeNode
     override func onClick(){
         if(prevTouch?.getClass()=="BackButton"){
             touchable=false
             prevTouch!.onClick()
+            return
         }
-        else if(prevTouch?.getClass()=="CharacterSlot"){
+        if(prevTouch?.getClass()=="CharacterSlot"){
+            if (selected != nil){
+                frameNode.removeFromParent()
+            }
             if state==states.none{
                 selected=prevTouch
                 state=states.selectedSlot
@@ -93,7 +109,7 @@ class TeamScene: TransitableScene{
                     (prevTouch! as! CharacterSlot).character = (selected! as! CharacterButton).character
                     (prevTouch! as! CharacterSlot).updateGraphics()
                     (PlayerInfo.playerInfo!.teams!.allObjects[0] as! Team)
-                    
+                    selected=nil
                     
                 }else{
                     print("using")
@@ -102,6 +118,7 @@ class TeamScene: TransitableScene{
             }
             else if state==states.selectedSlot{     //slot-slot
                 if (selected! as! CharacterSlot) === (prevTouch! as! CharacterSlot) {       //cancel select
+                    
                     let slot = (selected! as! CharacterSlot)
                     PlayerInfo.changeTeamCharacter(slot.slot, character: nil)
                     (selected! as! CharacterSlot).character=nil
@@ -123,11 +140,18 @@ class TeamScene: TransitableScene{
                     
                     (prevTouch! as! CharacterSlot).updateGraphics()
                     (selected! as! CharacterSlot).updateGraphics()
+                    selected=nil
                 }
                 state=states.none
             }
+            if (selected != nil){
+                (selected as! SKSpriteNode).addChild(frameNode)
+            }
         }
         else if(prevTouch?.getClass()=="CharacterButton"){
+            if (selected != nil){
+                frameNode.removeFromParent()
+            }
             if state==states.none{
                 selected=prevTouch
                 state=states.selectedButton
@@ -152,12 +176,16 @@ class TeamScene: TransitableScene{
                     (selected! as! CharacterSlot).character = (prevTouch! as! CharacterButton).character
                     (selected! as! CharacterSlot).updateGraphics()
                    // state=states.none
+                    selected=nil
 
                 }else{
                     print("using")
                 }
                 state=states.none
                 
+            }
+            if (selected != nil){
+                (selected as! SKSpriteNode).addChild(frameNode)
             }
         }
         PlayerInfo.save()
@@ -185,8 +213,8 @@ class TeamScene: TransitableScene{
     
     
     func moveCharacterButtonGroupTo(var newY:CGFloat){
-        if newY>600{
-            newY=600
+        if newY>500{
+            newY=500
             dragVelocity=0
         }
         if newY<500{

@@ -50,6 +50,10 @@ class MissionScene: TransitableScene{
             
             missionBtn = MissionButton(rect: CGRect(origin: CGPoint(x: 0, y: lowest) , size: CGSize(width: 150, height: 50)), text: btnText, onClick: {
                 ()->() in
+                    if PlayerInfo.team.characters?.count != 5 {
+                        self.createFlashLabel("You mush use 5 pets")
+                        return
+                    }
                     GameViewController.currentMissionId = missionBtn!.missionId
                     self.changeScene(GameViewController.Scene.GameScene)
                 }, gameScene: nil)
@@ -79,6 +83,27 @@ class MissionScene: TransitableScene{
         self.addChild(back)
         self.addChild(draggNode)
         self.draggables.append(draggNode)
+        
+        
+    }
+    func createFlashLabel(text : String){
+        let label = SKLabelNode(text: text)
+        label.position = CGPoint(x: self.size.width / 2, y: 500)
+        label.zPosition = 10000
+        label.fontName = "Helvetica"
+        label.fontSize = 20
+        label.verticalAlignmentMode = .Center
+        let back = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 200, height: 80))
+        back.alpha = 0.8
+        back.zPosition = -1
+        label.addChild(back)
+        let seq : [SKAction] = [SKAction.waitForDuration(2) , SKAction.fadeOutWithDuration(0.5)]
+        
+        self.addChild(label)
+        label.runAction(SKAction.sequence(seq), completion :
+            { () -> () in
+                label.removeFromParent()
+        })
         
         
     }

@@ -11,12 +11,13 @@ import SpriteKit
 
 class TripleBulletAttack: DirectAttack{
     
+    var randomShoot = false
     var tripleTimer = FrameTimer(duration: 0.3)
     override func runAction(){
         var shootCount = 1
         //enemy.gameScene!.player!.
         var bullet = createBullet()
-        var targetPt = GameScene.current!.convertPoint(CGPoint(x: GameScene.current!.size.width/2 , y: 0 ),toNode : GameScene.current!.gameLayer!)
+        var targetPt = getTargetPt()
         targetPt.y = 0
         bullet.position = (enemy!.currentPos)
         moveTowards(enemy!.currentPos, target: targetPt, spriteNode: bullet)
@@ -30,7 +31,7 @@ class TripleBulletAttack: DirectAttack{
                 return
             }
            bullet = self.createBullet()
-           targetPt = GameScene.current!.convertPoint(CGPoint(x: GameScene.current!.size.width/2 , y: 0 ),toNode : GameScene.current!.gameLayer!)
+           targetPt =  self.getTargetPt()
             targetPt.y = 0
             bullet.position = (self.enemy!.currentPos)
             self.moveTowards(self.enemy!.currentPos, target: targetPt, spriteNode: bullet)
@@ -45,6 +46,16 @@ class TripleBulletAttack: DirectAttack{
         GameScene.current!.generalUpdateList.insert(Weak(tripleTimer))
         
         
+    }
+    func getTargetPt()-> CGPoint{
+        if (!randomShoot){
+            return GameScene.current!.convertPoint(CGPoint(x: GameScene.current!.size.width/2 , y: 0 ),toNode : GameScene.current!.gameLayer!)
+        }else{
+            return CGPoint(x:(random()%Int(GameScene.current!.gameArea!.width)).f,y:0)
+        }
+    }
+    func setRandomShoot(){
+       randomShoot = true
     }
     
 }

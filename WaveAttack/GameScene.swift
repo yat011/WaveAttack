@@ -1083,7 +1083,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func createMissionLabel(current : Int){
 
-        createFlashLabel("Mission \(current)/\(mission!.missions.count)")
+        createFlashLabel("Mission Start")
 
     
     }

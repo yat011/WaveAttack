@@ -12,6 +12,7 @@ class SmallMovableObject:SmallObject{
    
     var walkTarget : Enterable? = nil
     class var walkSpeed : CGFloat {get {return  20}}
+    var actualWalkSpeed = 0.f
     static let within : CGFloat = 20
     var _balance = true
     var isBalance :Bool {
@@ -22,6 +23,10 @@ class SmallMovableObject:SmallObject{
     var jumpTimer   :FrameTimer? = nil
     class var jumpSpeed: CGVector  {get { return CGVector(dx: 100, dy: 500)}}
     class var jumpDetectAngle : CGFloat {get {return 0.94720}}
+    override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
+        super.initialize(size, position: position, gameScene: gameScene)
+        actualWalkSpeed = self.dynamicType.walkSpeed
+    }
     func findTarget(){
         var index = random()%gameLayer.enterables.count
         walkTarget = gameLayer.enterables[index]
@@ -166,7 +171,7 @@ class SmallMovableObject:SmallObject{
                 return false
             }
             for each in sprites{
-                each.physicsBody!.velocity = CGVector(dx: self.dynamicType.walkSpeed, dy: 0)
+                each.physicsBody!.velocity = CGVector(dx: actualWalkSpeed, dy: 0)
                 each.zRotation = 0
             }
         }else{
@@ -181,7 +186,7 @@ class SmallMovableObject:SmallObject{
                 return false
             }
             for each in sprites{
-               each.physicsBody!.velocity = CGVector(dx: -self.dynamicType.walkSpeed, dy: 0)
+               each.physicsBody!.velocity = CGVector(dx: -actualWalkSpeed, dy: 0)
                 each.zRotation = 0
                 
             }

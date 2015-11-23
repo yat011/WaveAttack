@@ -79,6 +79,8 @@
 		54934F5A1C038AB200797C8C /* ContactListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F591C038AB200797C8C /* ContactListener.swift */; };
 		54934F5C1C038EA700797C8C /* Barrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54934F5B1C038EA700797C8C /* Barrier.swift */; };
 		54934F5E1C0398BF00797C8C /* barrier.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F5D1C0398BF00797C8C /* barrier.png */; };
+		54934F601C03A46200797C8C /* teamBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F5F1C03A46200797C8C /* teamBorder.png */; };
+		54934F621C03A99800797C8C /* using.png in Resources */ = {isa = PBXBuildFile; fileRef = 54934F611C03A99800797C8C /* using.png */; };
 		549D82AA1BDA3F5D00907150 /* Air.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82A91BDA3F5D00907150 /* Air.swift */; };
 		549D82AE1BDF76A500907150 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AD1BDF76A500907150 /* MainMenu.swift */; };
 		549D82B01BDFCBA100907150 /* MissionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549D82AF1BDFCBA100907150 /* MissionScene.swift */; };
@@ -123,7 +125,6 @@
 		54D6A1FF1BE7D5E400B23C65 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A1FE1BE7D5E400B23C65 /* clock.png */; };
 		54D6A2071BE7E3D500B23C65 /* blueSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2011BE7E3D500B23C65 /* blueSlime.png */; };
 		54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2021BE7E3D500B23C65 /* greenSlime.png */; };
-		54D6A2091BE7E3D500B23C65 /* Icon in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2031BE7E3D500B23C65 /* Icon */; };
 		54D6A20A1BE7E3D500B23C65 /* purpleSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2041BE7E3D500B23C65 /* purpleSlime.png */; };
 		54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2051BE7E3D500B23C65 /* redSlime.png */; };
 		54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D6A2061BE7E3D500B23C65 /* yellowSlime.png */; };
@@ -258,6 +259,8 @@
 		54934F591C038AB200797C8C /* ContactListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactListener.swift; sourceTree = "<group>"; };
 		54934F5B1C038EA700797C8C /* Barrier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Barrier.swift; sourceTree = "<group>"; };
 		54934F5D1C0398BF00797C8C /* barrier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barrier.png; sourceTree = "<group>"; };
+		54934F5F1C03A46200797C8C /* teamBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = teamBorder.png; sourceTree = "<group>"; };
+		54934F611C03A99800797C8C /* using.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = using.png; sourceTree = "<group>"; };
 		549D82A91BDA3F5D00907150 /* Air.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Air.swift; sourceTree = "<group>"; };
 		549D82AD1BDF76A500907150 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		549D82AF1BDFCBA100907150 /* MissionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionScene.swift; sourceTree = "<group>"; };
@@ -302,7 +305,6 @@
 		54D6A1FE1BE7D5E400B23C65 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		54D6A2011BE7E3D500B23C65 /* blueSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueSlime.png; sourceTree = "<group>"; };
 		54D6A2021BE7E3D500B23C65 /* greenSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenSlime.png; sourceTree = "<group>"; };
-		54D6A2031BE7E3D500B23C65 /* Icon */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Icon"; sourceTree = "<group>"; };
 		54D6A2041BE7E3D500B23C65 /* purpleSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purpleSlime.png; sourceTree = "<group>"; };
 		54D6A2051BE7E3D500B23C65 /* redSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redSlime.png; sourceTree = "<group>"; };
 		54D6A2061BE7E3D500B23C65 /* yellowSlime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowSlime.png; sourceTree = "<group>"; };
@@ -547,6 +549,8 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54934F611C03A99800797C8C /* using.png */,
+				54934F5F1C03A46200797C8C /* teamBorder.png */,
 				54934F5D1C0398BF00797C8C /* barrier.png */,
 				54934F531C03829E00797C8C /* border.png */,
 				54934F491C01E65800797C8C /* announcement.png */,
@@ -656,7 +660,6 @@
 			children = (
 				54D6A2011BE7E3D500B23C65 /* blueSlime.png */,
 				54D6A2021BE7E3D500B23C65 /* greenSlime.png */,
-				54D6A2031BE7E3D500B23C65 /* Icon */,
 				54D6A2041BE7E3D500B23C65 /* purpleSlime.png */,
 				54D6A2051BE7E3D500B23C65 /* redSlime.png */,
 				54D6A2061BE7E3D500B23C65 /* yellowSlime.png */,
@@ -879,12 +882,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54934F621C03A99800797C8C /* using.png in Resources */,
 				549D82C01BE33C3800907150 /* sky.png in Resources */,
 				54934F3E1C01AFC700797C8C /* atkBtn.png in Resources */,
 				54934F3C1C01A2A200797C8C /* Spark.sks in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				54E090721BF25C590055D5F9 /* menuBack.png in Resources */,
 				54934F5E1C0398BF00797C8C /* barrier.png in Resources */,
+				54934F601C03A46200797C8C /* teamBorder.png in Resources */,
 				54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */,
 				5491891E1BFB6218004764E4 /* Smoke.sks in Resources */,
 				54934F361C01297A00797C8C /* attack.png in Resources */,
@@ -929,7 +934,6 @@
 				5491891F1BFB6218004764E4 /* spark.png in Resources */,
 				54BEFBC41BF7581F00DAFA05 /* human_down.png in Resources */,
 				54934F3A1C01A22100797C8C /* EnergyFire.sks in Resources */,
-				54D6A2091BE7E3D500B23C65 /* Icon in Resources */,
 				54BEFBC51BF7581F00DAFA05 /* human_up.png in Resources */,
 				54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */,
 				54BEFBB31BF63B0100DAFA05 /* building_0000_2.png in Resources */,

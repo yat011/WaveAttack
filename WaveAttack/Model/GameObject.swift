@@ -76,6 +76,9 @@ class GameObject : NSObject {
     func update() -> (){
         
     }
+    func slowUpdate(){
+        
+    }
     
     override init(){
         super.init()

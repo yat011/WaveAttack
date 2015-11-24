@@ -20,6 +20,7 @@ class Human  : SmallMovableObject, Spawnable{
     override class var breakThreshold : [CGFloat]? {get{return [0.0]}}
     override var restitution : CGFloat {get{return 0.2}}
     override class var density :CGFloat? {get{return 1}}
+    override class var walkSpeed : CGFloat{get {return 35}}
     override func initialize(size: CGSize, position: CGPoint, gameScene: GameScene) {
         super.initialize(size, position: position, gameScene: gameScene)
         for each in sprites{

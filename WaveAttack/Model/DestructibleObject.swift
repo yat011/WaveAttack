@@ -291,24 +291,8 @@ class DestructibleObject : Medium {
         
     }
 
-    override func update() {
-        
-    //    if (totDmg != 0 && animating == false){
-   //         shaking()
-    //    }
-   /*     totDmg = 0
-        if (hp < disappearThreshold){
-            //destory self and inside packet
-            destorySelf()
-        }
-*/
-        for each in sprites{
-            if each.gameObject == nil{
-             //   print(each.position)
-              //  print(each.physicsBody!.velocity)
-              //  print(each.physicsBody!.angularVelocity)
-            }
-        }
+    override func slowUpdate() {
+        super.slowUpdate()
         
         guard self.dynamicType.breakThreshold != nil else{return }
         if breakIndex == nil{
@@ -316,13 +300,13 @@ class DestructibleObject : Medium {
         }
         guard breakIndex! >= 0 else { return }
         if hp/self.originHp < self.dynamicType.breakThreshold![breakIndex!]{
-       
+            
             breakIndex!--
             var  node = sprites[--attachedIndex]
             mass -= node.physicsBody!.mass
-           node.gameObject = nil
+            node.gameObject = nil
             
-           var joints = nodeJoints[node]!
+            var joints = nodeJoints[node]!
             
             for var i = 0 ; i < joints.count; i++ {
                 var joint = joints[i]
@@ -330,12 +314,9 @@ class DestructibleObject : Medium {
             }
             nodeJoints[node]!.removeAll()
             changeToFront(node.physicsBody!)
-           // SKEmitterNode(fileNamed: "Smoke.sks")
-           jointBroken(node)
+            // SKEmitterNode(fileNamed: "Smoke.sks")
+            jointBroken(node)
         }
-        
-        
-        
         
     }
     

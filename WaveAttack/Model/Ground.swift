@@ -266,7 +266,7 @@ class Ground: Medium{
         */
         
     }
-    override func update() {
+    override func slowUpdate() {
         var i = 0;
         for each in sprites{ // sync
             each.physicsBody!.velocity = CGVector(dx: 0, dy: each.physicsBody!.velocity.dy)

@@ -68,20 +68,9 @@ class Building: DestructibleObject{
         
         
     }
-    override func update() {
-        super.update()
-        var base = sprites[0]
-        if base.physicsBody!.velocity.dy > 10 {
-            
-        }
-        //base.physicsBody!.applyForce(CGVector(dx:0,dy: -1000))
-       /* if (abs(base.physicsBody!.angularVelocity) < MathHelper.PI/180 * 30 && abs(sprites[0].zRotation) < MathHelper.PI/180 * 30 ){
-            base.physicsBody!.angularVelocity = 0
-            base.runAction(SKAction.rotateToAngle(0, duration: 1))
-            
-        }else{
-            base.removeAllActions()
-        }*/
+    override func slowUpdate() {
+        super.slowUpdate()
+        
         if abs(sprites[0].zRotation) > MathHelper.PI/180 * 30 {
             for j in groundJoints{
                 GameScene.current!.physicsWorld.removeJoint(j)

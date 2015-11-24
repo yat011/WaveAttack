@@ -35,7 +35,9 @@ class Medium : GameObject {
     override func deleteSelf() {
         super.deleteSelf()
     }
-
+    override func slowUpdate() {
+        syncPos()
+    }
    
     func syncPos(){
         

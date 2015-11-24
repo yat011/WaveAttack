@@ -14,7 +14,7 @@ class GameLayer : SKNode{
     
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
-    var attackPhaseObjects = Set<GameObject>()
+    var attackPhaseObjects = [GameObject]()
   //  var energyPackets = Set<EnergyPacket>()
     var ground  : Ground? = nil
    // var gameArea = CGRect()
@@ -224,7 +224,7 @@ class GameLayer : SKNode{
         self.addChild(ScoreFlashMsg(score,destObj))
     }
     func addGameObject(obj : GameObject){
-        attackPhaseObjects.insert(obj)
+        attackPhaseObjects.append(obj)
         if (obj is Medium){
             let temp  = obj as! Medium
            //self.addChild(temp.physContactSprite)
@@ -238,34 +238,55 @@ class GameLayer : SKNode{
     }
     
     func removeGameObject (obj : GameObject){
-        attackPhaseObjects.remove(obj)
+        attackPhaseObjects.removeObject(obj)
+        updateIndex = (updateIndex - 1)%self.attackPhaseObjects.count
        obj.deleteSelf()
     
-       /*
-        if (obj.getSprite() != nil){
-            obj.getSprite()!.removeFromParent()
-        }
-*/
-       
         
     }
 //--------------------- update   --------------
-    func update(currentTime: CFTimeInterval){
-     //   if (self.energyPackets.count == 0){
-     //       gameScene!.startCheckResult()
-     //      // gameScene!.startEnemyPhase()
-     //       return
-     //   }
-        
+    var updateIndex = 0
+    var groundUpdateIndex = 0
+    func update(start: Double){
         
         for obj in  attackPhaseObjects{
-            obj.update()
-        }
-        if spawnPoints[self.stage] != nil{
-            for obj in spawnPoints[self.stage]!{
-                obj.update()
+            //obj.slowUpdate()
+            
+            
+            if obj is Ground{
+               if groundUpdateIndex == 0{
+                   obj.slowUpdate()
+                }
+            }else{
+                obj.slowUpdate()
             }
+
         }
+        groundUpdateIndex = (groundUpdateIndex+1)%10
+
+        //slow update
+        /*
+        var i = 0
+        while(true){
+            
+            updateIndex = (updateIndex + 1)%attackPhaseObjects.count
+            attackPhaseObjects[updateIndex].slowUpdate()
+            i++
+            var currentTime = NSDate().timeIntervalSince1970
+            if currentTime - start > 0.001 {
+               return
+            }
+
+           /*
+            if (i == 3){
+               var currentTime = NSDate().timeIntervalSince1970 - prevTime
+                print(currentTime)
+                return
+            }
+*/
+        }
+*/
+        
     }
     /*
     func enemyDoAction(){

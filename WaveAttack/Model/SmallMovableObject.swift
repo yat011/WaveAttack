@@ -130,13 +130,14 @@ class SmallMovableObject:SmallObject{
         
     }
  
-    override func update() {
-        super.update()
-        // check if balance || grounded || die
+    
+    
+    override func slowUpdate() {
+        super.slowUpdate()
         guard hp > 0 else{
             return
         }
-       
+        
         guard checkWalkCondition() == true else{return }
         
         guard walkTarget != nil else {return }
@@ -144,12 +145,6 @@ class SmallMovableObject:SmallObject{
             walkTarget?.enter(self)
             walkTarget = nil
         }
-        //  print(sprites[0].zRotation)
-        // if (abs(sprites[0].zRotation) > MathHelper.PI/180*30 && unionNode.hasActions() == false){
-        
-        //unionNode.physicsBody!.ap
-        //unionNode.physicsBody!.applyImpulse(CGVector(dx: 0, dy: 2))
-        // }
     }
     func walk () -> Bool{
         

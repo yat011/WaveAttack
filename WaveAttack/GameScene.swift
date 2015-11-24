@@ -871,14 +871,9 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var countFrame :Int = 0
     var counter:Int=0
     override func update(currentTime: CFTimeInterval) {
-       
+        var start = NSDate().timeIntervalSince1970
         switch (currentStage){
-        case .Attack:
-            
-      //      handleContact()
-       //     attackPhaseUpdate(currentTime)
-           
-            break
+     
         case .Superposition:
             moveWaves()
             break
@@ -888,12 +883,15 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         default:
             break
         }
-       attackPhaseUpdate(currentTime)
         for each in generalUpdateList{
-            each.value?.update()
+            if each.value == nil{
+                generalUpdateList.remove(each)
+            }else{
+                each.value!.update()
+            }
         }
+       attackPhaseUpdate(start)
         
-      
 
 
         
@@ -964,8 +962,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
 //------------------------------------------------------
    
     
-    func attackPhaseUpdate (currentTime: CFTimeInterval){
-        gameLayer!.update(currentTime)
+    func attackPhaseUpdate (start: Double){
+        gameLayer!.update(start)
     }
     
     
@@ -1133,13 +1131,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
 //------------------------
     override func didSimulatePhysics() {
-        for each in gameLayer!.attackPhaseObjects{
+        /*for each in gameLayer!.attackPhaseObjects{
             guard each is Medium else{
                 continue
             }
             let medium = each as! Medium
             medium.syncPos()
         }
+*/
     }
    
 }

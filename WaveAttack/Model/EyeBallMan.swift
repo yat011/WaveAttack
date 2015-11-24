@@ -44,8 +44,8 @@ class EyeBallMan: SmallMovableObject, Spawnable,Enemy{
         target.pos.y = gameLayer.ground!.frontY
         self.walkTarget = target
     }
-    override func update() {
-        super.update()
+    override func slowUpdate() {
+        super.slowUpdate()
         if walkTarget == nil{
             self.findTarget()
         }

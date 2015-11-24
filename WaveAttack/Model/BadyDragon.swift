@@ -42,8 +42,9 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
         target.pos.y = gameLayer.ground!.frontY
         self.walkTarget = target
     }
-    override func update() {
-        super.update()
+  
+    override func slowUpdate() {
+        super.slowUpdate()
         if !angry && hp < originHp * 0.5  {
             angry = true
             for var i = 0 ; i < attachedIndex ; i++ {
@@ -58,7 +59,7 @@ class BadyDragon: SmallMovableObject, Spawnable,Enemy{
                 attack.setRandomShoot()
                 attack.startAction()
                 attacks.append(attack)
- 
+                
                 
             }
             

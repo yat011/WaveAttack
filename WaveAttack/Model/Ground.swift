@@ -180,6 +180,9 @@ class Ground: Medium{
         self.triggerEvent(GameEvent.EarthquakeStart.rawValue)
         for var k = 0 ; k < data.count ; k++ {
             var index = self.mapLocalXToSpriteIndex(localPt.x + CGFloat(k))
+            if (index < 0 || index >= sprites.count){
+                continue
+            }
             print(index)
             print(self.sprites.count)
             

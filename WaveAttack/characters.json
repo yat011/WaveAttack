@@ -36,7 +36,7 @@
                       "image": "redSlime",
                         "attackPow": "1",
                         "hp" : "200",
-                  "skill" : "HealSkill",
+                  "skill" : "MeterSkill",
                   "cdTime" : "20",
                       "wave":[
                               {

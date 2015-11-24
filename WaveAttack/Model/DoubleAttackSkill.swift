@@ -14,8 +14,8 @@ class DoubleAttackSkill : SimpleSkill{
     var firstUse = true
     var using = false
     var icon = SKSpriteNode(imageNamed: "numUp")
-    override func perform(gameScene: GameScene,character: Character){
-       gameScene.player?.numOfOscillation *= 2
+    override func perform(pos:CGPoint, character: Character) {
+       gameScene!.player?.numOfOscillation *= 2
         using = true
         if firstUse == true{
             var doneFunc : ((obj:GameObject, nth:AnyObject?)->()) =  {
@@ -23,15 +23,15 @@ class DoubleAttackSkill : SimpleSkill{
                 if self.using {
                    self.gameScene!.player!.numOfOscillation = self.gameScene!.player!.originNumOscillation
                     character.cdSkill()
-                    gameScene.infoLayer!.removeSkillIcon(self.icon)
+                    self.gameScene!.infoLayer!.removeSkillIcon(self.icon)
                 }
                 self.using = false
                 
             }
             self.character = character
-            gameScene.controlLayer!.eventHandler.subscribeEvent(GameEvent.AttackDone.rawValue, call:doneFunc)
+            gameScene!.controlLayer!.eventHandler.subscribeEvent(GameEvent.AttackDone.rawValue, call:doneFunc)
         }
-        gameScene.infoLayer!.addSkillIcon(icon)
+        gameScene!.infoLayer!.addSkillIcon(icon)
         
         firstUse = false
         

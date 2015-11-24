@@ -15,7 +15,8 @@ class SpeedChargingSkill: SimpleSkill{
     var firstUse = true
     var using = false
    var icon = SKSpriteNode(imageNamed: "timeDown") 
-    override func perform(gameScene: GameScene,character: Character){
+    override func perform(pos:CGPoint, character: Character) {
+        let gameScene = self.gameScene!
         gameScene.player!.chargingTime /= 2
         using = true
         if firstUse == true{

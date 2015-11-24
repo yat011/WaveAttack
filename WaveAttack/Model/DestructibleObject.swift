@@ -293,7 +293,6 @@ class DestructibleObject : Medium {
                 if body.categoryBitMask == CollisionLayer.FrontGround.rawValue || body.categoryBitMask == CollisionLayer.Ground.rawValue {
                     return
                 }
-                print(body.node!.name)
                 stop.memory = true
                 res = true
             }

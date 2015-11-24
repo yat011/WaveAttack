@@ -101,7 +101,7 @@ class Character : GameObject{
         if (skill! is SimpleSkill){
             skillReady = false
            triggerEvent(GameEvent.SKillUsed.rawValue)
-            skill!.perform(GameScene.current!,character: self)
+            skill!.perform(CGPoint(),character: self)
         }else{
             GameScene.current!.setPendingSkill(self)
             pending = true
@@ -112,6 +112,7 @@ class Character : GameObject{
     }
     func cdSkill(){
         self.triggerEvent(GameEvent.SKillUsed.rawValue)
+        pending = false
         skillReady = false
         cdTimer.reset()
         cdTimer.startTimer({

@@ -17,7 +17,7 @@ class BarrierSkill: SimpleSkill {
     var originHp = 2000.f
     var hp = 2000.f
     var barriers = Set<Barrier>()
-    override func perform(gameScene: GameScene,character: Character){
+    override func perform(pos:CGPoint, character: Character) {
         Barrier(maxHp: originHp, skill: self)
         
        character.cdSkill()

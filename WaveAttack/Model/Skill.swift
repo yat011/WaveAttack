@@ -7,9 +7,9 @@
 //
 
 import Foundation
-
+import SpriteKit
 class Skill: GameObject{
-    func perform(gameScene:GameScene, character : Character){
+    func perform(pos:CGPoint, character : Character){
         
     }
     
@@ -29,7 +29,12 @@ class TargetSkill : DecisionSkill{
 }
 
 class PlacableSkill :DecisionSkill{
-    func createGameObj(zIndex: Int, gameScene: GameScene) -> GameObject{
+   
+    func createIndicator () -> SKSpriteNode{
         fatalError("not implement")
     }
+    func getIndicatorPosition(pos : CGPoint)->CGPoint{
+       return pos
+    }
+    
 }

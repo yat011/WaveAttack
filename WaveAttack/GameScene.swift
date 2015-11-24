@@ -308,7 +308,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         return false
     }
     func checkCustom (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
-        if mA.categoryBitMask == CollisionLayer.Custom.rawValue {
+        if mA.categoryBitMask & CollisionLayer.Custom.rawValue  > 0{
             if mA.node != nil{
                 let obj = mA.node as! GameSKSpriteNode
                 guard obj.contactListener != nil else{ return true}
@@ -317,7 +317,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             }
             return true
             
-        }else if mB.categoryBitMask == CollisionLayer.Custom.rawValue {
+        }else if mB.categoryBitMask & CollisionLayer.Custom.rawValue > 0{
             return checkCustom(mB, mB: mA)
         }
         return false
@@ -376,7 +376,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var destHpBar : SKNode? = nil
     var clearUpNodes = Set<SKNode>()
     var pressedSkill : Skill? = nil
-    var dragSkillObj : GameObject? = nil
+    var dragSkillNode : SKSpriteNode? = nil
     var pendingCharacter : Character? = nil
     
     
@@ -504,6 +504,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     func startSupering(){
+        clearSkill()
         var timelimit: CGFloat = player!.chargingTime
         var frameTimer = FrameTimer(duration: timelimit)
         self.superingTimer = frameTimer
@@ -741,21 +742,24 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func touchesBeganSkill(touchDown :CGPoint,touches: Set<UITouch>){
         if (pressedSkill is PlacableSkill){
-          /*  let temp =  pressedSkill as! PlacableSkill
-            var gameObj = temp.createGameObj(gameLayer!.maxZIndex, gameScene: self)
-            gameObj.getSprite()!.runAction(SKAction.fadeAlphaTo(0.3, duration: 0))
-            gameObj.getSprite()!.position = touchDown
-            gameLayer?.addGameObject(gameObj)
-            dragSkillObj = gameObj
-*/
+            let temp =  pressedSkill as! PlacableSkill
+            var tempPos = convertPoint(touchDown, toNode: gameLayer!)
+            dragSkillNode =  temp.createIndicator()
+            dragSkillNode!.position = temp.getIndicatorPosition(tempPos)
+            dragSkillNode!.zPosition = GameLayer.ZFRONT + 1
+            gameLayer!.addChild(dragSkillNode!)
+            
+
         }else if (pressedSkill is TargetSkill){
             
         }
     }
     func touchesMovedSkill(touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
-                dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
+            var tempPos = touches.first!.locationInNode(gameLayer!)
+            if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size),tempPos)){
+                let place = pressedSkill as! PlacableSkill
+                dragSkillNode!.runAction(SKAction.moveTo( place.getIndicatorPosition(tempPos), duration: 0))
                 return false
             }else {
               //  pressedSkill = nil
@@ -770,12 +774,13 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     func touchesEndedSkill (touchDown :CGPoint,touches: Set<UITouch>) -> Bool{
         if (pressedSkill is PlacableSkill){
-             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size), touches.first!.locationInNode(gameLayer!))){
-                dragSkillObj?.getSprite()!.runAction(SKAction.moveTo(convertTouchPointToGameAreaPoint(touchDown), duration: 0))
-                dragSkillObj?.getSprite()!.runAction(SKAction.fadeAlphaTo(1, duration: 0))
-               // pendingCharacter!.resetRound()
+            var tempPos = touches.first!.locationInNode(gameLayer!)
+             if (CGRectContainsPoint(CGRect(origin: CGPoint(), size: gameArea!.size),tempPos) ){
+                let place = pressedSkill as! PlacableSkill
+                dragSkillNode!.runAction(SKAction.moveTo( place.getIndicatorPosition(tempPos), duration: 0))
+                pressedSkill!.perform(tempPos, character: pendingCharacter!)
+                pendingCharacter!.cdSkill()
                 pendingCharacter = nil
-                dragSkillObj = nil
                 pressedSkill = nil
                 return false
             }else {
@@ -841,7 +846,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     func clearSkill(){
-        
+       
+        pendingCharacter?.canelSkill()
         pressedSkill = nil
         pendingCharacter = nil
 
@@ -849,10 +855,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
   
     
     func clearTouch (){
-        if (dragSkillObj != nil){
-            gameLayer!.removeGameObject(dragSkillObj!)
-            dragSkillObj = nil
-        }
+        dragSkillNode?.removeFromParent()
+        dragSkillNode = nil
         
         tapTimer.removeAllActions()
         touching = false

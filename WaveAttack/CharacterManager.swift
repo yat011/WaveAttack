@@ -80,7 +80,9 @@ class CharacterManager{
         ch.lore = sample.lore
         ch.str = sample.str
         ch.texture = sample.texture
-        ch.skill = sample.skill
+        if sample.skill != nil{
+            ch.skill = GameObjectFactory.getInstance().createByFullName(NSStringFromClass(sample.skill!.dynamicType)) as! Skill
+        }
         ch.round = sample.round
         ch.minSpeed = sample.minSpeed
         ch.maxSpeed = sample.maxSpeed

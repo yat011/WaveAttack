@@ -31,7 +31,7 @@ class Player : GameObject{
     func changeHpBy (delta : CGFloat){
         var newHp: CGFloat = _hp + delta
         
-        if newHp < 0 {
+        if newHp <= 0 {
             _hp = 0
             triggerEvent(GameEvent.PlayerDead.rawValue)
         }else if (newHp > oriHp){

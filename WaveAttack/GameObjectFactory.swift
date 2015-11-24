@@ -44,4 +44,20 @@ class GameObjectFactory{
         return nil
 */
     }
+    func createByFullName(name: String) -> GameObject?{
+        // print(name)
+        
+        let classobj : AnyClass = NSClassFromString(name)!
+        var gameObj = classobj as! NSObject.Type
+        let temp = gameObj.init()
+        
+        return temp as! GameObject
+        /*
+        var function = hash[name]
+        if (function != nil){
+        return function!()
+        }
+        return nil
+        */
+    }
 }

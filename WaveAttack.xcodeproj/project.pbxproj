@@ -54,6 +54,8 @@
 		547322E41BF0962900FC2925 /* HealSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547322E31BF0962900FC2925 /* HealSkill.swift */; };
 		5474C5641BA321A30015C861 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5631BA321A30015C861 /* GameObject.swift */; };
 		5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474C5651BA3242E0015C861 /* EnergyPacket.swift */; };
+		548A6D181C04706900A4F42E /* numUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 548A6D161C04706900A4F42E /* numUp.png */; };
+		548A6D191C04706900A4F42E /* timeDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 548A6D171C04706900A4F42E /* timeDown.png */; };
 		5491890B1BFB3C9E004764E4 /* ScoreFlashMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5491890A1BFB3C9E004764E4 /* ScoreFlashMsg.swift */; };
 		5491890D1BFB4FCB004764E4 /* ScoreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5491890C1BFB4FCB004764E4 /* ScoreLabel.swift */; };
 		5491891E1BFB6218004764E4 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5491891C1BFB6218004764E4 /* Smoke.sks */; };
@@ -234,6 +236,8 @@
 		547322E31BF0962900FC2925 /* HealSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealSkill.swift; sourceTree = "<group>"; };
 		5474C5631BA321A30015C861 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		5474C5651BA3242E0015C861 /* EnergyPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyPacket.swift; sourceTree = "<group>"; };
+		548A6D161C04706900A4F42E /* numUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numUp.png; sourceTree = "<group>"; };
+		548A6D171C04706900A4F42E /* timeDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeDown.png; sourceTree = "<group>"; };
 		5491890A1BFB3C9E004764E4 /* ScoreFlashMsg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreFlashMsg.swift; sourceTree = "<group>"; };
 		5491890C1BFB4FCB004764E4 /* ScoreLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreLabel.swift; sourceTree = "<group>"; };
 		5491891C1BFB6218004764E4 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
@@ -549,9 +553,9 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				548A6D151C04705300A4F42E /* skill */,
 				54934F611C03A99800797C8C /* using.png */,
 				54934F5F1C03A46200797C8C /* teamBorder.png */,
-				54934F5D1C0398BF00797C8C /* barrier.png */,
 				54934F531C03829E00797C8C /* border.png */,
 				54934F491C01E65800797C8C /* announcement.png */,
 				54934F2A1C00EAB700797C8C /* playerArea */,
@@ -605,6 +609,16 @@
 			);
 			name = GameScene;
 			path = Model;
+			sourceTree = "<group>";
+		};
+		548A6D151C04705300A4F42E /* skill */ = {
+			isa = PBXGroup;
+			children = (
+				54934F5D1C0398BF00797C8C /* barrier.png */,
+				548A6D161C04706900A4F42E /* numUp.png */,
+				548A6D171C04706900A4F42E /* timeDown.png */,
+			);
+			name = skill;
 			sourceTree = "<group>";
 		};
 		54934F2A1C00EAB700797C8C /* playerArea */ = {
@@ -909,6 +923,7 @@
 				54E090701BF259610055D5F9 /* mainBack.png in Resources */,
 				54934F461C01BD5F00797C8C /* increaseHp.png in Resources */,
 				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
+				548A6D181C04706900A4F42E /* numUp.png in Resources */,
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */,
@@ -933,6 +948,7 @@
 				54553E3C1BA6FE9200A38B18 /* box.png in Resources */,
 				5491891F1BFB6218004764E4 /* spark.png in Resources */,
 				54BEFBC41BF7581F00DAFA05 /* human_down.png in Resources */,
+				548A6D191C04706900A4F42E /* timeDown.png in Resources */,
 				54934F3A1C01A22100797C8C /* EnergyFire.sks in Resources */,
 				54BEFBC51BF7581F00DAFA05 /* human_up.png in Resources */,
 				54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */,

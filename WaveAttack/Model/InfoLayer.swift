@@ -19,6 +19,7 @@ class InfoLayer : SKNode , Clickable{
     var confirmWindow : ConfirmWindow? = nil
     var scoreLabel : ScoreLabel? = nil
     var announcement =  AnnouncementUI()
+    var skillIcon = [SKSpriteNode]()
     init(position : CGPoint, player: Player, gameScene: GameScene){
         self.player = player
         super.init()
@@ -110,5 +111,25 @@ class InfoLayer : SKNode , Clickable{
         
     }
     
+    func addSkillIcon (node: SKSpriteNode){
+       skillIcon.append(node)
+        node.size = CGSize(width: 40, height: 40)
+       reDrawSkillIcon()
+    }
+    func removeSkillIcon (node : SKSpriteNode){
+        skillIcon.removeObject(node)
+        node.removeFromParent()
+        reDrawSkillIcon()
+    }
+    func reDrawSkillIcon(){
+        
+        for var i = 0 ; i < skillIcon.count ; i++ {
+            skillIcon[i].removeFromParent()
+           skillIcon[i].position = CGPoint(x: 30 + 45 * i, y: -20)
+            self.addChild(skillIcon[i])
+            
+        }
+        
+    }
     
 }

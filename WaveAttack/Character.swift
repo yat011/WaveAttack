@@ -87,7 +87,7 @@ class Character : GameObject{
         // find skill
         
         //temp ------
-        guard skill != nil && skillReady else{
+        guard skill != nil && skillReady == true else{
             return
         }
         guard pending == false else{

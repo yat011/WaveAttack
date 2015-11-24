@@ -190,7 +190,9 @@ class GameLayer : SKNode{
         if spawnPoints[self.stage] == nil{
             //or do sth 
             // show win
-            self.completeMission()
+            if gameScene!.currentStage != GameStage.Complete{
+                self.completeMission()
+            }
             return
         }
         self.gameScene!.infoLayer!.announcement.showTextLabel(gameScene!.mission!.announcements[self.stage-2])
@@ -216,6 +218,7 @@ class GameLayer : SKNode{
     }
     
     func scored (obj : GameObject , score:AnyObject?){
+        guard gameScene!.currentStage != GameStage.Complete else{ return}
         guard obj is DestructibleObject else{return }
         let destObj = obj as! DestructibleObject
         var score = destObj.dynamicType.score[destObj.scoredIndex]

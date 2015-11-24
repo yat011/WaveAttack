@@ -255,7 +255,7 @@ class DestructibleObject : Medium {
     }
     func checkIfObjectAtFront(x : CGFloat)-> Bool{
         
-        var dis  :CGFloat = 0
+       /* var dis  :CGFloat = 0
         var len :CGFloat = 0
         if x > 0 {
             dis = originSize!.width/2   - 0.5
@@ -265,12 +265,47 @@ class DestructibleObject : Medium {
             len = -originSize!.width/3
             
         }
+        
         let startPt = gameScene!.convertPoint(sprites[0].position, fromNode: sprite) + CGPoint(x:dis , y: 0)
         
         let endPt = startPt + CGPoint(x: len , y: 0)
         var phys :SKPhysicsBody? = nil
         //print(phys!.node!.name)
+*/
       
+        var scenePt =  self.currentPos + gameLayer.position
+        scenePt.y = scenePt.y - sprites[0].size.height/2 + 5
+        if x > 0{
+            scenePt.x += sprites[0].size.width/2
+        }else{
+            scenePt.x = scenePt.x -  sprites[0].size.width/2 - originSize!.width/3
+        }
+        
+        
+        
+        var size = CGSize(width:originSize!.width/3, height: originSize!.height)
+        var rect = CGRect(origin: scenePt, size: size)
+        
+       var res = false
+        gameScene!.physicsWorld.enumerateBodiesInRect(rect, usingBlock: {
+            (body:SKPhysicsBody, stop : UnsafeMutablePointer<ObjCBool> ) -> () in
+            if body.categoryBitMask & self.sprites[0].physicsBody!.collisionBitMask > 0 {
+                if body.categoryBitMask == CollisionLayer.FrontGround.rawValue || body.categoryBitMask == CollisionLayer.Ground.rawValue {
+                    return
+                }
+                print(body.node!.name)
+                stop.memory = true
+                res = true
+            }
+        })
+       return res
+        
+        
+        
+       /*
+        
+        
+        
         gameScene!.physicsWorld.enumerateBodiesAlongRayStart(startPt, end: endPt, usingBlock: {
             body,pt, normal, stop in
             
@@ -281,6 +316,7 @@ class DestructibleObject : Medium {
             }
         })
         return (phys != nil)
+*/
     }
 
     func garbageCollected(){

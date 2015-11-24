@@ -93,7 +93,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
        
         super.init(size: size, viewController:viewController)
-        self.scaleMode = .AspectFit
+        self.scaleMode = .Fill
         selfScene=GameViewController.Scene.GameScene
         //updateTimeInterval = 1.0 / fixedFps33 
         GameScene.current = self

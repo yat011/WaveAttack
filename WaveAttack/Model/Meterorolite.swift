@@ -22,7 +22,7 @@ class Meterorolite :DestructibleObject, Spawnable, ContactListener{
     override class var breakThreshold : [CGFloat]? { get{return nil}}
     override class var  damageFactor :CGFloat{ get {return 0.2}}
     override class var density :CGFloat? {get{return 10}}
-   let maxAmp = 20.f
+   let maxAmp = 60.f
     let maxLen = 600
     var fireNode: SKEmitterNode? = nil
     

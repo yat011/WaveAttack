@@ -37,7 +37,7 @@
                         "attackPow": "1",
                         "hp" : "200",
                   "skill" : "MeterSkill",
-                  "cdTime" : "20",
+                  "cdTime" : "25",
                       "wave":[
                               {
                               "type":     "sine1",
@@ -108,8 +108,8 @@
                   "image": "purpleSlime",
                   "attackPow": "1",
                   "hp" : "200",
-                  "skill" : "DoubleAttackSkill",
-                  "cdTime" : "30",
+                  "skill" : "TornadoSkill",
+                  "cdTime" : "20",
                   "wave":[
                           {
                           "type":     "sine1",

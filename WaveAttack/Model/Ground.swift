@@ -65,6 +65,7 @@ class Ground: Medium{
             phys!.contactTestBitMask = 0
             phys!.density = 100
             phys!.allowsRotation = false
+            phys!.fieldBitMask = 0
             //phys!.linearDamping = 08
             phys!.usesPreciseCollisionDetection = true
             phys!.dynamic = true
@@ -84,6 +85,7 @@ class Ground: Medium{
             frontPhys.usesPreciseCollisionDetection = true
             //frontPhys.linearDamping = 0
             frontPhys.dynamic = true
+            frontPhys.fieldBitMask = 0
             //frontPhys.mass = 0
             frontSprite.physicsBody = frontPhys
             frontSprite.position = tempPos - CGPoint(x: 0, y: Ground.frontDepth)
@@ -100,6 +102,7 @@ class Ground: Medium{
             bottomPhys.allowsRotation = false
             bottomPhys.usesPreciseCollisionDetection = true
             //bottomPhys.linearDamping = 0
+            bottomPhys.fieldBitMask = 0
             bottomPhys.dynamic = false
             //bottomPhys.mass = 0
             bottomSprite.physicsBody = bottomPhys
@@ -115,6 +118,7 @@ class Ground: Medium{
             equilPhys.categoryBitMask = 0
             equilPhys.collisionBitMask = 0
             equilPhys.contactTestBitMask = 0
+            equilPhys.fieldBitMask = 0
             equilSprite.physicsBody = equilPhys
             equilSprite.position = tempPos
            

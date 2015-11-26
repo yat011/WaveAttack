@@ -24,7 +24,7 @@ class WaveGeneratorUI : SKSpriteNode{
     let closeRightPt = CGPoint(x: 12.5, y: 0)
     var timer = FrameTimer(duration: 1)
     let attackTexture = SKTexture(imageNamed: "attack")
-    let MoveTime:CGFloat = 1
+    let MoveTime:CGFloat = 0.5
     let colors = [SKColor.cyanColor(), SKColor.yellowColor(), SKColor.purpleColor(),SKColor.redColor(),SKColor.greenColor(),SKColor.whiteColor(),SKColor.blackColor()]
     let blendingFactor = 0.6.f
     var atkUIs :[ChargingPowerBallUI] = []

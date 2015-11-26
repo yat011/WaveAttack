@@ -77,11 +77,8 @@ class GameLayer : SKNode{
                 ground = medium as! Ground
                 ground!.subscribeEvent(GameEvent.EarthquakeStart.rawValue, call: {
                     (obj : GameObject, any) -> () in
-                    if self.stage == 1{
-                        //show some notice
-                        self.changeSpawnState()
                         self.earthquaking = true
-                    }
+                    self.startAttack()
                 })
                 ground!.subscribeEvent(GameEvent.EarthquakeEnd.rawValue, call: {
                     obj in
@@ -102,6 +99,8 @@ class GameLayer : SKNode{
         right.pos = CGPoint(x: validArea!.width + (validArea?.origin.x)! + 50, y: ground!.frontY)
         enterables.append(left)
         enterables.append(right)
+        
+        
         
     }
 
@@ -183,6 +182,14 @@ class GameLayer : SKNode{
         //completeMission()
     }
 //--------------- Spawn stage-----------------
+    func startAttack(){
+        if self.stage == 1{
+            //show some notice
+            self.changeSpawnState()
+        }
+    }
+    
+    
     var targetSpawnCount = 0
     func changeSpawnState(){
         self.stage++
@@ -241,9 +248,10 @@ class GameLayer : SKNode{
     }
     
     func removeGameObject (obj : GameObject){
-        attackPhaseObjects.removeObject(obj)
-        updateIndex = (updateIndex - 1)%self.attackPhaseObjects.count
-       obj.deleteSelf()
+        if attackPhaseObjects.removeObject(obj) != nil{
+            updateIndex = (updateIndex - 1)%self.attackPhaseObjects.count
+            obj.deleteSelf()
+        }
     
         
     }

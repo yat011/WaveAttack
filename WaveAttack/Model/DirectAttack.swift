@@ -33,6 +33,7 @@ class DirectAttack : EnemyAction{
         phys.linearDamping = 0
         phys.categoryBitMask = CollisionLayer.EnemyAttacks.rawValue
         phys.collisionBitMask = 0
+        phys.fieldBitMask = 0
         phys.contactTestBitMask =  CollisionLayer.PlayerHpArea.rawValue
         phys.affectedByGravity = false
         bullet.zPosition = GameLayer.ZFRONT + 1

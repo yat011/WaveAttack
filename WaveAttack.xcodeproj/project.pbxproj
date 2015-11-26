@@ -108,6 +108,14 @@
 		54BBD93F1BD7E0C700BAFFA2 /* ch01.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BBD93E1BD7E0C700BAFFA2 /* ch01.png */; };
 		54BBD9411BD7F9ED00BAFFA2 /* NotifyNextRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */; };
 		54BBD9431BD94DFB00BAFFA2 /* TimerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */; };
+		54BCBCC11C058096008680E4 /* Tornado.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCBCC01C058096008680E4 /* Tornado.swift */; };
+		54BCBCCA1C058108008680E4 /* costume1.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC31C058108008680E4 /* costume1.png */; };
+		54BCBCCB1C058108008680E4 /* costume2.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC41C058108008680E4 /* costume2.png */; };
+		54BCBCCC1C058108008680E4 /* costume3.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC51C058108008680E4 /* costume3.png */; };
+		54BCBCCD1C058108008680E4 /* costume4.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC61C058108008680E4 /* costume4.png */; };
+		54BCBCCE1C058108008680E4 /* costume5.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC71C058108008680E4 /* costume5.png */; };
+		54BCBCCF1C058108008680E4 /* costume6.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BCBCC81C058108008680E4 /* costume6.png */; };
+		54BCBCD21C05875C008680E4 /* TornadoSkill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCBCD11C05875C008680E4 /* TornadoSkill.swift */; };
 		54BEFB9D1BF5E42A00DAFA05 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BEFB9C1BF5E42A00DAFA05 /* Building.swift */; };
 		54BEFBB31BF63B0100DAFA05 /* building_0000_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFBB11BF63B0100DAFA05 /* building_0000_2.png */; };
 		54BEFBB41BF63B0100DAFA05 /* building_0001_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BEFBB21BF63B0100DAFA05 /* building_0001_1.png */; };
@@ -294,6 +302,14 @@
 		54BBD93E1BD7E0C700BAFFA2 /* ch01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch01.png; sourceTree = "<group>"; };
 		54BBD9401BD7F9ED00BAFFA2 /* NotifyNextRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyNextRound.swift; sourceTree = "<group>"; };
 		54BBD9421BD94DFB00BAFFA2 /* TimerUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerUI.swift; sourceTree = "<group>"; };
+		54BCBCC01C058096008680E4 /* Tornado.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tornado.swift; sourceTree = "<group>"; };
+		54BCBCC31C058108008680E4 /* costume1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume1.png; sourceTree = "<group>"; };
+		54BCBCC41C058108008680E4 /* costume2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume2.png; sourceTree = "<group>"; };
+		54BCBCC51C058108008680E4 /* costume3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume3.png; sourceTree = "<group>"; };
+		54BCBCC61C058108008680E4 /* costume4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume4.png; sourceTree = "<group>"; };
+		54BCBCC71C058108008680E4 /* costume5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume5.png; sourceTree = "<group>"; };
+		54BCBCC81C058108008680E4 /* costume6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = costume6.png; sourceTree = "<group>"; };
+		54BCBCD11C05875C008680E4 /* TornadoSkill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TornadoSkill.swift; sourceTree = "<group>"; };
 		54BEFB9C1BF5E42A00DAFA05 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
 		54BEFBB11BF63B0100DAFA05 /* building_0000_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building_0000_2.png; sourceTree = "<group>"; };
 		54BEFBB21BF63B0100DAFA05 /* building_0001_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building_0001_1.png; sourceTree = "<group>"; };
@@ -425,6 +441,7 @@
 				54934F551C0388F500797C8C /* BarrierSkill.swift */,
 				54934F5B1C038EA700797C8C /* Barrier.swift */,
 				548A6D201C04EA1C00A4F42E /* MeterSkill.swift */,
+				54BCBCD11C05875C008680E4 /* TornadoSkill.swift */,
 			);
 			name = Skill;
 			path = Model;
@@ -564,6 +581,7 @@
 		54553E3A1BA6FE7400A38B18 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				54BCBCC21C058108008680E4 /* tornado */,
 				548A6D151C04705300A4F42E /* skill */,
 				54934F611C03A99800797C8C /* using.png */,
 				54934F5F1C03A46200797C8C /* teamBorder.png */,
@@ -604,6 +622,7 @@
 				5F01C9F01BD4AC020003C711 /* EnergyPacket */,
 				5F01C9F11BD4AC170003C711 /* Terrain */,
 				54553E311BA5C3A900A38B18 /* CustomSKNode.swift */,
+				54BCBCBF1C058082008680E4 /* nonDest */,
 				5474C5631BA321A30015C861 /* GameObject.swift */,
 				54553E2B1BA57B6200A38B18 /* GameLayer.swift */,
 				54F8D8911BB05719009E9654 /* Mission.swift */,
@@ -659,6 +678,27 @@
 				54934F591C038AB200797C8C /* ContactListener.swift */,
 			);
 			name = Protocol;
+			sourceTree = "<group>";
+		};
+		54BCBCBF1C058082008680E4 /* nonDest */ = {
+			isa = PBXGroup;
+			children = (
+				54BCBCC01C058096008680E4 /* Tornado.swift */,
+			);
+			name = nonDest;
+			sourceTree = "<group>";
+		};
+		54BCBCC21C058108008680E4 /* tornado */ = {
+			isa = PBXGroup;
+			children = (
+				54BCBCC31C058108008680E4 /* costume1.png */,
+				54BCBCC41C058108008680E4 /* costume2.png */,
+				54BCBCC51C058108008680E4 /* costume3.png */,
+				54BCBCC61C058108008680E4 /* costume4.png */,
+				54BCBCC71C058108008680E4 /* costume5.png */,
+				54BCBCC81C058108008680E4 /* costume6.png */,
+			);
+			path = tornado;
 			sourceTree = "<group>";
 		};
 		54BEFB9E1BF5E5D900DAFA05 /* building */ = {
@@ -914,6 +954,7 @@
 				54934F3C1C01A2A200797C8C /* Spark.sks in Resources */,
 				5420A5E41BC01915000F2E14 /* beams.png in Resources */,
 				54E090721BF25C590055D5F9 /* menuBack.png in Resources */,
+				54BCBCCA1C058108008680E4 /* costume1.png in Resources */,
 				54934F5E1C0398BF00797C8C /* barrier.png in Resources */,
 				54934F601C03A46200797C8C /* teamBorder.png in Resources */,
 				54D6A2081BE7E3D500B23C65 /* greenSlime.png in Resources */,
@@ -934,6 +975,8 @@
 				54934F2F1C00EC7300797C8C /* door.png in Resources */,
 				54934F4A1C01E65800797C8C /* announcement.png in Resources */,
 				54E090701BF259610055D5F9 /* mainBack.png in Resources */,
+				54BCBCCE1C058108008680E4 /* costume5.png in Resources */,
+				54BCBCCD1C058108008680E4 /* costume4.png in Resources */,
 				54934F461C01BD5F00797C8C /* increaseHp.png in Resources */,
 				54E7D32F1BEA726C00C6EA57 /* mission2.json in Resources */,
 				548A6D1F1C04E96500A4F42E /* MeterFIre.sks in Resources */,
@@ -941,6 +984,7 @@
 				5420A5D81BBE7112000F2E14 /* Snail.png in Resources */,
 				544F056C1BA305CD00AC1BBD /* Assets.xcassets in Resources */,
 				549D82C41BE74E1700907150 /* Burnt Coal Ashes Tiling.png in Resources */,
+				54BCBCCC1C058108008680E4 /* costume3.png in Resources */,
 				54D6A20A1BE7E3D500B23C65 /* purpleSlime.png in Resources */,
 				54934F301C00EC7300797C8C /* gun.png in Resources */,
 				548A6D1D1C04E10000A4F42E /* rock.png in Resources */,
@@ -956,6 +1000,7 @@
 				54D6A1FB1BE7B80100B23C65 /* UIBackground.png in Resources */,
 				54934F451C01BD5F00797C8C /* decreaseHp.png in Resources */,
 				54BEFBB41BF63B0100DAFA05 /* building_0001_1.png in Resources */,
+				54BCBCCB1C058108008680E4 /* costume2.png in Resources */,
 				54D6A1FF1BE7D5E400B23C65 /* clock.png in Resources */,
 				54D6A20C1BE7E3D500B23C65 /* yellowSlime.png in Resources */,
 				54BEFBC71BF77CCA00DAFA05 /* human_full.png in Resources */,
@@ -964,6 +1009,7 @@
 				5491891F1BFB6218004764E4 /* spark.png in Resources */,
 				54BEFBC41BF7581F00DAFA05 /* human_down.png in Resources */,
 				548A6D191C04706900A4F42E /* timeDown.png in Resources */,
+				54BCBCCF1C058108008680E4 /* costume6.png in Resources */,
 				54934F3A1C01A22100797C8C /* EnergyFire.sks in Resources */,
 				54BEFBC51BF7581F00DAFA05 /* human_up.png in Resources */,
 				54D6A20B1BE7E3D500B23C65 /* redSlime.png in Resources */,
@@ -995,6 +1041,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				549D82AA1BDA3F5D00907150 /* Air.swift in Sources */,
+				54BCBCD21C05875C008680E4 /* TornadoSkill.swift in Sources */,
 				54934F5C1C038EA700797C8C /* Barrier.swift in Sources */,
 				54BEFBD11BFA259700DAFA05 /* Enterable.swift in Sources */,
 				544B60E81BCA22710064B8AE /* CharacterManager.swift in Sources */,
@@ -1039,6 +1086,7 @@
 				54934F5A1C038AB200797C8C /* ContactListener.swift in Sources */,
 				54F8D8921BB05719009E9654 /* Mission.swift in Sources */,
 				5474C5661BA3242E0015C861 /* EnergyPacket.swift in Sources */,
+				54BCBCC11C058096008680E4 /* Tornado.swift in Sources */,
 				5F71B6AC1BDCEEBA002F49B5 /* BackButton.swift in Sources */,
 				54EDF1C51BFBB25F00671C07 /* EyeBallMan.swift in Sources */,
 				54934F381C012C5200797C8C /* StoringPowerBallUI.swift in Sources */,

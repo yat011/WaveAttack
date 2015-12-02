@@ -57,17 +57,7 @@ class InfoLayer : SKNode , Clickable{
             gameScene.currentStage = GameStage.Pause
             
             
-            //let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            //var mainmenu = storyBoard.instantiateViewControllerWithIdentifier("MainMenu")
-            //gameScene.removeAllChildren()
-            //gameScene.removeFromParent()
-            //(GameViewController.current!.view as! SKView).presentScene(nil)
-            /*
-            GameViewController.current?.dismissViewControllerAnimated(true, completion: {
-                () -> () in
-             //   GameViewController.current?.presentViewController(mainmenu, animated: false, completion: nil)
-            })*/
-            //var menu = MainMenuController()
+            
            
 
             
@@ -79,7 +69,6 @@ class InfoLayer : SKNode , Clickable{
        self.scoreLabel = ScoreLabel(position: CGPoint(x: 305, y: 5))
         self.addChild(self.scoreLabel!)
         announcement.position = CGPoint(x: GameScene.current!.size.width/2, y: -20)
-       // announcement.showTextLabel("hifdasfdafasfdsfsafsffdafds")
         self.addChild(announcement)
         
     }

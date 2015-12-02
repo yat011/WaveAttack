@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 
-class GameLayer : SKNode{
+class GameLayer : SKNode ,SKPhysicsContactDelegate{
     
    let  boundary : [SKShapeNode] = []
     var background : Medium? = nil
@@ -29,7 +29,7 @@ class GameLayer : SKNode{
     var validTimer = FrameTimer(duration: 0.5)
     var totalTimer = FrameTimer(duration: 1e6)
     var attackStarted = false
-    var stage: Int  = 1
+    var stage: Int  = 1 //spawnPoint stage
     var playerHpArea : SKSpriteNode? = nil
     var earthquaking :Bool = false
     var tempHumans = [Human]()
@@ -42,29 +42,9 @@ class GameLayer : SKNode{
     
         
         
-         //gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
         background = subMission.terrain
-       // print(background!.getSprite()!)
         self.addChild(background!.getSprite()!)
-       // print ("upper screen size \(gameArea))")
-       // gameArea = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: size.width, height: 2 * size.height))//temp
-        
-  /*
-        var deadCallBack =  {
-            
-            (obj : GameObject, arg:AnyObject?)-> () in
-            if (obj is DestructibleObject){
-                var des = obj as! DestructibleObject
-                if des.target{
-                    self.totalTarget -= 1
-                    self.checkResult()
-  
-                }
-            }
-            
-            
-        }
-    */
+    
         var humans = [Human]()
         for medium in subMission.objects{
             if medium is Human{
@@ -165,21 +145,10 @@ class GameLayer : SKNode{
             each.afterAddToScene()
         }
    
-        /*
-        validTimer.repeatTimer({
-            () -> () in
-            for each in self.attackPhaseObjects{
-                if (each is DestructibleObject){
-                    (each as! DestructibleObject).checkOutOfArea()
-                }
-            }
-
-        })
-*/
+    
         gameScene!.generalUpdateList.insert(Weak(validTimer))
         totalTimer.startTimer(nil)
         gameScene!.generalUpdateList.insert(Weak(totalTimer))
-        //completeMission()
     }
 //--------------- Spawn stage-----------------
     func startAttack(){
@@ -255,13 +224,115 @@ class GameLayer : SKNode{
     
         
     }
+//---
+    //-------------------- phys detect-----------------------------------------
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        if (checkHitPlayer(contact.bodyA, mB: contact.bodyB)){
+            return
+        }
+        if (checkGarbage(contact.bodyA, mB: contact.bodyB)){
+            return
+        }
+        if (checkCustom(contact.bodyA, mB: contact.bodyB)){
+            return
+        }
+        
+        guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
+            return
+        }
+        var nodeA = contact.bodyA.node! as! GameSKSpriteNode
+        var nodeB = contact.bodyB.node! as! GameSKSpriteNode
+        
+        
+        collisionDamage(nodeA.gameObject as! Medium?, mB: nodeB.gameObject as! Medium?, contact: contact)
+        
+    }
+    func checkHitPlayer (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
+            if (mB.categoryBitMask == CollisionLayer.PlayerHpArea.rawValue){
+                if mA.node == nil {
+                    return true
+                }
+                if gameScene!.currentStage == GameStage.Complete{
+                    return true
+                }
+                
+                var atk = (mA.node! as! GameSKSpriteNode).gameObject as! DirectAttack
+                gameScene!.player?.changeHpBy(-atk.damage)
+                mA.node?.removeFromParent()
+                return true
+            }
+            return false
+            
+        }else if mB.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
+            return checkHitPlayer(mB, mB: mA)
+        }
+        return false
+    }
+    func checkCustom (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask & CollisionLayer.Custom.rawValue  > 0{
+            if mA.node != nil{
+                let obj = mA.node as! GameSKSpriteNode
+                guard obj.contactListener != nil else{ return true}
+                
+                obj.contactListener!.contactWith(mA, other: mB)
+            }
+            return true
+            
+        }else if mB.categoryBitMask & CollisionLayer.Custom.rawValue > 0{
+            return checkCustom(mB, mB: mA)
+        }
+        return false
+    }
+    func checkGarbage (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
+        if mA.categoryBitMask == CollisionLayer.GarbageArea.rawValue{
+            if mB.node == nil {
+                return  true
+            }
+            if (mB.node! is GameSKSpriteNode){
+                let gnode = mB.node as! GameSKSpriteNode
+                if gnode.gameObject != nil{
+                    if gnode.gameObject! is DestructibleObject{
+                        (gnode.gameObject as! DestructibleObject).garbageCollected()
+                    }
+                }
+            }
+            mB.node?.removeFromParent()
+            
+            
+            
+            return true
+            
+        }else if mB.categoryBitMask == CollisionLayer.GarbageArea.rawValue {
+            return checkGarbage(mB, mB: mA)
+        }
+        return false
+    }
+    func collisionDamage(mA : Medium?, mB:Medium?, contact : SKPhysicsContact){
+        
+        if mA != nil && mA! is DestructibleObject{
+            let dest = mA as! DestructibleObject
+            dest.impulseDamage(contact.collisionImpulse,contactPt: contact.contactPoint)
+            
+        }
+        if mB != nil && mB! is DestructibleObject{
+            let dest = mB as! DestructibleObject
+            dest.impulseDamage(contact.collisionImpulse, contactPt: contact.contactPoint)
+        }
+        
+    }
+    
+    
+    
+    
+    
 //--------------------- update   --------------
     var updateIndex = 0
     var groundUpdateIndex = 0
     func update(start: Double){
         
         for obj in  attackPhaseObjects{
-            //obj.slowUpdate()
             
             
             if obj is Ground{
@@ -275,45 +346,10 @@ class GameLayer : SKNode{
         }
         groundUpdateIndex = (groundUpdateIndex+1)%10
 
-        //slow update
-        /*
-        var i = 0
-        while(true){
-            
-            updateIndex = (updateIndex + 1)%attackPhaseObjects.count
-            attackPhaseObjects[updateIndex].slowUpdate()
-            i++
-            var currentTime = NSDate().timeIntervalSince1970
-            if currentTime - start > 0.001 {
-               return
-            }
-
-           /*
-            if (i == 3){
-               var currentTime = NSDate().timeIntervalSince1970 - prevTime
-                print(currentTime)
-                return
-            }
-*/
-        }
-*/
+       
         
     }
-    /*
-    func enemyDoAction(){
-        enermyActionCounter = 0
-        waitForActionComplete = false
-        for obj in attackPhaseObjects{
-            if obj is EnemyActable{
-                var temp = obj as! EnemyActable
-                enermyActionCounter += 1
-                temp.nextRound(self.actionFinish)
-            }
-        }
-        waitForActionComplete = true
-        checkEnemyFinish()
-    }
-*/
+   
 //----------------------------------------------------
     
     func fadeOutAll(finish :(() -> ())){
@@ -348,22 +384,10 @@ class GameLayer : SKNode{
     
  
     func completeMission(){
-        print ("clear one submissoin")
         self.gameScene!.completeSubMission()
     }
     
-    func checkResult() -> Bool{
-        return false
-        if completed == true{
-            return true
-        }
-        if self.totalTarget == 0{
-            completed = true
-            self.completeMission()
-            return true
-        }
-        return false
-    }
+    
    
 }
 

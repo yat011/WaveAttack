@@ -26,7 +26,6 @@ class Mission{
             for subObj in subMissions{
                mission.missions.append(SubMission.parseJsonObj(subObj as! [String : AnyObject], gameScene: gameScene)!)
             }
-            mission.gradeDiv = dict["grade"]! as! [Int]
             mission.announcements = dict["announcements"] as! [String]
             
         }

@@ -298,7 +298,7 @@ class UINode: SKNode,Draggable{
         
     }
     var generateTimer = FrameTimer(duration: 1)
-    func animateGeneration(wave : Wave, progress : CGFloat ,completion:(()->())){
+    func generateWaveAttack(wave : Wave, progress : CGFloat ,completion:(()->())){
        var amp = wave.getAmplitudes()
         var generated: [Bool] = [Bool](count:amp.count, repeatedValue: false)
         let speed: CGFloat = 15

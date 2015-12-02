@@ -41,7 +41,7 @@ enum TouchType {
 }
 
 
-class GameScene: TransitableScene , SKPhysicsContactDelegate{
+class GameScene: TransitableScene  {
     
    
     
@@ -78,7 +78,6 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     var objectHpBar : HpBar? = nil
     var resultUI : ResultUI? = nil
     var numRounds : Int = 0
-    let grading = ["S","A","B","C","D","E","F"]
     var character : [Character?] = []
     var inited : Int = 0 //for texture
     var generalUpdateList = Set<Weak<GameObject>>()
@@ -122,34 +121,14 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         startSubMission(mission!.missions[0])
         
         
-        
-       
-        
-        
         backgroundColor = SKColor.whiteColor()
       
-        
-        
-        
- 
-        //self.addChild(controlLayer)
         
         self.addChild(tapTimer)
         self.addChild(longTapTimer)
  
         
-        physicsWorld.contactDelegate = self
 
-       // var temp = ResultUI.createResultUI(CGRect(origin: CGPoint(x: self.size.width / 2,y: 320), size: CGSize(width: 300, height: 550)), gameScene : self)
-        //self.addChild(temp)
-     /*   for obj in gameLayer!.attackPhaseObjects{
-            if obj is Medium{
-                let medium = obj as! Medium
-                var temp = SKShapeNode(path: medium.path!)
-                gameLayer!.addChild(temp)
-                
-            }
-        }*/
      }
 
 
@@ -223,6 +202,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
             
         }
         self.addChild(gameLayer!)
+        self.physicsWorld.contactDelegate = gameLayer
        gameLayer?.afterAddToScene()
         //var newY = gameLayer!.position.y + movement
         let diff = gameArea!.height - playRect!.size.height
@@ -234,7 +214,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         self.currentStage = GameStage.Temp
         gameLayer!.runAction(SKAction.moveToY(playRect!.origin.y, duration: 0), completion: {
             () -> () in
-                self.createMissionLabel(self.currentMission + 1)
+                self.createFlashLabel("Mission Start")
                 self.startSuperpositionPhase()
             
             })
@@ -243,124 +223,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
       
     }
     
-//-------------------- phys detect-----------------------------------------
-    func didBeginContact(contact: SKPhysicsContact) {
-     //   //////print("contact")
-        //////print ("A : \(contact.bodyA.node!.name) #\(unsafeAddressOf(contact.bodyA.node!)) , B : \(contact.bodyB.node!.name) #\(unsafeAddressOf(contact.bodyB.node!))")
-       // self.contactQueue.append(contact)
-       //     //////print (contact.contactPoint)
-     ////////print(contact.contactNormal)
-        
-       /* if ( tryFindEnergyPacket(contact.bodyA.node, other: contact.bodyB.node, contact: contact) == true){
-            return
-        }else if (tryFindEnergyPacket(contact.bodyB.node, other: contact.bodyA.node, contact: contact) == true){
-            return
-        }else{
-*/
-       // print("impluse \(contact.collisionImpulse)")
-    
-        //print(contact.bodyA.node!.name)
-        //print(contact.bodyB.node!.name)
-        if (checkHitPlayer(contact.bodyA, mB: contact.bodyB)){
-                return 
-        }
-        if (checkGarbage(contact.bodyA, mB: contact.bodyB)){
-            return
-        }
-        if (checkCustom(contact.bodyA, mB: contact.bodyB)){
-            return
-        }
-        
-        guard contact.bodyA.node is GameSKSpriteNode && contact.bodyB.node is GameSKSpriteNode else{
-             return
-         }
-         var nodeA = contact.bodyA.node! as! GameSKSpriteNode
-         var nodeB = contact.bodyB.node! as! GameSKSpriteNode
-            
-         
-         collisionDamage(nodeA.gameObject as! Medium?, mB: nodeB.gameObject as! Medium?, contact: contact)
-            
-        
-        
-        
-        
-    }
-    func checkHitPlayer (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
-        if mA.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
-            if (mB.categoryBitMask == CollisionLayer.PlayerHpArea.rawValue){
-                if mA.node == nil {
-                    return true
-                }
-                if currentStage == GameStage.Complete{
-                    return true
-                }
-                
-               var atk = (mA.node! as! GameSKSpriteNode).gameObject as! DirectAttack
-                player?.changeHpBy(-atk.damage)
-                mA.node?.removeFromParent()
-                return true
-            }
-            return false
-            
-        }else if mB.categoryBitMask == CollisionLayer.EnemyAttacks.rawValue {
-            return checkHitPlayer(mB, mB: mA)
-        }
-        return false
-    }
-    func checkCustom (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
-        if mA.categoryBitMask & CollisionLayer.Custom.rawValue  > 0{
-            if mA.node != nil{
-                let obj = mA.node as! GameSKSpriteNode
-                guard obj.contactListener != nil else{ return true}
-                
-                obj.contactListener!.contactWith(mA, other: mB)
-            }
-            return true
-            
-        }else if mB.categoryBitMask & CollisionLayer.Custom.rawValue > 0{
-            return checkCustom(mB, mB: mA)
-        }
-        return false
-    }
-    func checkGarbage (mA : SKPhysicsBody , mB: SKPhysicsBody ) -> Bool{
-        if mA.categoryBitMask == CollisionLayer.GarbageArea.rawValue{
-            if mB.node == nil {
-                return  true
-            }
-            if (mB.node! is GameSKSpriteNode){
-                let gnode = mB.node as! GameSKSpriteNode
-                if gnode.gameObject != nil{
-                    if gnode.gameObject! is DestructibleObject{
-                       (gnode.gameObject as! DestructibleObject).garbageCollected()
-                    }
-                }
-            }
-            mB.node?.removeFromParent()
-                
-            
-            
-            return true
-            
-        }else if mB.categoryBitMask == CollisionLayer.GarbageArea.rawValue {
-            return checkGarbage(mB, mB: mA)
-        }
-        return false
-    }
-    func collisionDamage(mA : Medium?, mB:Medium?, contact : SKPhysicsContact){
-        
-        if mA != nil && mA! is DestructibleObject{
-            let dest = mA as! DestructibleObject
-            dest.impulseDamage(contact.collisionImpulse,contactPt: contact.contactPoint)
-            
-        }
-        if mB != nil && mB! is DestructibleObject{
-            let dest = mB as! DestructibleObject
-            dest.impulseDamage(contact.collisionImpulse, contactPt: contact.contactPoint)
-        }
-        
-    }
 
-  
 
     
 //----------------------touching --------------------------
@@ -473,7 +336,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         controlLayer?.animateSuperposition({
             ()->() in
             let resultWave=(self.childNodeWithName("UINode") as! UINode).drawSuperposition()
-            self.controlLayer!.animateGeneration(resultWave, progress: self.superingTimer!.progress ,completion: {
+            self.controlLayer!.generateWaveAttack(resultWave, progress: self.superingTimer!.progress ,completion: {
                 Void in
                 self.controlLayer?.generatorUI?.close()
                 self.superingTimer = nil
@@ -484,21 +347,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 self.controlLayer!.upperResultant = nil
                 self.startSuperpositionPhase()
             })
-            
-           /*self.gameLayer!.ground!.startVibrate(resultWave.getAmplitudes(), globalStartPoint: self.playerAttackArea.origin, completion: {
-                () -> () in
-                //print("completeion")
-                self.superingTimer = nil
-                
-                self.timerStarted = false
-                self.controlLayer!.stateLabel.hidden = false
-                self.controlLayer!.lowerResultant = nil
-                self.controlLayer!.upperResultant = nil
-                self.startSuperpositionPhase()
-            
-            })
-*/
-         
+       
         
         })
         
@@ -894,8 +743,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
                 each.value!.update()
             }
         }
-       attackPhaseUpdate(start)
-        
+        gameLayer!.update(start)
 
 
         
@@ -925,14 +773,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     }
     
 //----------- phase change -----------------------------
-   
-    func startCheckResult(){
-        self.currentStage = GameStage.Checking
-       // if gameLayer!.checkResult() == false {
-            
-        //}
-        startSuperpositionPhase()
-    }
+  
     
     func startSuperpositionPhase(){
         self.currentStage = GameStage.Superposition
@@ -953,11 +794,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         numRounds += 1
     }
     
-    func startAttackPhase(){
-        self.currentStage = GameStage.Attack
-        //print("start attack phase")
-        
-    }
+   
     
     
     
@@ -965,19 +802,8 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
 //------------------------------------------------------
    
-    
-    func attackPhaseUpdate (start: Double){
-        gameLayer!.update(start)
-    }
-    
-    
-    func getMediumFromBodyB (contact : SKPhysicsContact) -> Medium? {
-        if ( contact.bodyB.node?.parent == nil){
-            return nil
-        }
-        return  ((contact.bodyB.node as! HasGameObject?)?.gameObject as! Medium?)
-    }
-    
+   
+   
     
     //
     func completeSubMission(){
@@ -1043,20 +869,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         
     }
     
-    func getGrade() -> String{
-        
-        var grades = mission!.gradeDiv
-     
-        for var i = 0 ; i < grades.count ; i++ {
-            print(grades[i])
-            if numRounds < grades[i]{
-                return grading[i]
-            }
-            
-            
-        }
-        return  "F"
-    }
+   
     
     func playerDie(obj :GameObject, nth : AnyObject?){
          currentStage = GameStage.Complete
@@ -1083,12 +896,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
     
     
     
-    func createMissionLabel(current : Int){
-
-        createFlashLabel("Mission Start")
-
     
-    }
     func createFlashLabel(text : String){
         let label = SKLabelNode(text: text)
         label.position = CGPoint(x: self.size.width / 2, y: 500)
@@ -1133,18 +941,7 @@ class GameScene: TransitableScene , SKPhysicsContactDelegate{
         }
     }
     
-//------------------------
-    override func didSimulatePhysics() {
-        /*for each in gameLayer!.attackPhaseObjects{
-            guard each is Medium else{
-                continue
-            }
-            let medium = each as! Medium
-            medium.syncPos()
-        }
-*/
-    }
-   
+ 
 }
 
 

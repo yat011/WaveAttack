@@ -1,0 +1,176 @@
+{
+    "characters":[
+                  {
+                      "characterID":"0",
+                      "name":"Blue Slime",
+                      "lore":"It is a blue Slime",
+                      "strength":"0",
+                      "skillID":"0",
+                      "image": "blueSlime",
+                      "skill" : "SpeedChargingSkill",
+                      "cdTime" : "30",
+                  "attackPow": "2",
+                  "hp" : "100",
+                      "wave":[
+                              {
+                              "type":     "saw1",
+                              "length":   "150",
+                              "height":   "-30"
+                              },
+                              {
+                              "type":     "saw2",
+                              "length":   "150",
+                              "height":   "30"
+                              },
+                              ],
+                      "minSpeed": "1.5",
+                      "maxSpeed": "2",
+                        "dir" : "right"
+                  },
+                  {
+                      "characterID":"1",
+                      "name":"Red Slime",
+                      "lore":"a red Slime",
+                      "strength":"1",
+                      "skillID":"1",
+                      "image": "redSlime",
+                        "attackPow": "1",
+                        "hp" : "200",
+                  "skill" : "MeterSkill",
+                  "cdTime" : "25",
+                      "wave":[
+                              {
+                              "type":     "sine1",
+                              "length":   "50",
+                              "height":   "30"
+                              },
+                              {
+                              "type":     "sine2",
+                              "length":   "100",
+                              "height":   "30"
+                              },
+                              {
+                              "type":     "sine1",
+                              "length":   "100",
+                              "height":   "-30"
+                              },
+                              {
+                              "type":     "sine2",
+                              "length":   "50",
+                              "height":   "-30"
+                              }
+                              ],
+                      "minSpeed": "3",
+                      "maxSpeed": "6"
+                  },
+                  {
+                  "characterID":"2",
+                  "name":"Green Slime",
+                  "lore":"a green Slime",
+                  "strength":"1",
+                  "skillID":"1",
+                  "image": "greenSlime",
+                  "attackPow": "1",
+                  "hp" : "200",
+                  "skill" : "BarrierSkill",
+                  "cdTime" : "20",
+                  "wave":[
+                          {
+                          "type":     "sine1",
+                          "length":   "50",
+                          "height":   "30"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "100",
+                          "height":   "30"
+                          },
+                          {
+                          "type":     "sine1",
+                          "length":   "100",
+                          "height":   "-30"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "50",
+                          "height":   "-30"
+                          }
+                          ],
+                  "minSpeed": "3",
+                  "maxSpeed": "4"
+                  },
+                  {
+                  "characterID":"3",
+                  "name":"Purple Slime",
+                  "lore":"a purple Slime",
+                  "strength":"1",
+                  "skillID":"1",
+                  "image": "purpleSlime",
+                  "attackPow": "1",
+                  "hp" : "200",
+                  "skill" : "TornadoSkill",
+                  "cdTime" : "20",
+                  "wave":[
+                          {
+                          "type":     "sine1",
+                          "length":   "50",
+                          "height":   "15"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "100",
+                          "height":   "15"
+                          },
+                          {
+                          "type":     "sine1",
+                          "length":   "100",
+                          "height":   "-15"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "50",
+                          "height":   "-15"
+                          }
+                          ],
+                  "minSpeed": "3",
+                  "maxSpeed": "8"
+                  },
+                  {
+                  "characterID":"4",
+                  "name":"Yellow Slime",
+                  "lore":"a yellow Slime",
+                  "strength":"1",
+                  "skillID":"1",
+                  "image": "yellowSlime",
+                  "attackPow": "1",
+                  "hp" : "200",
+                  "skill" : "HealSkill",
+                  "cdTime" : "20",
+                  "wave":[
+                          {
+                          "type":     "sine1",
+                          "length":   "50",
+                          "height":   "15"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "100",
+                          "height":   "15"
+                          },
+                          {
+                          "type":     "sine1",
+                          "length":   "100",
+                          "height":   "-15"
+                          },
+                          {
+                          "type":     "sine2",
+                          "length":   "50",
+                          "height":   "-15"
+                          }
+                          ],
+                  "minSpeed": "3",
+                  "maxSpeed": "4"
+                  }
+                 
+                  ]
+}

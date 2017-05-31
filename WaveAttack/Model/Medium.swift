@@ -7,10 +7,44 @@
 //
 
 import Foundation
-
+import SpriteKit
 class Medium : GameObject {
     
-    var propagationSpeed : Double = 3
+   
+    var collisionAbsorption: CGFloat = 0
+    
+    override init(){
+        super.init()
+        
+
+    }
+    
+    init(size : CGSize , position : CGPoint, gameScene :GameScene){
+        
+        super.init()
+        initialize(size, position: position, gameScene: gameScene)
+      
+    }
+    
+    func afterAddToScene (){
+        
+    }
+    
+   
+   
+    override func deleteSelf() {
+        super.deleteSelf()
+    }
+    override func slowUpdate() {
+        syncPos()
+    }
+   
+    func syncPos(){
+        
+    
+        
+    }
+    
     
     
 }

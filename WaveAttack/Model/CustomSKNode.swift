@@ -12,29 +12,30 @@ import SpriteKit
 
 
 class GameSKShapeNode : SKShapeNode , HasGameObject{
-   weak var _gameObject :GameObject? = nil
-    var gameObject: GameObject? {
+   weak var _gameObject :AnyObject? = nil
+    var gameObject: AnyObject? {
         get{ return _gameObject}
         set(value) { _gameObject = value}
     }
-    func setGameObject(obj:GameObject){}
+   
 }
 
 class GameSKSpriteNode: SKSpriteNode, HasGameObject{
-   weak var _gameObject :GameObject? = nil
-    var gameObject: GameObject? {
+   weak var _gameObject :AnyObject? = nil
+    var gameObject: AnyObject? {
         get{ return _gameObject}
         set(value) { _gameObject = value}
     }
+    var contactListener : ContactListener? = nil
     
-    func setGameObject(obj:GameObject){}
+    
 }
 
 
 
 protocol HasGameObject {
-    var gameObject :GameObject? { get set}
-    func setGameObject(obj : GameObject) -> ()
+    var gameObject :AnyObject? { get set}
+    //func setGameObject(obj : GameObject) -> ()
 }
 
 extension HasGameObject where Self: SKNode{

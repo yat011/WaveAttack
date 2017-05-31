@@ -1,0 +1,18 @@
+{
+  "subMission": [
+    {
+      "terrain": "soil",
+      "object": [
+        {
+          "type": "box",
+          "x": "100",
+          "y": "100",
+          "width": "100",
+          "heigth": "100",
+          "hp": "1230",
+          "target": "true"
+        }
+      ]
+    }
+  ]
+}

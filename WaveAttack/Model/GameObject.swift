@@ -9,18 +9,89 @@
 import Foundation
 import SpriteKit
 
-class GameObject : Hashable, Equatable {
+class GameObject : NSObject {
+    typealias CallBack = (GameObject, AnyObject?)->()
     
-    var hashValue: Int { return unsafeAddressOf(self).hashValue }
+    override var hashValue: Int { return unsafeAddressOf(self).hashValue }
+    var gameScene : GameScene? {
+        get{return GameScene.current}
+    }
     
+    var eventFunc = [String : [CallBack]]()
+    var name : String = ""
+    var gameLayer:GameLayer {
+        get{return GameScene.current!.gameLayer!}
+    }
     
-    public func getSprite() -> SKNode?{
+    func subscribeEvent ( event :String , call: CallBack){
+        if eventFunc[event] == nil{
+            var temp = [CallBack]()
+            temp.append(call)
+            eventFunc[event] =  temp
+        }else{
+            eventFunc[event]!.append(call)
+        }
+    }
+    
+    func removeEventCall ( event :String , call: CallBack){
+        if eventFunc[event] == nil{
+            return
+        }else{
+            eventFunc[event]!.removeObject(call as! AnyObject)
+        }
+    }
+    func triggerEvent( event: String){
+        var subs = eventFunc[event]
+        if subs == nil{
+            return
+        }
+        // print("events \(event) \(subs!.count)")
+        
+        for f in subs!{
+        
+            f(self,nil)
+        }
+    }
+    func triggerEvent( event: String, obj:AnyObject){
+        var subs = eventFunc[event]
+        if subs == nil{
+            return
+        }
+        // print("events \(event) \(subs!.count)")
+        
+        for f in subs!{
+            
+            f(self,obj)
+        }
+    }
+    
+    func initialize(size : CGSize , position : CGPoint, gameScene :GameScene){
+        fatalError("not implement")
+    }
+    
+    func getSprite() -> SKNode?{
         return nil;
     }
     
-    public func update() -> (){
+    func update() -> (){
         
     }
+    func slowUpdate(){
+        
+    }
+    
+    override init(){
+        super.init()
+    }
+    
+    init(_ gameScene :GameScene){
+       // self.gameScene = gameScene
+    }
+    
+    func deleteSelf(){ //to be overrided
+        
+    }
+    
     
 }
 
